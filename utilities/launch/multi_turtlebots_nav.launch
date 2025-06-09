@@ -1,0 +1,135 @@
+<launch>
+  <!-- Argomenti per il namespace e per il file world -->
+  <arg name="namespace_robot_1" default="turtlebot3_1"/>
+  <arg name="namespace_robot_2" default="turtlebot3_2"/>
+  <arg name="world_file" default="$(find tim_utilities)/worlds/Tim_building_world.world"/>
+  
+  <!-- Avvio di Gazebo con il world personalizzato -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
+  </include>
+
+  <!-- Nodo per la trasformata statica con il namespace -->
+  <node pkg="tf" type="static_transform_publisher" name="map_to_odom_broadcaster_1"
+        args="0 0 0 0 0 0 map $(arg namespace_robot_1)/map 100" />
+  
+  <node pkg="tf" type="static_transform_publisher" name="map_to_odom_broadcaster_2"
+        args="0 0 0 0 0 0 map $(arg namespace_robot_2)/map 100" />
+
+  
+  <!-- Nodi relativi al TurtleBot3 sotto il namespace indicato -->
+  <group ns="$(arg namespace_robot_1)">
+    <param name="tf_prefix" value="$(arg namespace_robot_1)" />
+    <!-- URDF + Robot State Publisher -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" /> <!--forse da creare un urdf personalizzato in cui si inserisce il namespace per ogni link e si passa esternamente come arguments-->
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+    <!-- <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+      <param name="tf_prefix" value="$(arg namespace)" />
+    </node> -->
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+
+    <!-- Spawn in Gazebo -->
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
+          args="-urdf -model turtlebot_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/>
+
+    <!-- Map server con il namespace -->
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find tim_utilities)/config/maps/turtlebot3_1_map.yaml">
+      <param name="frame_id" value="$(arg namespace_robot_1)/map" />
+    </node>
+
+    <!-- Move base con il namespace -->
+    <node pkg="move_base" type="move_base" name="move_base" output="screen">
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/local_costmap_all_params.yaml" command="load"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/global_costmap_all_params.yaml" command="load"/>
+
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/local_planner_params.yaml"  command="load"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/global_planner_params.yaml" command="load"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/move_base_params.yaml"      command="load"/>
+
+      <!-- <param name="tf_prefix" value="$(arg namespace)" /> -->
+
+      <param name="global_costmap/robot_base_frame" value="$(arg namespace_robot_1)/base_footprint"/>
+      <param name="global_costmap/global_frame"     value="$(arg namespace_robot_1)/map"/>
+      <param name="local_costmap/global_frame"      value="$(arg namespace_robot_1)/map"/>
+      <param name="local_costmap/robot_base_frame"  value="$(arg namespace_robot_1)/base_footprint"/>
+
+      <remap from="cmd_vel" to="cmd_vel"/>
+      <remap from="map" to="map"/>
+      <remap from="odom" to="odom"/>
+    </node>
+
+    <!-- AMCL con il namespace -->
+    <node name="amcl" pkg="amcl" type="amcl" output="screen">
+
+      <param name="base_frame_id" value="$(arg namespace_robot_1)/base_link"/>
+      <param name="odom_frame_id" value="$(arg namespace_robot_1)/odom"/>
+      <param name="global_frame_id" value="$(arg namespace_robot_1)/map"/>
+      
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find tim_utilities)/config/rviz/multi_robot_navigation.rviz">
+      <remap from="/move_base_simple/goal" to="/turtlebot3_1/move_base_simple/goal"/>
+    </node>
+
+  </group>
+
+  <group ns="$(arg namespace_robot_2)">
+    <param name="tf_prefix" value="$(arg namespace_robot_2)" />
+    <!-- URDF + Robot State Publisher -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" /> <!--forse da creare un urdf personalizzato in cui si inserisce il namespace per ogni link e si passa esternamente come arguments-->
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
+
+    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+
+    <!-- Spawn in Gazebo -->
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
+          args="-urdf -model turtlebot_2 -x 0.0 -y 3.5 -Y -1.57 -param robot_description"/>
+
+    <!-- Map server con il namespace -->
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find tim_utilities)/config/maps/turtlebot3_2_map.yaml">
+      <param name="frame_id" value="$(arg namespace_robot_2)/map" />
+    </node>
+
+    <!-- Move base con il namespace -->
+    <node pkg="move_base" type="move_base" name="move_base" output="screen">
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/local_costmap_all_params.yaml" command="load"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/global_costmap_all_params.yaml" command="load"/>
+      
+
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/local_planner_params.yaml"  command="load"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/global_planner_params.yaml" command="load"/>
+      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/move_base_params.yaml"      command="load"/>
+
+      <!-- <param name="tf_prefix" value="$(arg namespace)" /> -->
+
+      <param name="global_costmap/robot_base_frame" value="$(arg namespace_robot_2)/base_footprint"/>
+      <param name="local_costmap/global_frame"      value="$(arg namespace_robot_2)/map"/>
+      <param name="local_costmap/robot_base_frame"  value="$(arg namespace_robot_2)/base_footprint"/>
+
+      <remap from="cmd_vel" to="cmd_vel"/>
+      <remap from="map" to="map"/>
+      <remap from="odom" to="odom"/>
+    </node>
+
+    <!-- AMCL con il namespace -->
+    <node name="amcl" pkg="amcl" type="amcl" output="screen">
+
+      <param name="base_frame_id" value="$(arg namespace_robot_2)/base_link"/>
+      <param name="odom_frame_id" value="$(arg namespace_robot_2)/odom"/>
+      <param name="global_frame_id" value="$(arg namespace_robot_2)/map"/>
+      
+    </node>
+
+    <!-- <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find tim_utilities)/config/rviz/multi_robot_navigation.rviz">
+      <remap from="/move_base_simple/goal" to="/turtlebot3_2/move_base_simple/goal"/>
+    </node> -->
+
+  </group>
+</launch>

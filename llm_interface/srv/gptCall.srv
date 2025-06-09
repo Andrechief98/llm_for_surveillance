@@ -1,0 +1,4 @@
+string prompt
+string model
+---
+geometry_msgs/PoseArray reference

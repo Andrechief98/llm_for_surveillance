@@ -1,0 +1,33 @@
+<launch>
+    <!-- <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="teleop">
+        <remap from="cmd_vel" to="actor/cmd_vel"/> 
+        <param name="BURGER_MAX_LIN_VEL" value="1"/>
+    </node> -->
+
+    <!-- <node pkg="tim_utilities" type="timDemoTeleop.py" name="actor_teleop">
+        <remap from="cmd_vel" to="actor/cmd_vel"/> 
+    </node> -->
+
+    <!-- Joy node reading from Bluetooth controller -->
+    <node pkg="joy" type="joy_node" name="joy_node" output="screen">
+        <param name="dev" value="/dev/input/js0"/>
+        <param name="deadzone" value="0.1"/>
+    </node>
+
+    <node pkg="tim_utilities" type="ps4_joystick_control.py" name="ps4_joystick_control" output="screen">
+        <!-- Axis mapping (customizza se necessario) -->
+        <param name="axis_linear" value="1"/>
+        <param name="axis_l2" value="2"/>
+        <param name="axis_r2" value="5"/>
+        <!-- Behaviour parameters -->
+        <param name="deadzone" value="0.1"/>
+        <param name="max_linear_vel" value="0.5"/>
+        <param name="max_angular_vel" value="1.0"/>
+        <param name="invert_linear" value="false"/>
+        <param name="invert_angular" value="false"/>
+        <param name="soft_scale" value="true"/>
+        <!-- Remap topic to your robot controller if necessario -->
+        <remap from="cmd_vel" to="actor/cmd_vel"/>
+    </node>
+
+</launch>

@@ -1,0 +1,49 @@
+<launch>
+  <!-- Argomenti -->
+  <arg name="world_file" default="$(find tim_utilities)/worlds/Tim_building_world.world" />
+  <arg name="model" default="burger" />
+  <arg name="namespace" default="turtlebot3_1"/>
+
+  <!-- Avvio Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(arg world_file)"/>
+  </include>
+
+  <node pkg="tf" type="static_transform_publisher" name="map_to_world_broadcaster"
+      args="0 0 0 0 0 0 map $(arg namespace)/map 100" />
+
+
+  <!-- Gruppo con namespace -->
+  <group ns="$(arg namespace)">
+    <!-- Prefisso per tf -->
+    <param name="tf_prefix" value="$(arg namespace)" />
+
+     <!-- robot_description -->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro'" />
+
+    <!-- Robot State Publisher -->
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="state_publisher" />
+
+    <!-- Spawn -->
+    <node name="spawn_turtlebot3" pkg="gazebo_ros" type="spawn_model"
+          args="-urdf -model turtlebot3 -x 0.0 -y 0.0 -z 0.0 -param robot_description"
+          output="screen" />
+
+    <!-- SLAM Gmapping -->
+    <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
+      <!-- Frame rimappati con prefisso -->
+      <param name="base_frame" value="$(arg namespace)/base_footprint"/>
+      <param name="odom_frame" value="$(arg namespace)/odom"/>
+      <!-- <param name="map_frame"  value="$(arg namespace)/map"/> -->
+      <remap from="scan" to="scan"/>
+    </node>
+
+    <!-- Teleoperation -->
+    <!-- <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="teleop" /> -->
+
+    <!-- RViz -->
+    <node pkg="rviz" type="rviz" name="rviz" output="screen"
+          args="-d $(find tim_utilities)/config/rviz/turtlebot3_slam.rviz"/>
+  </group>
+
+</launch>

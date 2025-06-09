@@ -1,0 +1,23 @@
+# Parametri comuni per entrambe le costmap
+
+obstacle_range: 3.0
+raytrace_range: 3.5
+
+footprint: [[-0.105, -0.105],
+            [-0.105,  0.105],
+            [0.041,   0.105],
+            [0.041,  -0.105]]
+# robot_radius: 0.105
+
+inflation_radius: 0.25
+cost_scaling_factor: 5.5
+
+map_type: costmap
+
+observation_sources: scan
+scan:
+  sensor_frame: turtlebot3_1/base_scan        # Assicurati che questo corrisponda al frame del laser nel tuo TF
+  data_type: LaserScan
+  topic: scan                   # Se il nodo è lanciato in un gruppo namespaced, "scan" diventa relativo
+  marking: true
+  clearing: true
