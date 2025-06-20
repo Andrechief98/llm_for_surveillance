@@ -1,6 +1,6 @@
 <launch>
   <!-- Argomenti -->
-  <arg name="world_file" default="$(find tim_utilities)/worlds/Tim_building_world.world" />
+  <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 
@@ -43,7 +43,7 @@
 
     <!-- RViz -->
     <node pkg="rviz" type="rviz" name="rviz" output="screen"
-          args="-d $(find tim_utilities)/config/rviz/turtlebot3_slam.rviz"/>
+          args="-d $(find utilities)/config/rviz/turtlebot3_slam.rviz"/>
   </group>
 
 </launch>

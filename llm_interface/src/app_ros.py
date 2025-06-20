@@ -17,10 +17,8 @@ from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
 import re
 
 
-# Hostato a http://127.0.0.1:5000/
 
-
-script_dir = os.path.dirname(__file__)
+script_dir = os.path.dirname(__file__) #/home/andrea/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src
 
 session={
     "messages":[]
@@ -126,24 +124,55 @@ class ChatNode():
                         {
                             "type": "function", 
                             "function": {
-                                "name": "send_robot_to_area",
-                                "description": "Takes the message of the operator and sent the indicated robot to the indicated area. The function will return the success or failure of the execution",
+                                "name": "send_robots_to_area",
+                                "description": "Use this function to deploy a sequence of robots to corresponding areas. The function will return the success or failure of each robot deployment.",
                                 "parameters": {
                                     "type": "object",
                                     "properties": {
-                                        "robot_to_send": {
-                                            "type": "string", 
-                                            "description": "name of the robot to send to a given area, either indicated by the user or indicated in the plan proposed by the LLM module"
-                                            },
-                                        "area_to_reach": {
-                                            "type": "string", 
-                                            "description": "A string containing the letter of the area the robot must reach."
+                                        "robots_sequence": {
+                                            "type": "array",
+                                            "description": "Ordered list of robots to deploy. Each item specifies the robot name and the area where the robot must be deployed.",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "robot_to_send": {
+                                                        "type": "string",
+                                                        "description": "Name of the considered robot to deploy."
+                                                        },
+                                                    "area_to_reach": {
+                                                        "type": "string",
+                                                        "description": "Name of the area where the corresponding robot must be deploy."
+                                                        }
+                                                    },
+                                                "required": ["robot_to_send", "area_to_reach"]
                                             }
+                                        },                                    
                                         },
-                                    "required": ["robot_to_send", "area_to_reach"]
+                                    "required": ["robots_sequence"]
                                     }
                                 }
                         }
+                        # {
+                        #     "type": "function", 
+                        #     "function": {
+                        #         "name": "send_robot_to_area",
+                        #         "description": "Takes the message of the operator and sent the indicated robot to the indicated area. The function will return the success or failure of the execution",
+                        #         "parameters": {
+                        #             "type": "object",
+                        #             "properties": {
+                        #                 "robot_to_send": {
+                        #                     "type": "string", 
+                        #                     "description": "name of the robot to send to a given area, either indicated by the user or indicated in the plan proposed by the LLM module"
+                        #                     },
+                        #                 "area_to_reach": {
+                        #                     "type": "string", 
+                        #                     "description": "A string containing the letter of the area the robot must reach."
+                        #                     }
+                        #                 },
+                        #             "required": ["robot_to_send", "area_to_reach"]
+                        #             }
+                        #         }
+                        # }
                         # {
                         #     "type": "function", 
                         #     "function": {
@@ -215,7 +244,7 @@ class ChatNode():
             purpose="vision"
         )
         self.info_file = self.client.files.create(
-            file=open("OpenAI_interface/config/info.json", "rb"), 
+            file=open(f"{script_dir}/../config/info.json", "rb"), 
             purpose="assistants"
         )
 
@@ -386,7 +415,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             
             # UPDATE JSON FILE
             # Retrive stored Threads
-            with open("/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/Open AI threads.json", "r") as file:
+            with open(f"{script_dir}/Open AI threads.json", "r") as file:
                 threads_dict = json.load(file)
 
             # Since we cannot delete all threads together, we create a new list considering only the threads that must remain in the JSON
@@ -405,7 +434,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             threads_dict["threads"] = new_threads_list
 
             # We overwrite the JSON
-            with open("/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/Open AI threads.json", "w") as file:
+            with open(f"{script_dir}/Open AI threads.json", "w") as file:
                 json.dump(threads_dict, file, indent=2)
 
             print("Existing thread deleted")
@@ -593,70 +622,147 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
 
     # Funzione più robusta
-    def send_robot_to_area(self, robot, area):
+    # def send_robot_to_area(self, robot, area):
 
-        with open("OpenAI_interface/config/info.json", "r") as f:
-            info = json.load(f)
+    #     with open("OpenAI_interface/config/info.json", "r") as f:
+    #         info = json.load(f)
         
+    #     robots_dict = info["ros_publishers"]["robots"]
+    #     robots_list = robots_dict.keys()
+
+    #     areas_dict = info["areas"]
+    #     areas_list = areas_dict.keys()
+
+    #     if robot in robots_list:    
+    #         if area in areas_list:
+
+              
+    #             topic = robots_dict[robot]["ros_topic"]
+    #             area_x = areas_dict[area]["coordinates"]["x"]
+    #             area_y = areas_dict[area]["coordinates"]["y"]
+
+    #             # Create a temporary client to call the clear_costmap service for all robots:
+    #             match = re.search(r"_(\d+)$", robot)
+    #             number = str(int(match.group(1)))
+    #             service_name = "turtlebot3_" + str(number) + "/move_base/clear_costmaps"
+    #             clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
+
+    #             clear_costmap_client()
+
+                
+    #             # Create a temporary publisher with the given topic
+    #             temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
+                
+    #             # Wait to register the publisher
+    #             rospy.sleep(0.5)
+                
+    #             goal_msg = PoseStamped()
+
+                
+    #             goal_msg.pose.position.x = float(area_x)
+    #             goal_msg.pose.position.y = float(area_y)
+    #             goal_msg.pose.position.z = 0.0
+    #             goal_msg.pose.orientation.x = 0.0
+    #             goal_msg.pose.orientation.y = 0.0
+    #             goal_msg.pose.orientation.z = 0.0
+    #             goal_msg.pose.orientation.w = 1.0 
+    #             goal_msg.header.stamp = rospy.Time.now()
+    #             goal_msg.header.frame_id = "map"
+
+    #             # Publish the goal message
+    #             temp_pub.publish(goal_msg)
+                
+    #             # Wait to transmit the message
+    #             rospy.sleep(0.5)
+    #             return f"{robot} sent to area {area}"
+            
+    #         else:
+    #             return "Wrong area letter considered"
+    #     else:
+    #         return "Wrong robot name considered"
+
+    def send_robots_to_area(self, robots_sequence):
+
+        with open(f"{script_dir}/../config/info.json", "r") as f:
+            info = json.load(f)
+
         robots_dict = info["ros_publishers"]["robots"]
         robots_list = robots_dict.keys()
 
         areas_dict = info["areas"]
         areas_list = areas_dict.keys()
 
-        if robot in robots_list:    
-            if area in areas_list:
+        robot_deployment_correctness = {}
+        
+        for robot_to_deploy in robots_sequence:
+            robot = robot_to_deploy.get("robot_to_send")
+            area = robot_to_deploy.get("area_to_reach")
 
-              
-                topic = robots_dict[robot]["ros_topic"]
-                area_x = areas_dict[area]["coordinates"]["x"]
-                area_y = areas_dict[area]["coordinates"]["y"]
-
-                # Create a temporary client to call the clear_costmap service for all robots:
-                match = re.search(r"_(\d+)$", robot)
-                number = str(int(match.group(1)))
-                service_name = "turtlebot3_" + str(number) + "/move_base/clear_costmaps"
-                clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
-
-                clear_costmap_client()
+            if robot in robots_list:    
+                if area in areas_list:
 
                 
-                # Create a temporary publisher with the given topic
-                temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
-                
-                # Wait to register the publisher
-                rospy.sleep(0.5)
-                
-                goal_msg = PoseStamped()
+                    topic = robots_dict[robot]["ros_topic"]
+                    area_x = areas_dict[area]["coordinates"]["x"]
+                    area_y = areas_dict[area]["coordinates"]["y"]
 
-                
-                goal_msg.pose.position.x = float(area_x)
-                goal_msg.pose.position.y = float(area_y)
-                goal_msg.pose.position.z = 0.0
-                goal_msg.pose.orientation.x = 0.0
-                goal_msg.pose.orientation.y = 0.0
-                goal_msg.pose.orientation.z = 0.0
-                goal_msg.pose.orientation.w = 1.0 
-                goal_msg.header.stamp = rospy.Time.now()
-                goal_msg.header.frame_id = "map"
+                    # Create a temporary client to call the clear_costmap service for all robots:
+                    match = re.search(r"_(\d+)$", robot)
+                    number = str(int(match.group(1)))
+                    service_name = "turtlebot3_" + str(number) + "/move_base/clear_costmaps"
+                    clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
 
-                # Publish the goal message
-                temp_pub.publish(goal_msg)
+                    clear_costmap_client()
+
+                    
+                    # Create a temporary publisher with the given topic
+                    temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
+                    
+                    # Wait to register the publisher
+                    rospy.sleep(0.5)
+                    
+                    goal_msg = PoseStamped()
+
+                    
+                    goal_msg.pose.position.x = float(area_x)
+                    goal_msg.pose.position.y = float(area_y)
+                    goal_msg.pose.position.z = 0.0
+                    goal_msg.pose.orientation.x = 0.0
+                    goal_msg.pose.orientation.y = 0.0
+                    goal_msg.pose.orientation.z = 0.0
+                    goal_msg.pose.orientation.w = 1.0 
+                    goal_msg.header.stamp = rospy.Time.now()
+                    goal_msg.header.frame_id = "map"
+
+                    # Publish the goal message
+                    temp_pub.publish(goal_msg)
+                    
+                    # Wait to transmit the message
+                    rospy.sleep(0.5)
+
+                    # return f"{robot} sent to area {area}"
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": True,
+                        "additional_info": None
+                    }
                 
-                # Wait to transmit the message
-                rospy.sleep(0.5)
-                return f"{robot} sent to area {area}"
-            
+                else:
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": False,
+                        "additional_info": "Wrong area letter considered"
+                    }
             else:
-                return "Wrong area letter considered"
-        else:
-            return "Wrong robot name considered"
-
+                robot_deployment_correctness[robot] = {
+                        "deployment_success": False,
+                        "additional_info": "Wrong robot name considered"
+                    }
+        
+        return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}" 
 
 
     def display_cameras(self, cameras_names_list):
         
-        with open("OpenAI_interface/config/info.json", "r") as f:
+        with open(f"{script_dir}/../config/info.json", "r") as f:
             info = json.load(f)
         
         sensors_dict = info["ros_subscribers"]["sensors"]
@@ -675,7 +781,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             else:
                 camera_names_correctness[camera_name] = False    
         
-        subprocess.Popen(["python3", "/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/display_camera.py"] + topics_list)
+        subprocess.Popen(["python3", f"{script_dir}/display_camera.py"] + topics_list)
 
         return f"Summary of cameras names correctness: {json.dumps(camera_names_correctness)}"
         
@@ -838,11 +944,23 @@ def chat():
                     args = json.loads(tool.function.arguments)
                     
 
-                    if tool.function.name == "send_robot_to_area":
+                    # if tool.function.name == "send_robot_to_area":
+                        
+                    #     # Function execution
+                    #     # result = chatNode.send_robot_to_area(args["robot_to_send"], args["area_to_reach"], args["ros_topic"])
+                    #     result = chatNode.send_robot_to_area(args["robot_to_send"], args["area_to_reach"])
+
+                    #     # Serve per dire all'LLM che la funzione è stata eseguita
+                    #     tool_outputs.append({
+                    #     "tool_call_id": tool.id,
+                    #     "output": result
+                    #     })
+                    
+                    if tool.function.name == "send_robots_to_area":
                         
                         # Function execution
                         # result = chatNode.send_robot_to_area(args["robot_to_send"], args["area_to_reach"], args["ros_topic"])
-                        result = chatNode.send_robot_to_area(args["robot_to_send"], args["area_to_reach"])
+                        result = chatNode.send_robots_to_area(args["robots_sequence"])
 
                         # Serve per dire all'LLM che la funzione è stata eseguita
                         tool_outputs.append({

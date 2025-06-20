@@ -1,7 +1,7 @@
 <launch>
   <!-- Argomenti per il namespace e per il file world -->
   <arg name="namespace" default="turtlebot3_1"/>
-  <arg name="world_file" default="$(find tim_utilities)/worlds/Tim_building_world.world"/>
+  <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world.world"/>
   
   <!-- Avvio di Gazebo con il world personalizzato -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -23,7 +23,7 @@
           args="-urdf -model turtlebot3_burger -x 0.0 -y 0.0 -z 0.0 -param robot_description"/>
 
     <!-- Map server -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find tim_utilities)/config/maps/turtlebot3_1_map.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map.yaml">
       <param name="frame_id" value="map" />
     </node>
 

@@ -1,6 +1,8 @@
 from openai import OpenAI
 import json
+import os
 
+script_dir = os.path.dirname(__file__)
 
 client = OpenAI()
 
@@ -13,7 +15,7 @@ if delete_all:
 
     threadsIDs_to_delete_list = []
 
-    with open("/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/Open AI threads.json", "r") as file:
+    with open(f"{script_dir}/Open AI threads.json", "r") as file:
         threads_dict = json.load(file)
 
 
@@ -25,7 +27,7 @@ if delete_all:
         "threads" : []
     }
 
-    with open("/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/Open AI threads.json", "w") as file:
+    with open(f"{script_dir}/Open AI threads.json", "w") as file:
         json.dump(empty_dict, file, indent=2)
 
     print(f"Deleted threads: \n {threadsIDs_to_delete_list}")

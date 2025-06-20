@@ -4,7 +4,7 @@
         <param name="BURGER_MAX_LIN_VEL" value="1"/>
     </node> -->
 
-    <!-- <node pkg="tim_utilities" type="timDemoTeleop.py" name="actor_teleop">
+    <!-- <node pkg="utilities" type="timDemoTeleop.py" name="actor_teleop">
         <remap from="cmd_vel" to="actor/cmd_vel"/> 
     </node> -->
 
@@ -14,7 +14,7 @@
         <param name="deadzone" value="0.1"/>
     </node>
 
-    <node pkg="tim_utilities" type="ps4_joystick_control.py" name="ps4_joystick_control" output="screen">
+    <node pkg="utilities" type="ps4_joystick_control.py" name="ps4_joystick_control" output="screen">
         <!-- Axis mapping (customizza se necessario) -->
         <param name="axis_linear" value="1"/>
         <param name="axis_l2" value="2"/>

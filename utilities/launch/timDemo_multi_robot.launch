@@ -6,18 +6,18 @@
 
     <node 
         name="sensorVisualizationNode" 
-        pkg="tim_utilities" 
+        pkg="utilities" 
         type="sensorVisualizationMarker.py" 
         output="screen">
     </node>
 
 
-    <include file="$(find tim_utilities)/launch/multi_turtlebots_nav.launch" />
+    <include file="$(find utilities)/launch/multi_turtlebots_nav.launch" />
 
     
     <node 
         name="initializationNode" 
-        pkg="tim_utilities" 
+        pkg="utilities" 
         type="turtlebotsInitialization.py" 
         output="screen">
     </node>
@@ -32,14 +32,14 @@
 
     <node 
         name="dataMediatorNode" 
-        pkg="tim_utilities" 
+        pkg="utilities" 
         type="data_mediator.py" 
         output="screen">
     </node>
 
     <node 
         name="sensors_activation_node" 
-        pkg="tim_utilities" 
+        pkg="utilities" 
         type="sensors_activation_node.py" 
         output="screen">
     </node>

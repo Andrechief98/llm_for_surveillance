@@ -2,7 +2,7 @@
   <!-- Argomenti per il namespace e per il file world -->
   <arg name="namespace_robot_1" default="turtlebot3_1"/>
   <arg name="namespace_robot_2" default="turtlebot3_2"/>
-  <arg name="world_file" default="$(find tim_utilities)/worlds/Tim_building_world.world"/>
+  <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world.world"/>
   
   <!-- Avvio di Gazebo con il world personalizzato -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -35,20 +35,20 @@
           args="-urdf -model turtlebot_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/>
 
     <!-- Map server con il namespace -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find tim_utilities)/config/maps/turtlebot3_1_map.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map.yaml">
       <param name="frame_id" value="$(arg namespace_robot_1)/map" />
     </node>
 
     <!-- Move base con il namespace -->
     <node pkg="move_base" type="move_base" name="move_base" output="screen">
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="global_costmap"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="local_costmap"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/local_costmap_all_params.yaml" command="load"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/global_costmap_all_params.yaml" command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/local_costmap_all_params.yaml" command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/global_costmap_all_params.yaml" command="load"/>
 
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/local_planner_params.yaml"  command="load"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/global_planner_params.yaml" command="load"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_1/move_base_params.yaml"      command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/local_planner_params.yaml"  command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/global_planner_params.yaml" command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/move_base_params.yaml"      command="load"/>
 
       <!-- <param name="tf_prefix" value="$(arg namespace)" /> -->
 
@@ -71,7 +71,7 @@
       
     </node>
 
-    <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find tim_utilities)/config/rviz/multi_robot_navigation.rviz">
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find utilities)/config/rviz/multi_robot_navigation.rviz">
       <remap from="/move_base_simple/goal" to="/turtlebot3_1/move_base_simple/goal"/>
     </node>
 
@@ -91,21 +91,21 @@
           args="-urdf -model turtlebot_2 -x 0.0 -y 3.5 -Y -1.57 -param robot_description"/>
 
     <!-- Map server con il namespace -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find tim_utilities)/config/maps/turtlebot3_2_map.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_map.yaml">
       <param name="frame_id" value="$(arg namespace_robot_2)/map" />
     </node>
 
     <!-- Move base con il namespace -->
     <node pkg="move_base" type="move_base" name="move_base" output="screen">
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/common_costmap_params.yaml" command="load" ns="global_costmap"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/common_costmap_params.yaml" command="load" ns="local_costmap"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/local_costmap_all_params.yaml" command="load"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/global_costmap_all_params.yaml" command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/common_costmap_params.yaml" command="load" ns="global_costmap"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/common_costmap_params.yaml" command="load" ns="local_costmap"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/local_costmap_all_params.yaml" command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/global_costmap_all_params.yaml" command="load"/>
       
 
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/local_planner_params.yaml"  command="load"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/global_planner_params.yaml" command="load"/>
-      <rosparam file="$(find tim_utilities)/config/move_base/turtlebot3_2/move_base_params.yaml"      command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/local_planner_params.yaml"  command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/global_planner_params.yaml" command="load"/>
+      <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/move_base_params.yaml"      command="load"/>
 
       <!-- <param name="tf_prefix" value="$(arg namespace)" /> -->
 
@@ -127,7 +127,7 @@
       
     </node>
 
-    <!-- <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find tim_utilities)/config/rviz/multi_robot_navigation.rviz">
+    <!-- <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find utilities)/config/rviz/multi_robot_navigation.rviz">
       <remap from="/move_base_simple/goal" to="/turtlebot3_2/move_base_simple/goal"/>
     </node> -->
 

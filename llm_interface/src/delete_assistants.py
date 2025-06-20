@@ -1,7 +1,8 @@
 from openai import OpenAI
 import json
+import os
 
-
+script_dir = os.path.dirname(__file__)
 client = OpenAI()
 
 from openai import OpenAI
@@ -14,7 +15,7 @@ if delete_all:
 
     assistantIDs_to_delete_list = []
 
-    with open("/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/Open AI assistants.json", "r") as file:
+    with open(f"{script_dir}/Open AI assistants.json", "r") as file:
         assistants_dict = json.load(file)
 
 
@@ -26,7 +27,7 @@ if delete_all:
         "assistants" : []
     }
 
-    with open("/home/andrea/ros_packages_aggiuntivi/src/OpenAI_interface/src/Open AI assistants.json", "w") as file:
+    with open(f"{script_dir}/Open AI assistants.json", "w") as file:
         json.dump(empty_dict, file, indent=2)
 
     print(f"Deleted assistants: \n {assistantIDs_to_delete_list}")
