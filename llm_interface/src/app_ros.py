@@ -853,7 +853,48 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
     def retrieve_system_state(self):
         response = self.retrieveSystemStateClient()
         system_state = response.system_state
-        return system_state
+
+        with open(f"{script_dir}/../config/info.json", "r") as f:
+            info = json.load(f)
+
+        areas_dict = info["areas"]
+        found_areas = []
+    
+        
+        system_state_ = json.loads(response.system_state)
+
+        del system_state_["robots_list_names"]
+        del system_state_["sensors_list_names"]
+        del system_state_["actuators_list_names"]
+
+        robots_name = system_state_["robots"].keys()
+
+        for robot_name in robots_name:
+            print(system_state_["robots"][robot_name]["current_position"])
+            x, y, z = system_state_["robots"][robot_name]["current_position"]
+   
+            for area_name, area_info in areas_dict.items():
+                x_range = area_info["coordinate_ranges"]["x"]
+                y_range = area_info["coordinate_ranges"]["y"]
+
+                if x_range["min"] <= x <= x_range["max"] and y_range["min"] <= y <= y_range["max"]:
+                    system_state_["robots"][robot_name]["current_area"] = area_name
+                    break
+
+            #del system_state_["robots"][robot_name]["current_position"]
+            del system_state_["robots"][robot_name]["current_orientation"]
+        
+        del system_state_["sensors"]
+
+
+        doors_name = system_state_["actuators"].keys()
+
+        for door_name in doors_name:
+            del system_state_["actuators"][door_name]["position"]
+        
+        print(system_state_)
+
+        return json.dumps(system_state_)
 
 chatNode = ChatNode()
 
