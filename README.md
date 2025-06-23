@@ -7,10 +7,10 @@
 
 Launch the simulation:
 ```bash
-    roslaunch tim_utilities timDemo_multi_robot.launch
+    roslaunch utilities timDemo_multi_robot.launch
 ```
 Launch the PS4 controller node for actor teleoperation
 ```bash
-    roslaunch tim_utilities timDemo_teleop.launch
+    roslaunch utilities timDemo_teleop.launch
 ```
 Run the main script `app_ros.py` to launch the chat on the host (http://127.0.0.1:5000/) and interact with the LLM via API 

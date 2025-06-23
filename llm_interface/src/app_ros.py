@@ -15,6 +15,7 @@ from flask_socketio import SocketIO, emit
 import subprocess
 from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
 import re
+import time
 
 
 
@@ -496,10 +497,12 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
         if req:
             # Estrai e decodifica il messaggio ricevuto via ros service
-            print("in esecuzione")
             request_info = json.loads(req.alert_info)
             
             # Eliminiamo "robot_list_name", "sensors_list_names", "current_orientation" di ogni robot e di ogni sensore
+
+            
+
 
             robots_list_names = request_info.pop("robots_list_names", [])
             sensors_list_names = request_info.pop("sensors_list_names", [])
@@ -513,6 +516,9 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
             print(request_info)
             self.alert_info = request_info
+
+
+
             
             # Inserimento del messaggio ricevuto nella cronologia della chat come se provenisse dall’operatore (OpenAI non prevede messaggi associati a figure diverse da operatore o assistant)
             session["messages"].append({"role": "user", "content": f"{json.dumps(self.alert_info)}"})
@@ -528,6 +534,8 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                 content=json.dumps(self.alert_info)
             )
             
+            start_response_time = time.time()
+
             # run per ottenere la risposta dell’LLM
             run = self.client.beta.threads.runs.create_and_poll(
                 thread_id=self.thread.id,
@@ -536,6 +544,10 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             )
             
             if run.status == 'completed':
+                end_response_time = time.time()
+                inference_plan_time = end_response_time - start_response_time
+                print(f"Inference plan time: {inference_plan_time}")
+
                 messages = self.client.beta.threads.messages.list(
                     thread_id=self.thread.id
                 )
@@ -852,49 +864,44 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
     def retrieve_system_state(self):
         response = self.retrieveSystemStateClient()
-        system_state = response.system_state
+        system_state = json.loads(response.system_state)
 
         with open(f"{script_dir}/../config/info.json", "r") as f:
             info = json.load(f)
 
         areas_dict = info["areas"]
-        found_areas = []
     
         
-        system_state_ = json.loads(response.system_state)
+        del system_state["robots_list_names"]
+        del system_state["sensors_list_names"]
+        del system_state["actuators_list_names"]
 
-        del system_state_["robots_list_names"]
-        del system_state_["sensors_list_names"]
-        del system_state_["actuators_list_names"]
-
-        robots_name = system_state_["robots"].keys()
+        robots_name = system_state["robots"].keys()
 
         for robot_name in robots_name:
-            print(system_state_["robots"][robot_name]["current_position"])
-            x, y, z = system_state_["robots"][robot_name]["current_position"]
+            
+            x, y, z = system_state["robots"][robot_name]["current_position"]
    
             for area_name, area_info in areas_dict.items():
                 x_range = area_info["coordinate_ranges"]["x"]
                 y_range = area_info["coordinate_ranges"]["y"]
 
                 if x_range["min"] <= x <= x_range["max"] and y_range["min"] <= y <= y_range["max"]:
-                    system_state_["robots"][robot_name]["current_area"] = area_name
+                    system_state["robots"][robot_name]["current_area"] = area_name
                     break
 
-            #del system_state_["robots"][robot_name]["current_position"]
-            del system_state_["robots"][robot_name]["current_orientation"]
+            del system_state["robots"][robot_name]["current_orientation"]
         
-        del system_state_["sensors"]
+        del system_state["sensors"]
 
 
-        doors_name = system_state_["actuators"].keys()
+        doors_name = system_state["actuators"].keys()
 
         for door_name in doors_name:
-            del system_state_["actuators"][door_name]["position"]
+            del system_state["actuators"][door_name]["position"]
         
-        print(system_state_)
 
-        return json.dumps(system_state_)
+        return json.dumps(system_state)
 
 chatNode = ChatNode()
 
@@ -934,6 +941,8 @@ def chat():
             content=user_message
         )
 
+        start_response_time = time.time()
+
         run = chatNode.client.beta.threads.runs.create_and_poll(
             thread_id=chatNode.thread.id,
             assistant_id=chatNode.assistant.id,
@@ -941,7 +950,11 @@ def chat():
         )
 
         if run.status == 'completed':
+            end_response_time = time.time()
+            inference_plan_time = end_response_time - start_response_time
             print("Run completed")
+            print(f"Inference plan time: {inference_plan_time}")
+
             messages = chatNode.client.beta.threads.messages.list(
                 thread_id=chatNode.thread.id
             )
@@ -953,7 +966,13 @@ def chat():
             #print(message_dictionary["final_decision"])
             
             assistant_reply = message_dictionary["content"]
-            #final_decision = message_dictionary["final_decision"]
+            print(assistant_reply)
+            if isinstance(assistant_reply,dict):
+                assistant_reply = assistant_reply["content"]
+
+            print(assistant_reply)
+
+            # final_decision = message_dictionary["final_decision"]
 
 
             session["messages"].append({"role": "assistant", "content": assistant_reply})
@@ -966,7 +985,10 @@ def chat():
             return jsonify(response)
         
         elif run.status == "requires_action":
-            
+            end_response_time = time.time()
+            inference_action_time = end_response_time - start_response_time
+            print(f"Inference action time: {inference_action_time}")
+
             while run.status == 'requires_action':
                 # The while loop allows to perform sequential actions (multiple action steps) where the next action requires parameters proposed by the LLM based on the output of previous actions. 
                 # It allows to perform a single action, send the response to the LLM and obtain the parameters for the new action
@@ -975,6 +997,7 @@ def chat():
                 print(run.required_action.submit_tool_outputs.tool_calls)
 
                 tool_outputs = []
+
 
                 # Loop through each tool required by a single action step (no information are returned to the LLM before finishing this sequence of actions)
                 for tool in run.required_action.submit_tool_outputs.tool_calls:
@@ -998,7 +1021,7 @@ def chat():
                     #     })
                     
                     if tool.function.name == "send_robots_to_area":
-                        
+
                         # Function execution
                         # result = chatNode.send_robot_to_area(args["robot_to_send"], args["area_to_reach"], args["ros_topic"])
                         result = chatNode.send_robots_to_area(args["robots_sequence"])
@@ -1072,7 +1095,7 @@ def chat():
                 else:
                     print("No tool outputs to submit.")
                 
-                
+
                 
 
             if run.status == 'completed':
@@ -1084,6 +1107,11 @@ def chat():
                 print(message_dictionary)
 
                 assistant_reply = message_dictionary["content"]
+                print(assistant_reply)
+                if isinstance(assistant_reply,dict):
+                    assistant_reply = assistant_reply["content"]
+
+                print(assistant_reply)
                 #final_decision = message_dictionary["final_decision"]
 
                 #rosPublisher.publish(final_decision)
@@ -1141,15 +1169,15 @@ def reset_chat():
 
 
 
-@app.route('/activate_robot', methods=['POST'])
-def activate_robot():
-    # Ottieni i dati dalla richiesta JSON
-    data = request.get_json()
-    response = data.get('response')
+# @app.route('/activate_robot', methods=['POST'])
+# def activate_robot():
+#     # Ottieni i dati dalla richiesta JSON
+#     data = request.get_json()
+#     response = data.get('response')
 
-    chatNode.rosPublisher.publish(response)
+#     chatNode.rosPublisher.publish(response)
 
-    return jsonify({"status": "success", "response": response})
+#     return jsonify({"status": "success", "response": response})
 
 
 if __name__ == "__main__":

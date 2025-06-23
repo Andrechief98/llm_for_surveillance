@@ -146,23 +146,6 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 999;
         }
-        /* Bottone Yes (verde) */
-        #yes-btn {
-            background-color: #4CAF50; /* Colore di sfondo verde */
-        }
-
-        #yes-btn:hover {
-            background-color: #45a049; /* Colore di sfondo verde più scuro al passaggio del mouse */
-        }
-
-        /* Bottone No (rosso) */
-        #no-btn {
-            background-color: #f44336; /* Colore di sfondo rosso */
-        }
-
-        #no-btn:hover {
-            background-color: #e53935; /* Colore di sfondo rosso più scuro al passaggio del mouse */
-        }
     </style>
 </head>
 <body>
@@ -180,45 +163,12 @@
                 const initialMessage = `"Hello! How can I assist you today with the surveillance monitoring?"`;
                 chatBox.innerHTML += `<div class="message bot-message"><strong>AI:</strong> ${initialMessage}</div>`;;
         
-                // Messaggio iniziale di istruzioni
-        //         const taskMessage = `The image I am providing represents a gridmap of an indoor environment with several open rooms with no doors.
-        // The pixelated areas in black represent the impassable walls of the room. The areas in light blue represent the actual 
-        // walkable areas. At each room entrance there is a Lidar, numbered from 1 to 7 and indicated in the image by the red squares. 
-        // The arrows represent security teleCameras and are numbered 1 to 2 in the image. At the top and bottom of the room there 
-        // are two robots, indicated as “locobot_1” and “locobot_2” in the image. Consider a surveillance application. 
-
-        // The json file I am providing you contains all the information about the ros network and offices coordinates. If the operator ask you
-        // to send a robot in a given location or giving him some specific information about the environment or the ros network, you have to retrieve such
-        // information from such json file.
-
-        // You are a part of an architecture for surveillance applciation with the purpose of detect possible intrusions in and indoor environment.
-        // If an intrusion is detected, robots in th environment must be sento to check the correct area.
-        // The architecture is composed by:
-        // - an orchestrator: responsible to continuosly retrieve data from sensors and robots
-        // - an LLM (you): responsible to manage different information and user request.
-        // The orchestrator will provide you a description of the scenario under consideration by giving you a list of sensors that have been activated 
-        // sequentially. Your purpose is to analyze the scenario, determine what zone needs to be monitored, briefly explain the logic 
-        // behind your motivation, and determine which robot makes the most sense to activate to go monitor the established zone. 
-        // For the moment, try to identify which robot is closest to the targeted area also considering the environment constraints
-        // and is therefore likely to take the least time to arrive and check. At the end, you have to provide me only the name of the
-        // locobot must be activated. Did you understand your task?`;
-        
-        //         chatBox.innerHTML += `<div class="message user-message"><strong>Tu:</strong> ${taskMessage}</div>`;;
-        
-                // Mostra l'immagine iniziale nella chat
-                //const initialImage = "/static/uploads/prova_immagine_ros.png";
-                //chatBox.innerHTML += `<div class="message user-message"><img src="${initialImage}" alt="Initial Image" style="max-width: 100%; border-radius: 10px;"></div>`;
-                
-                // Mostra la risposta iniziale dell'assistant
-                //const initialResponse = `"Sure! Provide me the sequence of activated sensors!"`;
-                //chatBox.innerHTML += `<div class="message bot-message"><strong>AI:</strong> ${initialResponse}</div>`;;
-        
                 chatBox.scrollTop = chatBox.scrollHeight;
             });
         </script>
         <div class="input-container">
-            <input type="text" id="user-input" placeholder="Scrivi un messaggio..." onkeydown="handleKeyPress(event)">
-            <button onclick="sendMessage()">Invia</button>
+            <input type="text" id="user-input" placeholder="Write a message ..." onkeydown="handleKeyPress(event)">
+            <button onclick="sendMessage()">Send</button>
         </div>
     </div>
 
@@ -246,7 +196,7 @@
                 const parsed = JSON.parse(message.content);
                 // Se il parsing ha successo, formattiamo il JSON
                 const formatted = JSON.stringify(parsed, null, 2);
-                messageHTML = `<div class="message user-message"><strong>Tu:</strong> ${formatted}</div>`;
+                messageHTML = `<div class="message user-message"><strong>You:</strong> ${formatted}</div>`;
             } catch (e) {
                 // Se non è JSON, lo stampiamo come testo normale
                 if (message.role === "assistant") {
@@ -257,7 +207,7 @@
                 } else if (message.role === "data_mediator") {
                     messageHTML = `<div class="message data-mediator-message"><strong>Data Mediator:</strong> ${message.content}</div>`;
                 } else {
-                    messageHTML = `<div class="message user-message"><strong>Tu:</strong> ${message.content}</div>`;
+                    messageHTML = `<div class="message user-message"><strong>You:</strong> ${message.content}</div>`;
                 }
             }
             
@@ -277,7 +227,7 @@
             if (!message) return;
 
             const chatBox = document.getElementById("chat-box");
-            chatBox.innerHTML += `<div class="message user-message"><strong>Tu:</strong> ${message}</div>`;
+            chatBox.innerHTML += `<div class="message user-message"><strong>You:</strong> ${message}</div>`;
             inputField.value = "";
             chatBox.scrollTop = chatBox.scrollHeight; // Scorri in basso
 
@@ -296,44 +246,22 @@
 
                 
 
-                // If there is a final decision, display the popup
-                if (data.final_decision) {
-                    const sensorList = data.activated_sensors.join(", ");
-                    const robotName = data.final_decision
-                    document.getElementById('activation-message').textContent = `Do you want to activate the ${robotName}?`;
-                    document.getElementById("sensor-list").innerText = `Activated sensors: ${sensorList}`;
-                    document.getElementById("popup").style.display = "block";
-                    document.getElementById("overlay").style.display = "block";
+                // // If there is a final decision, display the popup
+                // if (data.final_decision) {
+                //     const sensorList = data.activated_sensors.join(", ");
+                //     const robotName = data.final_decision
+                //     document.getElementById('activation-message').textContent = `Do you want to activate the ${robotName}?`;
+                //     document.getElementById("sensor-list").innerText = `Activated sensors: ${sensorList}`;
+                //     document.getElementById("popup").style.display = "block";
+                //     document.getElementById("overlay").style.display = "block";
 
-                    document.getElementById("yes-btn").onclick = () => sendActivationCommand("yes");
-                    document.getElementById("no-btn").onclick = () => sendActivationCommand("no");
-                }
+                //     document.getElementById("yes-btn").onclick = () => sendActivationCommand("yes");
+                //     document.getElementById("no-btn").onclick = () => sendActivationCommand("no");
+                // }
 
             } catch (error) {
                 console.error("Errore:", error);
             }
-        }
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-            document.getElementById("overlay").style.display = "none";
-        }
-
-        function sendActivationCommand(response) {
-            fetch('/activate_robot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ "response": response })
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Risposta dal server:", data);
-                closePopup(); // Chiudi il popup dopo aver inviato la risposta
-            })
-            .catch(error => {
-                console.error("Errore nella richiesta:", error);
-            });
         }
 
         async function resetChat() {
