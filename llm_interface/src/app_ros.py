@@ -45,6 +45,7 @@ class ChatNode():
         if required_assistant not in assistants_names_list:
             self.assistant = self.client.beta.assistants.create(
                 model= self.model_to_use,
+                #temperature=0.1,
                 name = required_assistant,
                 tools=[
                         # {
@@ -239,11 +240,11 @@ class ChatNode():
                 )
             print("Already created assistant considered")
 
-
-        self.img_file = self.client.files.create(
-            file=open(f"{script_dir}/static/uploads/building_plan.png", "rb"),
-            purpose="vision"
-        )
+        if self.model_to_use == "gpt-4o":
+            self.img_file = self.client.files.create(
+                file=open(f"{script_dir}/static/uploads/building_plan.png", "rb"),
+                purpose="vision"
+            )
         self.info_file = self.client.files.create(
             file=open(f"{script_dir}/../config/info.json", "rb"), 
             purpose="assistants"
@@ -261,10 +262,11 @@ The architecture is composed by:
 
 # Environment Overview
 The provided file **building_plan.png** is the map of the considered indoor environment with the following specifications:
-- **8 Areas (A - H):** Defined by impassable walls (solid black lines) and conceptual boundaries (blue dotted lines).
-- **Walkable Space:** Light gray regions. Each room has one or more **doors** controlled by actuators via ROS services.
-- **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map).
-- **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map), available via ROS topics.
+- **8 Areas (A - H):** Defined by impassable walls (solid black lines) and imaginary boundaries (blue dashed lines).
+- **Walkable Space:** Light gray regions. Each room has one or more **doors** controlled by actuators via ROS services;
+- **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map);
+- **9 Doors:** labeled `Door_1` through `Door_9`;  
+- **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map), available via ROS topics;
 - **2 Mobile Robots:**
   - `turtlebot3_1`
   - `turtlebot3_2`
@@ -304,16 +306,16 @@ The plan must be reasoned, including logical and coherent actions, ensuring the 
 
 1. **System State Verification:** 
     Before performing any real-world function you must have an updated status of the environment (e.g., positions and orientations of robots, states of sensors and actuators, 
-    and positions of doors) . You will receive that from data mediator in case of intrusion or you can retrieve it by using the `retrieve_system_state` function. 
+    and positions of doors). You will receive that from data mediator in case of intrusion or you can retrieve it by using the `retrieve_system_state` function. 
     This ensures you have an up-to-date overview of the system's condition. Don't consider the conversation history to understand the system state.
 
 2. **Spatial information:** 
-    Before performing any real-world function you must consider the information in the info.json file.
+    Before performing any real-world function you must consider the information in the info.json file and use the building_plan.png to better understand the environment (e.g. to understand which is the optimal sequence of doors ithat ensure the shortest path).
 
 3. **Door Control:** 
     If the action (from user request or proposed plan) involve closing or opening the doors, you must use the function 'control_actuator' with arguments obtained from info.json file.
     Before sending a robot to an area that involves passing through doors, you must understand which doors should be considered to reach that area considering the current position of the indicated robot, the coordinates of the indicated area and the positions of the doors near that area.
-    Then you have to verify the status of the these doors. If doors are closed, you will have to open them using the `control_actuator` function before proceeding.
+    Then you have to verify the status of the these doors. If doors are closed, you will have to open them using the `control_actuator` function before proceeding. If the door is already open you can avoid to open again the door.
 
 3. **Sending Robots:** 
     Once you know the state of the doors and the robots, use the `send_robot_to_area` function and coordinates obtained from info.json file to send the robot to the target area. 
@@ -327,7 +329,7 @@ The plan must be reasoned, including logical and coherent actions, ensuring the 
 
 
 Every time you perform an action in the environment, You will receive a positive or negative feedback about the success of the action. 
-If the feedback is negative, you must reason about the failure and try again with corrected information. A new action must be performed after receiving the positive feedback from the previous one. 
+If the feedback is negative, you must reason about the failure and try again with corrected information **without asking permission to the user**. 
 If you fail to perform an action two times, you can pass to the next action of the plan informing the user about the error.
 
 
@@ -444,44 +446,68 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             threads_name_list, threads_id_list = extractThreadsFromJson(self.client, script_dir)
 
 
+        if self.model_to_use == "gpt-4o":
+            self.thread = self.client.beta.threads.create(
+                    metadata={
+                        "thread_name":required_thread_name
+                        },
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": self.task_instructions
+                                },
+                                {
+                                    "type": "image_file",       # Immagini prese dal computer
+                                    "image_file": {
+                                        "file_id": self.img_file.id,
+                                        "detail":"high" # Può essere "low" e "high" e indica la risoluzione con cui verrà analizzata l'immagine
+                                        } 
+                                },
+                            ],
+                            "attachments": [
+                                { 
+                                    "file_id": self.info_file.id, 
+                                    "tools": [
+                                        {
+                                            "type": "file_search"
+                                            }
+                                        ] 
+                                    }
+                            ],
+                        }
+                    ]
+                )
+        elif self.model_to_use == "o3-mini":
+            self.thread = self.client.beta.threads.create(
+                    metadata={
+                        "thread_name":required_thread_name
+                        },
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "text",
+                                    "text": self.task_instructions
+                                },
+                            ],
+                            "attachments": [
+                                { 
+                                    "file_id": self.info_file.id, 
+                                    "tools": [
+                                        {
+                                            "type": "file_search"
+                                            }
+                                        ] 
+                                    }
+                            ],
+                        }
+                    ]
+                )
 
-        self.thread = self.client.beta.threads.create(
-                metadata={
-                    "thread_name":required_thread_name
-                    },
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": self.task_instructions
-                            },
-                            #   {
-                            #     "type": "image_url",      # Immagini prese da internet
-                            #     "image_url": {"url": "https://example.com/image.png"} 
-                            #   },
-                            {
-                                "type": "image_file",       # Immagini prese dal computer
-                                "image_file": {
-                                    "file_id": self.img_file.id,
-                                    "detail":"high" # Può essere "low" e "high" e indica la risoluzione con cui verrà analizzata l'immagine
-                                    } 
-                            },
-                        ],
-                        "attachments": [
-                            { 
-                                "file_id": self.info_file.id, 
-                                "tools": [
-                                    {
-                                        "type": "file_search"
-                                        }
-                                    ] 
-                                }
-                        ],
-                    }
-                ]
-            )
         
         print("New thread created")
 

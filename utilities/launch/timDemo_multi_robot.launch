@@ -5,9 +5,9 @@
 
 
     <node 
-        name="sensorVisualizationNode" 
+        name="markerVisualizationNode" 
         pkg="utilities" 
-        type="sensorVisualizationMarker.py" 
+        type="marker_visualization_node.py" 
         output="screen">
     </node>
 

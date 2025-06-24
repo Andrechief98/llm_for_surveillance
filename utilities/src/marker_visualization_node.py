@@ -14,7 +14,7 @@ class Node():
 
     def __init__(self):
 
-        rospy.init_node("MarkerVisualizer",anonymous=True)
+        rospy.init_node("marker_visualization_node",anonymous=True)
 
 
         self.subscriber = rospy.Subscriber("/data", String, self.publishMarkerArrayCallback, queue_size=1)
