@@ -4752,7 +4752,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -4979,7 +4979,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -5206,7 +5206,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -5433,7 +5433,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -5660,7 +5660,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -5887,7 +5887,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -6114,7 +6114,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -6166,7 +6166,7 @@
       </link>
       <link name='door'>
         <kinematic>1</kinematic>
-        <pose>-0.4 -0 1.25 0 -0 0</pose>
+        <pose>-0.030232 -0 1.25 0 -0 0</pose>
         <self_collide>0</self_collide>
         <inertial>
           <pose>0 0 0 0 -0 0</pose>
@@ -6184,7 +6184,7 @@
         <visual name='door_visual'>
           <geometry>
             <box>
-              <size>1.2 0.05 2.5</size>
+              <size>0.582121 0.05 2.5</size>
             </box>
           </geometry>
           <material>
@@ -6206,7 +6206,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>1.2 0.05 2.5</size>
+              <size>0.582121 0.05 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -6264,7 +6264,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>1</upper>
+            <upper>0.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -6293,7 +6293,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>-1.37429 0.509719 0 0 -0 0</pose>
@@ -6341,7 +6341,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>
@@ -6568,7 +6568,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <box>
-              <size>0.1 0.1 2.5</size>
+              <size>0.1 1 2.5</size>
             </box>
           </geometry>
           <surface>

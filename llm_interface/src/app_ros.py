@@ -500,20 +500,41 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             request_info = json.loads(req.alert_info)
             
             # Eliminiamo "robot_list_name", "sensors_list_names", "current_orientation" di ogni robot e di ogni sensore
-
             
+            with open(f"{script_dir}/../config/info.json", "r") as f:
+                info = json.load(f)
+    
+            areas_dict = info["areas"]
+        
+            
+            del request_info["robots_list_names"]
+            del request_info["sensors_list_names"]
+            del request_info["actuators_list_names"]
+
+            robots_name = request_info["robots"].keys()
+
+            for robot_name in robots_name:
+                
+                x, y, z = request_info["robots"][robot_name]["current_position"]
+    
+                for area_name, area_info in areas_dict.items():
+                    x_range = area_info["coordinate_ranges"]["x"]
+                    y_range = area_info["coordinate_ranges"]["y"]
+
+                    if x_range["min"] <= x <= x_range["max"] and y_range["min"] <= y <= y_range["max"]:
+                        request_info["robots"][robot_name]["current_area"] = area_name
+                        break
+
+                del request_info["robots"][robot_name]["current_orientation"]
+            
+            del request_info["sensors"]
 
 
-            robots_list_names = request_info.pop("robots_list_names", [])
-            sensors_list_names = request_info.pop("sensors_list_names", [])
+            doors_name = request_info["actuators"].keys()
 
-            for robot in robots_list_names:
-                if robot in ["turtlebot_1","turtlebot_2"]:
-                    request_info["robots"][robot].pop("current_orientation", None)
-
-            for sensor in sensors_list_names:
-                request_info["sensors"][sensor].pop("orientation", None)
-
+            for door_name in doors_name:
+                del request_info["actuators"][door_name]["position"]
+            
             print(request_info)
             self.alert_info = request_info
 
@@ -564,7 +585,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                 
                 socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
             else:
-                print("Errore durante la generazione della risposta:", run.status)
+                print("Error in the response generation:", run.status)
 
             return triggerGptResponse("Success")
         else:
