@@ -44,6 +44,12 @@
         output="screen">
     </node>
 
+    <node 
+        name="check_robot_goal_node" 
+        pkg="utilities" 
+        type="check_robot_goal.py" 
+        output="screen">
+    </node>
 
 
 

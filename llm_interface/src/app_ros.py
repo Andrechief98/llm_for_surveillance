@@ -32,6 +32,8 @@ class ChatNode():
         self.rosPublisher = rospy.Publisher('assistant_message', String, queue_size=10)
 
         self.rosServer = rospy.Service('/alert', triggerGpt, self.handleAlert)
+        self.robotGoalCheckerServer = rospy.Service('/robot_goal_checker', triggerGpt, self.handleRobotGoalChecker)
+
         self.retrieveSystemStateClient = rospy.ServiceProxy("/retrieve_system_state", retrieveSystemState)
         self.resetSensorsActivationClient = rospy.ServiceProxy("/resetSensorActivation", Empty)
 
@@ -346,6 +348,8 @@ It is possible that multiple sensors activations happens. In that case:
 
 In case of operator requests, you can simply answer normally and perform required actions respecting rules previously mentioned.
 
+In case of robot sent to a given area, you will receive a message that specifies if the robot reached the given area and if it detected an intrusion. In this case you must report such information (without considering the previously describe response structure) to the user in order to inform him.
+
 Always make sure to only execute actions that are logically necessary for achieving the user’s requirements or the proposed plan, especially if user change your initial plan. 
 Ensure all dependencies between actions of the plan are respected in the order they need to be executed.
 If any detail is unclear (e.g., ambiguous area or actions to do) or you have doubts, **ask the operator for clarification** before proceeding."""
@@ -516,13 +520,58 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
         updateThreadsJsonFile(threads_name_list,threads_id_list, script_dir)
 
+    
+    def handleRobotGoalChecker(self,req):
+        if req:
+            # Estrai e decodifica il messaggio ricevuto via ros service
+            request_info = req.alert_info
 
+            # Inserimento del messaggio ricevuto nella cronologia della chat come se provenisse dall’operatore (OpenAI non prevede messaggi associati a figure diverse da operatore o assistant)
+            session["messages"].append({"role": "user", "content": f"{request_info}"})
+            
 
+            # Registrazione del messaggio nel thread della conversazione
+            self.client.beta.threads.messages.create(
+                thread_id=self.thread.id,
+                role="user",
+                content=request_info
+            )
+
+            # run per ottenere la risposta dell’LLM
+            run = self.client.beta.threads.runs.create_and_poll(
+                thread_id=self.thread.id,
+                assistant_id=self.assistant.id,
+                model=self.model_to_use,
+            )
+            
+            if run.status == 'completed':
+                messages = self.client.beta.threads.messages.list(
+                    thread_id=self.thread.id
+                )
+                # 
+                message_dictionary = json.loads(messages.data[0].content[0].text.value)
+                assistant_reply = message_dictionary["content"]
+                print(assistant_reply)
+                
+                # Aggiorna la cronologia della chat con la risposta dell’LLM
+                session["messages"].append({"role": "assistant", "content": assistant_reply})
+                
+                socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
+            else:
+                print("Error in the response generation:", run.status)
+
+            return triggerGptResponse("Success")
+        else:
+            return triggerGptResponse("Failed")
+
+    
+    
     def handleAlert(self,req):
     ## gestire l'esecuzione della run dove si aggiunge all contesto dell'LLM il messaggio ricevuto e si esegue la funzione per l'ottenimento delle strategie
 
         if req:
             # Estrai e decodifica il messaggio ricevuto via ros service
+            print(req)
             request_info = json.loads(req.alert_info)
             
             # Eliminiamo "robot_list_name", "sensors_list_names", "current_orientation" di ogni robot e di ogni sensore
