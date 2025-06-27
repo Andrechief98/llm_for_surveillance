@@ -2,7 +2,9 @@
 import rospy
 from move_base_msgs.msg import MoveBaseActionResult
 from gazebo_msgs.srv import GetModelState, GetModelStateRequest
-from OpenAI_interface.srv import triggerGpt, triggerGptRequest
+from llm_interface.srv import triggerGpt, triggerGptRequest
+from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMGoal
+import actionlib
 import json
 import os
 import re
@@ -26,7 +28,7 @@ class checkRobotGoalNode():
         self.gazebo_client = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         self.actor_model_name = "actor"
 
-        self.goalLLM_client = rospy.ServiceProxy('/robot_goal_checker', triggerGpt)
+        self.goalLLM_action_client = actionlib.SimpleActionClient('/robot_goal_checker', goalCheckerLLMAction)
 
         self.goal_results_subs_list = []
 
@@ -116,13 +118,15 @@ class checkRobotGoalNode():
         print(LLM_message)
 
         try:
-            request = triggerGptRequest(LLM_message) 
-            print(request)
-            response = self.goalLLM_client(request)
+            action_server_goal = goalCheckerLLMGoal()
+            action_server_goal.message_for_LLM = LLM_message
+
+            print(action_server_goal)
+            self.goalLLM_action_client.send_goal(action_server_goal)
+
             rospy.loginfo(f"Goal and intrusion checker: call to LLM executed")
-            rospy.loginfo(f"Server response: {response.received}")
-            return response
-        except rospy.ServiceException as e:
+
+        except rospy.ROSException as e:
             rospy.logerr(f"Error triggering the LLM by the Goal and intrusion checker node: {e}")
             return None
 

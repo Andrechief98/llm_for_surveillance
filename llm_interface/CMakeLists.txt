@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   geometry_msgs
   message_generation
+  actionlib_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -55,7 +56,7 @@ find_package(catkin REQUIRED COMPONENTS
 #   Message2.msg
 # )
 
-## Generate services in the 'srv' folder
+# Generate services in the 'srv' folder
 add_service_files(
   FILES
   gptCall.srv
@@ -63,18 +64,18 @@ add_service_files(
   retrieveSystemState.srv
 )
 
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
+# Generate actions in the 'action' folder
+add_action_files(
+  DIRECTORY action
+  FILES goalCheckerLLM.action
+)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
   std_msgs
   geometry_msgs
+  actionlib_msgs
 )
 
 ################################################

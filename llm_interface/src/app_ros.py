@@ -2,6 +2,7 @@
 
 from flask import Flask, render_template, request, jsonify, session
 from openai import OpenAI
+import actionlib.simple_action_server
 from utilitiesOpenAI import *
 import os
 from werkzeug.utils import secure_filename
@@ -10,12 +11,14 @@ import rosgraph
 from std_msgs.msg import String 
 from std_srvs.srv import Empty 
 from geometry_msgs.msg import PoseStamped
-from OpenAI_interface.srv import triggerGpt, triggerGptResponse, retrieveSystemState
+from llm_interface.srv import triggerGpt, triggerGptResponse, retrieveSystemState
+from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCheckerLLMFeedback
 from flask_socketio import SocketIO, emit
 import subprocess
-from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
+from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest 
 import re
 import time
+import actionlib
 
 
 
@@ -32,7 +35,9 @@ class ChatNode():
         self.rosPublisher = rospy.Publisher('assistant_message', String, queue_size=10)
 
         self.rosServer = rospy.Service('/alert', triggerGpt, self.handleAlert)
-        self.robotGoalCheckerServer = rospy.Service('/robot_goal_checker', triggerGpt, self.handleRobotGoalChecker)
+        # self.robotGoalCheckerServer = rospy.Service('/robot_goal_checker', triggerGpt, self.handleRobotGoalChecker)
+        self.robotGoalCheckerServer = actionlib.SimpleActionServer('/robot_goal_checker', goalCheckerLLMAction, self.handleRobotGoalChecker, auto_start = False)
+        self.robotGoalCheckerServer.start()
 
         self.retrieveSystemStateClient = rospy.ServiceProxy("/retrieve_system_state", retrieveSystemState)
         self.resetSensorsActivationClient = rospy.ServiceProxy("/resetSensorActivation", Empty)
@@ -43,6 +48,8 @@ class ChatNode():
         self.model_to_use = "gpt-4o"
 
         assistants_names_list, assistant_ids_list = extractAssistantFromJson(self.client, script_dir)
+
+        self.last_run = None
 
         if required_assistant not in assistants_names_list:
             self.assistant = self.client.beta.assistants.create(
@@ -316,12 +323,12 @@ The plan must be reasoned, including logical and coherent actions, ensuring the 
 
 3. **Door Control:** 
     If the action (from user request or proposed plan) involve closing or opening the doors, you must use the function 'control_actuator' with arguments obtained from info.json file.
-    Before sending a robot to an area that involves passing through doors, you must understand which doors should be considered to reach that area considering the current position of the indicated robot, the coordinates of the indicated area and the positions of the doors near that area.
-    Then you have to verify the status of the these doors. If doors are closed, you will have to open them using the `control_actuator` function before proceeding. If the door is already open you can avoid to open again the door.
+    Before sending a robot to an area that involves passing through doors, you must understand which doors must be considered analyzing the image 'building_plan.png', understanding where is the current area of the robot in the image and where is the final area to reach in the image.
+    Then you have to verify the status of the these doors. If doors are closed, you will have to open them using the `control_actuator` function before proceeding. If the door is already open you must avoid to open again the door.
 
 3. **Sending Robots:** 
-    Once you know the state of the doors and the robots, use the `send_robot_to_area` function and coordinates obtained from info.json file to send the robot to the target area. 
-    This action must be executed after the doors are confirmed to be open (if required). 
+    Once you know the state of the doors and the robots, use the `send_robots_to_area` to send the robot to the target area. 
+    This action must be executed after the doors are confirmed to be open. 
     Pay attention if you close doors in previous actions in the plan that could block the area the robot has to reach.
 
 4. **Camera Visualization:** 
@@ -346,9 +353,17 @@ It is possible that multiple sensors activations happens. In that case:
   2. **Updated Plan:**
   3. **Await Confirmation:**
 
-In case of operator requests, you can simply answer normally and perform required actions respecting rules previously mentioned.
+In case of operator requests, you must simply answer normally and perform required actions respecting rules previously mentioned.
+When a robot is sent to a specific area, you will receive a message once the robot reaches that area. This message will also indicate whether an intrusion has been detected. In this case you must forward the message to the user to inform him.
 
-In case of robot sent to a given area, you will receive a message that specifies if the robot reached the given area and if it detected an intrusion. In this case you must report such information (without considering the previously describe response structure) to the user in order to inform him.
+If a sensor is triggered and multiple areas need to be checked, you can choose to either:
+
+- Send both robots, or
+
+- Assign multiple areas to a single robot, but only if the areas are close to each other:
+    - in this case, you must wait for the robot’s message confirming arrival and inspection result before sending it to the next area.
+
+If the triggered sensors correspond to distant areas, you must assign the robot closest to each area to reduce travel time and improve response efficiency.
 
 Always make sure to only execute actions that are logically necessary for achieving the user’s requirements or the proposed plan, especially if user change your initial plan. 
 Ensure all dependencies between actions of the plan are respected in the order they need to be executed.
@@ -521,48 +536,67 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
         updateThreadsJsonFile(threads_name_list,threads_id_list, script_dir)
 
     
-    def handleRobotGoalChecker(self,req):
-        if req:
-            # Estrai e decodifica il messaggio ricevuto via ros service
-            request_info = req.alert_info
+    def handleRobotGoalChecker(self,goal):
+        if goal:
+            
+            feedback = goalCheckerLLMFeedback()
+            result = goalCheckerLLMResult()
 
             # Inserimento del messaggio ricevuto nella cronologia della chat come se provenisse dall’operatore (OpenAI non prevede messaggi associati a figure diverse da operatore o assistant)
-            session["messages"].append({"role": "user", "content": f"{request_info}"})
-            
+            session["messages"].append({"role": "user", "content": f"{goal.message_for_LLM}"})
 
-            # Registrazione del messaggio nel thread della conversazione
-            self.client.beta.threads.messages.create(
-                thread_id=self.thread.id,
-                role="user",
-                content=request_info
-            )
+            while True:
+                feedback.status_LLM = "Sending robot goal success to LLM..."
+                self.robotGoalCheckerServer.publish_feedback(feedback)
 
-            # run per ottenere la risposta dell’LLM
-            run = self.client.beta.threads.runs.create_and_poll(
-                thread_id=self.thread.id,
-                assistant_id=self.assistant.id,
-                model=self.model_to_use,
-            )
-            
-            if run.status == 'completed':
-                messages = self.client.beta.threads.messages.list(
-                    thread_id=self.thread.id
-                )
-                # 
-                message_dictionary = json.loads(messages.data[0].content[0].text.value)
-                assistant_reply = message_dictionary["content"]
-                print(assistant_reply)
-                
-                # Aggiorna la cronologia della chat con la risposta dell’LLM
-                session["messages"].append({"role": "assistant", "content": assistant_reply})
-                
-                socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
-            else:
-                print("Error in the response generation:", run.status)
+                if self.last_run == None or self.last_run.status == 'completed':
 
-            return triggerGptResponse("Success")
+                    # Registrazione del messaggio nel thread della conversazione
+                    self.client.beta.threads.messages.create(
+                        thread_id=self.thread.id,
+                        role="user",
+                        content=goal.message_for_LLM
+                    )
+
+                    # run per ottenere la risposta dell’LLM
+                    self.last_run = self.client.beta.threads.runs.create_and_poll(
+                        thread_id=self.thread.id,
+                        assistant_id=self.assistant.id,
+                        model=self.model_to_use,
+                    )
+                    
+                    if self.last_run.status == 'completed':
+                        messages = self.client.beta.threads.messages.list(
+                            thread_id=self.thread.id
+                        )
+
+                        message_dictionary = json.loads(messages.data[0].content[0].text.value)
+                        assistant_reply = message_dictionary["content"]
+                        print(assistant_reply)
+                        
+                        # Aggiorna la cronologia della chat con la risposta dell’LLM
+                        session["messages"].append({"role": "assistant", "content": assistant_reply})
+                        
+                        socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
+
+
+                        result.success = f"Message from robot correctly processed by the LLM"
+
+                    else:
+                        print("Error in the response generation:", self.last_run.status)
+                        result.success = f"Message from robot NOT processed by the LLM"
+                    
+                    rospy.loginfo(result.success)
+                    self.robotGoalCheckerServer.set_succeeded(result)
+                    return 
+                else:
+                    continue
         else:
-            return triggerGptResponse("Failed")
+            result.success = f"No message received from robot"
+            rospy.loginfo(result.success)
+            self.robotGoalCheckerServer.set_succeeded(result)
+
+            return 
 
     
     
@@ -571,7 +605,6 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
         if req:
             # Estrai e decodifica il messaggio ricevuto via ros service
-            print(req)
             request_info = json.loads(req.alert_info)
             
             # Eliminiamo "robot_list_name", "sensors_list_names", "current_orientation" di ogni robot e di ogni sensore
@@ -633,13 +666,13 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             start_response_time = time.time()
 
             # run per ottenere la risposta dell’LLM
-            run = self.client.beta.threads.runs.create_and_poll(
+            self.last_run = self.client.beta.threads.runs.create_and_poll(
                 thread_id=self.thread.id,
                 assistant_id=self.assistant.id,
                 model=self.model_to_use,
             )
             
-            if run.status == 'completed':
+            if self.last_run.status == 'completed':
                 end_response_time = time.time()
                 inference_plan_time = end_response_time - start_response_time
                 print(f"Inference plan time: {inference_plan_time}")
@@ -660,7 +693,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                 
                 socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
             else:
-                print("Error in the response generation:", run.status)
+                print("Error in the response generation:", self.last_run.status)
 
             return triggerGptResponse("Success")
         else:
@@ -732,7 +765,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
     # Funzione più robusta
     # def send_robot_to_area(self, robot, area):
 
-    #     with open("OpenAI_interface/config/info.json", "r") as f:
+    #     with open("llm_interface/config/info.json", "r") as f:
     #         info = json.load(f)
         
     #     robots_dict = info["ros_publishers"]["robots"]
@@ -864,8 +897,10 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                         "deployment_success": False,
                         "additional_info": "Wrong robot name considered"
                     }
-        
-        return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}" 
+                
+
+            return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}" 
+
 
 
     def display_cameras(self, cameras_names_list):
@@ -1039,13 +1074,13 @@ def chat():
 
         start_response_time = time.time()
 
-        run = chatNode.client.beta.threads.runs.create_and_poll(
+        chatNode.last_run = chatNode.client.beta.threads.runs.create_and_poll(
             thread_id=chatNode.thread.id,
             assistant_id=chatNode.assistant.id,
             model = chatNode.model_to_use,
         )
 
-        if run.status == 'completed':
+        if chatNode.last_run.status == 'completed':
             end_response_time = time.time()
             inference_plan_time = end_response_time - start_response_time
             print("Run completed")
@@ -1058,17 +1093,13 @@ def chat():
             message_dictionary = json.loads(messages.data[0].content[0].text.value)
             print(message_dictionary)
             
-            
-            #print(message_dictionary["final_decision"])
-            
+                        
             assistant_reply = message_dictionary["content"]
-            print(assistant_reply)
+
             if isinstance(assistant_reply,dict):
                 assistant_reply = assistant_reply["content"]
 
             print(assistant_reply)
-
-            # final_decision = message_dictionary["final_decision"]
 
 
             session["messages"].append({"role": "assistant", "content": assistant_reply})
@@ -1076,27 +1107,26 @@ def chat():
 
             response = {
                 "reply": assistant_reply,
-                #"final_decision": final_decision,
             }
             return jsonify(response)
         
-        elif run.status == "requires_action":
+        elif chatNode.last_run.status == "requires_action":
             end_response_time = time.time()
             inference_action_time = end_response_time - start_response_time
             print(f"Inference action time: {inference_action_time}")
 
-            while run.status == 'requires_action':
+            while chatNode.last_run.status == 'requires_action':
                 # The while loop allows to perform sequential actions (multiple action steps) where the next action requires parameters proposed by the LLM based on the output of previous actions. 
                 # It allows to perform a single action, send the response to the LLM and obtain the parameters for the new action
 
                 print("List of all function calls:")
-                print(run.required_action.submit_tool_outputs.tool_calls)
+                print(chatNode.last_run.required_action.submit_tool_outputs.tool_calls)
 
                 tool_outputs = []
 
 
                 # Loop through each tool required by a single action step (no information are returned to the LLM before finishing this sequence of actions)
-                for tool in run.required_action.submit_tool_outputs.tool_calls:
+                for tool in chatNode.last_run.required_action.submit_tool_outputs.tool_calls:
                     # print("Considered tool")
                     # print(tool)
 
@@ -1178,14 +1208,14 @@ def chat():
 
                 if tool_outputs:
                     try:
-                        run = chatNode.client.beta.threads.runs.submit_tool_outputs_and_poll(
-                        thread_id=chatNode.thread.id,
-                        run_id=run.id,
-                        tool_outputs=tool_outputs
+                        chatNode.last_run = chatNode.client.beta.threads.runs.submit_tool_outputs_and_poll(
+                            thread_id=chatNode.thread.id,
+                            run_id=chatNode.last_run.id,
+                            tool_outputs=tool_outputs
                         )
                         print("Tool outputs submitted successfully.")
                         print("Run status after submission of the output:")
-                        print(run.status)
+                        print(chatNode.last_run.status)
                     except Exception as e:
                         print("Failed to submit tool outputs:", e)
                 else:
@@ -1194,7 +1224,7 @@ def chat():
 
                 
 
-            if run.status == 'completed':
+            if chatNode.last_run.status == 'completed':
                 messages = chatNode.client.beta.threads.messages.list(
                     thread_id=chatNode.thread.id
                 )
@@ -1224,15 +1254,15 @@ def chat():
 
             else:
                 print("Run not completed. Current status:")
-                print(run.status)
+                print(chatNode.last_run.status)
 
-                print(run.required_action.submit_tool_outputs.tool_calls)
-                return jsonify({"error": "Run not completed", "status": run.status})
+                print(chatNode.last_run.required_action.submit_tool_outputs.tool_calls)
+                return jsonify({"error": "Run not completed", "status": chatNode.last_run.status})
 
         else:
             print("Error in the response generation. Current status:")
-            print(run.status)
-            return jsonify({"error": "Error in the response generation.", "status": run.status})
+            print(chatNode.last_run.status)
+            return jsonify({"error": "Error in the response generation.", "status": chatNode.last_run.status})
 
     except Exception as e:
         print(e)
@@ -1277,4 +1307,4 @@ def reset_chat():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

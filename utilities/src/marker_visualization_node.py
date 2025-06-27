@@ -7,7 +7,10 @@ from sensor_msgs.msg import Range
 from gazebo_msgs.srv import GetModelState
 from std_msgs.msg import String
 import json
+import os
 
+
+script_dir = os.path.dirname(__file__)
 
 
 class Node():
@@ -22,8 +25,12 @@ class Node():
         
         self.rate=rospy.Rate(10)
 
+        with open(f"{script_dir}/../../llm_interface/config/info.json", "r") as f:
+            info = json.load(f)
+    
+        self.areas_dict = info["areas"]
 
-
+        self.areas_names = self.areas_dict.keys()
 
 
 
@@ -157,6 +164,46 @@ class Node():
             
             counter += 1
         
+
+
+        for area_name in self.areas_names:
+
+            # Text marker for areas
+            self.msg_marker_text = Marker()
+            self.msg_marker_text.header.frame_id = 'map'
+
+            self.msg_marker_text.type = 9 # 9 = text
+            self.msg_marker_text.text = area_name
+
+            area_x = self.areas_dict[area_name]["coordinates"]["x"]
+            area_y = self.areas_dict[area_name]["coordinates"]["y"]
+
+
+            self.msg_marker_text.pose.orientation.x = 0.0
+            self.msg_marker_text.pose.orientation.y = 0.0
+            self.msg_marker_text.pose.orientation.z = 0.0
+            self.msg_marker_text.pose.orientation.w = 1.0
+
+                 
+            self.msg_marker_text.color.r = 24.0 / 255.0
+            self.msg_marker_text.color.g = 102.0 / 255.0
+            self.msg_marker_text.color.b = 138.0 / 255.0
+            self.msg_marker_text.color.a = 1.0            
+
+            self.msg_marker_text.pose.position.x = area_x
+            self.msg_marker_text.pose.position.y = area_y
+            self.msg_marker_text.pose.position.z = 0.5
+
+            self.msg_marker_text.scale.x = 0.8 # length
+            self.msg_marker_text.scale.y = 0.8 # width
+            self.msg_marker_text.scale.z = 0.8 # width
+
+            self.msg_marker_text.header.stamp = rospy.Time.now()
+            self.msg_marker_text.id = counter + 2000 # unique identifier for the area text markers 
+
+            self.msg_marker_array.markers.append(self.msg_marker_text)
+
+            counter += 1
 
         self.publisher.publish(self.msg_marker_array)
         #self.rate.sleep()
