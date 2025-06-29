@@ -31,7 +31,7 @@ def visualize_cameras(topic_list):
         cv2.namedWindow(topic, cv2.WINDOW_NORMAL)
         latest_images[topic] = None
 
-    rospy.loginfo("Visualizzazione delle immagini dai topic: {}".format(topic_list))
+    #rospy.loginfo("Visualizzazione delle immagini dai topic: {}".format(topic_list))
     
     rate = rospy.Rate(30)  # 30 Hz
     while not rospy.is_shutdown():
@@ -45,7 +45,7 @@ def visualize_cameras(topic_list):
                     cv2.imshow(topic, latest_images[topic])
         # Se nessuna finestra è aperta, esce dal ciclo
         if not windows_open:
-            rospy.loginfo("Tutte le finestre sono state chiuse. Terminazione del nodo.")
+            #rospy.loginfo("Tutte le finestre sono state chiuse. Terminazione del nodo.")
             break
 
         # Esce se viene premuto ESC

@@ -54,7 +54,7 @@ class ChatNode():
         if required_assistant not in assistants_names_list:
             self.assistant = self.client.beta.assistants.create(
                 model= self.model_to_use,
-                #temperature=0.1,
+                temperature=0.0,
                 name = required_assistant,
                 tools=[
                         # {
@@ -274,7 +274,7 @@ The provided file **building_plan.png** is the map of the considered indoor envi
 - **8 Areas (A - H):** Defined by impassable walls (solid black lines) and imaginary boundaries (blue dashed lines).
 - **Walkable Space:** Light gray regions. Each room has one or more **doors** controlled by actuators via ROS services;
 - **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map);
-- **9 Doors:** labeled `Door_1` through `Door_9`;  
+- **9 Doors:** labeled `door_1` through `door_9`;  
 - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map), available via ROS topics;
 - **2 Mobile Robots:**
   - `turtlebot3_1`
@@ -302,7 +302,7 @@ If an intrusion is detected by sensors activation, the Data Mediator will immedi
       Once you are sure about the area to be analyzed, you can propose:
         1. Show camera feed of the considered area (if present);
         2. Deploy one or more robots for further inspection (one robot for each area);
-        2. Lock the entire area by closing all doors related to it. In case of robot deployed to check the considered area, You must leave opened one door to allow the robot to actually reach the area.
+        2. Lock the entire area by closing all doors related to it. In case of robot deployed to check the considered area, You must leave opened one door to allow the robot to actually reach the area. In this case you have to understand which is the correct door.
 
 The user will read the plan and he will do one of the following:
 - confirm the plan: in this case you must perform all actions indicated in the plan in subsequent order. 
@@ -586,7 +586,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                         print("Error in the response generation:", self.last_run.status)
                         result.success = f"Message from robot NOT processed by the LLM"
                     
-                    rospy.loginfo(result.success)
+                    #rospy.loginfo(result.success)
                     self.robotGoalCheckerServer.set_succeeded(result)
                     return 
                 else:
@@ -643,7 +643,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             for door_name in doors_name:
                 del request_info["actuators"][door_name]["position"]
             
-            print(request_info)
+            #print(request_info)
             self.alert_info = request_info
 
 
@@ -1119,16 +1119,18 @@ def chat():
                 # The while loop allows to perform sequential actions (multiple action steps) where the next action requires parameters proposed by the LLM based on the output of previous actions. 
                 # It allows to perform a single action, send the response to the LLM and obtain the parameters for the new action
 
-                print("List of all function calls:")
-                print(chatNode.last_run.required_action.submit_tool_outputs.tool_calls)
+                # print("List of all function calls:")
+                # print(chatNode.last_run.required_action.submit_tool_outputs.tool_calls)
 
                 tool_outputs = []
 
 
                 # Loop through each tool required by a single action step (no information are returned to the LLM before finishing this sequence of actions)
                 for tool in chatNode.last_run.required_action.submit_tool_outputs.tool_calls:
-                    # print("Considered tool")
-                    # print(tool)
+                    print("Considered function:")
+                    print(f"\t{tool.function.name}")
+                    print("Function arguments:")
+                    print(f"\t{tool.function.arguments}\n")
 
                     # Extraction of the function arguments:
                     args = json.loads(tool.function.arguments)
@@ -1213,9 +1215,9 @@ def chat():
                             run_id=chatNode.last_run.id,
                             tool_outputs=tool_outputs
                         )
-                        print("Tool outputs submitted successfully.")
-                        print("Run status after submission of the output:")
-                        print(chatNode.last_run.status)
+                        # print("Tool outputs submitted successfully.")
+                        # print("Run status after submission of the output:")
+                        # print(chatNode.last_run.status)
                     except Exception as e:
                         print("Failed to submit tool outputs:", e)
                 else:
@@ -1233,7 +1235,7 @@ def chat():
                 print(message_dictionary)
 
                 assistant_reply = message_dictionary["content"]
-                print(assistant_reply)
+                
                 if isinstance(assistant_reply,dict):
                     assistant_reply = assistant_reply["content"]
 

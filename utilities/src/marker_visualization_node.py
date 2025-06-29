@@ -41,8 +41,9 @@ class Node():
 
         sensors_list = self.data["sensors_list_names"]
         robots_list = self.data["robots_list_names"]
+        actuator_list = self.data["actuators_list_names"]
 
-        models_list = sensors_list + robots_list
+        models_list = sensors_list + robots_list + actuator_list
         activated_sensors = self.data["activated_sensors"]
         # print(activated_sensors)
 
@@ -54,9 +55,11 @@ class Node():
             if model_name in sensors_list:
                 model_position = self.data["sensors"][model_name]["position"]
                 model_orientation = self.data["sensors"][model_name]["orientation"]
-            else:
+            elif model_name in robots_list:
                 model_position = self.data["robots"][model_name]["current_position"]
                 model_orientation = self.data["robots"][model_name]["current_orientation"]
+            else:
+                model_position = self.data["actuators"][model_name]["position"]
 
             model_position_x, model_position_y, model_position_z = model_position
             model_orientation_x, model_orientation_y, model_orientation_z, model_orientation_w = model_orientation
@@ -87,6 +90,10 @@ class Node():
             if model_name == "Camera_1":
                 self.msg_marker_text.pose.position.x = model_position_x-0.5
             elif model_name == "Camera_2":
+                self.msg_marker_text.pose.position.x = model_position_x+0.5
+            elif model_name == "door_1":
+                self.msg_marker_text.pose.position.y = model_position_y+0.5
+            elif model_name == "door_2" or model_name == "door_3" or model_name == "door_4" or model_name == "door_7" or model_name == "door_9":
                 self.msg_marker_text.pose.position.x = model_position_x+0.5
             else:
                 self.msg_marker_text.pose.position.x = model_position_x
@@ -133,6 +140,10 @@ class Node():
                 self.msg_marker_position.scale.x = 2.50 # arrow length
                 self.msg_marker_position.scale.y = 0.2 # arrow width
                 self.msg_marker_position.scale.z = 0.2 # arrow height
+            
+            elif "door" in model_name:
+                counter += 1
+                continue
 
             elif "turtlebot" in model_name:
                 counter += 1
