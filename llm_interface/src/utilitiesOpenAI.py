@@ -107,3 +107,54 @@ def updateThreadsJsonFile(names_list, ids_list, script_dir):
 
     with open(file_path, 'w') as fp:
         json.dump(threads_dict, fp, indent=2)
+
+def extractFilesFromJson(OpenAI_Client, script_dir):
+    files_name_list = []
+    files_id_list = []
+    vector_store_id_list = []
+
+    file_path = os.path.join(script_dir, 'Open AI files.json')
+
+    with open(file_path) as json_file:
+        files_dictionary = json.load(json_file)
+
+    for dictionary in files_dictionary["files"]:
+        files_name_list.append(dictionary["file_name"])
+        files_id_list.append(dictionary["file_ID"])
+
+        if "vector_store_id" in dictionary.keys():
+            vector_store_id_list.append(dictionary["vector_store_id"])
+
+    return files_name_list, files_id_list, vector_store_id_list
+
+def updateFilesJsonFile(names_list, ids_list, vector_store_id_list, script_dir):
+    files_dict = {
+        "files":[]
+    }
+
+    for file,id, vec_st_id in zip(names_list, ids_list, vector_store_id_list):
+
+        single_file_dict = {
+                "file_name":file,
+                "file_ID":id,
+                "vector_store_id": vec_st_id
+            }
+        files_dict["files"].append(single_file_dict)
+
+    file_path = os.path.join(script_dir, 'Open AI files.json')
+
+    with open(file_path, 'w') as fp:
+        json.dump(files_dict, fp, indent=2)
+
+def retrieveUpdatedFilesList(OpenAI_Client, script_dir):
+
+    names_list = []
+    ids_list = []
+
+    for file in OpenAI_Client.files.list():
+
+        names_list.append(file.filename)
+        ids_list.append(file.id)
+
+
+    return names_list, ids_list

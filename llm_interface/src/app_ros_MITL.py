@@ -19,6 +19,7 @@ from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
 import re
 import time
 import actionlib
+import yaml
 
 
 
@@ -51,15 +52,67 @@ class ChatNode():
 
         self.last_run = None
 
+        file_config = "info.json"
+        file_paths = [f"{script_dir}/../config/{file_config}"]
+        file_streams = [open(path, "rb") for path in file_paths]
+
         if required_assistant not in assistants_names_list:
+            # We need to create a new assistant
+
+            
+
+                 
+            
+            
+
+            # We update the JSON file 
+            files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
+            
+            found = False
+
+            if file_config in files_name_list:
+                # the configuration file is already uploaded. We search for the correct vector_store_id
+
+                for vector_store_id in vector_store_id_list:
+                    for file in self.client.beta.vector_stores.files.list(vector_store_id = vector_store_id):
+                        retrieved_file = self.client.files.retrieve(file_id=file.id)       
+                        if retrieved_file.filename == file_config:
+                            required_vector_store_id =  vector_store_id
+                            found = True
+                            break
+
+                    if found:
+                        break
+                print("already created file info.config considered")
+            else:
+                # Vector store is needed to upload files to the assistant.
+                vector_store = self.client.beta.vector_stores.create(name="Environmental and ROS information for surveillance")
+                required_vector_store_id = vector_store.id
+
+                # We upload the file
+                file_batch = self.client.beta.vector_stores.file_batches.upload_and_poll(
+                    vector_store_id = required_vector_store_id, files=file_streams
+                )
+                # print(file_batch.status)
+                # print(file_batch.file_counts)
+
+                for file in self.client.beta.vector_stores.files.list(vector_store_id = required_vector_store_id):
+                    retrieved_file = self.client.files.retrieve(file_id=file.id)       
+                    if retrieved_file.filename == file_config:
+                        files_name_list.append(file_config)
+                        files_id_list.append(file.id)
+                        vector_store_id_list.append(required_vector_store_id)
+
+
+                updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
+                print("New info.config file uploaded")
+
+
             self.assistant = self.client.beta.assistants.create(
                 model= self.model_to_use,
                 temperature=0.0,
                 name = required_assistant,
                 tools=[
-                        # {
-                        #     "type": "code_interpreter"
-                        # },
                         {
                             "type": "file_search"
                         },
@@ -210,6 +263,7 @@ class ChatNode():
                         #         }
                         # }
                     ],
+                tool_resources={"file_search": {"vector_store_ids": [required_vector_store_id]}},
                 instructions= assistant_instructions,
                 response_format={
                                     "type": "json_schema", 
@@ -222,12 +276,7 @@ class ChatNode():
                                                     "type": "string",
                                                     "description": "String containing the actual response of the message."
                                                     },
-                                                # "final_decision": {
-                                                #     "type": "string",
-                                                #     "description": "The actual robot to be activated."
-                                                #     },
                                             },
-                                            # "required": ["content", "final_decision"],
                                             "required": ["content"],
                                             "additionalProperties": False
                                             },
@@ -243,135 +292,25 @@ class ChatNode():
             updateAssistantJsonFile(assistants_names_list, assistant_ids_list, script_dir)
 
         else:
+            # The assistant is already created. We can retrieve it from the JSON file.
             required_assistant_id = assistant_ids_list[assistants_names_list.index(required_assistant)]
             self.assistant = self.client.beta.assistants.retrieve(
                 assistant_id = required_assistant_id
                 )
             print("Already created assistant considered")
 
-        if self.model_to_use == "gpt-4o":
-            self.img_file = self.client.files.create(
-                file=open(f"{script_dir}/static/uploads/building_plan.png", "rb"),
-                purpose="vision"
-            )
-        self.info_file = self.client.files.create(
-            file=open(f"{script_dir}/../config/info.json", "rb"), 
-            purpose="assistants"
-        )
 
-        #print(self.info_file)
+        # We extract the correct prompt from the yaml file
+        with open(f"{script_dir}/../config/prompts.yaml") as f:
+            prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
+
+        self.task_instructions = prompts_dict["man_in_the_loop"]
+
+        print("MITL prompt considered")
 
 
-        self.task_instructions = """
-# Role
-You are an **LLM module** in an architecture for surveillance application with the purpose of detect possible intrusions by means of different types of sensors and manage the situations acting on robots and doors actuators in an indoor environment.
-The architecture is composed by:
-    - a Data Mediator: responsible to continuosly retrieve data from sensors, actuators and robots;
-    - an LLM module (you): responsible to manage network and environmental information, user requests and perform  real-world action on the environment (specified as callable functions).
-
-# Environment Overview
-The provided file **building_plan.png** is the map of the considered indoor environment with the following specifications:
-- **8 Areas (A - H):** Defined by impassable walls (solid black lines) and imaginary boundaries (blue dashed lines).
-- **Walkable Space:** Light gray regions. Each room has one or more **doors** controlled by actuators via ROS services;
-- **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map);
-- **9 Doors:** labeled `door_1` through `door_9`;  
-- **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map), available via ROS topics;
-- **2 Mobile Robots:**
-  - `turtlebot3_1`
-  - `turtlebot3_2`
-
-# ROS network and areas information:
-All robots, sensors (lidars, cameras) and doors actuators are integrated within a **ROS network** and can be controlled by means of your callable functions. 
-The provided **info.json** file contains all the information about the ROS network and coordinates environment:
-- **robot topics names**: for sending robots in a given area;
-- **camera topics names**  for visualizing cameras feed;
-- **doors services names** for opening/closing doors;
-- **areas information**: for retrieving area coordinates for robot control, perform spatial reasoning, understanding which areas are near a given activated sensors.
-
-# Control Logic:
-In case of user requests on peforming real-world actions in the environment, you must retrieve the system state before taking any actions in the environment.
-
-If an intrusion is detected by sensors activation, the Data Mediator will immediately provide you an updated status of the environment. Based on this environmental information, you must:
-1. integrate spatial information from both info.json and building_plan.png files to:
-    - determine **all** the zones near the activated sensors that must be monitored;
-    - determine which doors are related to the identified areas;
-2. determine which robots should be sent to a given area considering activated sensors, robots current positions and robots remain battery level
-3. propose an plan to the user composed by all the needed actions to handle the situation:
-    - In case of unclear situation or doubts (e.g. activation of a single sensor), it is best to send the nearest robot to check **ALL* areas near the activated sensors. In case they are present, propose before using the cameras to show the user what is happening in the area.
-    - In case of multiple sensors activation, You must understand which area must be checked from the sequence of activated sensors and spatial information about the environment. 
-      Once you are sure about the area to be analyzed, you can propose:
-        1. Show camera feed of the considered area (if present);
-        2. Deploy one or more robots for further inspection (one robot for each area);
-        2. Lock the entire area by closing all doors related to it. In case of robot deployed to check the considered area, You must leave opened one door to allow the robot to actually reach the area. In this case you have to understand which is the correct door.
-
-The user will read the plan and he will do one of the following:
-- confirm the plan: in this case you must perform all actions indicated in the plan in subsequent order. 
-- correct the overall plan or just some actions: once corrected, you must execute the actions in subsequent order; 
-- ask to perform just some actions of the proposed plan;
-
-
-# Actions and additional info:
-The plan must be reasoned, including logical and coherent actions, ensuring the system operates smoothly. To do so, you must consider the following rules when combining actions:
-
-1. **System State Verification:** 
-    Before performing any real-world function you must have an updated status of the environment (e.g., positions and orientations of robots, states of sensors and actuators, 
-    and positions of doors). You will receive that from data mediator in case of intrusion or you can retrieve it by using the `retrieve_system_state` function. 
-    This ensures you have an up-to-date overview of the system's condition. Don't consider the conversation history to understand the system state.
-
-2. **Spatial information:** 
-    Before performing any real-world function you must consider the information in the info.json file and use the building_plan.png to better understand the environment (e.g. to understand which is the optimal sequence of doors ithat ensure the shortest path).
-
-3. **Door Control:** 
-    If the action (from user request or proposed plan) involve closing or opening the doors, you must use the function 'control_actuator' with arguments obtained from info.json file.
-    Before sending a robot to an area that involves passing through doors, you must understand which doors must be considered analyzing the image 'building_plan.png', understanding where is the current area of the robot in the image and where is the final area to reach in the image.
-    Then you have to verify the status of the these doors. If doors are closed, you will have to open them using the `control_actuator` function before proceeding. If the door is already open you must avoid to open again the door.
-
-3. **Sending Robots:** 
-    Once you know the state of the doors and the robots, use the `send_robots_to_area` to send the robot to the target area. 
-    This action must be executed after the doors are confirmed to be open. 
-    Pay attention if you close doors in previous actions in the plan that could block the area the robot has to reach.
-
-4. **Camera Visualization:** 
-    You must open the appropriate camera windows using the `display_cameras` function. 
-
-**ALWAYS** retrieve ROS Topic names, ROS service names and areas specifications (coordinates, sensors and actuators in each area, ecc) from **`info.json`**.
-
-
-Every time you perform an action in the environment, You will receive a positive or negative feedback about the success of the action. 
-If the feedback is negative, you must reason about the failure and try again with corrected information **without asking permission to the user**. 
-If you fail to perform an action two times, you can pass to the next action of the plan informing the user about the error.
-
-
-# Response Structure:
-In case of sensor activations:
-  1. **Status**: Report which sensors are active, which area must be checked, relevant doors, and robot statuses.
-  2. **Plan**: Sequence of actions to manage the situations (no explanation).
-  3. **Await Confirmation**: Do not execute until operator confirms (unless fully automated mode is requested).
-
-It is possible that multiple sensors activations happens. In that case:
-  1. **Updated Status:**
-  2. **Updated Plan:**
-  3. **Await Confirmation:**
-
-In case of operator requests, you must simply answer normally and perform required actions respecting rules previously mentioned.
-When a robot is sent to a specific area, you will receive a message once the robot reaches that area. This message will also indicate whether an intrusion has been detected. In this case you must forward the message to the user to inform him.
-
-If a sensor is triggered and multiple areas need to be checked, you can choose to either:
-
-- Send both robots, or
-
-- Assign multiple areas to a single robot, but only if the areas are close to each other:
-    - in this case, you must wait for the robot’s message confirming arrival and inspection result before sending it to the next area.
-
-If the triggered sensors correspond to distant areas, you must assign the robot closest to each area to reduce travel time and improve response efficiency.
-
-Always make sure to only execute actions that are logically necessary for achieving the user’s requirements or the proposed plan, especially if user change your initial plan. 
-Ensure all dependencies between actions of the plan are respected in the order they need to be executed.
-If any detail is unclear (e.g., ambiguous area or actions to do) or you have doubts, **ask the operator for clarification** before proceeding."""
-
-
+        # We retrieve the thread
         required_thread_name = "Surveillance application"
-
         threads_name_list, threads_id_list = extractThreadsFromJson(self.client, script_dir)
 
 
@@ -435,7 +374,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
             required_thread_id = threads_id_list[threads_name_list.index(required_thread_name)]
             self.thread = self.client.beta.threads.delete(required_thread_id)
             
-            # UPDATE JSON FILE
+            # UPDATE THREAD JSON FILE
             # Retrive stored Threads
             with open(f"{script_dir}/Open AI threads.json", "r") as file:
                 threads_dict = json.load(file)
@@ -463,9 +402,39 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
 
             # Since we changed the JSON, we update our lists of threads names and corresponding threads IDs to obtain an ordered list
             threads_name_list, threads_id_list = extractThreadsFromJson(self.client, script_dir)
-
+  
 
         if self.model_to_use == "gpt-4o":
+            # it can process both files and images
+
+            # If we want to upload images in the thread we can create images in case of new one or retrieve already created images:
+            required_files_names_list = ["building_plan.png"]
+            files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
+            print(files_name_list)
+            
+            for required_file_name in required_files_names_list:
+                if required_file_name in files_name_list:
+                    # If the image is already created, we retrieve the image
+                    required_file_id = files_id_list[files_name_list.index(required_file_name)]
+                    self.img_file = self.client.files.retrieve(required_file_id)
+                    print("Already created file considered")
+                else:
+                    # Otherwise, we create the image and we update the JSON file
+                    self.img_file = self.client.files.create(
+                            file=open(f"{script_dir}/static/uploads/{required_file_name}", "rb"),
+                            purpose="vision"
+                        )
+                    required_file_id = self.img_file.id
+
+                    files_name_list.append(required_file_name)
+                    files_id_list.append(required_file_id)
+                    vector_store_id_list.append("/")
+
+                    updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
+                    print("Files uploaded")
+                    
+
+            
             self.thread = self.client.beta.threads.create(
                     metadata={
                         "thread_name":required_thread_name
@@ -479,27 +448,28 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                                     "text": self.task_instructions
                                 },
                                 {
-                                    "type": "image_file",       # Immagini prese dal computer
+                                    "type": "image_file",       
                                     "image_file": {
                                         "file_id": self.img_file.id,
-                                        "detail":"high" # Può essere "low" e "high" e indica la risoluzione con cui verrà analizzata l'immagine
+                                        "detail":"high" # Image resolution: "low" or "high"
                                         } 
                                 },
                             ],
-                            "attachments": [
-                                { 
-                                    "file_id": self.info_file.id, 
-                                    "tools": [
-                                        {
-                                            "type": "file_search"
-                                            }
-                                        ] 
-                                    }
-                            ],
+                            # "attachments": [
+                            #     { 
+                            #         "file_id": self.info_file.id, 
+                            #         "tools": [
+                            #             {
+                            #                 "type": "file_search"
+                            #                 }
+                            #             ] 
+                            #         }
+                            # ],
                         }
                     ]
                 )
         elif self.model_to_use == "o3-mini":
+            # It cannot process images
             self.thread = self.client.beta.threads.create(
                     metadata={
                         "thread_name":required_thread_name
@@ -513,16 +483,16 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                                     "text": self.task_instructions
                                 },
                             ],
-                            "attachments": [
-                                { 
-                                    "file_id": self.info_file.id, 
-                                    "tools": [
-                                        {
-                                            "type": "file_search"
-                                            }
-                                        ] 
-                                    }
-                            ],
+                            # "attachments": [
+                            #     { 
+                            #         "file_id": self.info_file.id, 
+                            #         "tools": [
+                            #             {
+                            #                 "type": "file_search"
+                            #                 }
+                            #             ] 
+                            #         }
+                            # ],
                         }
                     ]
                 )
@@ -692,6 +662,7 @@ If any detail is unclear (e.g., ambiguous area or actions to do) or you have dou
                 #self.rosPublisher.publish(final_decision)
                 
                 socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
+            
             else:
                 print("Error in the response generation:", self.last_run.status)
 
@@ -1058,7 +1029,9 @@ def index():
 def chat():
     data = request.json
     user_message = data.get("message", "").strip()
-    print(f"Messaggio dell'utente: {user_message}")
+
+    print("User:")
+    print(f"{user_message}")
 
     if not user_message:
         return jsonify({"error": "Messaggio vuoto"}), 400
@@ -1091,9 +1064,8 @@ def chat():
             )
             
             message_dictionary = json.loads(messages.data[0].content[0].text.value)
-            print(message_dictionary)
-            
-                        
+
+            print("AI:")         
             assistant_reply = message_dictionary["content"]
 
             if isinstance(assistant_reply,dict):
@@ -1204,6 +1176,9 @@ def chat():
                         "output": result
                         })
                     
+                    elif tool is None:
+                        continue
+
                     else:
                         print("No valid function call")
                     
