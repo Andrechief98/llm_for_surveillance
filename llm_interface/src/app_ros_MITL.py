@@ -57,12 +57,7 @@ class ChatNode():
         file_streams = [open(path, "rb") for path in file_paths]
 
         if required_assistant not in assistants_names_list:
-            # We need to create a new assistant
-
-            
-
-                 
-            
+            # We need to create a new assistant                 
             
 
             # We update the JSON file 
@@ -304,9 +299,11 @@ class ChatNode():
         with open(f"{script_dir}/../config/prompts.yaml") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
-        self.task_instructions = prompts_dict["man_in_the_loop"]
+        prompt_type = "autonomous"
 
-        print("MITL prompt considered")
+        self.task_instructions = prompts_dict[prompt_type]
+
+        print(f"{prompt_type} prompt considered")
 
 
         # We retrieve the thread
@@ -368,7 +365,7 @@ class ChatNode():
 
 
 
-        ####### To start every time from a complete new conversation, we everytime delete the previous thread (Better for debugging) ######
+        ####### To start everytime from a complete new conversation, we everytime delete the previous thread (Better for debugging) ######
 
         if required_thread_name in threads_name_list:
             required_thread_id = threads_id_list[threads_name_list.index(required_thread_name)]
@@ -533,6 +530,7 @@ class ChatNode():
                         thread_id=self.thread.id,
                         assistant_id=self.assistant.id,
                         model=self.model_to_use,
+                        tool_choice={"type": "file_search"}
                     )
                     
                     if self.last_run.status == 'completed':
@@ -542,7 +540,9 @@ class ChatNode():
 
                         message_dictionary = json.loads(messages.data[0].content[0].text.value)
                         assistant_reply = message_dictionary["content"]
-                        print(assistant_reply)
+
+                        # print("\nAI:") 
+                        # print(f"\t{assistant_reply}")
                         
                         # Aggiorna la cronologia della chat con la risposta dell’LLM
                         session["messages"].append({"role": "assistant", "content": assistant_reply})
@@ -552,8 +552,36 @@ class ChatNode():
 
                         result.success = f"Message from robot correctly processed by the LLM"
 
+                    elif self.last_run.status == 'requires_action':
+                        tool_outputs = []
+
+                        print("Total number of function calls:")
+                        print(f"\t{len(self.last_run.required_action.submit_tool_outputs.tool_calls)}")
+
+                        # Loop through each tool required by a single action step (no information are returned to the LLM before finishing this sequence of actions)
+                        for tool in self.last_run.required_action.submit_tool_outputs.tool_calls:
+
+                            tool_outputs.append(
+                                {
+                                    "tool_call_id": tool.id,
+                                    "output": "Don't call functions. Just report the robot's report to the user."
+                                }
+                            )
+                        if tool_outputs:
+                            try:
+                                self.last_run = self.client.beta.threads.runs.submit_tool_outputs_and_poll(
+                                    thread_id=self.thread.id,
+                                    run_id=self.last_run.id,
+                                    tool_outputs=tool_outputs
+                                )
+
+                            except Exception as e:
+                                print("Function handleRobotGoalChecker: failed to submit tool outputs:", e)
+                        else:
+                            print("Function handleRobotGoalChecker: No tool outputs to submit.")
+
                     else:
-                        print("Error in the response generation:", self.last_run.status)
+                        print("Error in the response generation inside the function handleRobotGoalChecker:", self.last_run.status)
                         result.success = f"Message from robot NOT processed by the LLM"
                     
                     #rospy.loginfo(result.success)
@@ -562,7 +590,7 @@ class ChatNode():
                 else:
                     continue
         else:
-            result.success = f"No message received from robot"
+            result.success = f"Function handleRobotGoalChecker: No message received from robot"
             rospy.loginfo(result.success)
             self.robotGoalCheckerServer.set_succeeded(result)
 
@@ -640,12 +668,13 @@ class ChatNode():
                 thread_id=self.thread.id,
                 assistant_id=self.assistant.id,
                 model=self.model_to_use,
+                tool_choice={"type": "file_search"}
             )
             
             if self.last_run.status == 'completed':
                 end_response_time = time.time()
-                inference_plan_time = end_response_time - start_response_time
-                print(f"Inference plan time: {inference_plan_time}")
+                # inference_plan_time = end_response_time - start_response_time
+                # print(f"Inference plan time: {inference_plan_time}")
 
                 messages = self.client.beta.threads.messages.list(
                     thread_id=self.thread.id
@@ -653,18 +682,16 @@ class ChatNode():
                 # 
                 message_dictionary = json.loads(messages.data[0].content[0].text.value)
                 assistant_reply = message_dictionary["content"]
+                # print("\nAI:") 
+                # print(f"\t{assistant_reply}")
                 
                 # Aggiorna la cronologia della chat con la risposta dell’LLM
                 session["messages"].append({"role": "assistant", "content": assistant_reply})
-                
-                # (Opzionale) Pubblica la decisione finale su un topic ROS
-                #final_decision = message_dictionary.get("final_decision", "")
-                #self.rosPublisher.publish(final_decision)
-                
+            
                 socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
             
             else:
-                print("Error in the response generation:", self.last_run.status)
+                print("Function handleAlert: error in the response generation:", self.last_run.status)
 
             return triggerGptResponse("Success")
         else:
@@ -844,7 +871,7 @@ class ChatNode():
                     goal_msg.pose.orientation.z = 0.0
                     goal_msg.pose.orientation.w = 1.0 
                     goal_msg.header.stamp = rospy.Time.now()
-                    goal_msg.header.frame_id = "map"
+                    goal_msg.header.frame_id = f"{robot}/map"
 
                     # Publish the goal message
                     temp_pub.publish(goal_msg)
@@ -870,7 +897,7 @@ class ChatNode():
                     }
                 
 
-            return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}" 
+        return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}" 
 
 
 
@@ -1030,8 +1057,8 @@ def chat():
     data = request.json
     user_message = data.get("message", "").strip()
 
-    print("User:")
-    print(f"{user_message}")
+    # print("\nUSER:")
+    # print(f"\t{user_message}")
 
     if not user_message:
         return jsonify({"error": "Messaggio vuoto"}), 400
@@ -1051,27 +1078,27 @@ def chat():
             thread_id=chatNode.thread.id,
             assistant_id=chatNode.assistant.id,
             model = chatNode.model_to_use,
+            tool_choice={"type": "file_search"}
         )
 
         if chatNode.last_run.status == 'completed':
             end_response_time = time.time()
             inference_plan_time = end_response_time - start_response_time
-            print("Run completed")
-            print(f"Inference plan time: {inference_plan_time}")
+            # print("Run completed")
+            # print(f"Inference plan time: {inference_plan_time}")
 
             messages = chatNode.client.beta.threads.messages.list(
                 thread_id=chatNode.thread.id
             )
             
-            message_dictionary = json.loads(messages.data[0].content[0].text.value)
-
-            print("AI:")         
+            message_dictionary = json.loads(messages.data[0].content[0].text.value)        
             assistant_reply = message_dictionary["content"]
 
             if isinstance(assistant_reply,dict):
                 assistant_reply = assistant_reply["content"]
-
-            print(assistant_reply)
+            
+            # print("\nAI:") 
+            # print(f"\t{assistant_reply}")
 
 
             session["messages"].append({"role": "assistant", "content": assistant_reply})
@@ -1085,7 +1112,7 @@ def chat():
         elif chatNode.last_run.status == "requires_action":
             end_response_time = time.time()
             inference_action_time = end_response_time - start_response_time
-            print(f"Inference action time: {inference_action_time}")
+            #print(f"Inference action time: {inference_action_time}")
 
             while chatNode.last_run.status == 'requires_action':
                 # The while loop allows to perform sequential actions (multiple action steps) where the next action requires parameters proposed by the LLM based on the output of previous actions. 
@@ -1096,6 +1123,8 @@ def chat():
 
                 tool_outputs = []
 
+                print("Total number of function calls:")
+                print(f"\t{len(chatNode.last_run.required_action.submit_tool_outputs.tool_calls)}")
 
                 # Loop through each tool required by a single action step (no information are returned to the LLM before finishing this sequence of actions)
                 for tool in chatNode.last_run.required_action.submit_tool_outputs.tool_calls:
@@ -1207,24 +1236,21 @@ def chat():
                 )
             
                 message_dictionary = json.loads(messages.data[0].content[0].text.value)
-                print(message_dictionary)
+                #print(message_dictionary)
 
                 assistant_reply = message_dictionary["content"]
                 
                 if isinstance(assistant_reply,dict):
                     assistant_reply = assistant_reply["content"]
 
-                print(assistant_reply)
-                #final_decision = message_dictionary["final_decision"]
-
-                #rosPublisher.publish(final_decision)
+                # print("\nAI:") 
+                # print(f"\t{assistant_reply}")
 
                 session["messages"].append({"role": "assistant", "content": assistant_reply})
 
 
                 response = {
                     "reply": assistant_reply,
-                    #"final_decision": final_decision,
                 }
                 return jsonify(response)
 

@@ -2,12 +2,12 @@
   "files": [
     {
       "file_name": "info.json",
-      "file_ID": "file-VBk1T2T3K967sm3Y9vwKE1",
-      "vector_store_id": "vs_6862b3e5ad6c81918985dafd0f518d81"
+      "file_ID": "file-CptTcgAF1KXudsvz4woa6G",
+      "vector_store_id": "vs_686bb82fcea8819188f1ef43c8f90c53"
     },
     {
       "file_name": "building_plan.png",
-      "file_ID": "file-6AnxXcLLzQuY1HAgGsLSbN",
+      "file_ID": "file-A6Zom1GwcPDsuUDsczS8Ly",
       "vector_store_id": "/"
     }
   ]

@@ -35,7 +35,7 @@ if __name__=="__main__":
     rospy.sleep(3) 
 
     # SETTING THE INITIAL ESTIMATED POSE DURING LOCALIZATION
-    response_list = [pathNode.client_initialPose("turtlebot_1",""), pathNode.client_initialPose("turtlebot_2","")]
+    response_list = [pathNode.client_initialPose("turtlebot3_1",""), pathNode.client_initialPose("turtlebot3_2","")]
     initialPose_publisher_list = [pathNode.initialPose_pub_turtlebot_1, pathNode.initialPose_pub_turtlebot_2]
 
     initialPose_msg = PoseWithCovarianceStamped()

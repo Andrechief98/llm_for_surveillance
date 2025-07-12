@@ -58,13 +58,7 @@ class ChatNode():
 
         if required_assistant not in assistants_names_list:
             # We need to create a new assistant
-
-            
-
-                 
-            
-            
-
+ 
             # We update the JSON file 
             files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
             
@@ -516,7 +510,7 @@ class ChatNode():
             session["messages"].append({"role": "user", "content": f"{goal.message_for_LLM}"})
 
             while True:
-                feedback.status_LLM = "Sending robot goal success to LLM..."
+                feedback.status_LLM = "Sending robot goal report to LLM..."
                 self.robotGoalCheckerServer.publish_feedback(feedback)
 
                 if self.last_run == None or self.last_run.status == 'completed':
@@ -549,8 +543,8 @@ class ChatNode():
                         
                         socketio.emit('new_message', {"role": "assistant", "content": assistant_reply})
 
-
                         result.success = f"Message from robot correctly processed by the LLM"
+                    
 
                     else:
                         print("Error in the response generation:", self.last_run.status)
@@ -818,7 +812,8 @@ class ChatNode():
                     print("Error in the response generation. Current status:")
                     print(self.last_run.status)
                     return triggerGptResponse("Failed")
-
+                
+                
             else:
                 print("Error in the response generation:", self.last_run.status)
 
@@ -1000,7 +995,7 @@ class ChatNode():
                     goal_msg.pose.orientation.z = 0.0
                     goal_msg.pose.orientation.w = 1.0 
                     goal_msg.header.stamp = rospy.Time.now()
-                    goal_msg.header.frame_id = "map"
+                    goal_msg.header.frame_id = f"{robot}/map"
 
                     # Publish the goal message
                     temp_pub.publish(goal_msg)

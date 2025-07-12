@@ -38,12 +38,12 @@ class Node():
             "robots_list_names": [],
             "robots":
                 {
-                    "turtlebot_1":{
+                    "turtlebot3_1":{
                         "current_position": [],
                         "current_orientation": [],
                         "battery": self.turtlebot_1_battery
                         },
-                    "turtlebot_2":{
+                    "turtlebot3_2":{
                         "current_position": [],
                         "current_orientation": [],
                         "battery": self.turtlebot_2_battery
@@ -228,7 +228,7 @@ class Node():
         # Extraction of robots positions and orientation information
         for turtlebot_name, turtlebot_index in zip(turtlebot_list_names, turtlebot_indices):
 
-            if turtlebot_name in ["turtlebot_1", "turtlebot_2"]:
+            if turtlebot_name in ["turtlebot3_1", "turtlebot3_2"]:
                 turtlebot_pose =  self.msg_gazebo_models.pose[turtlebot_index]
 
                 self.message["robots"][turtlebot_name]["current_position"] = [round(turtlebot_pose.position.x, 2), round(turtlebot_pose.position.y, 2), round(turtlebot_pose.position.z,2)] 

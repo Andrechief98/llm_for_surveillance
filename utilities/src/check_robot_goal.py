@@ -38,7 +38,9 @@ class checkRobotGoalNode():
 
     def result_callback(self, msg):   
         # Estrai il testo del risultato
+        # print(msg)
         goal_status_text = msg.status.text
+        goal_status = msg.status.status
 
         # Estrai l'ID del goal
         goal_id = msg.status.goal_id.id
@@ -49,87 +51,108 @@ class checkRobotGoalNode():
             robot_name = match.group(1)
         else:
             robot_name = "unknown"
-
-        
-        # Call Gazebo to receive the actor position
-        gazebo_req = GetModelStateRequest()
-        gazebo_req.model_name = self.actor_model_name
-
-        try:
-            response = self.gazebo_client(gazebo_req)
-
-            if response.success:
-                actor_pose = response.pose
-                x_actor = actor_pose.position.x
-                y_actor = actor_pose.position.y
-
-                for area_name, area_info in self.areas_dict.items():
-                    x_range = area_info["coordinate_ranges"]["x"]
-                    y_range = area_info["coordinate_ranges"]["y"]
-
-                    if x_range["min"] <= x_actor <= x_range["max"] and y_range["min"] <= y_actor <= y_range["max"]:
-                        actor_area = area_name
-                        break
             
-            else:
-                rospy.logwarn(f"[{self.model_name}] State not obtained: {response.status_message}")
-
-        except rospy.ServiceException as e:
-            rospy.logerr(f"Error in the service call: {e}")
-
-
-
-        # Call Gazebo to receive the robot position
-        gazebo_req = GetModelStateRequest()
-        gazebo_req.model_name = robot_name.replace("turtlebot3", "turtlebot")
-
-        try:
-            response = self.gazebo_client(gazebo_req)
-
-            if response.success:
-                robot_pose = response.pose
-                x_robot = robot_pose.position.x
-                y_robot = robot_pose.position.y
-
-                for area_name, area_info in self.areas_dict.items():
-                    x_range = area_info["coordinate_ranges"]["x"]
-                    y_range = area_info["coordinate_ranges"]["y"]
-
-                    if x_range["min"] <= x_robot <= x_range["max"] and y_range["min"] <= y_robot <= y_range["max"]:
-                        robot_area = area_name
-                        break
             
+        if goal_status == 3: # SUCCESS
+
+            # Call Gazebo to receive the actor position
+            gazebo_req = GetModelStateRequest()
+            gazebo_req.model_name = self.actor_model_name
+
+            try:
+                response = self.gazebo_client(gazebo_req)
+
+                if response.success:
+                    actor_pose = response.pose
+                    x_actor = actor_pose.position.x
+                    y_actor = actor_pose.position.y
+
+                    for area_name, area_info in self.areas_dict.items():
+                        x_range = area_info["coordinate_ranges"]["x"]
+                        y_range = area_info["coordinate_ranges"]["y"]
+
+                        if x_range["min"] <= x_actor <= x_range["max"] and y_range["min"] <= y_actor <= y_range["max"]:
+                            actor_area = area_name
+                            break
+                        else:
+                            actor_area = "unknown"
+                
+                else:
+                    rospy.logwarn(f"[{self.model_name}] State not obtained: {response.status_message}")
+
+            except rospy.ServiceException as e:
+                rospy.logerr(f"Error in the service call: {e}")
+
+
+
+            # Call Gazebo to receive the robot position
+            gazebo_req = GetModelStateRequest()
+            gazebo_req.model_name = robot_name
+
+            try:
+                response = self.gazebo_client(gazebo_req)
+
+                if response.success:
+                    robot_pose = response.pose
+                    x_robot = robot_pose.position.x
+                    y_robot = robot_pose.position.y
+
+                    for area_name, area_info in self.areas_dict.items():
+                        x_range = area_info["coordinate_ranges"]["x"]
+                        y_range = area_info["coordinate_ranges"]["y"]
+
+                        if x_range["min"] <= x_robot <= x_range["max"] and y_range["min"] <= y_robot <= y_range["max"]:
+                            robot_area = area_name
+                            break
+                        else:
+                            robot_area = "uknown"
+                
+                else:
+                    rospy.logwarn(f"[{robot_name}] State not obtained: {response.status_message}")
+
+            except rospy.ServiceException as e:
+                rospy.logerr(f"Error in the service call: {e}")
+
+
+            if robot_area == actor_area:
+                intruder_identification_text= f"Area {robot_area}: Intruder identified"
             else:
-                rospy.logwarn(f"[{robot_name}] State not obtained: {response.status_message}")
-
-        except rospy.ServiceException as e:
-            rospy.logerr(f"Error in the service call: {e}")
+                intruder_identification_text= f"Area {robot_area} clear, no intruders identified"
 
 
-        if robot_area == actor_area:
-            intruder_identification_text= f"Area {robot_area}: Intruder identified"
+            LLM_message = f"{robot_name}: {goal_status_text} {intruder_identification_text}"
+
+            print(LLM_message)
+
+            # Call action to send the robot's report to the LLM
+            try:
+                action_server_goal = goalCheckerLLMGoal()
+                action_server_goal.message_for_LLM = LLM_message
+
+                print(action_server_goal)
+                self.goalLLM_action_client.send_goal(action_server_goal)
+
+                rospy.loginfo(f"Goal and intrusion checker: call to LLM executed")
+
+            except rospy.ROSException as e:
+                rospy.logerr(f"Error triggering the LLM by the Goal and intrusion checker node: {e}")
+                return None
         else:
-            intruder_identification_text= f"Area {robot_area} clear, no intruders identified"
+            # Call action to tell the LLM the robot failed to reach the goal
+            LLM_message = f"{robot_name}: {goal_status_text}"
 
+            try:
+                action_server_goal = goalCheckerLLMGoal()
+                action_server_goal.message_for_LLM = LLM_message
 
-        LLM_message = f"{robot_name}: {goal_status_text} {intruder_identification_text}"
-        # # Call service per avvertire LLM
-        # print(f"{robot_name}: {goal_status_text}. {intruder_identification_text}")
-        print(LLM_message)
+                print(action_server_goal)
+                self.goalLLM_action_client.send_goal(action_server_goal)
 
-        try:
-            action_server_goal = goalCheckerLLMGoal()
-            action_server_goal.message_for_LLM = LLM_message
+                rospy.loginfo(f"Goal and intrusion checker: call to LLM executed")
 
-            print(action_server_goal)
-            self.goalLLM_action_client.send_goal(action_server_goal)
-
-            rospy.loginfo(f"Goal and intrusion checker: call to LLM executed")
-
-        except rospy.ROSException as e:
-            rospy.logerr(f"Error triggering the LLM by the Goal and intrusion checker node: {e}")
-            return None
-
+            except rospy.ROSException as e:
+                rospy.logerr(f"Error triggering the LLM by the Goal and intrusion checker node: {e}")
+                return None
 
 if __name__=="__main__":
 
