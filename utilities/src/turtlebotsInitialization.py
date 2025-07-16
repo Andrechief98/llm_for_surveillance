@@ -44,7 +44,8 @@ if __name__=="__main__":
 
     for response, publisher in zip(response_list, initialPose_publisher_list):
 
-        initialPose_msg.header.frame_id = f"turtlebot3_{counter}" + "/map"
+        # initialPose_msg.header.frame_id = f"turtlebot3_{counter}" + "/map"
+        initialPose_msg.header.frame_id = "map"
 
         initialPose_msg.pose.pose.position.x = response.pose.position.x
         initialPose_msg.pose.pose.position.y = response.pose.position.y

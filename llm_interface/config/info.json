@@ -11,10 +11,10 @@
   },
   "ros_subscribers": {
     "sensors": {
-      "camera_1": {
+      "Camera_1": {
         "ros_topic": "/gazebo_multi_camera/camera/camera_sensor1/image_raw"
       },
-      "camera_2": {
+      "Camera_2": {
         "ros_topic": "/gazebo_multi_camera/camera/camera_sensor2/image_raw"
       }
     }

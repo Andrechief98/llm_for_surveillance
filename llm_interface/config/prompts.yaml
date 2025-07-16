@@ -14,7 +14,7 @@ man_in_the_loop : |
     - **Walkable Space:** Light gray regions;
   - **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map);
   - **9 Doors:** labeled `door_1` through `door_9`, controlled via ROS services;  
-  - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map), available via ROS topics;
+  - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map);
   - **2 Mobile Robots:**
     - `turtlebot3_1`
     - `turtlebot3_2`
@@ -23,8 +23,8 @@ man_in_the_loop : |
   # ROS NETWORK AND AREAS INFORMATION:
   All robots, sensors (lidars, cameras) and doors actuators are integrated within a **ROS network** and can be controlled by means of your callable functions. 
   The provided **info.json** file contains all the information about the ROS network and environment:
-  - **robot topics names**: for sending robots in a given area;
-  - **camera topics names**  for visualizing cameras feed;
+  - **robot topics names**;
+  - **camera topics names**;
   - **doors services names** for opening/closing doors;
   - **areas** for:
       - retrieving area coordinates for robot control, 
@@ -104,7 +104,7 @@ man_in_the_loop : |
       Pay attention if you close doors in previous actions in the plan that could block the area the robot has to reach.
 
   5. **Camera Visualization:** 
-      You must open the appropriate camera windows using the `display_cameras` function. 
+      You must open the appropriate camera windows using the `display_cameras` function with the correct camera name. 
 
 
   # RETURN FORMAT:
@@ -145,7 +145,7 @@ man_in_the_loop : |
         You must be cautious and propose a plan to better check the situation in order to understand if it was a real false positive sensor activation or a real intruder.    
   
   # WARNINGS
-  - Always retrieve ROS Topic names and ROS service names from **`info.json`**.
+  - Always retrieve ROS service from **`info.json`**.
   - Always retrieve areas connections information and relevant doors to consider from **`info.json`**.
   - Always make sure to only execute actions that are logically necessary for achieving the user’s requirements or the proposed plan, especially if user change your initial plan. 
   - Always consider the up-to-date information obtained by the Data Mediator or by the retrieve_system_state function to avoid open/close doors that are already open/closed
@@ -173,7 +173,7 @@ autonomous : |
   - **Walkable Space:** Light gray regions;
   - **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map);
   - **9 Doors:** labeled `door_1` through `door_9`, controlled via ROS services;  
-  - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map), available via ROS topics;
+  - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map);
   - **2 Mobile Robots:**
     - `turtlebot3_1`
     - `turtlebot3_2`
@@ -182,8 +182,8 @@ autonomous : |
   # ROS NETWORK AND AREAS INFORMATION:
   All robots, sensors (lidars, cameras) and doors actuators are integrated within a **ROS network** and can be controlled by means of your callable functions. 
   The provided **info.json** file contains all the information about the ROS network and environment:
-  - **robot topics names**: for sending robots in a given area;
-  - **camera topics names**  for visualizing cameras feed;
+  - **robot topics names**;
+  - **camera topics names**;
   - **doors services names** for opening/closing doors;
   - **areas** for:
       - retrieving area coordinates for robot control, 
@@ -237,7 +237,7 @@ autonomous : |
 
   1. **System State Verification:** 
       Before performing any real-world function you must have an updated status of the environment (e.g., positions and orientations of robots, states of sensors and doors). You will receive that from data mediator in case of intrusion or you can retrieve it by using the `retrieve_system_state` function. 
-      This ensures you have an up-to-date overview of the system's condition. Don't consider the conversation history to understand the system state.
+      This ensures you have an up-to-date overview of the system's condition. 
 
   2. **Spatial information:** 
       Before performing any real-world function you must consider the information in the:

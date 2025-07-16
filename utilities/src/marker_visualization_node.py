@@ -42,6 +42,7 @@ class Node():
         sensors_list = self.data["sensors_list_names"]
         robots_list = self.data["robots_list_names"]
         actuator_list = self.data["actuators_list_names"]
+        actuator_data = self.data["actuators"]
 
         models_list = sensors_list + robots_list + actuator_list
         activated_sensors = self.data["activated_sensors"]
@@ -125,6 +126,17 @@ class Node():
 
                 self.msg_marker_position.pose.position.z = model_position_z
 
+                if model_name in activated_sensors:
+                    self.msg_marker_position.color.r = 0.0
+                    self.msg_marker_position.color.g = 1.0
+                    self.msg_marker_position.color.b = 0.0
+                    self.msg_marker_position.color.a = 1.0
+                else:
+                    self.msg_marker_position.color.r = 1.0
+                    self.msg_marker_position.color.g = 0.0
+                    self.msg_marker_position.color.b = 0.0
+                    self.msg_marker_position.color.a = 1.0
+
             elif "Camera" in model_name:
                 # Create a camera position marker (Arrow)
                 self.msg_marker_position.type = 0 # 0 = arrow
@@ -140,10 +152,88 @@ class Node():
                 self.msg_marker_position.scale.x = 2.50 # arrow length
                 self.msg_marker_position.scale.y = 0.2 # arrow width
                 self.msg_marker_position.scale.z = 0.2 # arrow height
+
+                if model_name in activated_sensors:
+                    self.msg_marker_position.color.r = 0.0
+                    self.msg_marker_position.color.g = 1.0
+                    self.msg_marker_position.color.b = 0.0
+                    self.msg_marker_position.color.a = 1.0
+                else:
+                    self.msg_marker_position.color.r = 1.0
+                    self.msg_marker_position.color.g = 0.0
+                    self.msg_marker_position.color.b = 0.0
+                    self.msg_marker_position.color.a = 1.0
             
             elif "door" in model_name:
-                counter += 1
-                continue
+                self.msg_marker_position.type = 1 # 1 = cube 
+                self.msg_marker_position.id = counter+500 # unique identifier for door position markers 
+                self.msg_marker_position.pose.position.z = 0
+
+                if actuator_data[model_name]["state"]=="close":
+                    # Create a door position marker (rectangular)
+
+                    if "1" in model_name:
+                        counter += 1
+                        continue
+
+                    elif "2" in model_name or "3" in model_name or "5" in model_name or "6" in model_name or "8" in model_name:
+                        # Horizontal orientation:
+                        self.msg_marker_position.pose.orientation.x = 0
+                        self.msg_marker_position.pose.orientation.y = 0
+                        self.msg_marker_position.pose.orientation.z = 0
+                        self.msg_marker_position.pose.orientation.w = 1
+
+                        self.msg_marker_position.scale.x = 1.0 # cube length
+                        self.msg_marker_position.scale.y = 0.1 # cube width
+                        self.msg_marker_position.scale.z = 0.1 # cube height
+
+                    else:
+                        # Vertical orientation:
+                        self.msg_marker_position.pose.orientation.x = 0
+                        self.msg_marker_position.pose.orientation.y = 0.707
+                        self.msg_marker_position.pose.orientation.z = 0
+                        self.msg_marker_position.pose.orientation.w = 0.707
+
+                        self.msg_marker_position.scale.x = 0.1 # cube length
+                        self.msg_marker_position.scale.y = 1.0 # cube width
+                        self.msg_marker_position.scale.z = 0.1 # cube height
+                    
+                    self.msg_marker_position.color.r = 0.0
+                    self.msg_marker_position.color.g = 0.0
+                    self.msg_marker_position.color.b = 1.0
+                    self.msg_marker_position.color.a = 1.0
+
+                else:
+                    if "1" in model_name:
+                        counter += 1
+                        continue
+
+                    elif "2" in model_name or "3" in model_name or "5" in model_name or "6" in model_name or "8" in model_name:
+                        # Horizontal orientation:
+                        self.msg_marker_position.pose.orientation.x = 0
+                        self.msg_marker_position.pose.orientation.y = 0
+                        self.msg_marker_position.pose.orientation.z = 0
+                        self.msg_marker_position.pose.orientation.w = 1
+
+                        self.msg_marker_position.scale.x = 0.0 # cube length
+                        self.msg_marker_position.scale.y = 0.0 # cube width
+                        self.msg_marker_position.scale.z = 0.0 # cube height
+
+                    else:
+                        # Vertical orientation:
+                        self.msg_marker_position.pose.orientation.x = 0
+                        self.msg_marker_position.pose.orientation.y = 0.707
+                        self.msg_marker_position.pose.orientation.z = 0
+                        self.msg_marker_position.pose.orientation.w = 0.707
+
+                        self.msg_marker_position.scale.x = 0.0 # cube length
+                        self.msg_marker_position.scale.y = 0.0 # cube width
+                        self.msg_marker_position.scale.z = 0.0 # cube height
+                    
+                    self.msg_marker_position.color.r = 0.0
+                    self.msg_marker_position.color.g = 0.0
+                    self.msg_marker_position.color.b = 1.0
+                    self.msg_marker_position.color.a = 1.0
 
             elif "turtlebot" in model_name:
                 counter += 1
@@ -153,16 +243,7 @@ class Node():
                 print("Error")
             
 
-            if model_name in activated_sensors:
-                self.msg_marker_position.color.r = 0.0
-                self.msg_marker_position.color.g = 1.0
-                self.msg_marker_position.color.b = 0.0
-                self.msg_marker_position.color.a = 1.0
-            else:
-                self.msg_marker_position.color.r = 1.0
-                self.msg_marker_position.color.g = 0.0
-                self.msg_marker_position.color.b = 0.0
-                self.msg_marker_position.color.a = 1.0
+            
 
             
             self.msg_marker_position.header.stamp = rospy.Time.now()

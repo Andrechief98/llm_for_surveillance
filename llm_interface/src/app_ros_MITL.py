@@ -131,7 +131,7 @@ class ChatNode():
                             "type": "function", 
                             "function": {
                                 "name": "display_cameras",
-                                "description": "It opens a window to visualize each camera. The function must be used every time a camera feed is required or proposed",
+                                "description": "It opens a window to visualize each camera. The function must be used every time a camera feed is required or proposed. It takes as input the name of the cameras.",
                                 "parameters": {
                                     "type": "object",
                                     "properties": {
@@ -140,7 +140,7 @@ class ChatNode():
                                             "description": "List of all the cameras names to considered for visualization.",
                                             "items" : {
                                                 "type" : "string",
-                                                "description": "Name of a single camera"
+                                                "description": "Name of a single camera."
                                             }
                                             },
                                         },
@@ -299,7 +299,7 @@ class ChatNode():
         with open(f"{script_dir}/../config/prompts.yaml") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
-        prompt_type = "autonomous"
+        prompt_type = "man_in_the_loop"
 
         self.task_instructions = prompts_dict[prompt_type]
 
@@ -871,7 +871,7 @@ class ChatNode():
                     goal_msg.pose.orientation.z = 0.0
                     goal_msg.pose.orientation.w = 1.0 
                     goal_msg.header.stamp = rospy.Time.now()
-                    goal_msg.header.frame_id = f"{robot}/map"
+                    goal_msg.header.frame_id = f"map"
 
                     # Publish the goal message
                     temp_pub.publish(goal_msg)
@@ -913,7 +913,6 @@ class ChatNode():
         topics_list = []
 
         for camera_name in cameras_names_list:
-            camera_name = camera_name.lower()
 
             if camera_name in cameras_list:
                 topics_list.append(sensors_dict[camera_name]["ros_topic"])
