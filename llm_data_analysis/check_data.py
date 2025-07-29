@@ -1,6 +1,5 @@
 import json
 
-# === CONFIGURA IL PERCORSO AL FILE JSON ===
 json_path = "./llm_data_analysis/data.json"
 
 def check_consistency(data):
@@ -13,16 +12,21 @@ def check_consistency(data):
                 annotations = trial.get("Annotations", {})
                 
                 # Somma delle HALLUCINATIONS
-                hallucinations = annotations.get("HALLUCINATIONS", [])
+                hallucinations = annotations.get("HALLUCINATION", [])
                 sum_hallucinations = sum([list(h.values())[0] for h in hallucinations])
 
                 # Somma degli ERROR PLAN
                 error_plans = annotations.get("ERROR PLAN", [])
                 sum_error_plan = sum([list(e.values())[0] for e in error_plans])
 
+                # Somma degli ERROR ACTION
+                error_actions = annotations.get("ERROR ACTION", [])
+                sum_error_action = sum([list(e.values())[0] for e in error_actions])
+
                 # Valori di riferimento dalle metriche
                 tot_all = trial.get("TOT ALL", 0)
                 ep = trial.get("EP", 0)
+                ea = trial.get("EA", 0)
 
                 # Verifica coerenza
                 if sum_hallucinations != tot_all:
@@ -45,10 +49,19 @@ def check_consistency(data):
                         "found": sum_error_plan
                     })
 
+                if sum_error_action != ea:
+                    errors.append({
+                        "sheet": sheet_name,
+                        "sensors_sequence": seq,
+                        "trial": trial_idx + 1,
+                        "metric": "EA",
+                        "expected": ea,
+                        "found": sum_error_action
+                    })
+
     return errors
 
 
-# === AVVIO ===
 try:
     with open(json_path, "r", encoding="utf-8") as f:
         json_data = json.load(f)
@@ -61,7 +74,7 @@ try:
             print(f"- [Sheet: {e['sheet']}] Trial {e['trial']} in sequence {e['sensors_sequence']}: "
                   f"{e['metric']} = {e['expected']} (found {e['found']})")
     else:
-        print("Tutte le metriche sono coerenti con le annotazioni.")
+        print("All metrics are coherent.")
 
 except Exception as e:
-    print(f"Errore durante il controllo: {e}")
+    print(f"Error during the check: {e}")

@@ -6,6 +6,7 @@ def parse_annotations(text):
     result = {
         "HALLUCINATION": [],
         "ERROR PLAN": [],
+        "ERROR ACTION": [],
         "FAIL": [],
         "HALLUCINATION CORRECTION": [],
         "ERROR PLAN CORRECTION": []
@@ -15,7 +16,7 @@ def parse_annotations(text):
         return result
 
     # Dividi il testo in blocchi in base ai tag
-    blocks = re.split(r'\[(HALLUCINATION|ERROR PLAN|FAIL|HALLUCINATION CORRECTION|ERROR PLAN CORRECTION)\]', text)
+    blocks = re.split(r'\[(HALLUCINATION|ERROR PLAN|ERROR ACTION|FAIL|HALLUCINATION CORRECTION|ERROR PLAN CORRECTION)\]', text)
     
     for i in range(1, len(blocks), 2):
         tag = blocks[i].strip()
@@ -28,16 +29,19 @@ def parse_annotations(text):
                 key, value = line.split(":", 1)
                 key = key.strip()
                 value = value.strip()
-                if tag in ["HALLUCINATION", "ERROR PLAN", "HALLUCINATION CORRECTION", "ERROR PLAN CORRECTION"]:
+                if tag in ["HALLUCINATION", "ERROR PLAN", "ERROR ACTION", "HALLUCINATION CORRECTION", "ERROR PLAN CORRECTION"]:
                     try:
                         result[tag].append({key: int(value)})
                     except Exception as e:
-                        print(e)
+                        print(f"Exception: {e}")
                 elif tag == "FAIL":
                     result[tag].append({key: value})
+
+                else:
+                    print("######### ERROR IN THE EXTRACTION #########")
     return result
 
-def extract_trials_from_sheet(df, split_on_comma_only=False):
+def extract_trials_from_sheet(df, split_on_comma_only=True):
     # Rimuove le prime due righe di intestazione
     df = df.iloc[2:].reset_index(drop=True)
     
@@ -79,7 +83,7 @@ def extract_trials_from_sheet(df, split_on_comma_only=False):
 # === MAIN ===
 
 # Percorso al file Excel
-file_path = "./llm_data_analysis/results_llm_surveillance_1.xlsx"
+file_path = "./llm_data_analysis/results_llm_surveillance.xlsx"
 
 # Legge solo i due fogli richiesti
 sheet_names = ["Autonomous_FP&HI", "Autonomous_logical_sequence", "MITL_FP&HI", "MITL_logical_sequence"]
@@ -94,7 +98,7 @@ result = {
 }
 
 # Salva il JSON su file
-with open("./llm_data_analysis/data_1.json", "w", encoding="utf-8") as f:
+with open("./llm_data_analysis/data.json", "w", encoding="utf-8") as f:
     json.dump(result, f, indent=2, ensure_ascii=False)
 
 print("Estrazione completata. File salvato come 'data.json'")
