@@ -15,18 +15,18 @@ def check_consistency(data):
                 hallucinations = annotations.get("HALLUCINATION", [])
                 sum_hallucinations = sum([list(h.values())[0] for h in hallucinations])
 
-                # Somma degli ERROR PLAN
-                error_plans = annotations.get("ERROR PLAN", [])
+                # Somma degli PLANNING ERROR
+                error_plans = annotations.get("PLANNING ERROR", [])
                 sum_error_plan = sum([list(e.values())[0] for e in error_plans])
 
-                # Somma degli ERROR ACTION
-                error_actions = annotations.get("ERROR ACTION", [])
+                # Somma degli ACTION ERROR
+                error_actions = annotations.get("ACTION ERROR", [])
                 sum_error_action = sum([list(e.values())[0] for e in error_actions])
 
                 # Valori di riferimento dalle metriche
-                tot_all = trial.get("TOT ALL", 0)
-                ep = trial.get("EP", 0)
-                ea = trial.get("EA", 0)
+                tot_all = trial.get("TOT HAL", 0)
+                ep = trial.get("PE", 0)
+                ea = trial.get("AE", 0)
 
                 # Verifica coerenza
                 if sum_hallucinations != tot_all:
@@ -34,7 +34,7 @@ def check_consistency(data):
                         "sheet": sheet_name,
                         "sensors_sequence": seq,
                         "trial": trial_idx + 1,
-                        "metric": "TOT ALL",
+                        "metric": "TOT HAL",
                         "expected": tot_all,
                         "found": sum_hallucinations
                     })
@@ -44,7 +44,7 @@ def check_consistency(data):
                         "sheet": sheet_name,
                         "sensors_sequence": seq,
                         "trial": trial_idx + 1,
-                        "metric": "EP",
+                        "metric": "PE",
                         "expected": ep,
                         "found": sum_error_plan
                     })
@@ -54,7 +54,7 @@ def check_consistency(data):
                         "sheet": sheet_name,
                         "sensors_sequence": seq,
                         "trial": trial_idx + 1,
-                        "metric": "EA",
+                        "metric": "AE",
                         "expected": ea,
                         "found": sum_error_action
                     })

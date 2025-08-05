@@ -1,60 +1,60 @@
 {
-  "LS-LLM": [
+  "autonomous_logical_sequence": [
     {
       "sensors_sequence": [
         "Camera_1"
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 2.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 1.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -65,59 +65,59 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 1.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't create the plan after received back the report from deployed robot"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -128,55 +128,55 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -187,63 +187,63 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -255,59 +255,59 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 4,
           "TOT HAL": 4,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 4
+                "already open door": 4
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 3,
+          "EP": 3,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 2
               },
@@ -315,14 +315,14 @@
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -334,9 +334,9 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
@@ -346,20 +346,20 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
@@ -369,42 +369,42 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 4,
+          "EP": 4,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 4
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -416,29 +416,29 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
@@ -448,20 +448,20 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
@@ -471,14 +471,14 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -490,9 +490,9 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
@@ -502,54 +502,54 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -562,29 +562,29 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 4,
@@ -594,34 +594,34 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -634,63 +634,63 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 10.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 4,
           "TOT HAL": 4,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 4
+                "already open door": 4
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -703,59 +703,59 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -768,16 +768,16 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 4,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               },
               {
                 "wrong or incomplete space information": 1
@@ -786,24 +786,24 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 5,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               },
               {
                 "wrong or incomplete space information": 2
@@ -812,62 +812,62 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
     }
   ],
-  "UNC-LLM": [
+  "autonomous_FP&HI": [
     {
       "sensors_sequence": [
         "Camera_2 - FP"
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 2.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 2.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
@@ -877,31 +877,31 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -912,59 +912,59 @@
       ],
       "trials": [
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 2.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -975,15 +975,15 @@
       ],
       "trials": [
         {
-          "PE": 4,
+          "EP": 4,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 2
               },
@@ -991,22 +991,22 @@
                 "unmonitored area": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 4,
+          "EP": 4,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 2
               },
@@ -1014,22 +1014,22 @@
                 "unmonitored area": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 3,
+          "EP": 3,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 2
               },
@@ -1037,10 +1037,10 @@
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1051,29 +1051,29 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 9.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 2,
+          "EP": 2,
           "NA": 2.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 2,
@@ -1086,7 +1086,7 @@
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 1
               },
@@ -1094,20 +1094,20 @@
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 3,
+          "EP": 3,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 1,
@@ -1117,7 +1117,7 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 1
               },
@@ -1125,14 +1125,14 @@
                 "wrong area monitored": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1144,9 +1144,9 @@
       ],
       "trials": [
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 2,
           "TOT HAL": 4,
@@ -1156,65 +1156,65 @@
                 "wrong or incomplete space information": 2
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 8.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               },
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 8.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1226,69 +1226,69 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "wrong action executed": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 8.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               },
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 8.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               },
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1300,39 +1300,39 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 2,
+          "EP": 2,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area monitored": 1
               },
@@ -1340,42 +1340,42 @@
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1387,29 +1387,29 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 8.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 4,
           "TOT HAL": 5,
@@ -1419,37 +1419,37 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 4
+                "already open door": 4
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 4,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               },
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1462,63 +1462,63 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1531,63 +1531,63 @@
       ],
       "trials": [
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action executed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action executed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action executed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1600,9 +1600,9 @@
       ],
       "trials": [
         {
-          "PE": 2,
+          "EP": 2,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 2,
           "TOT HAL": 3,
@@ -1612,28 +1612,28 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitored the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 3,
+          "EP": 3,
           "NA": 13.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 6,
           "TOT HAL": 7,
@@ -1643,10 +1643,10 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 6
+                "already open door": 6
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 1
               },
@@ -1654,20 +1654,20 @@
                 "wrong area monitored": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
+          "EP": 1,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 3,
           "TOT HAL": 4,
@@ -1677,22 +1677,22 @@
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 3
+                "already open door": 3
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unmonitored area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [
               {
                 "fail": "it didn't monitor the area with the intruder"
               }
             ],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1705,16 +1705,16 @@
       ],
       "trials": [
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 4,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               },
               {
                 "wrong or incomplete space information": 1
@@ -1723,126 +1723,120 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
     }
   ],
-  "LS-HITL": [
+  "mitl_logical_sequence": [
     {
       "sensors_sequence": [
         "Camera_1"
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "unauthorized action execution": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 1.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1853,61 +1847,55 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -1918,59 +1906,55 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -1978,29 +1962,27 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -2011,61 +1993,55 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "wrong parameters": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -2077,14 +2053,12 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 2,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
@@ -2094,29 +2068,27 @@
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 5,
-          "HF_PE": 2,
+          "EP": 5,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 3,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               },
@@ -2127,10 +2099,10 @@
                 "unproposed action": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               },
@@ -2141,25 +2113,23 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -2175,14 +2145,12 @@
       ],
       "trials": [
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 6,
-          "HF_HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
@@ -2192,22 +2160,22 @@
                 "inefficient robot deployment": 2
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area proposed": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong area proposed": 2
               }
@@ -2215,17 +2183,15 @@
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               },
@@ -2233,10 +2199,10 @@
                 "wrong area proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               },
@@ -2247,36 +2213,34 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 3,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               },
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -2292,91 +2256,85 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
-          "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 0,
-          "HF_HAL": 0,
-          "Annotations": {
-            "HALLUCINATION": [],
-            "PLANNING ERROR": [
-              {
-                "wrong action proposed": 1
-              }
-            ],
-            "ACTION ERROR": [],
-            "FAIL": [],
-            "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "wrong action proposed": 1
-              }
-            ]
-          }
-        },
-        {
-          "PE": 0,
-          "HF_PE": 0,
-          "NA": 5.0,
-          "AE": 0,
-          "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 3,
-          "HF_HAL": 3,
-          "Annotations": {
-            "HALLUCINATION": [
-              {
-                "inefficient robot deployment": 2
-              },
-              {
-                "wrong or incomplete space information": 1
-              }
-            ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
-            "FAIL": [],
-            "HALLUCINATION CORRECTION": [
-              {
-                "inefficient robot deployment": 2
-              },
-              {
-                "wrong or incomplete space information": 1
-              }
-            ],
-            "PLANNING ERROR CORRECTION": []
-          }
-        },
-        {
-          "PE": 1,
-          "HF_PE": 1,
-          "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
+          "Annotations": {
+            "HALLUCINATION": [
+              {
+                "wrong action proposed": 1
+              }
+            ],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
+            "FAIL": [],
+            "HALLUCINATION CORRECTION": [
+              {
+                "wrong action proposed": 1
+              }
+            ],
+            "ERROR PLAN CORRECTION": []
+          }
+        },
+        {
+          "EP": 0,
+          "NA": 5.0,
+          "EA": 0,
+          "SUC": 1,
+          "UA": 0,
+          "TOT HAL": 3,
+          "Annotations": {
+            "HALLUCINATION": [
+              {
+                "inefficient robot deployment": 2
+              },
+              {
+                "wrong or incomplete space information": 1
+              }
+            ],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
+            "FAIL": [],
+            "HALLUCINATION CORRECTION": [
+              {
+                "inefficient robot deployment": 2
+              },
+              {
+                "wrong or incomplete space information": 1
+              }
+            ],
+            "ERROR PLAN CORRECTION": []
+          }
+        },
+        {
+          "EP": 1,
+          "NA": 5.0,
+          "EA": 0,
+          "SUC": 1,
+          "UA": 0,
+          "TOT HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -2392,18 +2350,16 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 8.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 4,
-          "HF_HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               },
               {
                 "inefficient robot deployment": 2
@@ -2412,12 +2368,12 @@
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
@@ -2427,7 +2383,7 @@
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -2435,21 +2391,19 @@
           }
         },
         {
-          "PE": 3,
-          "HF_PE": 3,
+          "EP": 3,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 2
               },
@@ -2457,14 +2411,14 @@
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 2
               },
@@ -2475,21 +2429,19 @@
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               },
@@ -2497,14 +2449,14 @@
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               },
@@ -2524,59 +2476,55 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 2,
-          "HF_HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 2,
-          "HF_HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 2
               }
@@ -2584,29 +2532,27 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -2619,55 +2565,51 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 12.0,
-          "AE": 2,
+          "EA": 2,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area proposed": 2
               }
             ],
-            "ACTION ERROR": [
+            "ERROR ACTION": [
               {
                 "wrong parameters": 2
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong area proposed": 2
               }
@@ -2675,29 +2617,27 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -2710,29 +2650,27 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [
+            "ERROR ACTION": [
               {
                 "unauthorized action execution": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -2740,47 +2678,43 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -2793,14 +2727,12 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 4,
-          "HF_HAL": 4,
           "Annotations": {
             "HALLUCINATION": [
               {
@@ -2810,12 +2742,12 @@
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
@@ -2825,7 +2757,7 @@
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -2833,146 +2765,134 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
-          "TOT HAL": 1,
-          "HF_HAL": 1,
+          "TOT HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
-              }
-            ],
-            "PLANNING ERROR": [
+              },
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
-              }
-            ],
-            "PLANNING ERROR CORRECTION": [
+              },
               {
                 "wrong action proposed": 1
               }
-            ]
+            ],
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
     }
   ],
-  "UNC-HITL": [
+  "mitl_FP&HI": [
     {
       "sensors_sequence": [
         "Camera_2 - FP"
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 0,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "wrong parameters": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -2983,35 +2903,31 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               },
@@ -3019,10 +2935,10 @@
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               },
@@ -3033,25 +2949,23 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 0,
+          "EP": 1,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3062,17 +2976,15 @@
       ],
       "trials": [
         {
-          "PE": 3,
-          "HF_PE": 3,
+          "EP": 3,
           "NA": 3.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 2
               },
@@ -3080,10 +2992,10 @@
                 "wrong area proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 2
               },
@@ -3094,25 +3006,23 @@
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 2
               }
@@ -3120,25 +3030,23 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "unauthorized action execution": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3149,14 +3057,12 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 0,
+          "EP": 1,
           "NA": 4.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 2,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
@@ -3166,38 +3072,36 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "wrong parameters": 1
               }
@@ -3208,33 +3112,31 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 0,
           "UA": 0,
           "TOT HAL": 2,
-          "HF_HAL": 2,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 2
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3246,33 +3148,31 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 11.0,
-          "AE": 2,
+          "EA": 2,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [
+            "ERROR ACTION": [
               {
                 "wrong parameters": 2
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -3280,25 +3180,23 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -3306,22 +3204,20 @@
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "wrong parameters": 1
               }
@@ -3332,7 +3228,7 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3344,25 +3240,23 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -3370,25 +3264,23 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong area proposed": 1
               }
@@ -3396,29 +3288,27 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 0,
+          "EP": 1,
           "NA": 10.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "already open door": 2
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3430,33 +3320,31 @@
       ],
       "trials": [
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 2
               }
@@ -3464,33 +3352,31 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -3498,33 +3384,31 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -3540,21 +3424,19 @@
       ],
       "trials": [
         {
-          "PE": 3,
-          "HF_PE": 3,
+          "EP": 3,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "already open door": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 2
               },
@@ -3562,10 +3444,10 @@
                 "wrong area proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 2
               },
@@ -3576,17 +3458,15 @@
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               },
@@ -3594,10 +3474,10 @@
                 "wrong area proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               },
@@ -3608,31 +3488,31 @@
           }
         },
         {
-          "PE": 3,
-          "HF_PE": 3,
+          "EP": 2,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
-          "TOT HAL": 0,
-          "HF_HAL": 0,
+          "TOT HAL": 1,
           "Annotations": {
-            "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "HALLUCINATION": [
               {
                 "wrong action proposed": 1
-              },
+              }
+            ],
+            "ERROR PLAN": [
               {
                 "unproposed area": 2
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
-            "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "HALLUCINATION CORRECTION": [
               {
                 "wrong action proposed": 1
-              },
+              }
+            ],
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 2
               }
@@ -3649,81 +3529,75 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3736,33 +3610,31 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong area proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong area proposed": 1
               }
@@ -3770,25 +3642,23 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -3796,17 +3666,15 @@
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "EP": 2,
           "NA": 11.0,
-          "AE": 2,
+          "EA": 2,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               },
@@ -3814,14 +3682,14 @@
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [
+            "ERROR ACTION": [
               {
                 "unauthorized action execution": 2
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               },
@@ -3841,33 +3709,31 @@
       ],
       "trials": [
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 6.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 1,
           "TOT HAL": 1,
-          "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "unproposed area": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "unproposed area": 1
               }
@@ -3875,25 +3741,23 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 1,
+          "EP": 1,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [
               {
                 "wrong action proposed": 1
               }
             ],
-            "ACTION ERROR": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
+            "ERROR PLAN CORRECTION": [
               {
                 "wrong action proposed": 1
               }
@@ -3901,14 +3765,12 @@
           }
         },
         {
-          "PE": 1,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 0,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 3,
-          "HF_HAL": 3,
           "Annotations": {
             "HALLUCINATION": [
               {
@@ -3918,12 +3780,12 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "unproposed action": 1
               }
             ],
-            "ACTION ERROR": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
               {
@@ -3933,7 +3795,7 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
@@ -3946,65 +3808,59 @@
       ],
       "trials": [
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "wrong parameters": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 7.0,
-          "AE": 0,
+          "EA": 0,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [],
+            "ERROR PLAN": [],
+            "ERROR ACTION": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         },
         {
-          "PE": 0,
-          "HF_PE": 0,
+          "EP": 0,
           "NA": 5.0,
-          "AE": 1,
+          "EA": 1,
           "SUC": 1,
           "UA": 0,
           "TOT HAL": 0,
-          "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [],
-            "ACTION ERROR": [
+            "ERROR PLAN": [],
+            "ERROR ACTION": [
               {
                 "unauthorized action execution": 1
               }
             ],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
+            "ERROR PLAN CORRECTION": []
           }
         }
       ]
