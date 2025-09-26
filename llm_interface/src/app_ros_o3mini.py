@@ -46,7 +46,7 @@ class ChatNode():
         self.client = OpenAI()  
         required_assistant = "Surveillance guard expert"
         assistant_instructions = """You are a surveillance guard that must monitor an indoor environment."""
-        self.model_to_use = "gpt-4o"
+        self.model_to_use = "o3-mini"
 
         assistants_names_list, assistant_ids_list = extractAssistantFromJson(self.client, script_dir)
 
@@ -102,11 +102,15 @@ class ChatNode():
                 updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
                 print("New info.config file uploaded")
 
+            if self.model_to_use == "o3-mini":
+                reasoning_effort = "medium"
+            else:
+                reasoning_effort = None
 
             self.assistant = self.client.beta.assistants.create(
                 model= self.model_to_use,
-                temperature=0.0,
                 name = required_assistant,
+                reasoning_effort = reasoning_effort,
                 tools=[
                         {
                             "type": "file_search"
@@ -300,7 +304,7 @@ class ChatNode():
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
         # prompt_type = "man_in_the_loop"
-        prompt_type = "autonomous"
+        prompt_type = "o3_mini"
 
         self.task_instructions = prompts_dict[prompt_type]
 
@@ -403,6 +407,7 @@ class ChatNode():
   
 
         if self.model_to_use == "gpt-4o":
+
             # it can process both files and images
 
             # If we want to upload images in the thread we can create images in case of new one or retrieve already created images:
@@ -467,6 +472,7 @@ class ChatNode():
                     ]
                 )
         elif self.model_to_use == "o3-mini":
+            
             # It cannot process images
             self.thread = self.client.beta.threads.create(
                     metadata={
@@ -494,6 +500,8 @@ class ChatNode():
                         }
                     ]
                 )
+            
+            reasoning_effort = "medium",
 
         
         print("New thread created")

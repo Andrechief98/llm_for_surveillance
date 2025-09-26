@@ -1,5 +1,6 @@
 import json
 import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
 import numpy as np
 
 json_path = "./llm_data_analysis/data.json"
@@ -7,6 +8,8 @@ json_path = "./llm_data_analysis/data.json"
 def compute_SR_and_EFF_metrics(data):
     results_for_trials = {}
     results_for_n_sens= {}
+    planning_errors_for_n_sens = {}
+    hallucinations_for_n_sens = {}
 
     for experiment_type in data.keys():
         metrics = []
@@ -39,15 +42,38 @@ def compute_SR_and_EFF_metrics(data):
                     }
             }
 
+        if experiment_type not in planning_errors_for_n_sens.keys():
+            planning_errors_for_n_sens[experiment_type] = {
+                
+            }
+
+        if experiment_type not in hallucinations_for_n_sens.keys():
+            hallucinations_for_n_sens[experiment_type] = {
+
+            }
+
         for task in data[experiment_type]:
             seq = task["sensors_sequence"]
             trials = task["trials"]
+
+            n_sens = len(seq)
+
+            if n_sens not in planning_errors_for_n_sens[experiment_type].keys():
+                planning_errors_for_n_sens[experiment_type][n_sens] = {
+                    
+                }
+
+            if n_sens not in hallucinations_for_n_sens[experiment_type].keys():
+                hallucinations_for_n_sens[experiment_type][n_sens] = {
+
+                }
+
 
             SUC_values = [] 
             UA_values = []
             NA_values = []
             AE_values = []
-            EP_values = []
+            PE_values = []
             PE_corr_values = []
             HAL_values = []
             HAL_corr_values = []
@@ -58,7 +84,7 @@ def compute_SR_and_EFF_metrics(data):
                 UA_values.append(trial["UA"])
                 NA_values.append(trial["NA"])
                 AE_values.append(trial["AE"])
-                EP_values.append(trial["PE"])
+                PE_values.append(trial["PE"])
                 HAL_values.append(trial["TOT HAL"])
 
                 for error_plan_correct in trial["Annotations"]["PLANNING ERROR CORRECTION"]:
@@ -68,9 +94,40 @@ def compute_SR_and_EFF_metrics(data):
                     HAL_corr_values.append(sum(error_plan_correct.values()))
 
 
+                hallucinations = trial["Annotations"]["HALLUCINATION"]
+                planning_errors = trial["Annotations"]["PLANNING ERROR"]
+
+                
+                for hallucination_dic in hallucinations:
+                    if hallucination_dic:
+                        hallucination_type = str(list(hallucination_dic.keys())[0])
+                        if hallucination_type not in hallucinations_for_n_sens[experiment_type][n_sens].keys():
+                            # hallucinations_for_n_sens[experiment_type][n_sens][hallucination_type] = {}
+                            hallucinations_for_n_sens[experiment_type][n_sens][hallucination_type] = hallucination_dic[hallucination_type]
+                        else:
+                            hallucinations_for_n_sens[experiment_type][n_sens][hallucination_type] = hallucinations_for_n_sens[experiment_type][n_sens][hallucination_type] + hallucination_dic[hallucination_type]
+
+                    else:
+                        # Dictionary is empty
+                        continue
+                
+                for planning_error_dic in planning_errors:
+                    if planning_error_dic:
+                        planning_error_type = str(list(planning_error_dic.keys())[0])
+                        
+                        if planning_error_type not in planning_errors_for_n_sens[experiment_type][n_sens].keys():
+                            # planning_errors_for_n_sens[experiment_type][n_sens][planning_error_type] = {}
+                            planning_errors_for_n_sens[experiment_type][n_sens][planning_error_type] = planning_error_dic[planning_error_type]
+                        else:
+                            planning_errors_for_n_sens[experiment_type][n_sens][planning_error_type] = planning_errors_for_n_sens[experiment_type][n_sens][planning_error_type] + planning_error_dic[planning_error_type]
+                    else:
+                        # Dictionary is empty
+                        continue
+
+
             SR = sum(SUC_values) / len(trials)
             Eff = sum([1 - (ua+ea)/na for ua, ea, na in zip(UA_values, AE_values, NA_values)]) / len(trials)
-            PE = sum(EP_values)
+            PE = sum(PE_values)
             PE_corr = sum(PE_corr_values)
             HAL = sum(HAL_values)
             HAL_corr = sum(HAL_corr_values)
@@ -101,19 +158,29 @@ def compute_SR_and_EFF_metrics(data):
             results_for_n_sens[experiment_type][n_sens]["HAL"] = sum(results_for_n_sens[experiment_type][n_sens]["HAL"])
             results_for_n_sens[experiment_type][n_sens]["HAL_corr"] = sum(results_for_n_sens[experiment_type][n_sens]["HAL_corr"])
 
-    print("Results for n_sens:")
-    print(results_for_n_sens)
+    # print("Results for n_sens:")
+    # print(results_for_n_sens)
 
     for test_type, sensors in results_for_n_sens.items():
         print(f"Test type: {test_type}")
         for sensor_count, metrics in sensors.items():
             print(f"  Sensors: {sensor_count}")
-            print(f"    PE: {metrics['PE']}, HAL: {metrics['HAL']}, PE_corr: {metrics['PE_corr']}, HAL_corr: {metrics['HAL_corr']}")
+            print(f"""        SR: {metrics['SR']},
+        Eff: {metrics['Eff']},
+        PE: {metrics['PE']}, 
+        PE_corr: {metrics['PE_corr']}, 
+        HAL: {metrics['HAL']}, 
+        HAL_corr: {metrics['HAL_corr']}""")
         print()
 
         
+    # print("Planning errors for n_sens:")
+    # print(planning_errors_for_n_sens)
 
-    return results_for_trials, results_for_n_sens
+    # print("Hallucination for n_sens:")
+    # print(hallucinations_for_n_sens)
+
+    return results_for_trials, results_for_n_sens, planning_errors_for_n_sens, hallucinations_for_n_sens
 
 
 
@@ -128,20 +195,20 @@ def extract_metrics(data):
         
     }
 
-    # MITL
-    hall_dict_mitl = {
+    # HITL
+    hall_dict_hitl = {
         
     }
 
-    error_plan_dict_mitl = {
+    error_plan_dict_hitl = {
         
     }
 
-    hall_corr_dict_mitl = {
+    hall_corr_dict_hitl = {
         
     }
 
-    error_plan_corr_dict_mitl = {
+    error_plan_corr_dict_hitl = {
         
     }
 
@@ -149,10 +216,10 @@ def extract_metrics(data):
     tot_hall_aut = 0
     tot_err_plan_aut = 0
 
-    tot_hall_mitl = 0
-    tot_err_plan_mitl = 0
-    tot_hall_corr_mitl = 0
-    tot_err_plan_corr_mitl = 0
+    tot_hall_hitl = 0
+    tot_err_plan_hitl = 0
+    tot_hall_corr_hitl = 0
+    tot_err_plan_corr_hitl = 0
 
     for experiment_type in data.keys():
 
@@ -194,42 +261,42 @@ def extract_metrics(data):
                         keys_list = hall.keys()
 
                         for key in keys_list:
-                            tot_hall_mitl = tot_hall_mitl + hall[key]
-                            if key in hall_dict_mitl.keys():
-                                hall_dict_mitl[key].append(hall[key])
+                            tot_hall_hitl = tot_hall_hitl + hall[key]
+                            if key in hall_dict_hitl.keys():
+                                hall_dict_hitl[key].append(hall[key])
                             else:
-                                hall_dict_mitl[key] = [hall[key]]
+                                hall_dict_hitl[key] = [hall[key]]
 
                     for err_pl in trial["Annotations"]["PLANNING ERROR"]:
                         keys_list = err_pl.keys()
 
                         for key in keys_list:
-                            tot_err_plan_mitl = tot_err_plan_mitl + err_pl[key]
-                            if key in error_plan_dict_mitl.keys():
-                                error_plan_dict_mitl[key].append(err_pl[key])
+                            tot_err_plan_hitl = tot_err_plan_hitl + err_pl[key]
+                            if key in error_plan_dict_hitl.keys():
+                                error_plan_dict_hitl[key].append(err_pl[key])
                             else:
-                                error_plan_dict_mitl[key] = [err_pl[key]]
+                                error_plan_dict_hitl[key] = [err_pl[key]]
 
                     for hall_corr in trial["Annotations"]["HALLUCINATION CORRECTION"]:
                         keys_list = hall_corr.keys()
 
                         for key in keys_list:
-                            tot_hall_corr_mitl = tot_hall_corr_mitl + hall_corr[key]
-                            if key in hall_corr_dict_mitl.keys():
-                                hall_corr_dict_mitl[key].append(hall_corr[key])
+                            tot_hall_corr_hitl = tot_hall_corr_hitl + hall_corr[key]
+                            if key in hall_corr_dict_hitl.keys():
+                                hall_corr_dict_hitl[key].append(hall_corr[key])
                             else:
-                                hall_corr_dict_mitl[key] = [hall_corr[key]]
+                                hall_corr_dict_hitl[key] = [hall_corr[key]]
                     
                     for err_pl_corr in trial["Annotations"]["PLANNING ERROR CORRECTION"]:
                         keys_list = err_pl_corr.keys()
 
                         for key in keys_list:
-                            tot_err_plan_corr_mitl = tot_err_plan_corr_mitl + err_pl_corr[key]
-                            if key in error_plan_corr_dict_mitl.keys():
-                                error_plan_corr_dict_mitl[key].append(err_pl_corr[key])
+                            tot_err_plan_corr_hitl = tot_err_plan_corr_hitl + err_pl_corr[key]
+                            if key in error_plan_corr_dict_hitl.keys():
+                                error_plan_corr_dict_hitl[key].append(err_pl_corr[key])
                             else: 
                                 
-                                error_plan_corr_dict_mitl[key] = [err_pl_corr[key]]
+                                error_plan_corr_dict_hitl[key] = [err_pl_corr[key]]
 
         else:
             print("Wrong experiment type")
@@ -244,25 +311,25 @@ def extract_metrics(data):
     for key,value in error_plan_dict_aut.items():
         print(f"\t{key}: {sum(value)}")
 
-    print(f"# MITL test - Total hallucination: {tot_hall_mitl}")
-    for key,value in hall_dict_mitl.items():
+    print(f"# HITL test - Total hallucination: {tot_hall_hitl}")
+    for key,value in hall_dict_hitl.items():
+        print(f"\t{key}: {sum(value)}")
+    
+    print(f"# HITL test - Total hallucination corrections: {tot_hall_corr_hitl}")
+    for key,value in hall_corr_dict_hitl.items():
         print(f"\t{key}: {sum(value)}")
 
-    print(f"# MITL test - Total error plan: {tot_err_plan_mitl}")
-    for key,value in error_plan_dict_mitl.items():
+    print(f"# HITL test - Total error plan: {tot_err_plan_hitl}")
+    for key,value in error_plan_dict_hitl.items():
         print(f"\t{key}: {sum(value)}")
 
-    print(f"# MITL test + correction - Total hallucination: {tot_hall_corr_mitl}")
-    for key,value in hall_corr_dict_mitl.items():
-        print(f"\t{key}: {sum(value)}")
-
-    print(f"# MITL test + correction - Total error plan: {tot_err_plan_corr_mitl}")
-    for key,value in error_plan_corr_dict_mitl.items():
+    print(f"# HITL test - Total error plan corrections: {tot_err_plan_corr_hitl}")
+    for key,value in error_plan_corr_dict_hitl.items():
         print(f"\t{key}: {sum(value)}")
 
 
 
-    return hall_dict_aut, error_plan_dict_aut, tot_hall_aut, tot_err_plan_aut, hall_dict_mitl, error_plan_dict_mitl, tot_hall_mitl, tot_err_plan_mitl, hall_corr_dict_mitl, error_plan_corr_dict_mitl, tot_hall_corr_mitl, tot_err_plan_corr_mitl
+    return hall_dict_aut, error_plan_dict_aut, tot_hall_aut, tot_err_plan_aut, hall_dict_hitl, error_plan_dict_hitl, tot_hall_hitl, tot_err_plan_hitl, hall_corr_dict_hitl, error_plan_corr_dict_hitl, tot_hall_corr_hitl, tot_err_plan_corr_hitl
 
 def plot_metrics(metrics, experiment_type):
     tasks = [metric["sequence"] for metric in metrics]
@@ -327,8 +394,8 @@ def create_subplots_n_sens(data):
     axs1[0].set_ylim(0, 1.2)
     axs1[0].set_xticks(x)
 
-    # Subplot 2: FP&HI
-    axs1[1].set_title("Success Rate: FP&HI")
+    # Subplot 2: UNC
+    axs1[1].set_title("Success Rate: UNC")
     for prefix in ['LLM', 'HITL']:
         key = f"UNC-{prefix}"
         y = [data[key][s]['SR'] for s in sensors]
@@ -358,8 +425,8 @@ def create_subplots_n_sens(data):
     axs2[0].set_ylim(0, 1.2)
     axs2[0].set_xticks(x)
 
-    # Subplot 2: FP&HI
-    axs2[1].set_title("Efficiency: FP&HI")
+    # Subplot 2: UNC
+    axs2[1].set_title("Efficiency: UNC")
     for prefix in ['LLM', 'HITL']:
         key = f"UNC-{prefix}"
         y = [data[key][s]['Eff'] for s in sensors]
@@ -381,13 +448,13 @@ def create_subplots_n_sens(data):
     # Subplot 1: logical_sequence
     axs3[0].set_title("Error Plan (PE): logical_sequence")
     y_auto_ls = [data['LS-LLM'][str(s)]['PE'] for s in x]
-    y_mitl_ls = [data['LS-HITL'][str(s)]['PE'] for s in x]
-    y_mitl_ls_corr = [data['LS-HITL'][str(s)]['PE_corr'] for s in x]
+    y_hitl_ls = [data['LS-HITL'][str(s)]['PE'] for s in x]
+    y_hitl_ls_corr = [data['LS-HITL'][str(s)]['PE_corr'] for s in x]
 
     # barre raggruppate
     axs3[0].bar([xi - width/2 for xi in x], y_auto_ls, width, label='Autonomous')
-    axs3[0].bar([xi + width/2 for xi in x], y_mitl_ls, width, label='MITL')
-    axs3[0].bar([xi + width/2 for xi in x], y_mitl_ls_corr, width, label='MITL - corrections', edgecolor='black', color='none', hatch='///')
+    axs3[0].bar([xi + width/2 for xi in x], y_hitl_ls, width, label='HITL')
+    axs3[0].bar([xi + width/2 for xi in x], y_hitl_ls_corr, width, label='HITL - corrections', edgecolor='black', color='none', hatch='///')
 
     axs3[0].set_xlabel("Number of activated sensors")
     axs3[0].set_ylabel("PE")
@@ -396,15 +463,15 @@ def create_subplots_n_sens(data):
     axs3[0].set_ylim(0, 20)
     axs3[0].legend()
 
-    # Subplot 2: FP&HI
-    axs3[1].set_title("Error Plan (PE): FP&HI")
+    # Subplot 2: UNC
+    axs3[1].set_title("Error Plan (PE): UNC")
     y_auto_fp = [data['UNC-LLM'][str(s)]['PE'] for s in x]
-    y_mitl_fp = [data['UNC-HITL'][str(s)]['PE'] for s in x]
-    y_mitl_fp_corr = [data['UNC-HITL'][str(s)]['PE_corr'] for s in x]
+    y_hitl_fp = [data['UNC-HITL'][str(s)]['PE'] for s in x]
+    y_hitl_fp_corr = [data['UNC-HITL'][str(s)]['PE_corr'] for s in x]
 
     axs3[1].bar([xi - width/2 for xi in x], y_auto_fp, width, label='Autonomous')
-    axs3[1].bar([xi + width/2 for xi in x], y_mitl_fp, width, label='MITL')
-    axs3[1].bar([xi + width/2 for xi in x], y_mitl_fp_corr, width, label='MITL - corrections', edgecolor='black', color='none', hatch='///')
+    axs3[1].bar([xi + width/2 for xi in x], y_hitl_fp, width, label='HITL')
+    axs3[1].bar([xi + width/2 for xi in x], y_hitl_fp_corr, width, label='HITL - corrections', edgecolor='black', color='none', hatch='///')
 
     axs3[1].set_xlabel("Number of activated sensors")
     axs3[1].set_ylabel("PE")
@@ -424,30 +491,30 @@ def create_subplots_n_sens(data):
     # Subplot 1: logical_sequence
     axs4[0].set_title("Logical sequence")
     y_auto_ls = [data['LS-LLM'][str(s)]['HAL'] for s in x]
-    y_mitl_ls = [data['LS-HITL'][str(s)]['HAL'] for s in x]
-    y_mitl_ls_corr = [data['LS-HITL'][str(s)]['HAL_corr'] for s in x]
+    y_hitl_ls = [data['LS-HITL'][str(s)]['HAL'] for s in x]
+    y_hitl_ls_corr = [data['LS-HITL'][str(s)]['HAL_corr'] for s in x]
 
     # barre raggruppate
     axs4[0].bar([xi - width/2 for xi in x], y_auto_ls, width, label='Autonomous')
-    axs4[0].bar([xi + width/2 for xi in x], y_mitl_ls, width, label='MITL')
-    axs4[0].bar([xi + width/2 for xi in x], y_mitl_ls_corr, width, label='MITL - corrections', edgecolor='black', color='none', hatch='///')
+    axs4[0].bar([xi + width/2 for xi in x], y_hitl_ls, width, label='HITL')
+    axs4[0].bar([xi + width/2 for xi in x], y_hitl_ls_corr, width, label='HITL - corrections', edgecolor='black', color='none', hatch='///')
 
     axs4[0].set_xlabel("Number of activated sensors")
-    axs4[0].set_ylabel("PE")
+    axs4[0].set_ylabel("HAL")
     axs4[0].set_xticks(x)
     axs4[0].set_yticks([0, 10, 20, 30, 40, 50])
     axs4[0].set_ylim(0, 50)
     axs4[0].legend()
 
-    # Subplot 2: FP&HI
-    axs4[1].set_title("FP&HI")
+    # Subplot 2: UNC
+    axs4[1].set_title("UNC")
     y_auto_fp = [data['UNC-LLM'][str(s)]['HAL'] for s in x]
-    y_mitl_fp = [data['UNC-HITL'][str(s)]['HAL'] for s in x]
-    y_mitl_fp_corr = [data['UNC-HITL'][str(s)]['HAL_corr'] for s in x]
+    y_hitl_fp = [data['UNC-HITL'][str(s)]['HAL'] for s in x]
+    y_hitl_fp_corr = [data['UNC-HITL'][str(s)]['HAL_corr'] for s in x]
 
     axs4[1].bar([xi - width/2 for xi in x], y_auto_fp, width, label='Autonomous')
-    axs4[1].bar([xi + width/2 for xi in x], y_mitl_fp, width, label='MITL')
-    axs4[1].bar([xi + width/2 for xi in x], y_mitl_fp_corr, width, label='MITL - corrections', edgecolor='black', color='none', hatch='///')
+    axs4[1].bar([xi + width/2 for xi in x], y_hitl_fp, width, label='HITL')
+    axs4[1].bar([xi + width/2 for xi in x], y_hitl_fp_corr, width, label='HITL - corrections', edgecolor='black', color='none', hatch='///')
 
     axs4[1].set_xlabel("Number of activated sensors")
     axs4[1].set_ylabel("HAL")
@@ -460,7 +527,8 @@ def create_subplots_n_sens(data):
     plt.show()
 
 
-def plot_stacked_bar(data_dict, tot, title):
+def plot_stacked_bar_overall(data_dict, tot, title):
+    print(data_dict)
     labels = list(data_dict.keys())
     # print(labels)
     values = list(data_dict.values())
@@ -487,44 +555,134 @@ def plot_stacked_bar(data_dict, tot, title):
     plt.show()
 
 
-def plot_stacked_bar_correction(data_dict, data_dict_corr, title):
-    
-    # Estrai le etichette (chiavi) e calcola i valori sommati
-    labels = list(data_dict.keys())
-    # values = [sum(data_dict[k]) for k in labels]
-    values = [1 for k in labels] # Percentage
-    corrected = [sum(data_dict_corr.get(k, []))/sum(data_dict[k]) for k in labels]
+def plot_stacked_bar_for_n_sens(planning_errors, hallucination):
 
-    # print(f"{title} - Data")
+    # print("Planning errors (raw):")
+    # print(planning_errors)
 
-    # for corr in corrected:
-    #     print(corr)
+    experiments = ["LS", "UNC"]
+    models = ["LLM", "HITL"]
+    sensors = [1, 2, 3]
 
-    # Posizioni x e larghezza
-    x = np.arange(len(labels))
-    width = 0.6
+    for exp in experiments:
 
-    # Barra piena (dati originali)
-    plt.bar(x, values, width=width, label='LLM response', color='skyblue')
+        # Stampare percentuali per l'esperimento (planning + hallucination)
+        print(f"\n\n=== Esperimento: {exp} ===")
 
-    # Barra tratteggiata in overlay (dati corretti)
-    plt.bar(x, corrected,
-            width=width,
-            label='Operator corrections',
-            color='none',
-            edgecolor='black',
-            hatch='///')
+        # --- Planning: stampa percentuali ---
+        print("\n-- Planning errors --")
+        for model in models:
+            key = f"{exp}-{model}"
+            print(f"\nModello: {key}")
+            model_map = planning_errors.get(key)
 
-    # Etichette e stile
-    plt.xticks(x, labels, rotation=45, ha='right')
-    plt.ylabel('Error percentage')
-    plt.title(title)
-    plt.legend()
-    plt.tight_layout()
-    plt.show()
+            for s in sensors:
+                counts = model_map.get(s, {})
+                total = sum(counts.values())
 
+                if total == 0:
+                    print(f"  Sensori = {s}: nessun errore (totale 0).")
+                    continue
+                print(f"  Sensori = {s} (totale errori = {total}):")
 
+                # ordino per percentuale decrescente
+                sorted_items = sorted(counts.items(), key=lambda kv: -kv[1])
+                for et, cnt in sorted_items:
+                    pct = (cnt / total) * 100.0
+                    print(f"    - {et}: {pct:.2f}% ({cnt} occorrenze)")
 
+        # --- Hallucination: stampa percentuali ---
+        print("\n-- Hallucination --")
+        for model in models:
+            key = f"{exp}-{model}"
+            print(f"\nModello: {key}")
+            model_map = hallucination.get(key, {})
+            for s in sensors:
+                counts = model_map.get(s, {}) or {}
+                total = sum(counts.values())
+                if total == 0:
+                    print(f"  Sensori = {s}: nessuna occorrenza (totale 0).")
+                    continue
+                print(f"  Sensori = {s} (totale occorrenze = {total}):")
+                sorted_items = sorted(counts.items(), key=lambda kv: -kv[1])
+                for et, cnt in sorted_items:
+                    pct = (cnt / total) * 100.0
+                    print(f"    - {et}: {pct:.2f}% ({cnt} occorrenze)")
+
+        # --- Costruzione figure: una figura per esperimento con 2 subplot affiancati ---
+        fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(14, 5))
+        subplot_specs = [
+            ("Planning errors", planning_errors, True),    # (title, source_dict, is_planning)
+            ("Hallucination", hallucination, False)
+        ]
+
+        for ax, (title, source_dict, is_pl) in zip(axes, subplot_specs):
+            # error types: semplice union su entrambi i modelli e tutti i sensori
+            ets = set()
+            for model in models:
+                key = f"{exp}-{model}"
+                for s in sensors:
+                    ets.update((source_dict.get(key, {}).get(s, {}) or {}).keys())
+            error_types = sorted(ets)
+            if not error_types:
+                ax.set_title(f"{exp} — {title} (nessun errore)")
+                ax.set_xticks(range(len(sensors)))
+                ax.set_xticklabels([str(s) for s in sensors])
+                continue
+
+            cmap = plt.get_cmap("tab20")
+            colors = [cmap(i % 20) for i in range(len(error_types))]
+
+            x = np.arange(len(sensors))
+            width = 0.35
+            x_llm = x - width/2
+            x_hitl = x + width/2
+
+            bottoms_llm = np.zeros(len(sensors))
+            bottoms_hitl = np.zeros(len(sensors))
+
+            for idx_et, et in enumerate(error_types):
+                vals_llm = []
+                vals_hitl = []
+                # costruisco il vettore di percentuali per ogni sensore
+                for s in sensors:
+                    # LLM
+                    cnt_llm = (source_dict.get(f"{exp}-LLM", {}).get(s, {}) or {}).get(et, 0)
+                    total_llm = sum((source_dict.get(f"{exp}-LLM", {}).get(s, {}) or {}).values())
+                    pct_llm = (cnt_llm / total_llm * 100.0) if total_llm > 0 else 0.0
+                    vals_llm.append(pct_llm)
+                    # HITL
+                    cnt_hitl = (source_dict.get(f"{exp}-HITL", {}).get(s, {}) or {}).get(et, 0)
+                    total_hitl = sum((source_dict.get(f"{exp}-HITL", {}).get(s, {}) or {}).values())
+                    pct_hitl = (cnt_hitl / total_hitl * 100.0) if total_hitl > 0 else 0.0
+                    vals_hitl.append(pct_hitl)
+
+                vals_llm = np.array(vals_llm)
+                vals_hitl = np.array(vals_hitl)
+
+                ax.bar(x_llm, vals_llm, bottom=bottoms_llm, width=width, color=colors[idx_et])
+                ax.bar(x_hitl, vals_hitl, bottom=bottoms_hitl, width=width, color=colors[idx_et])
+                bottoms_llm += vals_llm
+                bottoms_hitl += vals_hitl
+
+            ax.set_xticks(x)
+            ax.set_xticklabels([str(s) for s in sensors])
+            ax.set_xlabel("Numero di sensori")
+            ax.set_ylabel("Percentuale (%)")
+            ax.set_title(f"{exp} — {title}")
+            ax.set_ylim(0, 100)
+
+            # legenda: tipi di errore
+            handles = [Patch(facecolor=colors[i], label=error_types[i]) for i in range(len(error_types))]
+            if handles:
+                ax.legend(handles=handles, bbox_to_anchor=(1.02, 1), loc="upper left", fontsize="small")
+
+            # piccolo reminder LLM/HITL
+            ax.text(1.02, 0.45, "Barre: left=LLM, right=HITL", transform=ax.transAxes,
+                    rotation=90, va="center", ha="left", fontsize=9)
+
+        plt.tight_layout()
+        plt.show()
 
 
 if __name__ == '__main__':
@@ -533,10 +691,10 @@ if __name__ == '__main__':
         json_data = json.load(f)
 
     
-    hall_dict_aut, error_plan_dict_aut, tot_hall_aut, tot_err_plan_aut, hall_dict_mitl, error_plan_dict_mitl, tot_hall_mitl, tot_err_plan_mitl, hall_corr_dict_mitl, error_plan_corr_dict_mitl, tot_hall_corr_mitl, tot_err_plan_corr_mitl = extract_metrics(json_data)
+    hall_dict_aut, error_plan_dict_aut, tot_hall_aut, tot_err_plan_aut, hall_dict_hitl, error_plan_dict_hitl, tot_hall_hitl, tot_err_plan_hitl, hall_corr_dict_hitl, error_plan_corr_dict_hitl, tot_hall_corr_hitl, tot_err_plan_corr_hitl = extract_metrics(json_data)
 
 
-    metrics_results_trials, metrics_results_n_sens = compute_SR_and_EFF_metrics(json_data)
+    metrics_results_trials, metrics_results_n_sens, planning_errors_for_n_sens, hallucinations_for_n_sens = compute_SR_and_EFF_metrics(json_data)
 
     # SR and Eff per n_activated_sensors:
     create_subplots_n_sens(metrics_results_n_sens)
@@ -547,19 +705,14 @@ if __name__ == '__main__':
 
 
     # HALLUCINATIONS - AUTONOMOUS
-    plot_stacked_bar(hall_dict_aut, tot_hall_aut, "Source of Hallucinations - LLM")
+    plot_stacked_bar_overall(hall_dict_aut, tot_hall_aut, "Source of Hallucinations - LLM")
     # PLANNING ERROR - AUTONOMOUS
-    plot_stacked_bar(error_plan_dict_aut, tot_err_plan_aut, "Source of Planning Errors - LLM")
+    plot_stacked_bar_overall(error_plan_dict_aut, tot_err_plan_aut, "Source of Planning Errors - LLM")
 
-    # HALLUCINATIONS - MITL
-    plot_stacked_bar(hall_dict_mitl, tot_hall_mitl, "Source of Hallucinations - HITL")
-    # PLANNING ERROR - MITL
-    plot_stacked_bar(error_plan_dict_mitl, tot_err_plan_mitl, "Source of Planning Errors - HITL")
-
-    # # HALLUCINATIONS CORRECTION- MITL
-    # plot_stacked_bar_correction(hall_dict_mitl, hall_corr_dict_mitl, "Source of Hallucinations + corrections - MITL")
-    # # PLANNING ERROR CORRECTION- MITL
-    # plot_stacked_bar_correction(error_plan_dict_mitl, error_plan_corr_dict_mitl, "Source of Error Plans + corrections - MITL")
-
+    # HALLUCINATIONS - HITL
+    plot_stacked_bar_overall(hall_dict_hitl, tot_hall_hitl, "Source of Hallucinations - HITL")
+    # PLANNING ERROR - HITL
+    plot_stacked_bar_overall(error_plan_dict_hitl, tot_err_plan_hitl, "Source of Planning Errors - HITL")
 
     
+    plot_stacked_bar_for_n_sens(planning_errors_for_n_sens, hallucinations_for_n_sens)

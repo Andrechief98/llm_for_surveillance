@@ -106,7 +106,7 @@ def extract_trials_from_sheet(df, split_on_comma_only=True, hitl=False):
 # === MAIN ===
 
 # Percorso al file Excel
-file_path = "./llm_data_analysis/results_llm_surveillance_new.xlsx"
+file_path = "./llm_data_analysis/results_llm_surveillance.xlsx"
 
 # Legge solo i fogli richiesti
 sheet_names = ["LS-LLM", "LS-HITL", "UNC-LLM", "UNC-HITL"]

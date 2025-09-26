@@ -295,10 +295,10 @@
           }
         },
         {
-          "PE": 3,
-          "NA": 5.0,
+          "PE": 1,
+          "NA": 4.0,
           "AE": 0,
-          "SUC": 0,
+          "SUC": 1,
           "UA": 2,
           "TOT HAL": 2,
           "Annotations": {
@@ -309,18 +309,11 @@
             ],
             "PLANNING ERROR": [
               {
-                "wrong area monitored": 2
-              },
-              {
-                "unmonitored area": 1
+                "wrong area monitored": 1
               }
             ],
             "ACTION ERROR": [],
-            "FAIL": [
-              {
-                "fail": "it didn't monitor the area with the intruder"
-              }
-            ],
+            "FAIL": [],
             "HALLUCINATION CORRECTION": [],
             "PLANNING ERROR CORRECTION": []
           }
@@ -380,29 +373,28 @@
           }
         },
         {
-          "PE": 4,
-          "NA": 7.0,
+          "PE": 2,
+          "NA": 8.0,
           "AE": 0,
-          "SUC": 0,
-          "UA": 2,
-          "TOT HAL": 2,
+          "SUC": 1,
+          "UA": 4,
+          "TOT HAL": 5,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 2
+                "useless action executed": 4
+              },
+              {
+                "inefficient robot deployment": 1
               }
             ],
             "PLANNING ERROR": [
               {
-                "wrong area monitored": 4
+                "wrong area monitored": 2
               }
             ],
             "ACTION ERROR": [],
-            "FAIL": [
-              {
-                "fail": "it didn't monitor the area with the intruder"
-              }
-            ],
+            "FAIL": [],
             "HALLUCINATION CORRECTION": [],
             "PLANNING ERROR CORRECTION": []
           }
@@ -975,66 +967,68 @@
       ],
       "trials": [
         {
-          "PE": 4,
-          "NA": 4.0,
+          "PE": 1,
+          "NA": 2.0,
           "AE": 0,
           "SUC": 1,
           "UA": 0,
-          "TOT HAL": 0,
+          "TOT HAL": 1,
           "Annotations": {
-            "HALLUCINATION": [],
-            "PLANNING ERROR": [
+            "HALLUCINATION": [
               {
-                "wrong area monitored": 2
-              },
-              {
-                "unmonitored area": 2
+                "wrong or incomplete space information": 1
               }
             ],
-            "ACTION ERROR": [],
-            "FAIL": [],
-            "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
-          }
-        },
-        {
-          "PE": 4,
-          "NA": 4.0,
-          "AE": 0,
-          "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 0,
-          "Annotations": {
-            "HALLUCINATION": [],
             "PLANNING ERROR": [
-              {
-                "wrong area monitored": 2
-              },
-              {
-                "unmonitored area": 2
-              }
-            ],
-            "ACTION ERROR": [],
-            "FAIL": [],
-            "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": []
-          }
-        },
-        {
-          "PE": 3,
-          "NA": 5.0,
-          "AE": 0,
-          "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 0,
-          "Annotations": {
-            "HALLUCINATION": [],
-            "PLANNING ERROR": [
-              {
-                "wrong area monitored": 2
-              },
               {
                 "unmonitored area": 1
+              }
+            ],
+            "ACTION ERROR": [],
+            "FAIL": [],
+            "HALLUCINATION CORRECTION": [],
+            "PLANNING ERROR CORRECTION": []
+          }
+        },
+        {
+          "PE": 0,
+          "NA": 4.0,
+          "AE": 0,
+          "SUC": 1,
+          "UA": 0,
+          "TOT HAL": 2,
+          "Annotations": {
+            "HALLUCINATION": [
+              {
+                "inefficient robot deployment": 2
+              }
+            ],
+            "PLANNING ERROR": [],
+            "ACTION ERROR": [],
+            "FAIL": [],
+            "HALLUCINATION CORRECTION": [],
+            "PLANNING ERROR CORRECTION": []
+          }
+        },
+        {
+          "PE": 2,
+          "NA": 3.0,
+          "AE": 0,
+          "SUC": 1,
+          "UA": 0,
+          "TOT HAL": 2,
+          "Annotations": {
+            "HALLUCINATION": [
+              {
+                "inefficient robot deployment": 2
+              }
+            ],
+            "PLANNING ERROR": [
+              {
+                "unmonitored area": 1
+              },
+              {
+                "wrong area monitored": 1
               }
             ],
             "ACTION ERROR": [],
@@ -2106,38 +2100,21 @@
           }
         },
         {
-          "PE": 5,
-          "HF_PE": 2,
-          "NA": 6.0,
+          "PE": 0,
+          "HF_PE": 0,
+          "NA": 3.0,
           "AE": 0,
           "SUC": 1,
-          "UA": 3,
+          "UA": 0,
           "TOT HAL": 0,
           "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [],
-            "PLANNING ERROR": [
-              {
-                "unproposed area": 1
-              },
-              {
-                "wrong action proposed": 3
-              },
-              {
-                "unproposed action": 1
-              }
-            ],
+            "PLANNING ERROR": [],
             "ACTION ERROR": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "unproposed area": 1
-              },
-              {
-                "unproposed action": 1
-              }
-            ]
+            "PLANNING ERROR CORRECTION": []
           }
         },
         {
@@ -2252,16 +2229,13 @@
           "NA": 6.0,
           "AE": 0,
           "SUC": 1,
-          "UA": 2,
-          "TOT HAL": 3,
+          "UA": 0,
+          "TOT HAL": 1,
           "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
-              },
-              {
-                "useless action executed": 2
               }
             ],
             "PLANNING ERROR": [
@@ -2435,28 +2409,24 @@
           }
         },
         {
-          "PE": 3,
-          "HF_PE": 3,
+          "PE": 0,
+          "HF_PE": 0,
           "NA": 7.0,
           "AE": 0,
           "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 1,
+          "UA": 2,
+          "TOT HAL": 3,
           "HF_HAL": 1,
           "Annotations": {
             "HALLUCINATION": [
               {
                 "inefficient robot deployment": 1
-              }
-            ],
-            "PLANNING ERROR": [
-              {
-                "wrong action proposed": 2
               },
               {
-                "unproposed area": 1
+                "useless action executed": 2
               }
             ],
+            "PLANNING ERROR": [],
             "ACTION ERROR": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [
@@ -2464,14 +2434,7 @@
                 "inefficient robot deployment": 1
               }
             ],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "wrong action proposed": 2
-              },
-              {
-                "unproposed area": 1
-              }
-            ]
+            "PLANNING ERROR CORRECTION": []
           }
         },
         {
@@ -2902,7 +2865,7 @@
       ],
       "trials": [
         {
-          "PE": 1,
+          "PE": 0,
           "HF_PE": 0,
           "NA": 5.0,
           "AE": 0,
@@ -2916,11 +2879,7 @@
                 "wrong or incomplete space information": 1
               }
             ],
-            "PLANNING ERROR": [
-              {
-                "unproposed area": 1
-              }
-            ],
+            "PLANNING ERROR": [],
             "ACTION ERROR": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
@@ -3062,40 +3021,8 @@
       ],
       "trials": [
         {
-          "PE": 3,
-          "HF_PE": 3,
-          "NA": 3.0,
-          "AE": 0,
-          "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 0,
-          "HF_HAL": 0,
-          "Annotations": {
-            "HALLUCINATION": [],
-            "PLANNING ERROR": [
-              {
-                "wrong action proposed": 2
-              },
-              {
-                "wrong area proposed": 1
-              }
-            ],
-            "ACTION ERROR": [],
-            "FAIL": [],
-            "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "wrong action proposed": 2
-              },
-              {
-                "wrong area proposed": 1
-              }
-            ]
-          }
-        },
-        {
-          "PE": 2,
-          "HF_PE": 2,
+          "PE": 1,
+          "HF_PE": 1,
           "NA": 5.0,
           "AE": 0,
           "SUC": 1,
@@ -3106,7 +3033,7 @@
             "HALLUCINATION": [],
             "PLANNING ERROR": [
               {
-                "wrong action proposed": 2
+                "wrong action proposed": 1
               }
             ],
             "ACTION ERROR": [],
@@ -3114,9 +3041,27 @@
             "HALLUCINATION CORRECTION": [],
             "PLANNING ERROR CORRECTION": [
               {
-                "wrong action proposed": 2
+                "wrong action proposed": 1
               }
             ]
+          }
+        },
+        {
+          "PE": 0,
+          "HF_PE": 0,
+          "NA": 5.0,
+          "AE": 0,
+          "SUC": 1,
+          "UA": 0,
+          "TOT HAL": 0,
+          "HF_HAL": 0,
+          "Annotations": {
+            "HALLUCINATION": [],
+            "PLANNING ERROR": [],
+            "ACTION ERROR": [],
+            "FAIL": [],
+            "HALLUCINATION CORRECTION": [],
+            "PLANNING ERROR CORRECTION": []
           }
         },
         {
@@ -3430,37 +3375,21 @@
       ],
       "trials": [
         {
-          "PE": 2,
-          "HF_PE": 2,
-          "NA": 6.0,
+          "PE": 0,
+          "HF_PE": 0,
+          "NA": 7.0,
           "AE": 0,
           "SUC": 1,
           "UA": 0,
-          "TOT HAL": 1,
-          "HF_HAL": 1,
+          "TOT HAL": 0,
+          "HF_HAL": 0,
           "Annotations": {
-            "HALLUCINATION": [
-              {
-                "inefficient robot deployment": 1
-              }
-            ],
-            "PLANNING ERROR": [
-              {
-                "wrong action proposed": 2
-              }
-            ],
+            "HALLUCINATION": [],
+            "PLANNING ERROR": [],
             "ACTION ERROR": [],
             "FAIL": [],
-            "HALLUCINATION CORRECTION": [
-              {
-                "inefficient robot deployment": 1
-              }
-            ],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "wrong action proposed": 2
-              }
-            ]
+            "HALLUCINATION CORRECTION": [],
+            "PLANNING ERROR CORRECTION": []
           }
         },
         {
@@ -3540,44 +3469,67 @@
       ],
       "trials": [
         {
-          "PE": 3,
-          "HF_PE": 3,
+          "PE": 2,
+          "HF_PE": 2,
           "NA": 7.0,
           "AE": 0,
           "SUC": 1,
-          "UA": 1,
-          "TOT HAL": 1,
+          "UA": 2,
+          "TOT HAL": 4,
+          "HF_HAL": 2,
+          "Annotations": {
+            "HALLUCINATION": [
+              {
+                "useless action executed": 2
+              },
+              {
+                "inefficient robot deployment": 2
+              }
+            ],
+            "PLANNING ERROR": [
+              {
+                "wrong action proposed": 2
+              }
+            ],
+            "ACTION ERROR": [],
+            "FAIL": [],
+            "HALLUCINATION CORRECTION": [
+              {
+                "inefficient robot deployment": 2
+              }
+            ],
+            "PLANNING ERROR CORRECTION": [
+              {
+                "wrong action proposed": 2
+              }
+            ]
+          }
+        },
+        {
+          "PE": 0,
+          "HF_PE": 0,
+          "NA": 5.0,
+          "AE": 0,
+          "SUC": 1,
+          "UA": 2,
+          "TOT HAL": 2,
           "HF_HAL": 0,
           "Annotations": {
             "HALLUCINATION": [
               {
-                "useless action executed": 1
+                "useless action executed": 2
               }
             ],
-            "PLANNING ERROR": [
-              {
-                "wrong action proposed": 2
-              },
-              {
-                "wrong area proposed": 1
-              }
-            ],
+            "PLANNING ERROR": [],
             "ACTION ERROR": [],
             "FAIL": [],
             "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "wrong action proposed": 2
-              },
-              {
-                "wrong area proposed": 1
-              }
-            ]
+            "PLANNING ERROR CORRECTION": []
           }
         },
         {
-          "PE": 2,
-          "HF_PE": 2,
+          "PE": 1,
+          "HF_PE": 1,
           "NA": 5.0,
           "AE": 0,
           "SUC": 1,
@@ -3589,9 +3541,6 @@
             "PLANNING ERROR": [
               {
                 "wrong action proposed": 1
-              },
-              {
-                "wrong area proposed": 1
               }
             ],
             "ACTION ERROR": [],
@@ -3600,41 +3549,6 @@
             "PLANNING ERROR CORRECTION": [
               {
                 "wrong action proposed": 1
-              },
-              {
-                "wrong area proposed": 1
-              }
-            ]
-          }
-        },
-        {
-          "PE": 3,
-          "HF_PE": 3,
-          "NA": 5.0,
-          "AE": 0,
-          "SUC": 1,
-          "UA": 0,
-          "TOT HAL": 0,
-          "HF_HAL": 0,
-          "Annotations": {
-            "HALLUCINATION": [],
-            "PLANNING ERROR": [
-              {
-                "wrong action proposed": 1
-              },
-              {
-                "unproposed area": 2
-              }
-            ],
-            "ACTION ERROR": [],
-            "FAIL": [],
-            "HALLUCINATION CORRECTION": [],
-            "PLANNING ERROR CORRECTION": [
-              {
-                "wrong action proposed": 1
-              },
-              {
-                "unproposed area": 2
               }
             ]
           }
