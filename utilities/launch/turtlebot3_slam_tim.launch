@@ -1,10 +1,12 @@
+
 <launch>
   <!-- Argomenti -->
-  <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world_slam.world" />
+  <arg name="world_file" default="$(find utilities)/worlds/simworld12_slam.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 
   <!-- Avvio Gazebo -->
+  <param name="use_sim_time" value="true" />
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_file)"/>
   </include>
@@ -48,7 +50,7 @@
 
   <!-- PS4 controller for teleoperation -->
   <node pkg="joy" type="joy_node" name="joy_node" output="screen">
-    <param name="dev" value="/dev/input/js0"/>
+    <param name="dev" value="/dev/input/js2"/>
     <param name="deadzone" value="0.1"/>
   </node>
 
