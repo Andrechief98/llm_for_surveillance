@@ -2,7 +2,7 @@
   <!-- Argomenti per il namespace e per il file world -->
   <arg name="namespace_robot_1" default="turtlebot3_1"/>
   <arg name="namespace_robot_2" default="turtlebot3_2"/>
-  <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world.world"/>
+  <arg name="world_file" default="$(find utilities)/secworldj.world"/>
   
   <!-- Avvio di Gazebo con il world personalizzato -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
