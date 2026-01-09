@@ -2,7 +2,7 @@
   <!-- Argomenti per il namespace e per il file world -->
   <arg name="namespace_robot_1" default="turtlebot3_1"/>
   <arg name="namespace_robot_2" default="turtlebot3_2"/>
-  <arg name="world_file" default="$(find utilities)/secworldj.world"/>
+  <arg name="world_file" default="$(find utilities)/worlds/jamarworld.world"/>
   
   <!-- Avvio di Gazebo con il world personalizzato -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -35,10 +35,10 @@
           args="-urdf -model turtlebot3_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/> -->
 
     <!-- Map server con il namespace -->
-    <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map.yaml">
+    <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1.yaml">
       <param name="frame_id" value="$(arg namespace_robot_1)/map" />
     </node> -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_mapj.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map.yaml">
       <param name="frame_id" value="map" />
     </node>
 
@@ -113,10 +113,10 @@
           args="-urdf -model turtlebot3_2 -x 0.0 -y 3.5 -Y -1.57 -param robot_description"/> -->
 
     <!-- Map server con il namespace -->
-    <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_map.yaml">
+    <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2.yaml">
       <param name="frame_id" value="$(arg namespace_robot_2)/map" />
     </node> -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_mapj.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_map.yaml">
       <param name="frame_id" value="map" />
     </node>
 
