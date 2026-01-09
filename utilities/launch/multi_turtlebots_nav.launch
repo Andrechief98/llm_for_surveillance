@@ -31,8 +31,8 @@
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
 
     <!-- Spawn in Gazebo -->
-    <!-- <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
-          args="-urdf -model turtlebot3_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/> -->
+     <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
+          args="-urdf -model turtlebot3_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/>
 
     <!-- Map server con il namespace -->
     <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1.yaml">
@@ -109,8 +109,8 @@
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
 
     <!-- Spawn in Gazebo -->
-    <!-- <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
-          args="-urdf -model turtlebot3_2 -x 0.0 -y 3.5 -Y -1.57 -param robot_description"/> -->
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
+          args="-urdf -model turtlebot3_2 -x 0.0 -y 3.5 -Y -1.57 -param robot_description"/>
 
     <!-- Map server con il namespace -->
     <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2.yaml">

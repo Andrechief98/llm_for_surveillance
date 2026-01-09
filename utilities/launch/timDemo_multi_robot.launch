@@ -13,7 +13,7 @@
 
 
     <include file="$(find utilities)/launch/multi_turtlebots_nav.launch" />
-    <include file="$(find utilities)/launch/timDemo_teleop.launch" />
+    <!--<include file="$(find utilities)/launch/timDemo_teleop.launch" /> -->
 
     
     <node 

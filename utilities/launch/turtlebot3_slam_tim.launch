@@ -3,7 +3,7 @@
   <!-- Argomenti -->
   <arg name="world_file" default="$(find utilities)/worlds/jamarworld_slam.world" />
   <arg name="model" default="burger" />
-  <arg name="namespace" default="turtlebot3_2"/>
+  <arg name="namespace" default="turtlebot3_1"/>
 
   <!-- Avvio Gazebo -->
   <param name="use_sim_time" value="true" />
@@ -67,7 +67,7 @@
       <param name="invert_angular" value="false"/>
       <param name="soft_scale" value="true"/>
       <!-- Remap topic to your robot controller if necessario -->
-      <remap from="cmd_vel" to="turtlebot3_2/cmd_vel"/>
+      <remap from="cmd_vel" to="turtlebot3_1/cmd_vel"/>
   </node>
 
 </launch>
