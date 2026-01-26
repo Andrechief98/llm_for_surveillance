@@ -2,7 +2,7 @@
   <!-- Argomenti per il namespace e per il file world -->
   <arg name="namespace_robot_1" default="turtlebot3_1"/>
   <arg name="namespace_robot_2" default="turtlebot3_2"/>
-  <arg name="world_file" default="$(find utilities)/worlds/jamarworld3.world"/>
+  <arg name="world_file" default="$(find utilities)/worlds/jamarworld2.world"/>
   
   <!-- Avvio di Gazebo con il world personalizzato -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -32,13 +32,13 @@
 
     <!-- Spawn in Gazebo -->
      <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
-          args="-urdf -model turtlebot3_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/>
+          args="-urdf -model turtlebot3_1 -x -4.0 -y -4.5 -Y 1.57 -param robot_description"/>
 
     <!-- Map server con il namespace -->
     <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1.yaml">
       <param name="frame_id" value="$(arg namespace_robot_1)/map" />
     </node> -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_mapj3.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_mapj2.yaml">
       <param name="frame_id" value="map" />
     </node>
 
@@ -116,7 +116,7 @@
     <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2.yaml">
       <param name="frame_id" value="$(arg namespace_robot_2)/map" />
     </node> -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_mapj3.yaml">
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_mapj2.yaml">
       <param name="frame_id" value="map" />
     </node>
 
@@ -171,9 +171,9 @@
       
     </node>
 
-    <!-- <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find utilities)/config/rviz/multi_robot_navigation.rviz">
+    <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find utilities)/config/rviz/multi_robot_navigation.rviz">
       <remap from="/move_base_simple/goal" to="/turtlebot3_2/move_base_simple/goal"/>
-    </node> -->
+    </node> 
 
   </group>
 </launch>

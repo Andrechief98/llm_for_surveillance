@@ -176,7 +176,7 @@ class Node():
                         counter += 1
                         continue
 
-                    elif "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                    elif "2" in model_name or "3" in model_name or "4" in model_name:
                         # Horizontal orientation:
                         self.msg_marker_position.pose.orientation.x = 0
                         self.msg_marker_position.pose.orientation.y = 0
@@ -208,16 +208,16 @@ class Node():
                         counter += 1
                         continue
 
-                    #elif "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                    elif "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
                         # Horizontal orientation:
-                        #self.msg_marker_position.pose.orientation.x = 0
-                        #self.msg_marker_position.pose.orientation.y = 0
-                        #self.msg_marker_position.pose.orientation.z = 0
-                        #self.msg_marker_position.pose.orientation.w = 1
+                        self.msg_marker_position.pose.orientation.x = 0
+                        self.msg_marker_position.pose.orientation.y = 0
+                        self.msg_marker_position.pose.orientation.z = 0
+                        self.msg_marker_position.pose.orientation.w = 1
 
-                        #self.msg_marker_position.scale.x = 0.0 # cube length
-                        #self.msg_marker_position.scale.y = 0.0 # cube width
-                        #self.msg_marker_position.scale.z = 0.0 # cube height
+                        self.msg_marker_position.scale.x = 0.0 # cube length
+                        self.msg_marker_position.scale.y = 0.0 # cube width
+                        self.msg_marker_position.scale.z = 0.0 # cube height
 
                     else:
                         # Vertical orientation:
@@ -306,4 +306,3 @@ if __name__=="__main__":
 
     MarkerVisualizer=Node()
     rospy.spin()
-
