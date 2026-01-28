@@ -63,7 +63,7 @@ if __name__=="__main__":
     # OPEN ALL THE DOORS
     rospy.sleep(2)
     
-    for i in range(2, 10):
+    for i in range(8, 10):
 
         service_name = f"/door_{i}_control_service"
         

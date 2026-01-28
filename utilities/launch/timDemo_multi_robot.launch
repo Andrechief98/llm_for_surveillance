@@ -12,8 +12,23 @@
     </node>
 
 
-    <include file="$(find utilities)/launch/multi_turtlebots_nav.launch" />
+    <include file="$(find utilities)/launch/multi_turtlebots_navj2.launch" />
     <include file="$(find utilities)/launch/timDemo_teleop.launch" />
+
+   <!-- <group if="$(eval arg('scenario') == '2')">
+        <include file="$(find utilities)/launch/multi_turtlebots_nav.launch"/>
+        <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
+    </group>
+
+    <group if="$(eval arg('scenario') == '1')">
+        <include file="$(find utilities)/launch/multi_turtlebots_navj1.launch"/>
+        <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
+    </group>
+
+    <group if="$(eval arg('scenario') == '3')">
+        <include file="$(find utilities)/launch/multi_turtlebots_navj2.launch"/>
+        <include file="$(find utilities)/launch/timDemo_auto.launch"/>
+    </group>-->
 
     
     <node 
