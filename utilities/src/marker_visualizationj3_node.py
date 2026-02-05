@@ -25,7 +25,7 @@ class Node():
         
         self.rate=rospy.Rate(10)
 
-        with open(f"{script_dir}/../../llm_interface/config/info.json", "r") as f:
+        with open(f"{script_dir}/../../llm_interface/config/infoj3.json", "r") as f:
             info = json.load(f)
     
         self.areas_dict = info["areas"]
@@ -176,7 +176,7 @@ class Node():
                         counter += 1
                         continue
 
-                    elif "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                    elif "8" in model_name:
                         # Horizontal orientation:
                         self.msg_marker_position.pose.orientation.x = 0
                         self.msg_marker_position.pose.orientation.y = 0

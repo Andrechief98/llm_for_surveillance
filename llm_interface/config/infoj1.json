@@ -55,7 +55,7 @@
   "areas": {
     "A": {
       "description": "",
-      "sensors": ["Lidar_2", "Lidar_7"],
+      "sensors": ["Lidar_1", "Lidar_3"],
       "actuators": ["door_4", "door_5"],
       "coordinate_ranges": {
         "x": {
@@ -68,14 +68,33 @@
         }
       },
       "coordinates": {
-        "x": 4.0,
-        "y": -3.0
+        "x": -5.0,
+        "y": 3.5
       }
     },
     "B": {
       "description": "",
-      "sensors": ["Lidar_3", "Lidar_7", "Camera_1"],
-      "actuators": ["door_5","door_6"],
+      "sensors": ["Lidar_2"],
+      "actuators": ["door_7"],
+      "coordinate_ranges": {
+        "x": {
+          "min": -4.7,
+          "max": -2 
+        },
+        "y": {
+          "min": -0.6,
+          "max": -3.3
+        }
+      },
+      "coordinates": {
+        "x": -6.0,
+        "y": -5.5
+      }
+    },
+    "C": {
+      "description": "",
+      "sensors": ["Lidar_4", "Lidar_5"],
+      "actuators": ["door_1", "door_2"],
       "coordinate_ranges": {
         "x": {
           "min": 1,
@@ -87,33 +106,14 @@
         }
       },
       "coordinates": {
-        "x": 3,
-        "y": -1
-      }
-    },
-    "C": {
-      "description": "",
-      "sensors": ["Lidar_3", "Lidar_4"],
-      "actuators": ["door_6", "door_8"],
-      "coordinate_ranges": {
-        "x": {
-          "min": 1,
-          "max": 8.1
-        },
-        "y": {
-          "min": 0,
-          "max": 1.5
-        }
-      },
-      "coordinates": {
-        "x": 5,
-        "y": 1
+        "x": 2,
+        "y": 3
       }
     },
     "D": {
       "description": "",
-      "sensors": ["Lidar_4", "Lidar_5"],
-      "actuators": ["door_8", "door_9"],
+      "sensors": ["Camera_1"],
+      "actuators": [],
       "coordinate_ranges": {
         "x": {
           "min": 1,
@@ -131,27 +131,27 @@
     },
     "E": {
       "description": "",
-      "sensors": ["Lidar_5", "Lidar_6, Lidar_2"],
-      "actuators": ["door_1", "door_4", "door_9", "door_7"],
+      "sensors": ["Lidar_7"],
+      "actuators": ["door_3"],
       "coordinate_ranges": {
         "x": {
-          "min": -2,
-          "max": 1
+          "min": 1,
+          "max": 8.1
         },
         "y": {
-          "min": -5.22,
-          "max": 4.3
+          "min": -5.2,
+          "max": -2
         }
       },
       "coordinates": {
-        "x": 0,
-        "y": 0
+        "x": 4.5,
+        "y": -3.2
       }
     },
     "F": {
       "description": "",
-      "sensors": ["Camera_2"],
-      "actuators": [],
+      "sensors": ["Lidar_8"],
+      "actuators": ["door_8"],
       "coordinate_ranges": {
         "x": {
           "min": -6.3,
@@ -163,18 +163,18 @@
         }
       },
       "coordinates": {
-        "x": -4,
-        "y": 3.5
+        "x": -2,
+        "y": -5.5
       }
     },
     "G": {
       "description": "",
-      "sensors": ["Lidar_6", "Lidar_8"],
-      "actuators": ["door_3", "door_7"],
+      "sensors": ["Lidar_6"],
+      "actuators": ["door_6"],
       "coordinate_ranges": {
         "x": {
           "min": -6.3,
-          "max": -2
+          "max": 7.1
         },
         "y": {
           "min": -0.6,
@@ -182,27 +182,8 @@
         }
       },
       "coordinates": {
-        "x": -4,
-        "y": 0.5
-      }
-    },
-    "H": {
-      "description": "",
-      "sensors": ["Lidar_1"],
-      "actuators": ["door_2"],
-      "coordinate_ranges": {
-        "x": {
-          "min": -4.7,
-          "max": -2 
-        },
-        "y": {
-          "min": -0.6,
-          "max": -3.3
-        }
-      },
-      "coordinates": {
-        "x": -3,
-        "y": -2.5
+        "x": 6,
+        "y": -0.5
       }
     }
   },

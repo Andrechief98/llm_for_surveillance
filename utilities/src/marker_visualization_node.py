@@ -25,7 +25,7 @@ class Node():
         
         self.rate=rospy.Rate(10)
 
-        with open(f"{script_dir}/../../llm_interface/config/info.json", "r") as f:
+        with open(f"{script_dir}/../../llm_interface/config/infoj2.json", "r") as f:
             info = json.load(f)
     
         self.areas_dict = info["areas"]

@@ -17,7 +17,7 @@ class Node():
 
     def __init__(self):
 
-        rospy.init_node("marker_visualization_node",anonymous=True)
+        rospy.init_node("marker_visualizationj1_node",anonymous=True)
 
 
         self.subscriber = rospy.Subscriber("/data", String, self.publishMarkerArrayCallback, queue_size=1)
@@ -25,7 +25,7 @@ class Node():
         
         self.rate=rospy.Rate(10)
 
-        with open(f"{script_dir}/../../llm_interface/config/info.json", "r") as f:
+        with open(f"{script_dir}/../../llm_interface/config/infoj1.json", "r") as f:
             info = json.load(f)
     
         self.areas_dict = info["areas"]

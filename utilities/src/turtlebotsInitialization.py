@@ -32,7 +32,21 @@ if __name__=="__main__":
 
     pathNode = Node()
 
-    rospy.sleep(3) 
+    rospy.sleep(3)
+    
+    # Wait for Gazebo service to be available (increased timeout)
+    try:
+        rospy.loginfo("Waiting for /gazebo/get_model_state service...")
+        rospy.wait_for_service("/gazebo/get_model_state", timeout=30)
+        rospy.loginfo("/gazebo/get_model_state service is available")
+    except rospy.ROSException as e:
+        rospy.logerr("Gazebo service not available: %s", e)
+        rospy.logerr("Make sure Gazebo is running and properly initialized")
+        rospy.signal_shutdown("Gazebo service unavailable")
+        exit(1)
+
+    # Additional delay to ensure Gazebo models are spawned
+    rospy.sleep(5)
 
     # SETTING THE INITIAL ESTIMATED POSE DURING LOCALIZATION
     response_list = [pathNode.client_initialPose("turtlebot3_1",""), pathNode.client_initialPose("turtlebot3_2","")]
