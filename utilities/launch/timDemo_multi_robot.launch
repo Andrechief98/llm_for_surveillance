@@ -1,177 +1,59 @@
 <launch>
 
-    <arg name="scenario"    default="1"/>
+    <arg name="scenario" default="1"/>
     <param name="scenario" value="$(arg scenario)" /> 
 
-    <arg name="mode" default="first" />
-    <!-- Logic: first, second, and third for diferent worlds-->
+    <arg name="mode" default="original" />
+    <!-- Mode: original, j1, j2, j3 -->
+    <!-- Controls which config files and world configurations are used -->
 
-    <!-- first world -->
-    <group if="$(eval arg('mode') == 'first')">
-        <node 
-            name="markerVisualizationNode" 
-            pkg="utilities" 
-            type="marker_visualizationj1_node.py" 
-            output="screen">
-        </node>
+    <!-- Modular marker visualization node - loads correct JSON config based on mode -->
+    <node 
+        name="markerVisualizationNode" 
+        pkg="utilities" 
+        type="marker_visualization_node.py" 
+        output="screen">
+        <param name="mode" value="$(arg mode)" />
+    </node>
 
-        <include file="$(find utilities)/launch/multi_turtlebots_navj1.launch" />
-        <include file="$(find utilities)/launch/timDemo_teleop.launch" />
-        
-        <!-- Nodes for world 1 -->
-        <node 
-            name="initializationNode" 
-            pkg="utilities" 
-            type="turtlebotsInitialization.py" 
-            output="screen">
-        </node>
-        
-        <node 
-            name="dataMediatorNode" 
-            pkg="utilities" 
-            type="data_mediator.py" 
-            output="screen">
-        </node>
+    <!-- Modular navigation launch - includes correct world and navigation setup based on mode -->
+    <include file="$(find utilities)/launch/multi_turtlebots_nav.launch">
+        <arg name="mode" value="$(arg mode)" />
+    </include>
 
-        <node 
-            name="sensors_activation_node" 
-            pkg="utilities" 
-            type="sensors_activation_node.py" 
-            output="screen">
-        </node>
+    <!-- Teleoperation -->
+    <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
+    
+    <!-- Robot initialization node -->
+    <node 
+        name="initializationNode" 
+        pkg="utilities" 
+        type="turtlebotsInitialization.py" 
+        output="screen">
+    </node>
+    
+    <!-- Data mediator node -->
+    <node 
+        name="dataMediatorNode" 
+        pkg="utilities" 
+        type="data_mediator.py" 
+        output="screen">
+    </node>
 
-        <node 
-            name="check_robot_goal_node" 
-            pkg="utilities" 
-            type="check_robot_goal.py" 
-            output="screen">
-        </node>
-    </group>
+    <!-- Sensors activation node -->
+    <node 
+        name="sensors_activation_node" 
+        pkg="utilities" 
+        type="sensors_activation_node.py" 
+        output="screen">
+    </node>
 
-    <!-- second world -->
-    <group if="$(eval arg('mode') == 'second')">
-        <node 
-            name="markerVisualizationNode" 
-            pkg="utilities" 
-            type="marker_visualizationj2_node.py" 
-            output="screen">
-        </node>
-
-        <include file="$(find utilities)/launch/multi_turtlebots_navj2.launch"/>
-        <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
-        
-        <!-- Nodes for mode 2 -->
-        <node 
-            name="initializationNode" 
-            pkg="utilities" 
-            type="turtlebotsInitialization.py" 
-            output="screen">
-        </node>
-        
-        <node 
-            name="dataMediatorNode" 
-            pkg="utilities" 
-            type="data_mediator.py" 
-            output="screen">
-        </node>
-
-        <node 
-            name="sensors_activation_node" 
-            pkg="utilities" 
-            type="sensors_activation_node.py" 
-            output="screen">
-        </node>
-
-        <node 
-            name="check_robot_goal_node" 
-            pkg="utilities" 
-            type="check_robot_goal.py" 
-            output="screen">
-        </node>
-    </group>
-
-    <!-- third world -->
-    <group if="$(eval arg('mode') == 'third')">
-        <node 
-            name="markerVisualizationNode" 
-            pkg="utilities" 
-            type="marker_visualizationj3_node.py" 
-            output="screen">
-        </node>
-
-        <include file="$(find utilities)/launch/multi_turtlebots_navj3.launch"/>
-        <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
-        
-        <!-- Nodes for mode 2 -->
-        <node 
-            name="initializationNode" 
-            pkg="utilities" 
-            type="turtlebotsInitialization.py" 
-            output="screen">
-        </node>
-        
-        <node 
-            name="dataMediatorNode" 
-            pkg="utilities" 
-            type="data_mediator.py" 
-            output="screen">
-        </node>
-
-        <node 
-            name="sensors_activation_node" 
-            pkg="utilities" 
-            type="sensors_activation_node.py" 
-            output="screen">
-        </node>
-
-        <node 
-            name="check_robot_goal_node" 
-            pkg="utilities" 
-            type="check_robot_goal.py" 
-            output="screen">
-        </node>
-    </group>
-
-     <!-- original world -->
-    <group if="$(eval arg('mode') == 'og')">
-        <node 
-            name="markerVisualizationNode" 
-            pkg="utilities" 
-            type="marker_visualization_node.py" 
-            output="screen">
-        </node>
-
-        <include file="$(find utilities)/launch/multi_turtlebots_nav.launch"/>
-        <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
-        
-        <!-- Nodes for original world -->
-        <node 
-            name="initializationNode" 
-            pkg="utilities" 
-            type="turtlebotsInitialization.py" 
-            output="screen">
-        </node>
-        
-        <node 
-            name="dataMediatorNode" 
-            pkg="utilities" 
-            type="data_mediator.py" 
-            output="screen">
-        </node>
-
-        <node 
-            name="sensors_activation_node" 
-            pkg="utilities" 
-            type="sensors_activation_node.py" 
-            output="screen">
-        </node>
-
-        <node 
-            name="check_robot_goal_node" 
-            pkg="utilities" 
-            type="check_robot_goal.py" 
-            output="screen">
-        </node>
-    </group>
+    <!-- Robot goal checker node -->
+    <node 
+        name="check_robot_goal_node" 
+        pkg="utilities" 
+        type="check_robot_goal.py" 
+        output="screen">
+    </node>
 
 </launch>
