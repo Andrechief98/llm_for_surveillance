@@ -171,9 +171,9 @@
       
     </node>
 
-    <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find utilities)/config/rviz/multi_robot_navigation.rviz">
+    <!-- <node pkg="rviz" type="rviz" name="rviz" output="screen" args = "-d $(find utilities)/config/rviz/multi_robot_navigation.rviz">
       <remap from="/move_base_simple/goal" to="/turtlebot3_2/move_base_simple/goal"/>
-    </node> 
+    </node> -->
 
   </group>
 </launch>

@@ -192,42 +192,42 @@
     {
       "connection_type" : "open",
       "door": "",
-      "connected_areas": ["F", "E"],
+      "connected_areas": ["F", "B"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "open",
       "door": "",
-      "connected_areas": ["E", "B"],
+      "connected_areas": ["C", "D"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_1",
-      "connected_areas": ["E", "outdoor"],
+      "door": "door_6",
+      "connected_areas": ["B", "outdoor"],
       "direction": "bidirectional",
       "note": "it remains closed"
     },
     {
       "connection_type" : "door",
-      "door": "door_2",
-      "connected_areas": ["H", "E"],
+      "door": "door_7",
+      "connected_areas": ["A", "G"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_3",
-      "connected_areas": ["G", "E"],
+      "door": "door_5",
+      "connected_areas": ["G", "C"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
       "door": "door_4",
-      "connected_areas": ["E", "A"],
+      "connected_areas": ["C", "E"],
       "direction": "bidirectional",
       "note": ""
     },
@@ -239,30 +239,30 @@
       "note": ""
     },
     {
-      "connection_type" : "door",
-      "door": "door_6",
-      "connected_areas": ["B", "C"],
+      "connection_type" : "open",
+      "door": "",
+      "connected_areas": ["G", "F"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_7",
-      "connected_areas": ["E", "G"],
+      "door": "door_2",
+      "connected_areas": ["A", "outside"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_8",
-      "connected_areas": ["C", "D"],
+      "door": "door_3",
+      "connected_areas": ["A", "outside"],
       "direction": "bidirectional",
       "note": ""
     },
     {
-      "connection_type" : "door",
-      "door": "door_9",
-      "connected_areas": ["D", "E"],
+      "connection_type" : "open",
+      "door": "",
+      "connected_areas": ["A", "B"],
       "direction": "bidirectional",
       "note": ""
     }

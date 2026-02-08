@@ -68,7 +68,7 @@
         }
       },
       "coordinates": {
-        "x": 4.0,
+        "x": 5.0,
         "y": -5.0
       }
     },
@@ -87,7 +87,7 @@
         }
       },
       "coordinates": {
-        "x": 4,
+        "x": 5.5,
         "y": 1.5
       }
     },
@@ -135,7 +135,7 @@
       "actuators": ["door_1"],
       "coordinate_ranges": {
         "x": {
-          "min": -2,
+          "min": -4,
           "max": 1
         },
         "y": {
@@ -144,8 +144,8 @@
         }
       },
       "coordinates": {
-        "x": -0.5,
-        "y": -1
+        "x": -2.5,
+        "y": 1.5
       }
     },
     "F": {
@@ -166,6 +166,25 @@
         "x": -3.5,
         "y": -5
       }
+    },
+    "G": {
+      "description": "",
+      "sensors": ["Lidar_2"],
+      "actuators": ["door_1"],
+      "coordinate_ranges": {
+        "x": {
+          "min": -4,
+          "max": 1
+        },
+        "y": {
+          "min": -5.22,
+          "max": 4.3
+        }
+      },
+      "coordinates": {
+        "x": 0,
+        "y": 0
+      }
     }
   },
 
@@ -173,77 +192,49 @@
     {
       "connection_type" : "open",
       "door": "",
-      "connected_areas": ["F", "E"],
+      "connected_areas": ["C", "G"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "open",
       "door": "",
-      "connected_areas": ["E", "B"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_1",
-      "connected_areas": ["E", "outdoor"],
-      "direction": "bidirectional",
-      "note": "it remains closed"
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_2",
-      "connected_areas": ["H", "E"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_3",
-      "connected_areas": ["G", "E"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_4",
-      "connected_areas": ["E", "A"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_5",
-      "connected_areas": ["A", "B"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_6",
-      "connected_areas": ["B", "C"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_7",
-      "connected_areas": ["E", "G"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_8",
       "connected_areas": ["C", "D"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_9",
-      "connected_areas": ["D", "E"],
+      "door": "door_5",
+      "connected_areas": ["D", "outdoor"],
+      "direction": "bidirectional",
+      "note": "it remains closed"
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_1",
+      "connected_areas": ["G", "E"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_2",
+      "connected_areas": ["G", "F"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_3",
+      "connected_areas": ["G", "A"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_4",
+      "connected_areas": ["G", "B"],
       "direction": "bidirectional",
       "note": ""
     }

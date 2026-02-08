@@ -97,7 +97,7 @@
       "actuators": ["door_1", "door_2"],
       "coordinate_ranges": {
         "x": {
-          "min": 1,
+          "min": -3,
           "max": 8.1
         },
         "y": {
@@ -106,7 +106,7 @@
         }
       },
       "coordinates": {
-        "x": 2,
+        "x": -1,
         "y": 3
       }
     },
@@ -174,7 +174,7 @@
       "coordinate_ranges": {
         "x": {
           "min": -6.3,
-          "max": 7.1
+          "max": 7.8
         },
         "y": {
           "min": -0.6,
@@ -182,7 +182,7 @@
         }
       },
       "coordinates": {
-        "x": 6,
+        "x": 7,
         "y": -0.5
       }
     }
@@ -192,77 +192,77 @@
     {
       "connection_type" : "open",
       "door": "",
-      "connected_areas": ["F", "E"],
+      "connected_areas": ["A", "B"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "open",
       "door": "",
-      "connected_areas": ["E", "B"],
+      "connected_areas": ["C", "D"],
       "direction": "bidirectional",
       "note": ""
     },
     {
-      "connection_type" : "door",
-      "door": "door_1",
-      "connected_areas": ["E", "outdoor"],
+      "connection_type" : "open",
+      "door": "",
+      "connected_areas": ["C", "F"],
       "direction": "bidirectional",
       "note": "it remains closed"
     },
     {
-      "connection_type" : "door",
-      "door": "door_2",
-      "connected_areas": ["H", "E"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_3",
-      "connected_areas": ["G", "E"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_4",
-      "connected_areas": ["E", "A"],
-      "direction": "bidirectional",
-      "note": ""
-    },
-    {
-      "connection_type" : "door",
-      "door": "door_5",
-      "connected_areas": ["A", "B"],
+      "connection_type" : "open",
+      "door": "",
+      "connected_areas": ["D", "F"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
       "door": "door_6",
-      "connected_areas": ["B", "C"],
+      "connected_areas": ["C", "G"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_7",
-      "connected_areas": ["E", "G"],
+      "door": "door_2",
+      "connected_areas": ["C", "outside"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_3",
+      "connected_areas": ["C", "E"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
       "door": "door_8",
-      "connected_areas": ["C", "D"],
+      "connected_areas": ["E", "F"],
       "direction": "bidirectional",
       "note": ""
     },
     {
       "connection_type" : "door",
-      "door": "door_9",
-      "connected_areas": ["D", "E"],
+      "door": "door_7",
+      "connected_areas": ["B", "F"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_5",
+      "connected_areas": ["A", "C"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_4",
+      "connected_areas": ["A", "outside"],
       "direction": "bidirectional",
       "note": ""
     }

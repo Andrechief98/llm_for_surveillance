@@ -19,18 +19,35 @@ class Node():
 
         rospy.init_node("marker_visualization_node",anonymous=True)
 
+        # Get the mode parameter from ROS parameter server
+        self.mode = rospy.get_param('~mode', 'original')
+        
+        # Load the appropriate config file and set door logic based on mode
+        if self.mode == 'original':
+            config_file = f"{script_dir}/../../llm_interface/config/info.json"
+        elif self.mode == 'j1':
+            config_file = f"{script_dir}/../../llm_interface/config/infoj1.json"
+        elif self.mode == 'j2':
+            config_file = f"{script_dir}/../../llm_interface/config/infoj2.json"
+        elif self.mode == 'j3':
+            config_file = f"{script_dir}/../../llm_interface/config/infoj3.json"
+        else:
+            rospy.logwarn(f"Unknown mode '{self.mode}', using default config")
+            self.mode = 'original'
+            config_file = f"{script_dir}/../../llm_interface/config/info.json"
 
         self.subscriber = rospy.Subscriber("/data", String, self.publishMarkerArrayCallback, queue_size=1)
         self.publisher = rospy.Publisher('/visualization_marker_array', MarkerArray, queue_size=1)
         
-        self.rate=rospy.Rate(10)
+        self.rate = rospy.Rate(10)
 
-        with open(f"{script_dir}/../../llm_interface/config/infoj2.json", "r") as f:
+        with open(config_file, "r") as f:
             info = json.load(f)
     
         self.areas_dict = info["areas"]
-
         self.areas_names = self.areas_dict.keys()
+        
+        rospy.loginfo(f"Marker Visualization Node initialized with mode: {self.mode}")
 
 
 
@@ -46,10 +63,8 @@ class Node():
 
         models_list = sensors_list + robots_list + actuator_list
         activated_sensors = self.data["activated_sensors"]
-        # print(activated_sensors)
 
         counter = 0
-        # print(gazeboMsgData)
 
         for model_name in models_list:
 
@@ -176,27 +191,102 @@ class Node():
                         counter += 1
                         continue
 
-                    elif "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
-                        # Horizontal orientation:
-                        self.msg_marker_position.pose.orientation.x = 0
-                        self.msg_marker_position.pose.orientation.y = 0
-                        self.msg_marker_position.pose.orientation.z = 0
-                        self.msg_marker_position.pose.orientation.w = 1
+                    # Mode-specific door orientation logic when door is closed
+                    if self.mode == 'original':
+                        # Original mode: doors 2,3,4,7,8 horizontal
+                        if "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
 
-                        self.msg_marker_position.scale.x = 1.0 # cube length
-                        self.msg_marker_position.scale.y = 0.1 # cube width
-                        self.msg_marker_position.scale.z = 0.1 # cube height
+                            self.msg_marker_position.scale.x = 1.0 # cube length
+                            self.msg_marker_position.scale.y = 0.1 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
 
-                    else:
-                        # Vertical orientation:
-                        self.msg_marker_position.pose.orientation.x = 0
-                        self.msg_marker_position.pose.orientation.y = 0.707
-                        self.msg_marker_position.pose.orientation.z = 0
-                        self.msg_marker_position.pose.orientation.w = 0.707
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
 
-                        self.msg_marker_position.scale.x = 0.1 # cube length
-                        self.msg_marker_position.scale.y = 1.0 # cube width
-                        self.msg_marker_position.scale.z = 0.1 # cube height
+                            self.msg_marker_position.scale.x = 0.1 # cube length
+                            self.msg_marker_position.scale.y = 1.0 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
+
+                    elif self.mode == 'j1':
+                        # J1 mode: doors 2,3,4 horizontal
+                        if "2" in model_name or "3" in model_name or "4" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
+
+                            self.msg_marker_position.scale.x = 1.0 # cube length
+                            self.msg_marker_position.scale.y = 0.1 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
+
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
+
+                            self.msg_marker_position.scale.x = 0.1 # cube length
+                            self.msg_marker_position.scale.y = 1.0 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
+
+                    elif self.mode == 'j2':
+                        # J2 mode: doors 2,3,4,7,8 horizontal
+                        if "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
+
+                            self.msg_marker_position.scale.x = 1.0 # cube length
+                            self.msg_marker_position.scale.y = 0.1 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
+
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
+
+                            self.msg_marker_position.scale.x = 0.1 # cube length
+                            self.msg_marker_position.scale.y = 1.0 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
+
+                    elif self.mode == 'j3':
+                        # J3 mode: only door 8 horizontal
+                        if "8" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
+
+                            self.msg_marker_position.scale.x = 1.0 # cube length
+                            self.msg_marker_position.scale.y = 0.1 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
+
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
+
+                            self.msg_marker_position.scale.x = 0.1 # cube length
+                            self.msg_marker_position.scale.y = 1.0 # cube width
+                            self.msg_marker_position.scale.z = 0.1 # cube height
                     
                     self.msg_marker_position.color.r = 0.0
                     self.msg_marker_position.color.g = 0.0
@@ -208,18 +298,58 @@ class Node():
                         counter += 1
                         continue
 
-                    #elif "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
-                        # Horizontal orientation:
-                        #self.msg_marker_position.pose.orientation.x = 0
-                        #self.msg_marker_position.pose.orientation.y = 0
-                        #self.msg_marker_position.pose.orientation.z = 0
-                        #self.msg_marker_position.pose.orientation.w = 1
+                    # Mode-specific door orientation logic when door is open
+                    if self.mode == 'original':
+                        # Original mode: doors 2,3,4,7,8 become 0-sized (invisible)
+                        if "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
 
-                        #self.msg_marker_position.scale.x = 0.0 # cube length
-                        #self.msg_marker_position.scale.y = 0.0 # cube width
-                        #self.msg_marker_position.scale.z = 0.0 # cube height
+                            self.msg_marker_position.scale.x = 0.0 # cube length
+                            self.msg_marker_position.scale.y = 0.0 # cube width
+                            self.msg_marker_position.scale.z = 0.0 # cube height
 
-                    else:
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
+
+                            self.msg_marker_position.scale.x = 0.0 # cube length
+                            self.msg_marker_position.scale.y = 0.0 # cube width
+                            self.msg_marker_position.scale.z = 0.0 # cube height
+
+                    elif self.mode == 'j1':
+                        # J1 mode: doors 2,3,4,7,8 become 0-sized (invisible)
+                        if "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
+
+                            self.msg_marker_position.scale.x = 0.0 # cube length
+                            self.msg_marker_position.scale.y = 0.0 # cube width
+                            self.msg_marker_position.scale.z = 0.0 # cube height
+
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
+
+                            self.msg_marker_position.scale.x = 0.0 # cube length
+                            self.msg_marker_position.scale.y = 0.0 # cube width
+                            self.msg_marker_position.scale.z = 0.0 # cube height
+
+                    elif self.mode == 'j2':
+                        # J2 mode: skip 2,3,4 (commented out in original j2 file), process others
+                        # All doors become 0-sized (invisible) when open
                         # Vertical orientation:
                         self.msg_marker_position.pose.orientation.x = 0
                         self.msg_marker_position.pose.orientation.y = 0.707
@@ -229,6 +359,30 @@ class Node():
                         self.msg_marker_position.scale.x = 0.0 # cube length
                         self.msg_marker_position.scale.y = 0.0 # cube width
                         self.msg_marker_position.scale.z = 0.0 # cube height
+
+                    elif self.mode == 'j3':
+                        # J3 mode: doors 2,3,4,7,8 become 0-sized (invisible)
+                        if "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                            # Horizontal orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 1
+
+                            self.msg_marker_position.scale.x = 0.0 # cube length
+                            self.msg_marker_position.scale.y = 0.0 # cube width
+                            self.msg_marker_position.scale.z = 0.0 # cube height
+
+                        else:
+                            # Vertical orientation:
+                            self.msg_marker_position.pose.orientation.x = 0
+                            self.msg_marker_position.pose.orientation.y = 0.707
+                            self.msg_marker_position.pose.orientation.z = 0
+                            self.msg_marker_position.pose.orientation.w = 0.707
+
+                            self.msg_marker_position.scale.x = 0.0 # cube length
+                            self.msg_marker_position.scale.y = 0.0 # cube width
+                            self.msg_marker_position.scale.z = 0.0 # cube height
                     
                     self.msg_marker_position.color.r = 0.0
                     self.msg_marker_position.color.g = 0.0
@@ -240,15 +394,11 @@ class Node():
                 continue
 
             else:
-                print("Error")
+                rospy.logwarn(f"Unknown model type: {model_name}")
             
 
-            
-
-            
             self.msg_marker_position.header.stamp = rospy.Time.now()
             
-
             self.msg_marker_position.pose.position.x = model_position_x
             self.msg_marker_position.pose.position.y = model_position_y
             
@@ -288,7 +438,7 @@ class Node():
 
             self.msg_marker_text.scale.x = 0.8 # length
             self.msg_marker_text.scale.y = 0.8 # width
-            self.msg_marker_text.scale.z = 0.8 # width
+            self.msg_marker_text.scale.z = 0.8 # height
 
             self.msg_marker_text.header.stamp = rospy.Time.now()
             self.msg_marker_text.id = counter + 2000 # unique identifier for the area text markers 
@@ -298,12 +448,11 @@ class Node():
             counter += 1
 
         self.publisher.publish(self.msg_marker_array)
-        #self.rate.sleep()
 
 
 
 if __name__=="__main__":
 
-    MarkerVisualizer=Node()
+    MarkerVisualizer = Node()
     rospy.spin()
 
