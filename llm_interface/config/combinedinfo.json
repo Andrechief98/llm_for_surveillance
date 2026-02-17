@@ -1,0 +1,312 @@
+{
+  "configs": {
+    "original": {
+      "file": "info.json",
+      "data": {
+        "ros_publishers": {
+          "robots": {
+            "turtlebot3_1": {
+              "ros_topic": "/turtlebot3_1/move_base_simple/goal"
+            },
+            "turtlebot3_2": {
+              "ros_topic": "/turtlebot3_2/move_base_simple/goal"
+            }
+          }
+        },
+        "ros_subscribers": {
+          "sensors": {
+            "camera_1": {
+              "ros_topic": "/gazebo_multi_camera/camera/camera_sensor1/image_raw"
+            },
+            "camera_2": {
+              "ros_topic": "/gazebo_multi_camera/camera/camera_sensor2/image_raw"
+            }
+          }
+        },
+        "ros_services": {
+          "actuators": {
+            "door_1": {
+              "ros_service_name": "/door_1_control_service"
+            },
+            "door_2": {
+              "ros_service_name": "/door_2_control_service"
+            },
+            "door_3": {
+              "ros_service_name": "/door_3_control_service"
+            },
+            "door_4": {
+              "ros_service_name": "/door_4_control_service"
+            },
+            "door_5": {
+              "ros_service_name": "/door_5_control_service"
+            },
+            "door_6": {
+              "ros_service_name": "/door_6_control_service"
+            },
+            "door_7": {
+              "ros_service_name": "/door_7_control_service"
+            },
+            "door_8": {
+              "ros_service_name": "/door_8_control_service"
+            },
+            "door_9": {
+              "ros_service_name": "/door_9_control_service"
+            }
+          }
+        },
+        "areas": {
+          "A": {
+            "description": "",
+            "sensors": ["Lidar_2", "Lidar_7"],
+            "actuators": ["door_4", "door_5"],
+            "coordinate_ranges": {
+              "x": {"min": 1, "max": 8.1},
+              "y": {"min": -5.2, "max": -2}
+            },
+            "coordinates": {"x": 4.0, "y": -3.0}
+          },
+          "B": {
+            "description": "",
+            "sensors": ["Lidar_3", "Lidar_7", "Camera_1"],
+            "actuators": ["door_5", "door_6"],
+            "coordinate_ranges": {
+              "x": {"min": 1, "max": 8.1},
+              "y": {"min": -2, "max": 0}
+            },
+            "coordinates": {"x": 3, "y": -1}
+          },
+          "C": {
+            "description": "",
+            "sensors": ["Lidar_3", "Lidar_4"],
+            "actuators": ["door_6", "door_8"],
+            "coordinate_ranges": {
+              "x": {"min": 1, "max": 8.1},
+              "y": {"min": 0, "max": 1.5}
+            },
+            "coordinates": {"x": 5, "y": 1}
+          },
+          "D": {
+            "description": "",
+            "sensors": ["Lidar_4", "Lidar_5"],
+            "actuators": ["door_8", "door_9"],
+            "coordinate_ranges": {
+              "x": {"min": 1, "max": 8.1},
+              "y": {"min": 1.5, "max": 4.3}
+            },
+            "coordinates": {"x": 4, "y": 3}
+          },
+          "E": {
+            "description": "",
+            "sensors": ["Lidar_5", "Lidar_6, Lidar_2"],
+            "actuators": ["door_1", "door_4", "door_9", "door_7"],
+            "coordinate_ranges": {
+              "x": {"min": -2, "max": 1},
+              "y": {"min": -5.22, "max": 4.3}
+            },
+            "coordinates": {"x": 0, "y": 0}
+          },
+          "F": {
+            "description": "",
+            "sensors": ["Camera_2"],
+            "actuators": [],
+            "coordinate_ranges": {
+              "x": {"min": -6.3, "max": -2},
+              "y": {"min": 2, "max": 4.3}
+            },
+            "coordinates": {"x": -4, "y": 3.5}
+          },
+          "G": {
+            "description": "",
+            "sensors": ["Lidar_6", "Lidar_8"],
+            "actuators": ["door_3", "door_7"],
+            "coordinate_ranges": {
+              "x": {"min": -6.3, "max": -2},
+              "y": {"min": -0.6, "max": 2}
+            },
+            "coordinates": {"x": -4, "y": 0.5}
+          },
+          "H": {
+            "description": "",
+            "sensors": ["Lidar_1"],
+            "actuators": ["door_2"],
+            "coordinate_ranges": {
+              "x": {"min": -4.7, "max": -2},
+              "y": {"min": -0.6, "max": -3.3}
+            },
+            "coordinates": {"x": -3, "y": -2.5}
+          }
+        },
+        "areas_connections": [
+          {"connection_type": "open", "door": "", "connected_areas": ["F", "E"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["E", "B"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_1", "connected_areas": ["E", "outdoor"], "direction": "bidirectional", "note": "it remains closed"},
+          {"connection_type": "door", "door": "door_2", "connected_areas": ["H", "E"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_3", "connected_areas": ["G", "E"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_4", "connected_areas": ["E", "A"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_5", "connected_areas": ["A", "B"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_6", "connected_areas": ["B", "C"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_7", "connected_areas": ["E", "G"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_8", "connected_areas": ["C", "D"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_9", "connected_areas": ["D", "E"], "direction": "bidirectional", "note": ""}
+        ]
+      }
+    },
+    "j1": {
+      "file": "infoj1.json",
+      "data": {
+        "ros_publishers": {
+          "robots": {
+            "turtlebot3_1": {"ros_topic": "/turtlebot3_1/move_base_simple/goal"},
+            "turtlebot3_2": {"ros_topic": "/turtlebot3_2/move_base_simple/goal"}
+          }
+        },
+        "ros_subscribers": {
+          "sensors": {
+            "camera_1": {"ros_topic": "/gazebo_multi_camera/camera/camera_sensor1/image_raw"},
+            "camera_2": {"ros_topic": "/gazebo_multi_camera/camera/camera_sensor2/image_raw"}
+          }
+        },
+        "ros_services": {
+          "actuators": {
+            "door_1": {"ros_service_name": "/door_1_control_service"},
+            "door_2": {"ros_service_name": "/door_2_control_service"},
+            "door_3": {"ros_service_name": "/door_3_control_service"},
+            "door_4": {"ros_service_name": "/door_4_control_service"},
+            "door_5": {"ros_service_name": "/door_5_control_service"},
+            "door_6": {"ros_service_name": "/door_6_control_service"},
+            "door_7": {"ros_service_name": "/door_7_control_service"},
+            "door_8": {"ros_service_name": "/door_8_control_service"},
+            "door_9": {"ros_service_name": "/door_9_control_service"}
+          }
+        },
+        "areas": {
+          "A": {"description": "", "sensors": ["Lidar_1", "Lidar_3"], "actuators": ["door_4", "door_5"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -5.2, "max": -2}}, "coordinates": {"x": -5.0, "y": 3.5}},
+          "B": {"description": "", "sensors": ["Lidar_2"], "actuators": ["door_7"], "coordinate_ranges": {"x": {"min": -4.7, "max": -2}, "y": {"min": -0.6, "max": -3.3}}, "coordinates": {"x": -6.0, "y": -5.5}},
+          "C": {"description": "", "sensors": ["Lidar_4", "Lidar_5"], "actuators": ["door_1", "door_2"], "coordinate_ranges": {"x": {"min": -3, "max": 8.1}, "y": {"min": -2, "max": 0}}, "coordinates": {"x": -1, "y": 3}},
+          "D": {"description": "", "sensors": ["Camera_1"], "actuators": [], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": 1.5, "max": 4.3}}, "coordinates": {"x": 4, "y": 3}},
+          "E": {"description": "", "sensors": ["Lidar_7"], "actuators": ["door_3"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -5.2, "max": -2}}, "coordinates": {"x": 4.5, "y": -3.2}},
+          "F": {"description": "", "sensors": ["Lidar_8"], "actuators": ["door_8"], "coordinate_ranges": {"x": {"min": -6.3, "max": -2}, "y": {"min": 2, "max": 4.3}}, "coordinates": {"x": -2, "y": -5.5}},
+          "G": {"description": "", "sensors": ["Lidar_6"], "actuators": ["door_6"], "coordinate_ranges": {"x": {"min": -6.3, "max": 7.8}, "y": {"min": -0.6, "max": 2}}, "coordinates": {"x": 7, "y": -0.5}}
+        },
+        "areas_connections": [
+          {"connection_type": "open", "door": "", "connected_areas": ["A", "B"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["C", "D"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["C", "F"], "direction": "bidirectional", "note": "it remains closed"},
+          {"connection_type": "open", "door": "", "connected_areas": ["D", "F"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_6", "connected_areas": ["C", "G"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_2", "connected_areas": ["C", "outside"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_3", "connected_areas": ["C", "E"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_8", "connected_areas": ["E", "F"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_7", "connected_areas": ["B", "F"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_5", "connected_areas": ["A", "C"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_4", "connected_areas": ["A", "outside"], "direction": "bidirectional", "note": ""}
+        ]
+      }
+    },
+    "j2": {
+      "file": "infoj2.json",
+      "data": {
+        "ros_publishers": {
+          "robots": {
+            "turtlebot3_1": {"ros_topic": "/turtlebot3_1/move_base_simple/goal"},
+            "turtlebot3_2": {"ros_topic": "/turtlebot3_2/move_base_simple/goal"}
+          }
+        },
+        "ros_subscribers": {
+          "sensors": {
+            "camera_1": {"ros_topic": "/gazebo_multi_camera/camera/camera_sensor1/image_raw"},
+            "camera_2": {"ros_topic": "/gazebo_multi_camera/camera/camera_sensor2/image_raw"}
+          }
+        },
+        "ros_services": {
+          "actuators": {
+            "door_1": {"ros_service_name": "/door_1_control_service"},
+            "door_2": {"ros_service_name": "/door_2_control_service"},
+            "door_3": {"ros_service_name": "/door_3_control_service"},
+            "door_4": {"ros_service_name": "/door_4_control_service"},
+            "door_5": {"ros_service_name": "/door_5_control_service"},
+            "door_6": {"ros_service_name": "/door_6_control_service"},
+            "door_7": {"ros_service_name": "/door_7_control_service"},
+            "door_8": {"ros_service_name": "/door_8_control_service"},
+            "door_9": {"ros_service_name": "/door_9_control_service"}
+          }
+        },
+        "areas": {
+          "A": {"description": "", "sensors": ["Lidar_2", "Lidar_3", "Lidar_4"], "actuators": ["door_2", "door_3"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -5.2, "max": -2}}, "coordinates": {"x": -4.0, "y": 3.5}},
+          "B": {"description": "", "sensors": ["Lidar_7"], "actuators": ["door_6"], "coordinate_ranges": {"x": {"min": -4.7, "max": -2}, "y": {"min": -0.6, "max": -3.3}}, "coordinates": {"x": -6.0, "y": -5.5}},
+          "C": {"description": "", "sensors": ["Lidar_1"], "actuators": ["door_5"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -2, "max": 0}}, "coordinates": {"x": 3, "y": -1}},
+          "D": {"description": "", "sensors": ["Camera_1"], "actuators": [], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": 1.5, "max": 4.3}}, "coordinates": {"x": 4, "y": 3}},
+          "E": {"description": "", "sensors": ["Lidar_6"], "actuators": ["door_4"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -5.2, "max": -2}}, "coordinates": {"x": 4.5, "y": -3.2}},
+          "F": {"description": "", "sensors": ["Camera_2"], "actuators": [], "coordinate_ranges": {"x": {"min": -6.3, "max": -2}, "y": {"min": 2, "max": 4.3}}, "coordinates": {"x": -4, "y": -5.5}},
+          "G": {"description": "", "sensors": ["Lidar_5"], "actuators": ["door_7"], "coordinate_ranges": {"x": {"min": -6.3, "max": -2}, "y": {"min": -0.6, "max": 2}}, "coordinates": {"x": -4, "y": -0.5}}
+        },
+        "areas_connections": [
+          {"connection_type": "open", "door": "", "connected_areas": ["F", "B"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["C", "D"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_6", "connected_areas": ["B", "outdoor"], "direction": "bidirectional", "note": "it remains closed"},
+          {"connection_type": "door", "door": "door_7", "connected_areas": ["A", "G"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_5", "connected_areas": ["G", "C"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_4", "connected_areas": ["C", "E"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_5", "connected_areas": ["A", "B"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["G", "F"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_2", "connected_areas": ["A", "outside"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_3", "connected_areas": ["A", "outside"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["A", "B"], "direction": "bidirectional", "note": ""}
+        ]
+      }
+    },
+    "j3": {
+      "file": "infoj3.json",
+      "data": {
+        "ros_publishers": {
+          "robots": {
+            "turtlebot3_1": {"ros_topic": "/turtlebot3_1/move_base_simple/goal"},
+            "turtlebot3_2": {"ros_topic": "/turtlebot3_2/move_base_simple/goal"}
+          }
+        },
+        "ros_subscribers": {
+          "sensors": {
+            "camera_1": {"ros_topic": "/gazebo_multi_camera/camera/camera_sensor1/image_raw"},
+            "camera_2": {"ros_topic": "/gazebo_multi_camera/camera/camera_sensor2/image_raw"}
+          }
+        },
+        "ros_services": {
+          "actuators": {
+            "door_1": {"ros_service_name": "/door_1_control_service"},
+            "door_2": {"ros_service_name": "/door_2_control_service"},
+            "door_3": {"ros_service_name": "/door_3_control_service"},
+            "door_4": {"ros_service_name": "/door_4_control_service"},
+            "door_5": {"ros_service_name": "/door_5_control_service"},
+            "door_6": {"ros_service_name": "/door_6_control_service"},
+            "door_7": {"ros_service_name": "/door_7_control_service"},
+            "door_8": {"ros_service_name": "/door_8_control_service"},
+            "door_9": {"ros_service_name": "/door_9_control_service"}
+          }
+        },
+        "areas": {
+          "A": {"description": "", "sensors": ["Lidar_5"], "actuators": ["door_3"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -5.2, "max": -2}}, "coordinates": {"x": 5.0, "y": -5.0}},
+          "B": {"description": "", "sensors": ["Lidar_4"], "actuators": ["door_4"], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": -2, "max": 0}}, "coordinates": {"x": 5.5, "y": 1.5}},
+          "C": {"description": "", "sensors": ["Camera_1"], "actuators": [], "coordinate_ranges": {"x": {"min": 1, "max": 8.1}, "y": {"min": 0, "max": 1.5}}, "coordinates": {"x": 3.5, "y": 5.5}},
+          "D": {"description": "", "sensors": ["Lidar_3"], "actuators": ["door_5"], "coordinate_ranges": {"x": {"min": -8.1, "max": 8.1}, "y": {"min": 1.5, "max": 5.5}}, "coordinates": {"x": -5.5, "y": 4.5}},
+          "E": {"description": "", "sensors": ["Lidar_2"], "actuators": ["door_1"], "coordinate_ranges": {"x": {"min": -4, "max": 1}, "y": {"min": -5.22, "max": 4.3}}, "coordinates": {"x": -2.5, "y": 1.5}},
+          "F": {"description": "", "sensors": ["Lidar_1"], "actuators": ["door_2"], "coordinate_ranges": {"x": {"min": -6.3, "max": 2}, "y": {"min": -7, "max": 4.3}}, "coordinates": {"x": -3.5, "y": -5}},
+          "G": {"description": "", "sensors": ["Lidar_2"], "actuators": ["door_1"], "coordinate_ranges": {"x": {"min": -4, "max": 1}, "y": {"min": -5.22, "max": 4.3}}, "coordinates": {"x": 0, "y": 0}}
+        },
+        "areas_connections": [
+          {"connection_type": "open", "door": "", "connected_areas": ["C", "G"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "open", "door": "", "connected_areas": ["C", "D"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_5", "connected_areas": ["D", "outdoor"], "direction": "bidirectional", "note": "it remains closed"},
+          {"connection_type": "door", "door": "door_1", "connected_areas": ["G", "E"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_2", "connected_areas": ["G", "F"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_3", "connected_areas": ["G", "A"], "direction": "bidirectional", "note": ""},
+          {"connection_type": "door", "door": "door_4", "connected_areas": ["G", "B"], "direction": "bidirectional", "note": ""}
+        ]
+      }
+    }
+  },
+  "framework": {
+    "select_config": "Choose one of: original, j1, j2, j3",
+    "usage": "Access configs[config_name].data for the selected configuration. Each config contains the full structure from its source file.",
+    "modularity": "You can add more configs by appending new entries to the configs object."
+  }
+}
