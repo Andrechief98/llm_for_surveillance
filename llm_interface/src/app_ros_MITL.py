@@ -53,7 +53,7 @@ class ChatNode():
         self.last_run = None
 
         file_config = "info.json"
-        file_paths = [f"/home/gb/catkin_ws/src/llm_for_surveillance/llm_interface/config/{file_config}"]
+        file_paths = [f"/home/javiermartinez/catkin_ws/src/llm_for_surveillance/llm_interface/config/{file_config}"]
         file_streams = [open(path, "rb") for path in file_paths]
 
         if required_assistant not in assistants_names_list:
@@ -296,7 +296,7 @@ class ChatNode():
 
 
         # We extract the correct prompt from the yaml file
-        with open(f"/home/gb/catkin_ws/src/llm_for_surveillance/llm_interface/config/prompts.yaml") as f:
+        with open(f"/home/javiermartinez/catkin_ws/src/llm_for_surveillance/llm_interface/config/prompts.yaml") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
         # prompt_type = "man_in_the_loop"
