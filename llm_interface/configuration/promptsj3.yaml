@@ -14,7 +14,7 @@ man_in_the_loop : |
     - **Walkable Space:** Light gray regions;
   - **5 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_5` (red squares on the map);
   - **5 Doors:** labeled `door_1` through `door_5`, controlled via ROS services;  
-  - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map);
+  - **1 Camera:** `Camera_1` (red arrow on the map);
   - **2 Mobile Robots:**
     - `turtlebot3_1`
     - `turtlebot3_2`
@@ -175,7 +175,7 @@ autonomous : |
     - **Walkable Space:** Light gray regions;
   - **5 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_5` (red squares on the map);
   - **5 Doors:** labeled `door_1` through `door_5`, controlled via ROS services;  
-  - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map);
+  - **1 Camera:** `Camera_1` (red arrow on the map);
   - **2 Mobile Robots:**
     - `turtlebot3_1`
     - `turtlebot3_2`
