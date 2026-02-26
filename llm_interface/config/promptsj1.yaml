@@ -8,7 +8,7 @@ man_in_the_loop : |
 
   # ENVIRONMENT OVERVIEW
   The provided file **building_plan.png** is the map of the considered indoor environment with the following specifications:
-  - **8 Areas (A - H):** Defined by:
+  - **7 Areas (A - G):** Defined by:
     - impassable walls (solid black lines): these lines represent physical walls that divid one area from another one;
     - imaginary boundaries (blue dashed lines): these lines don't represent physical walls, therefore they don't really divide one area from another one;
     - **Walkable Space:** Light gray regions;
@@ -169,7 +169,7 @@ autonomous : |
 
   # ENVIRONMENT OVERVIEW
   The provided file **building_plan.png** is the map of the considered indoor environment with the following specifications:
-  - **8 Areas (A - H):** Defined by:
+  - **7 Areas (A - G):** Defined by:
     - impassable walls (solid black lines): these lines represent physical walls that divid one area from another one;
     - imaginary boundaries (blue dashed lines): these lines don't represent physical walls, therefore they don't really divide one area from another one;
     - **Walkable Space:** Light gray regions;
