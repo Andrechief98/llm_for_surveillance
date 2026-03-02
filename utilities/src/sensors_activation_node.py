@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 import json
-from OpenAI_interface.srv import triggerGpt, triggerGptRequest, retrieveSystemState, retrieveSystemStateResponse
+from llm_interface.srv import triggerGpt, triggerGptRequest, retrieveSystemState, retrieveSystemStateResponse
 from std_msgs.msg import String
 from std_srvs.srv import Empty, EmptyResponse 
 from tf.transformations import quaternion_matrix

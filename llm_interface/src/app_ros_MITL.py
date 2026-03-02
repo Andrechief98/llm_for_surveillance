@@ -53,7 +53,7 @@ class ChatNode():
         self.last_run = None
 
         file_config = "info.json"
-        file_paths = [f"{script_dir}/../config/{file_config}"]
+        file_paths = [f"/home/gb/catkin_ws/src/llm_for_surveillance/llm_interface/config/{file_config}"]
         file_streams = [open(path, "rb") for path in file_paths]
 
         if required_assistant not in assistants_names_list:
@@ -296,7 +296,7 @@ class ChatNode():
 
 
         # We extract the correct prompt from the yaml file
-        with open(f"{script_dir}/../config/prompts.yaml") as f:
+        with open(f"/home/gb/catkin_ws/src/llm_for_surveillance/llm_interface/config/prompts.yaml") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
         # prompt_type = "man_in_the_loop"
@@ -466,34 +466,34 @@ class ChatNode():
                         }
                     ]
                 )
-        elif self.model_to_use == "o3-mini":
-            # It cannot process images
-            self.thread = self.client.beta.threads.create(
-                    metadata={
-                        "thread_name":required_thread_name
-                        },
-                    messages=[
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "text",
-                                    "text": self.task_instructions
-                                },
-                            ],
-                            # "attachments": [
-                            #     { 
-                            #         "file_id": self.info_file.id, 
-                            #         "tools": [
-                            #             {
-                            #                 "type": "file_search"
-                            #                 }
-                            #             ] 
-                            #         }
-                            # ],
-                        }
-                    ]
-                )
+        # elif self.model_to_use == "o3-mini":
+        #     # It cannot process images
+        #     self.thread = self.client.beta.threads.create(
+        #             metadata={
+        #                 "thread_name":required_thread_name
+        #                 },
+        #             messages=[
+        #                 {
+        #                     "role": "user",
+        #                     "content": [
+        #                         {
+        #                             "type": "text",
+        #                             "text": self.task_instructions
+        #                         },
+        #                     ],
+        #                     # "attachments": [
+        #                     #     { 
+        #                     #         "file_id": self.info_file.id, 
+        #                     #         "tools": [
+        #                     #             {
+        #                     #                 "type": "file_search"
+        #                     #                 }
+        #                     #             ] 
+        #                     #         }
+        #                     # ],
+        #                 }
+        #             ]
+        #         )
 
         
         print("New thread created")
