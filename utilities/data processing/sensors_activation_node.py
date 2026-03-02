@@ -52,12 +52,12 @@ class Node():
                 if sensor_name not in self.activated_sensors:
                     if "Lidar" in sensor_name:
                         # Check if the actor is in the area of the Lidar. 
-                        # We check if the actor is in an area of [0, 1.2]m along the x axis and [-0.1, 0.1]m along the y axis
-                        if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 1.2) and (actor_position_from_sensor[1]>= -0.15 and actor_position_from_sensor[1]<= 0.15):
+                        # We check if the actor is in an area of [0, 1.3]m along the x axis and [-0.1, 0.1]m along the y axis
+                        if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 1.3) and (actor_position_from_sensor[1]>= -0.15 and actor_position_from_sensor[1]<= 0.15):
                             self.activated_sensors.append(sensor_name)
                     elif "Camera" in sensor_name:
-                        # We check if the actor is in an area of [0, 5]m along the x axis and [-1, 1]m along the y axis
-                        if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 5) and (actor_position_from_sensor[1]>= -1 and actor_position_from_sensor[1]<= 1):
+                        # We check if the actor is in an area of [0, 6]m along the x axis and [-1, 1]m along the y axis
+                        if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 6) and (actor_position_from_sensor[1]>= -1 and actor_position_from_sensor[1]<= 1):
                             self.activated_sensors.append(sensor_name)
                     else:
                         continue
