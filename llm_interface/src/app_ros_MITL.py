@@ -532,6 +532,7 @@ class ChatNode():
                         assistant_id=self.assistant.id,
                         model=self.model_to_use,
                         tool_choice={"type": "file_search"}
+                        
                     )
                     
                     if self.last_run.status == 'completed':
@@ -1089,7 +1090,9 @@ def chat():
             thread_id=chatNode.thread.id,
             assistant_id=chatNode.assistant.id,
             model = chatNode.model_to_use,
-            tool_choice={"type": "file_search"}
+            tool_choice={"type": "file_search"},
+            reasoning_effort=None,
+
         )
 
         if chatNode.last_run.status == 'completed':
