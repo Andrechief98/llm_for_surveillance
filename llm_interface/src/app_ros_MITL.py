@@ -24,6 +24,21 @@ import yaml
 
 
 script_dir = os.path.dirname(__file__) #/home/andrea/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src
+if rospy.has_param("mode"):
+    mode = rospy.get_param("mode")
+else:
+    mode = "original"
+
+if mode == "original":
+    file_config = "info.json"
+    file_prompt = "prompts.yaml"
+    file_building_plan = "building_plan.png"
+else:
+    file_config = "info"+mode+".json"
+    file_prompt = "prompts"+mode+".yaml"
+    file_building_plan = "building_plan"+mode+".png"
+
+
 
 session={
     "messages":[]
@@ -52,8 +67,7 @@ class ChatNode():
 
         self.last_run = None
 
-        file_config = "info.json"
-        file_paths = [f"/home/javiermartinez/catkin_ws/src/llm_for_surveillance/llm_interface/config/{file_config}"]
+        file_paths = [f"{script_dir}/../config/{file_config}"]
         file_streams = [open(path, "rb") for path in file_paths]
 
         if required_assistant not in assistants_names_list:
@@ -152,19 +166,19 @@ class ChatNode():
                             "type": "function",
                             "function": {
                                 "name": "control_actuator",
-                                "description": "Use this function to control a sequence of door actuators in the environment via ROS service calls defined in the info.json file.",# Each actuator can be opened or closed based on user instructions.",
+                                "description": f"Use this function to control a sequence of door actuators in the environment via ROS service calls defined in the {file_config} file.",# Each actuator can be opened or closed based on user instructions.",
                                 "parameters": {    
                                     "type": "object",
                                     "properties": {
                                         "actuators_sequence": {
                                             "type": "array",
-                                            "description": "Ordered list of actuator commands. Each item specifies the ROS service name (from the info.json file) and the desired action ('open' or 'close').",
+                                            "description": f"Ordered list of actuator commands. Each item specifies the ROS service name (from the {file_config} file) and the desired action ('open' or 'close').",
                                             "items": {
                                                 "type": "object",
                                                 "properties": {
                                                     "ros_service_name": {
                                                         "type": "string",
-                                                        "description": "Name of the ROS service corresponding to a specific door actuator, as defined in the info.json file."
+                                                        "description": f"Name of the ROS service corresponding to a specific door actuator, as defined in the {file_config} file."
                                                         },
                                                     "command": {
                                                         "type": "string",
@@ -246,11 +260,11 @@ class ChatNode():
                         #                     },
                         #                 "area_to_reach": {
                         #                     "type": "string", 
-                        #                     "description": "A string containing the coordinates (x,y) of the area the robot must reach obtained from info.json file."
+                        #                     "description": f"A string containing the coordinates (x,y) of the area the robot must reach obtained from {file_config} file."
                         #                     },
                         #                 "ros_topic": {
                         #                     "type": "string", 
-                        #                     "description": "ros topic that must be consider to control the robot obtained from the info.json file"
+                        #                     "description": f"ros topic that must be consider to control the robot obtained from the {file_config} file"
                         #                     },
                         #                 },
                         #             "required": ["robot_to_send", "area_to_reach", "ros_topic"]
@@ -296,7 +310,8 @@ class ChatNode():
 
 
         # We extract the correct prompt from the yaml file
-        with open(f"/home/javiermartinez/catkin_ws/src/llm_for_surveillance/llm_interface/config/prompts.yaml") as f:
+
+        with open(f"{script_dir}/../config/{file_prompt}") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
         # prompt_type = "man_in_the_loop"
@@ -406,7 +421,7 @@ class ChatNode():
             # it can process both files and images
 
             # If we want to upload images in the thread we can create images in case of new one or retrieve already created images:
-            required_files_names_list = ["building_plan.png"]
+            required_files_names_list = [f"{file_building_plan}"]
             files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
             print(files_name_list)
             
@@ -608,7 +623,7 @@ class ChatNode():
             
             # Eliminiamo "robot_list_name", "sensors_list_names", "current_orientation" di ogni robot e di ogni sensore
             
-            with open(f"{script_dir}/../config/info.json", "r") as f:
+            with open(f"{script_dir}/../config/{file_config}", "r") as f:
                 info = json.load(f)
     
             areas_dict = info["areas"]
@@ -764,7 +779,7 @@ class ChatNode():
     # Funzione più robusta
     # def send_robot_to_area(self, robot, area):
 
-    #     with open("llm_interface/config/info.json", "r") as f:
+    #     with open(f"llm_interface/config/{file_config}", "r") as f:
     #         info = json.load(f)
         
     #     robots_dict = info["ros_publishers"]["robots"]
@@ -823,7 +838,7 @@ class ChatNode():
 
     def send_robots_to_area(self, robots_sequence):
 
-        with open(f"{script_dir}/../config/info.json", "r") as f:
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
             info = json.load(f)
 
         robots_dict = info["ros_publishers"]["robots"]
@@ -904,7 +919,7 @@ class ChatNode():
 
     def display_cameras(self, cameras_names_list):
         
-        with open(f"{script_dir}/../config/info.json", "r") as f:
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
             info = json.load(f)
         
         sensors_dict = info["ros_subscribers"]["sensors"]
@@ -996,7 +1011,7 @@ class ChatNode():
                 response = {
                         "ros_service_name" : ros_service_name,
                         "success" : "false",
-                        "additional_info" : "Wrong ros service name considered. Check again in the info.json file"
+                        "additional_info" : f"Wrong ros service name considered. Check again in the {file_config} file"
                     }
                 responses_list.append(response)
         
@@ -1006,7 +1021,7 @@ class ChatNode():
         response = self.retrieveSystemStateClient()
         system_state = json.loads(response.system_state)
 
-        with open(f"{script_dir}/../config/info.json", "r") as f:
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
             info = json.load(f)
 
         areas_dict = info["areas"]
@@ -1054,7 +1069,7 @@ socketio = SocketIO(app)
 
 
 DEFAULT_MESSAGE = chatNode.task_instructions
-DEFAULT_IMAGE = "static/uploads/building_plan.png"  
+DEFAULT_IMAGE = f"static/uploads/{file_building_plan}"  
 
 
 @app.route("/")

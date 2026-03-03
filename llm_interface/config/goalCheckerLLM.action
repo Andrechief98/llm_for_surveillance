@@ -1,0 +1,12 @@
+# goalCheckerLLM.action
+
+# 1. Goal: cosa riceve l'action server
+string message_for_LLM
+
+---
+# 2. Result: cosa restituisce alla fine
+string success
+
+---
+# 3. Feedback: cosa può inviare durante l'esecuzione
+string status_LLM
