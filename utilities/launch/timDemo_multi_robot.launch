@@ -4,7 +4,7 @@
     <param name="scenario" value="$(arg scenario)" /> 
 
     <arg name="mode" default="original" />
-    <!-- Mode: original, j1, j2, j3 -->
+    <!-- Mode: original, j1, j2, j3 use mode:= to choose-->
     <!-- Controls which config files and world configurations are used -->
 
     <!-- Modular marker visualization node - loads correct JSON config based on mode -->
