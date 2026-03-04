@@ -5005,9 +5005,9 @@
         <scale>1 1 1</scale>
         <link name='link_1'>
           <pose>8.30181 0.137486 1.65366 0 0 -3.02695</pose>
-          <velocity>0 0 0.01 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <velocity>0 0 0 0 0 0</velocity>
+          <acceleration>0 0 0 0 0 0</acceleration>
+          <wrench>0 0 0 0 0 0</wrench>
         </link>
       </model>
       <model name='Camera_2'>
@@ -5015,9 +5015,9 @@
         <scale>1 1 1</scale>
         <link name='link_1'>
           <pose>-5.12794 -9.07551 2.20934 0.006693 -0.031961 1.57532</pose>
-          <velocity>-1.4e-05 0.010004 9.5e-05 0.000905 0.000193 0.000129</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <velocity>0 0 0 0 0 0</velocity>
+          <acceleration>0 0 0 0 0 0</acceleration>
+          <wrench>0 0 0 0 0 0</wrench>
         </link>
       </model>
       <model name='Lidar_1'>

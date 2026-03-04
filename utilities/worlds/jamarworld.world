@@ -1219,8 +1219,8 @@
         <scale>1 1 1</scale>
         <link name='link_1'>
           <pose>5.35815 3.37679 2.85176 -3.13883 -0.661308 3.12511</pose>
-          <velocity>-0.005734 -1.4e-05 0.006908 0.001045 0.088129 4.7e-05</velocity>
-          <acceleration>0 0 0 -2.3e-05 -0 -2.6e-05</acceleration>
+          <velocity>0 0 0 0 0 0</velocity>
+          <acceleration>0 0 0 0 0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
@@ -1229,9 +1229,9 @@
         <scale>1 1 1</scale>
         <link name='link_1'>
           <pose>-2.51019 -7.92671 4.0282 0 -0 1.65833</pose>
-          <velocity>0 0 0.01 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <velocity>0 0 0 0 0 0</velocity>
+          <acceleration>0 0 0 0 0 0</acceleration>
+          <wrench>0 0 0 0 0 0</wrench>
         </link>
       </model>
       <model name='Lidar_1'>
