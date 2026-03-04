@@ -24,8 +24,10 @@ import yaml
 
 
 script_dir = os.path.dirname(__file__) #/home/andrea/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src
-if rospy.has_param("mode"):
-    mode = rospy.get_param("mode")
+if rospy.has_param("/markerVisualizationNode/mode"):
+    mode = rospy.get_param("/markerVisualizationNode/mode")
+    print("parameter /markerVisualizationNode/mode found")
+    print(mode)
 else:
     mode = "original"
 
@@ -74,12 +76,11 @@ class ChatNode():
  
             # We update the JSON file 
             files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
-            
             found = False
+            print("file looked for in Open AI files.json")
 
             if file_config in files_name_list:
                 # the configuration file is already uploaded. We search for the correct vector_store_id
-
                 for vector_store_id in vector_store_id_list:
                     for file in self.client.beta.vector_stores.files.list(vector_store_id = vector_store_id):
                         retrieved_file = self.client.files.retrieve(file_id=file.id)       
@@ -93,17 +94,18 @@ class ChatNode():
                 print("already created file info.config considered")
             else:
                 # Vector store is needed to upload files to the assistant.
-                vector_store = self.client.beta.vector_stores.create(name="Environmental and ROS information for surveillance")
+                vector_store = self.client.vector_stores.create(name="Environmental and ROS information for surveillance")
                 required_vector_store_id = vector_store.id
 
                 # We upload the file
-                file_batch = self.client.beta.vector_stores.file_batches.upload_and_poll(
+                file_batch = self.client.vector_stores.file_batches.upload_and_poll(
                     vector_store_id = required_vector_store_id, files=file_streams
                 )
                 # print(file_batch.status)
                 # print(file_batch.file_counts)
 
-                for file in self.client.beta.vector_stores.files.list(vector_store_id = required_vector_store_id):
+
+                for file in self.client.vector_stores.files.list(vector_store_id = required_vector_store_id):
                     retrieved_file = self.client.files.retrieve(file_id=file.id)       
                     if retrieved_file.filename == file_config:
                         files_name_list.append(file_config)

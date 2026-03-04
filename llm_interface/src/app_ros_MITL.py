@@ -24,10 +24,16 @@ import yaml
 
 
 script_dir = os.path.dirname(__file__) #/home/andrea/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src
-if rospy.has_param("mode"):
-    mode = rospy.get_param("mode")
+print("\n" + script_dir)
+if rospy.has_param("/markerVisualizationNode/mode"):
+    mode = rospy.get_param("/markerVisualizationNode/mode")
+    #print("parameter /markerVisualizationNode/mode found")
+    #print(mode)
 else:
     mode = "original"
+
+
+
 
 if mode == "original":
     file_config = "info.json"
@@ -38,7 +44,7 @@ else:
     file_prompt = "prompts"+mode+".yaml"
     file_building_plan = "building_plan"+mode+".png"
 
-
+#print(file_config)
 
 session={
     "messages":[]
@@ -73,15 +79,13 @@ class ChatNode():
         if required_assistant not in assistants_names_list:
             # We need to create a new assistant                 
             
-
             # We update the JSON file 
             files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
-            
             found = False
+            print("file looked for in Open AI files.json")
 
             if file_config in files_name_list:
                 # the configuration file is already uploaded. We search for the correct vector_store_id
-
                 for vector_store_id in vector_store_id_list:
                     for file in self.client.vector_stores.files.list(vector_store_id = vector_store_id):
                         retrieved_file = self.client.files.retrieve(file_id=file.id)       
