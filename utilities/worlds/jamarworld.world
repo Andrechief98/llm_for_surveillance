@@ -3644,7 +3644,7 @@
           </surface>
         </collision>
       </link>
-      <static>0</static>
+      <static>1</static>
       <allow_auto_disable>1</allow_auto_disable>
       <pose>6.47659 4.38641 0 0 -0 0</pose>
     </model>
