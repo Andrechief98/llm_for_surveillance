@@ -10,7 +10,7 @@
     <!-- Modular marker visualization node - loads correct JSON config based on mode -->
     <node 
         name="markerVisualizationNode" 
-        pkg="utilities" 
+        pkg="data_preprocessing_system" 
         type="marker_visualization_node.py" 
         output="screen">
         <param name="mode" value="$(arg mode)" />
@@ -27,7 +27,7 @@
     <!-- Robot initialization node -->
     <node 
         name="initializationNode" 
-        pkg="utilities" 
+        pkg="data_preprocessing_system" 
         type="turtlebotsInitialization.py" 
         output="screen">
     </node>
@@ -35,7 +35,7 @@
     <!-- Data mediator node -->
     <node 
         name="dataMediatorNode" 
-        pkg="utilities" 
+        pkg="data_preprocessing_system" 
         type="data_mediator.py" 
         output="screen">
     </node>
@@ -43,7 +43,7 @@
     <!-- Sensors activation node -->
     <node 
         name="sensors_activation_node" 
-        pkg="utilities" 
+        pkg="data_preprocessing_system" 
         type="sensors_activation_node.py" 
         output="screen">
     </node>
@@ -51,7 +51,7 @@
     <!-- Robot goal checker node -->
     <node 
         name="check_robot_goal_node" 
-        pkg="utilities" 
+        pkg="data_preprocessing_system" 
         type="check_robot_goal.py" 
         output="screen">
     </node>
