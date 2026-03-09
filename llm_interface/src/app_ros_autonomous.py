@@ -1405,6 +1405,7 @@ def chat():
         else:
             print("Error in the response generation. Current status:")
             print(chatNode.last_run.status)
+            print(chatNode.last_run.last_error)
             return jsonify({"error": "Error in the response generation.", "status": chatNode.last_run.status})
 
     except Exception as e:

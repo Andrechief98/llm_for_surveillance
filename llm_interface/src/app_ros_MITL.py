@@ -23,7 +23,7 @@ import yaml
 
 
 
-script_dir = os.path.dirname(__file__) #/home/andrea/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src
+script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_interface/src
 print("\n" + script_dir)
 if rospy.has_param("/markerVisualizationNode/mode"):
     mode = rospy.get_param("/markerVisualizationNode/mode")
@@ -318,8 +318,8 @@ class ChatNode():
         with open(f"{script_dir}/../config/{file_prompt}") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
 
-        # prompt_type = "man_in_the_loop"
-        prompt_type = "autonomous"
+        prompt_type = "man_in_the_loop"
+        #prompt_type = "autonomous"
 
         self.task_instructions = prompts_dict[prompt_type]
 
@@ -1103,7 +1103,7 @@ def chat():
         )
 
         start_response_time = time.time()
-
+        print("break 1")
         chatNode.last_run = chatNode.client.beta.threads.runs.create_and_poll(
             thread_id=chatNode.thread.id,
             assistant_id=chatNode.assistant.id,
@@ -1111,6 +1111,7 @@ def chat():
             tool_choice={"type": "file_search"},
             reasoning_effort = None
         )
+        print("break 2")
 
         if chatNode.last_run.status == 'completed':
             end_response_time = time.time()
@@ -1296,6 +1297,7 @@ def chat():
         else:
             print("Error in the response generation. Current status:")
             print(chatNode.last_run.status)
+            print(chatNode.last_run.last_error)
             return jsonify({"error": "Error in the response generation.", "status": chatNode.last_run.status})
 
     except Exception as e:

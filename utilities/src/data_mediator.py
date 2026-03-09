@@ -13,40 +13,17 @@ class Node():
         rospy.init_node("Data_mediator",anonymous=True)
 
 
-        ###### IT IS JUST USED TO MANUALLY SET THE BATTERY LEVEL OF EACH ROBOT ######
-
-        self.scenario_number = rospy.get_param("/scenario")
-
-        if self.scenario_number == 1:
-            self.turtlebot_1_battery = 60
-            self.turtlebot_2_battery = 60
-
-        elif self.scenario_number == 2:
-            self.turtlebot_1_battery = 60
-            self.turtlebot_2_battery = 60
-
-        elif self.scenario_number == 3:
-            self.turtlebot_1_battery = 5            # with low battery the right robot should be turtlebot_2 
-            self.turtlebot_2_battery = 60 
-
-        else:
-            self.activated_sensors = []
-
-        ######################################################################################
-
         self.message = {
             "robots_list_names": [],
             "robots":
                 {
                     "turtlebot3_1":{
                         "current_position": [],
-                        "current_orientation": [],
-                        "battery": self.turtlebot_1_battery
+                        "current_orientation": []
                         },
                     "turtlebot3_2":{
                         "current_position": [],
-                        "current_orientation": [],
-                        "battery": self.turtlebot_2_battery
+                        "current_orientation": []
                         }
                     },
             "sensors_list_names": [],
