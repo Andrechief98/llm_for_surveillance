@@ -15258,7 +15258,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>3</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -15287,7 +15287,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>4.08036 5.7018 0 0 -0 0</pose>
@@ -15485,7 +15485,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -15514,7 +15514,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>6.5908 1.24508 0 0 0 -1.60563</pose>
@@ -15712,7 +15712,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -15741,7 +15741,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>3.46879 -2.8203 0 0 -0 0</pose>
@@ -15939,7 +15939,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -16166,7 +16166,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -16195,7 +16195,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>-5.05647 2.88274 0 0 0 -1.62219</pose>
@@ -16393,7 +16393,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -16422,7 +16422,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>-5.07705 -5.41362 0 0 0 -1.64201</pose>
@@ -16620,7 +16620,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -16649,7 +16649,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>0.325211 -5.75162 0 0 0 -1.54125</pose>
@@ -16847,7 +16847,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>1.5</upper>
             <effort>-1</effort>
             <velocity>-1</velocity>
           </limit>
@@ -16876,7 +16876,7 @@
       <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
         <door_joint>door_joint</door_joint>
         <speed>1.0</speed>
-        <open_target>1.5</open_target>
+        <open_target>1.0</open_target>
         <close_target>0.0</close_target>
       </plugin>
       <pose>-6.53289 5.74482 0 0 -0 0</pose>
