@@ -44,7 +44,7 @@ else:
     file_prompt = "prompts"+mode+".yaml"
     file_building_plan = "building_plan"+mode+".png"
 
-#print(file_config)
+print(file_config)
 
 session={
     "messages":[]
@@ -75,6 +75,7 @@ class ChatNode():
 
         file_paths = [f"{script_dir}/../config/{file_config}"]
         file_streams = [open(path, "rb") for path in file_paths]
+        print("file_path: "+ f"{script_dir}/../config/{file_config}"+"\nlenght file_streams: "+ str(len(file_streams)))
 
         if required_assistant not in assistants_names_list:
             # We need to create a new assistant                 
@@ -108,6 +109,7 @@ class ChatNode():
                 )
                 # print(file_batch.status)
                 # print(file_batch.file_counts)
+                
 
                 for file in self.client.vector_stores.files.list(vector_store_id = required_vector_store_id):
                     retrieved_file = self.client.files.retrieve(file_id=file.id)       
@@ -317,6 +319,7 @@ class ChatNode():
 
         with open(f"{script_dir}/../config/{file_prompt}") as f:
             prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
+            print("path for prompts_dict: "+f"{script_dir}/../config/{file_prompt}"+ "\nlenght promts_dict: "+ str(len(prompts_dict)))
 
         prompt_type = "man_in_the_loop"
         #prompt_type = "autonomous"
