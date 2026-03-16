@@ -239,6 +239,11 @@
                 });
 
                 const data = await response.json();
+                if (data.error) {
+                    chatBox.innerHTML += `<div class="message bot-message"><strong>AI:</strong> <em>${data.error}</em></div>`;
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                    return;
+                }
                 const formattedReply = data.reply.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
 
                 chatBox.innerHTML += `<div class="message bot-message"><strong>AI:</strong> ${formattedReply}</div>`;
