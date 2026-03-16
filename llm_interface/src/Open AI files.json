@@ -1,44 +1,9 @@
 {
   "files": [
     {
-      "file_name": "info.json",
-      "file_ID": "file-TpDQTxfzQp3pL12AzkKv5Y",
-      "vector_store_id": "vs_6893abff83c481919f422103b6483e2f"
-    },
-    {
-      "file_name": "building_plan.png",
-      "file_ID": "file-RjFeULjewXLdtovd2Js81r",
-      "vector_store_id": "/"
-    },
-    {
       "file_name": "building_planj1.png",
-      "file_ID": "file-2kXbF82Q7Wzq9bRuhoMytZ",
+      "file_ID": "file-CFo1yYPkwh9MHFVkBhwws1",
       "vector_store_id": "/"
-    },
-    {
-      "file_name": "building_planj2.png",
-      "file_ID": "file-5g991Hom3WYRnsrMw1tcp1",
-      "vector_store_id": "/"
-    },
-    {
-      "file_name": "building_planj3.png",
-      "file_ID": "file-QrkWiqVcTi5ntEyiQ7yo45",
-      "vector_store_id": "/"
-    },
-    {
-      "file_name": "infoj1.json",
-      "file_ID": "file-1pcxAwJ4e98P8aqxtc5AnW",
-      "vector_store_id": "vs_69a8133d173c819184a64e15af59d0a9"
-    },
-    {
-      "file_name": "infoj2.json",
-      "file_ID": "file-7eH3qubhaveJ9JnSNvwPDj",
-      "vector_store_id": "vs_69a81fa4c3448191a521cd1e79f880fa"
-    },
-    {
-      "file_name": "infoj3.json",
-      "file_ID": "file-KU6xrymYCsocZom1VP2csb",
-      "vector_store_id": "vs_69a820cd81708191b44f81777e1fce2f"
     }
   ]
 }

@@ -17,98 +17,98 @@ class Node():
             "robots_list_names": [],
             "robots":
                 {
-                    "turtlebot3_1":{
-                        "current_position": [],
-                        "current_orientation": []
-                        },
-                    "turtlebot3_2":{
-                        "current_position": [],
-                        "current_orientation": []
-                        }
+                    # "turtlebot3_1":{
+                    #     "current_position": [],
+                    #     "current_orientation": []
+                    #     },
+                    # "turtlebot3_2":{
+                    #     "current_position": [],
+                    #     "current_orientation": []
+                    #     }
                     },
             "sensors_list_names": [],
             "sensors":
                 {
-                    "Camera_1":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Camera_2":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_1":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_2":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_3":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_4":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_5":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_6":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_7":{
-                        "position": [],
-                        "orientation": [],
-                        },
-                    "Lidar_8":{
-                        "position": [],
-                        "orientation": [],
-                        } 
+                    # "Camera_1":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Camera_2":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_1":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_2":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_3":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_4":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_5":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_6":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_7":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     },
+                    # "Lidar_8":{
+                    #     "position": [],
+                    #     "orientation": [],
+                    #     } 
                     },
             "actuators_list_names": [],
             "actuators":
                 {
-                    "door_1":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_2":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_3":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_4":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_5":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_6":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_7":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_8":{
-                        "position": [],
-                        "state": "",
-                        },
-                    "door_9":{
-                        "position": [],
-                        "state": "",
-                        }     
+                    # "door_1":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_2":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_3":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_4":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_5":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_6":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_7":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_8":{
+                    #     "position": [],
+                    #     "state": "",
+                    #     },
+                    # "door_9":{
+                        # "position": [],
+                        # "state": "",
+                        # }     
                     },
             "activated_sensors": []
         }
@@ -196,7 +196,7 @@ class Node():
             actuators_list_names.append(self.msg_gazebo_models.name[index])
 
         
-
+        #inserice i nomi estratti dal msg nel campo corrispondente
         self.message["robots_list_names"] = sorted(turtlebot_list_names)
         self.message["sensors_list_names"] = sorted(sensors_list_names)
         self.message["actuators_list_names"] = sorted(actuators_list_names)
@@ -207,9 +207,10 @@ class Node():
 
             if turtlebot_name in ["turtlebot3_1", "turtlebot3_2"]:
                 turtlebot_pose =  self.msg_gazebo_models.pose[turtlebot_index]
-
-                self.message["robots"][turtlebot_name]["current_position"] = [round(turtlebot_pose.position.x, 2), round(turtlebot_pose.position.y, 2), round(turtlebot_pose.position.z,2)] 
-                self.message["robots"][turtlebot_name]["current_orientation"] = [round(turtlebot_pose.orientation.x, 2), round(turtlebot_pose.orientation.y, 2), round(turtlebot_pose.orientation.z, 2), round(turtlebot_pose.orientation.w,2)] 
+                self.message["robots"][turtlebot_name]={
+                    "current_position": [round(turtlebot_pose.position.x, 2), round(turtlebot_pose.position.y, 2), round(turtlebot_pose.position.z,2)],
+                    "current_orientation":[round(turtlebot_pose.orientation.x, 2), round(turtlebot_pose.orientation.y, 2), round(turtlebot_pose.orientation.z, 2), round(turtlebot_pose.orientation.w,2)]
+                }
                 
             else:
                 continue
@@ -220,16 +221,26 @@ class Node():
 
             sensor_pose =  self.msg_gazebo_models.pose[sensor_index]
 
-            self.message["sensors"][sensor_name]["position"] = [round(sensor_pose.position.x, 2), round(sensor_pose.position.y, 2), round(sensor_pose.position.z, 2)] 
-            self.message["sensors"][sensor_name]["orientation"] = [round(sensor_pose.orientation.x, 2), round(sensor_pose.orientation.y, 2), round(sensor_pose.orientation.z, 2), round(sensor_pose.orientation.w, 2)] 
+            self.message["sensors"][sensor_name]={
+               "position" : [round(sensor_pose.position.x, 2), round(sensor_pose.position.y, 2), round(sensor_pose.position.z, 2)],
+               "orientation" : [round(sensor_pose.orientation.x, 2), round(sensor_pose.orientation.y, 2), round(sensor_pose.orientation.z, 2), round(sensor_pose.orientation.w, 2)] 
+            } 
+    
     
 
         # Extraction of actuators positions and states:
         for actuator_name, actuator_index in zip(actuators_list_names, actuators_indices):
 
             actuator_pose =  self.msg_gazebo_models.pose[actuator_index]
+            key_list=self.message["actuators"].keys()
 
-            self.message["actuators"][actuator_name]["position"] = [round(actuator_pose.position.x, 2), round(actuator_pose.position.y, 2), round(actuator_pose.position.z, 2)] 
+            if actuator_name not in key_list:
+                self.message["actuators"][actuator_name]={
+                    "position": [round(actuator_pose.position.x, 2), round(actuator_pose.position.y, 2), round(actuator_pose.position.z, 2)],
+                    "state": ""
+                } 
+            else:
+                self.message["actuators"][actuator_name]["position"]=[round(actuator_pose.position.x, 2), round(actuator_pose.position.y, 2), round(actuator_pose.position.z, 2)]
         
 
         str_msg = json.dumps(self.message)

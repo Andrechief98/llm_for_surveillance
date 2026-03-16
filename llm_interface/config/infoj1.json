@@ -45,9 +45,6 @@
       },
       "door_8": {
         "ros_service_name": "/door_8_control_service"
-      },
-      "door_9": {
-        "ros_service_name": "/door_9_control_service"
       }
     }
   },
