@@ -3,6 +3,7 @@ from chainlit.input_widget import Select
 from openai import AsyncOpenAI
 import rospy
 import rosgraph
+from utilitiesOpenAI import *
 from std_msgs.msg import String 
 from std_srvs.srv import Empty 
 from geometry_msgs.msg import PoseStamped
@@ -12,6 +13,7 @@ from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
 import actionlib
 import yaml
 import time
+import re
 import json
 import os
 import asyncio
@@ -20,57 +22,106 @@ from queue import Queue
 
 
 script_dir = os.path.dirname(__file__)
-
+file_config = "info.json"
+file_paths = [os.path.join(script_dir, "..", "config", file_config)]
+file_streams = [open(path, "rb") for path in file_paths]
 
 class RobotAssistant:
     def __init__(self):
         rospy.init_node('RobotAssistant', anonymous=True)
         self.client = AsyncOpenAI()
 
-        self.rosServer = rospy.Service('/alert', triggerGpt, self.handleAlert)
+        self.rosServer = rospy.Service('/alert', triggerGpt, self.handleDataMediatorAlert)
 
-        # self.robotGoalCheckerServer = actionlib.SimpleActionServer('/robot_goal_checker', goalCheckerLLMAction, self.handleRobotGoalChecker, auto_start = False)
-        # self.robotGoalCheckerServer.start()
+        self.robotGoalCheckerServer = actionlib.SimpleActionServer('/robot_goal_checker', goalCheckerLLMAction, self.handleRobotGoalChecker, auto_start = False)
+        self.robotGoalCheckerServer.start()
 
         self.retrieveSystemStateClient = rospy.ServiceProxy("/retrieve_system_state", retrieveSystemState)
         self.resetSensorsActivationClient = rospy.ServiceProxy("/resetSensorActivation", Empty)
 
         # Definiamo una coda, necessaria per gestire gli alert da parte del datamediator (in quanto i servizi ros non sono )
         self.alert_queue = Queue()
-    
-    async def handle_user_message(self, user_input):
 
-        # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
-        history = cl.user_session.get("history")
-        history.append({"role": "user", "content": user_input})
+        # Setting of configuration file
+        self.required_vector_store_id = None
+        self.available_tools = None
 
-        # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
-        msg = cl.Message(content="")
-        
-        stream = await self.client.responses.create(
-            model="gpt-4", # O gpt-4o
-            input=history,
-            tools = [
+    async def initialize_assistant(self):
+        files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
+            
+        found = False
+
+        if file_config in files_name_list:
+            # the configuration file is already uploaded. We search for the correct vector_store_id
+            for vector_store_id in vector_store_id_list:
+                async for file in self.client.vector_stores.files.list(vector_store_id = vector_store_id):
+                    retrieved_file = await self.client.files.retrieve(file_id=file.id)       
+                    if retrieved_file.filename == file_config:
+                        self.required_vector_store_id =  vector_store_id
+                        found = True
+                        break
+
+                if found:
+                    break
+            print(f"Already created file {file_config} considered")
+        else:
+            # Vector store is needed to upload files to the assistant.
+            vector_store = await self.client.vector_stores.create(name="Environmental and ROS information for surveillance")
+            self.required_vector_store_id = vector_store.id
+
+            # We upload the file
+            file_batch = await self.client.vector_stores.file_batches.upload_and_poll(
+                vector_store_id = self.required_vector_store_id, files=file_streams
+            )
+            # print(file_batch.status)
+            # print(file_batch.file_counts)
+
+            async for file in self.client.vector_stores.files.list(vector_store_id = self.required_vector_store_id):
+                retrieved_file = await self.client.files.retrieve(file_id=file.id)       
+                if retrieved_file.filename == file_config:
+                    files_name_list.append(file_config)
+                    files_id_list.append(file.id)
+                    vector_store_id_list.append(self.required_vector_store_id)
+
+
+            updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
+            print(f"New {file_config} file uploaded")
+
+        self.available_tools = [
                 {
-                    "type": "function",  # Specifica sempre il tipo
-                    "name": "send_robots_to_area",  # <--- Il parametro mancante era qui
-                    "description": "Invia una sequenza di robot in un'area specifica",
+                    "type":"file_search",
+                    # "vector_store_ids": [self.required_vector_store_id]
+                },
+                {
+                    "type": "function", 
+                    "name": "retrieve_system_state",  
+                    "description": "Use this function to request the current state of the system from the ROS data mediator. It returns information about the positions and orientation of robots and sensors, as well as positions and current states of door actuators . This function should be called before any other function call to ensure awareness of the system’s current condition, or whenever the user asks for the system’s status.",
+                    "parameters": {}
+                },
+                {
+                    "type": "function", 
+                    "name": "reset_sensors_activation",
+                    "description": "Use this function to deactivate all sensors in the environment after the user explicit request.",
+                    "parameters": {} 
+                },
+                {
+                    "type": "function", 
+                    "name": "display_cameras",
+                    "description": "It opens a window to visualize each camera. The function must be used every time a camera feed is required or proposed. It takes as input the name of the cameras.",
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "robots_sequence": {
-                                "type": "string",
-                                "description": "Lista dei robot e destinazioni"
-                            }
-                        },
-                        "required": ["robots_sequence"]
-                    }
-                },
-                {
-                    "type": "function",  # Specifica sempre il tipo
-                    "name": "retrieve_system_state",  # <--- Il parametro mancante era qui
-                    "description": "Fornisce lo stato del sistema",
-                    "parameters": {}
+                            "cameras_names_list": {
+                                "type": "array", 
+                                "description": "List of all the cameras names to considered for visualization.",
+                                "items" : {
+                                    "type" : "string",
+                                    "description": "Name of a single camera."
+                                }
+                                },
+                            },
+                        "required": ["cameras_names_list"]
+                        }
                 },
                 {
                     "type": "function",
@@ -102,10 +153,137 @@ class RobotAssistant:
                     "required": ["actuators_sequence"]
                     }
                 },
+                {
+                    "type": "function",  
+                    "name": "send_robots_to_area",  
+                    "description": "Use this function to deploy a sequence of robots to corresponding areas. The function will return the success or failure of each robot deployment.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "robots_sequence": {
+                                "type": "string",
+                                "description": "Lista dei robot e destinazioni"
+                            }
+                        },
+                        "required": ["robots_sequence"]
+                    }
+                },
             ],
-            stream=True
-        )
+    
+    async def handle_message(self, msg, authority):
 
+        # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
+        history = cl.user_session.get("history")
+        history.append({"role": authority, "content": msg})
+
+        # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
+        msg = cl.Message(content="")
+        
+        try:
+            stream = await self.client.responses.create(
+                model="gpt-4o",
+                input=history,
+                tools = [
+                    {
+                        "type":"file_search",
+                        "vector_store_ids": [self.required_vector_store_id]
+                    },
+                    {
+                        "type": "function", 
+                        "name": "retrieve_system_state",  
+                        "description": "Use this function to request the current state of the system from the ROS data mediator. It returns information about the positions and orientation of robots and sensors, as well as positions and current states of door actuators . This function should be called before any other function call to ensure awareness of the system’s current condition, or whenever the user asks for the system’s status.",
+                        "parameters": {}
+                    },
+                    {
+                        "type": "function", 
+                        "name": "reset_sensors_activation",
+                        "description": "Use this function to deactivate all sensors in the environment after the user explicit request.",
+                        "parameters": {} 
+                    },
+                    {
+                        "type": "function", 
+                        "name": "display_cameras",
+                        "description": "It opens a window to visualize each camera. The function must be used every time a camera feed is required or proposed. It takes as input the name of the cameras.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "cameras_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the cameras names to considered for visualization.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single camera."
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                            }
+                    },
+                    {
+                        "type": "function",
+                        "name": "control_actuator",
+                        "description": "It allows to control a sequence of door actuators in the environment via ROS service calls defined in the info.json file.",
+                        "parameters": {    
+                            "type": "object",
+                            "properties": {
+                                "actuators_sequence": {
+                                    "type": "array",
+                                    "description": "Ordered list of actuator commands. Each item specifies the ROS service name (from the info.json file) and the desired action ('open' or 'close').",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "ros_service_name": {
+                                                "type": "string",
+                                                "description": "Name of the ROS service corresponding to a specific door actuator, as defined in the info.json file."
+                                                },
+                                            "command": {
+                                                "type": "string",
+                                                "enum": ["open", "close"],
+                                                "description": "Action to perform on the actuator: either 'open' or 'close', based on the user's intent."
+                                                }
+                                            },
+                                        "required": ["ros_service_name", "command"]
+                                    }
+                                }
+                            },
+                        "required": ["actuators_sequence"]
+                        }
+                    },
+                    {
+                        "type": "function", 
+                        "name": "send_robots_to_area",
+                        "description": "Use this function to deploy a sequence of robots to corresponding areas. The function will return the success or failure of each robot deployment.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "robots_sequence": {
+                                    "type": "array",
+                                    "description": "Ordered list of robots to deploy. Each item specifies the robot name and the area where the robot must be deployed.",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "robot_to_send": {
+                                                "type": "string",
+                                                "description": "Name of the considered robot to deploy."
+                                                },
+                                            "area_to_reach": {
+                                                "type": "string",
+                                                "description": "Letter of the area where the corresponding robot must be deploy."
+                                                }
+                                            },
+                                        "required": ["robot_to_send", "area_to_reach"]
+                                    }
+                                },                                    
+                                },
+                            "required": ["robots_sequence"]
+                            }
+                    }
+                ],
+                stream=True
+            )
+        except Exception as e:
+            rospy.logerr(f"Error in the LLM response generation: \n {e}")
+            
 
         full_ai_response = ""
         final_tool_calls = {}
@@ -255,26 +433,6 @@ class RobotAssistant:
         cl.user_session.set("history", history)
 
 
-    async def monitor_queue(self):
-        """
-        Metodo asincrono che Chainlit userà per 'ascoltare' la classe.
-        """
-        while True:
-            if not self.alert_queue.empty():
-                alert_data = self.alert_queue.get()
-                
-                # Logica di streaming Chainlit
-                msg = cl.Message(content=f"**Notifica ROS:** {alert_data}\n\nGenerazione piano...")
-                await msg.send()
-                
-                # Esempio Streaming LLM
-                # Qui chiameresti il tuo modello (es. langchain o openai)
-                await self.stream_llm_plan(msg)
-                
-            # Fondamentale: rilascia il controllo per permettere ad altri task di girare
-            await asyncio.sleep(0.1)
-
-
     def execute_ros_command(self, tool_name, args):
         """
         Dispatcher che smista le chiamate ai metodi ROS specifici.
@@ -288,8 +446,7 @@ class RobotAssistant:
                 # 2. Log per il terminale ROS
                 rospy.loginfo(f"Esecuzione tool: {tool_name} con argomenti: {args}")
                 
-                # 3. Chiamata dinamica al metodo (es. self.send_robots_to_area(**args))
-                # L'operatore ** scompatta il dizionario args nei parametri della funzione
+                # 3. Chiamata dinamica al metodo 
                 result = method(**args)
                 
                 return result
@@ -348,71 +505,67 @@ class RobotAssistant:
         system_state = self.clear_environment_state(json.loads(response.system_state))    
         return json.dumps(system_state)
 
-    def handleAlert(self, req):
-        # ROS chiama questa funzione in modo sincrono
+
+    def handleDataMediatorAlert(self, req):
         if req:        
             try:
-                self.alert_queue.put(req)
+                self.alert_queue.put(
+                    {
+                        "type": "ALERT_SERVICE",
+                        "content": req,
+                        }
+                    )
+                rospy.loginfo("Service added to queue")
                 return triggerGptResponse("Success")
             except Exception as e:
                 return triggerGptResponse(f"Error: {str(e)}")
         return triggerGptResponse("Failed")
     
 
-    async def async_process_alert(self):
+    async def async_process_queue(self):
             
             while True:
                 if not self.alert_queue.empty():
                     try:
-                        req = self.alert_queue.get()
-
-                        # Estrai e pulisci il messaggio ricevuto via ros service dal data mediator
-                        alert_info = self.clear_environment_state(json.loads(req.alert_info))
-
-                        # Estraiamo i sensori attivi
-                        active_sensors = alert_info["activated_sensors"]
-
-                        await cl.Message(
-                            content=f"🚨 **SISTEMA DI ALLARME ATTIVATO**\nSensori: {active_sensors}",
-                            author="Data Mediator",
-                            type="status" # Lo rende visivamente distinto
-                        ).send()
-
-                        # Recuperiamo la sessione di messaggi da chainlit
-                        history = cl.user_session.get("history")
-
-                        # Inserimento del messaggio ricevuto nella cronologia della chat come se provenisse dall’operatore (OpenAI non prevede messaggi associati a figure diverse da operatore o assistant)
-                        prompt_alert = f"Environmental alert detected. Current environment state: {json.dumps(alert_info)}. Propose a strategy to inspect the environment."
-
-                        history.append({"role": "system", "content": prompt_alert})
+                        item = self.alert_queue.get()
+                        item_type = item.get("type")
                         
+                        if item_type == "ALERT_SERVICE":
+                            # La task nella coda è il processing di un servizio ROS
+                            req = item.get("content")
+                            # Estrai e pulisci il messaggio ricevuto via ros service dal data mediator
+                            alert_info = self.clear_environment_state(json.loads(req.alert_info))
+
+                            # Estraiamo i sensori attivi
+                            active_sensors = alert_info["activated_sensors"]
+
+                            await cl.Message(
+                                content=f"🚨 **DATA MEDIATOR**\nSensori: {active_sensors}",
+                                author="Data Mediator",
+                                type="status" # Lo rende visivamente distinto
+                            ).send()
+
+                            # Messaggio da inviare al'LLM
+                            message = f"Environmental alert detected. Current environment state: {json.dumps(alert_info)}. Propose a strategy to inspect the environment."
+
+
+                        elif item_type == "ROBOT_ACTION":
+                            # La task nella coda è il processing di un' action ROS
+                            goal = item.get("content")
+
+                            # Messaggio da inviare al'LLM
+                            message = goal.message_for_LLM
+
+
+                        # Chiamata al modello per rispondere
                         start_response_time = time.time()
-
-                        # Creiamo il messaggio che conterrà la strategia
-                        msg = cl.Message(content="", author="Assistant")
-                        await msg.send()
-
-                        # Chiamata OpenAI (usando il modello selezionato)
-                        stream = await self.client.responses.create(
-                            model=cl.user_session.get("model"),
-                            input=history,
-                            tools=[],
-                            stream=True
-                        )
-
-                        async for event in stream:
-                            if event.type == "response.output_text.delta":
-                                await msg.stream_token(event.delta)
-                        
-                        await msg.update()
+                        await self.handle_message(msg=message, authority="system")
                         end_response_time = time.time()
 
                         response_time = round(end_response_time - start_response_time, 4)
-
-                        # Salviamo la risposta finale in history
-                        history.append({"role": "assistant","content": msg.content})
+                        
                     except Exception as e:
-                        print(e)
+                        rospy.logerr(f"Error in handling the queue: \n {e}")
             
                 await asyncio.sleep(0.1)
         
@@ -420,12 +573,87 @@ class RobotAssistant:
         response = self.resetSensorsActivationClient()
         return f"All sensors deactivated"
 
+
     def send_robots_to_area(self, robots_sequence):
-        """Esempio di comando di movimento"""
-        # Qui inserisci la tua logica ROS Noetic (es. pubblicazione su un topic o chiamata service)
-        # Esempio: self.my_publisher.publish(msg)
-        return f"Sequenza '{robots_sequence}' inviata correttamente ai robot."
+
+        with open(file_paths[0], "r") as f:
+            info = json.load(f)
+
+        robots_dict = info["ros_publishers"]["robots"]
+        robots_list = robots_dict.keys()
+
+        areas_dict = info["areas"]
+        areas_list = areas_dict.keys()
+
+        robot_deployment_correctness = {}
+        
+        for robot_to_deploy in robots_sequence:
+            robot = robot_to_deploy.get("robot_to_send")
+            area = robot_to_deploy.get("area_to_reach")
+
+            if robot in robots_list:    
+                if area in areas_list:
+
+                
+                    topic = robots_dict[robot]["ros_topic"]
+                    area_x = areas_dict[area]["coordinates"]["x"]
+                    area_y = areas_dict[area]["coordinates"]["y"]
+
+                    # Create a temporary client to call the clear_costmap service for all robots:
+                    match = re.search(r"_(\d+)$", robot)
+                    number = str(int(match.group(1)))
+                    service_name = "turtlebot3_" + str(number) + "/move_base/clear_costmaps"
+                    clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
+
+                    clear_costmap_client()
+
+                    
+                    # Create a temporary publisher with the given topic
+                    temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
+                    
+                    # Wait to register the publisher
+                    rospy.sleep(0.5)
+                    
+                    goal_msg = PoseStamped()
+
+                    
+                    goal_msg.pose.position.x = float(area_x)
+                    goal_msg.pose.position.y = float(area_y)
+                    goal_msg.pose.position.z = 0.0
+                    goal_msg.pose.orientation.x = 0.0
+                    goal_msg.pose.orientation.y = 0.0
+                    goal_msg.pose.orientation.z = 0.0
+                    goal_msg.pose.orientation.w = 1.0 
+                    goal_msg.header.stamp = rospy.Time.now()
+                    goal_msg.header.frame_id = f"map"
+
+                    # Publish the goal message
+                    temp_pub.publish(goal_msg)
+                    
+                    # Wait to transmit the message
+                    rospy.sleep(0.5)
+
+                    # return f"{robot} sent to area {area}"
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": True,
+                        "additional_info": None
+                    }
+                
+                else:
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": False,
+                        "additional_info": "Wrong area letter considered"
+                    }
+            else:
+                robot_deployment_correctness[robot] = {
+                        "deployment_success": False,
+                        "additional_info": "Wrong robot name considered"
+                    }
+                
+
+        return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}"
     
+
     def control_actuator(self, actuators_sequence):
         """Function to control actuators"""
         master = rosgraph.Master('/rospy')
@@ -489,6 +717,41 @@ class RobotAssistant:
         return str(responses_list)
 
 
+    def handleRobotGoalChecker(self,goal):
+
+        if not goal:
+            rospy.logerr(f"No message received by robot")
+            result.success = f"Function handleRobotGoalChecker: No message received from robot"
+            self.robotGoalCheckerServer.set_succeeded(result)
+            return 
+
+        try:
+            feedback = goalCheckerLLMFeedback()
+            result = goalCheckerLLMResult()
+
+            # Invio feedback a Robot verification module
+            feedback.status_LLM = "Sending robot goal success to LLM..."
+            self.robotGoalCheckerServer.publish_feedback(feedback)
+            
+            self.alert_queue.put(
+                {
+                    "type": "ROBOT_ACTION",
+                    "content": goal,
+                }
+            )
+            rospy.loginfo("Action added to queue")
+
+            result.success = f"Message from robot correctly processed by the LLM"
+
+        except Exception as e:        
+            rospy.logerr(f"Error in the response generation inside the function handleRobotGoalChecker: \n {e}")
+            result.success = f"Message from robot NOT processed by the LLM"
+                    
+        self.robotGoalCheckerServer.set_succeeded(result)
+        return 
+
+            
+        
 
 
 agent = RobotAssistant()
@@ -496,6 +759,8 @@ agent = RobotAssistant()
 # --- Integrazione Chainlit ---
 @cl.on_chat_start
 async def start():
+    await agent.initialize_assistant()
+
     try:
         print("Contesto Chainlit catturato con successo!")
     except Exception as e:
@@ -516,8 +781,8 @@ async def start():
 
     # Per gestire gli alert da parte del data mediator creiamo una coda in cui il servizio ros
     # va ad inserire la richiesta da processare da parte dell'alert. In seguito dentro il 
-    # servizio ros si processa la coda tramite la funzine "async_process_alert"
-    asyncio.create_task(agent.async_process_alert())
+    # servizio ros si processa la coda tramite la funzine "async_process_queue"
+    asyncio.create_task(agent.async_process_queue())
     
 
 @cl.on_settings_update
@@ -529,4 +794,4 @@ async def main(message: cl.Message):
     """Eseguito ogni volta che l'utente invia un messaggio"""
     
     agent = cl.user_session.get("agent")
-    await agent.handle_user_message(message.content)
+    await agent.handle_message(msg=message.content, authority="user")

@@ -12,6 +12,7 @@
   - PyYAML v. 5.3.1
   - python-socketio v. 5.15.0
   - flask-socketio v. 5.5.1
+  - Chainlit, v 1.1.402
 - download repo in your catkin workspace and build it
 
 
