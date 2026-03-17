@@ -437,10 +437,13 @@ def chat():
     if not user_message:
         return jsonify({"error": "Messaggio vuoto"}), 400
 
+    print(f"User message: {user_message}")
+
     try:
         assistant_reply = chatNode.chat(user_message)
         if not assistant_reply:
             return jsonify({"error": "Nessuna risposta dall'LLM (controlla i log)."}), 500
+        print(f"LLM response: {assistant_reply}")
         return jsonify({"reply": assistant_reply})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
