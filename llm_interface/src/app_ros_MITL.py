@@ -14,10 +14,14 @@ from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCh
 from flask_socketio import SocketIO
 import json
 import time
+import logging
 
 from utilitiesOpenAI import extractFilesFromJson, updateFilesJsonFile
 
 script_dir = os.path.dirname(__file__)
+
+# Log conversation feedback to the terminal
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
 # In-memory chat history (simple session)
 session = {"messages": []}
@@ -53,6 +57,8 @@ class ChatNode:
         files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
         if file_config in files_name_list:
             for vector_store_id in vector_store_id_list:
+                if not vector_store_id.startswith("vs_"):
+                    continue
                 for file in self.client.vector_stores.files.list(vector_store_id=vector_store_id):
                     retrieved_file = self.client.files.retrieve(file_id=file.id)
                     if retrieved_file.filename == file_config:
@@ -181,7 +187,22 @@ class ChatNode:
         for required_file_name in required_files_names_list:
             if required_file_name in files_name_list:
                 required_file_id = files_id_list[files_name_list.index(required_file_name)]
-                self.img_file = self.client.files.retrieve(required_file_id)
+                try:
+                    self.img_file = self.client.files.retrieve(required_file_id)
+                except Exception as e:
+                    # File not found, remove from list and upload anew
+                    idx = files_name_list.index(required_file_name)
+                    files_name_list.pop(idx)
+                    files_id_list.pop(idx)
+                    vector_store_id_list.pop(idx)
+                    self.img_file = self.client.files.create(
+                        file=open(f"{script_dir}/static/uploads/{required_file_name}", "rb"),
+                        purpose="vision",
+                    )
+                    files_name_list.append(required_file_name)
+                    files_id_list.append(self.img_file.id)
+                    vector_store_id_list.append("/")
+                    updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
             else:
                 self.img_file = self.client.files.create(
                     file=open(f"{script_dir}/static/uploads/{required_file_name}", "rb"),
@@ -198,6 +219,7 @@ class ChatNode:
     def _build_response_input(self, user_message: str) -> list:
         """Builds the input conversation state for the Responses API."""
         session["messages"].append({"role": "user", "content": user_message})
+        logging.info(f"[Chat] User: {user_message}")
         input_messages = []
         for msg in session["messages"]:
             role = msg.get("role", "user")
@@ -244,6 +266,7 @@ class ChatNode:
         """Execute a local tool implementation and append its result to history."""
         name = call.get("name")
         arguments = call.get("arguments")
+        logging.info(f"[Tool] Calling: {name} with args: {arguments}")
         tool_fn = getattr(self, name, None)
         if tool_fn is None:
             output = f"Tool '{name}' not implemented."
@@ -256,6 +279,8 @@ class ChatNode:
                 output = json.dumps(result) if not isinstance(result, str) else result
             except Exception as e:
                 output = f"Tool '{name}' execution error: {e}"
+
+        logging.info(f"[Tool] {name} output: {output}")
 
         # Add tool output back into the session so subsequent responses can use it
         session["messages"].append({
@@ -285,9 +310,11 @@ class ChatNode:
             assistant_reply = self._extract_assistant_response(response)
             if assistant_reply:
                 session["messages"].append({"role": "assistant", "content": assistant_reply})
+                logging.info(f"[Chat] Assistant: {assistant_reply}")
                 return assistant_reply
 
         # If the code reached here, it didn't get a final assistant text reply.
+        logging.warning("[Chat] No assistant response received after tool calls")
         return ""
 
     def handleRobotGoalChecker(self, goal):
