@@ -107,8 +107,8 @@ class ChatNode():
                     file_batch = self.client.vector_stores.file_batches.upload_and_poll(
                         vector_store_id = required_vector_store_id, files=file_streams
                     )
-                    # print(file_batch.status)
-                    # print(file_batch.file_counts)
+                    print("file_batch status"+file_batch.status)
+                    print("file_batch count"+file_batch.file_counts)
                     
 
                     for file in self.client.vector_stores.files.list(vector_store_id = required_vector_store_id):

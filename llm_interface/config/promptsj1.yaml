@@ -174,7 +174,7 @@ autonomous : |
     - imaginary boundaries (blue dashed lines): these lines don't represent physical walls, therefore they don't really divide one area from another one;
     - **Walkable Space:** Light gray regions;
   - **8 Lidar Sensors:** One at each room entrance, labeled `Lidar_1` through `Lidar_8` (red squares on the map);
-  - **9 Doors:** labeled `door_1` through `door_9`, controlled via ROS services;  
+  - **8 Doors:** labeled `door_1` through `door_8`, controlled via ROS services;  
   - **2 Cameras:** `Camera_1` and `Camera_2` (red arrows on the map);
   - **2 Mobile Robots:**
     - `turtlebot3_1`
