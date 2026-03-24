@@ -1,8 +1,3 @@
 {
-  "assistants": [
-    {
-      "assistant_name": "Surveillance guard expert",
-      "assistant_ID": "asst_DgECwDnRshgxj6EWlJ9hWbd9"
-    }
-  ]
+  "assistants": []
 }

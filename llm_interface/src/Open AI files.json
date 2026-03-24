@@ -1,9 +1,14 @@
 {
   "files": [
     {
-      "file_name": "building_planj1.png",
-      "file_ID": "file-CFo1yYPkwh9MHFVkBhwws1",
-      "vector_store_id": "/"
+      "file_name": "info.json",
+      "file_ID": "file-9oWwLsFszYw9kSp46y71ie",
+      "vector_store_id": "vs_69c183ba1f648191bcbbe1af16401767"
+    },
+    {
+      "file_name": "infoj1.json",
+      "file_ID": "file-8s7RoQUL6tNGwio9EXbFe4",
+      "vector_store_id": "vs_69c2c67ca2f88191ab203c6d7c624598"
     }
   ]
 }
