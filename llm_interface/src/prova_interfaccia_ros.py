@@ -11,6 +11,7 @@ from llm_interface.srv import triggerGpt, triggerGptResponse, retrieveSystemStat
 from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCheckerLLMFeedback
 from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest 
 import actionlib
+import subprocess
 import yaml
 import time
 import re
@@ -67,6 +68,23 @@ class RobotAssistant:
         # Setting of configuration file
         self.required_vector_store_id = None
         self.available_tools = None
+        
+        # ROS network information from file
+        with open(file_paths[0], "r") as f:
+            info = json.load(f)
+
+        self.robots_dict = info["ros_publishers"]["robots"]
+        self.robots_list = list(self.robots_dict.keys())
+
+        self.areas_dict = info["areas"]
+        self.areas_list = list(self.areas_dict.keys())
+
+        self.sensors_dict = info["ros_subscribers"]["sensors"]
+        self.cameras_list = list(self.sensors_dict.keys())
+
+        self.actuators_dict = info["ros_services"]["actuators"]
+        self.actuators_list = list(self.actuators_dict.keys())
+
 
     async def initialize_assistant(self):
         files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
@@ -110,106 +128,6 @@ class RobotAssistant:
             print(f"New {file_config} file uploaded")
 
         self.available_tools = [
-                {
-                    "type":"file_search",
-                    # "vector_store_ids": [self.required_vector_store_id]
-                },
-                {
-                    "type": "function", 
-                    "name": "retrieve_system_state",  
-                    "description": "Use this function to request the current state of the system from the ROS data mediator. It returns information about the positions and orientation of robots and sensors, as well as positions and current states of door actuators . This function should be called before any other function call to ensure awareness of the system’s current condition, or whenever the user asks for the system’s status.",
-                    "parameters": {}
-                },
-                {
-                    "type": "function", 
-                    "name": "reset_sensors_activation",
-                    "description": "Use this function to deactivate all sensors in the environment after the user explicit request.",
-                    "parameters": {} 
-                },
-                {
-                    "type": "function", 
-                    "name": "display_cameras",
-                    "description": "It opens a window to visualize each camera. The function must be used every time a camera feed is required or proposed. It takes as input the name of the cameras.",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "cameras_names_list": {
-                                "type": "array", 
-                                "description": "List of all the cameras names to considered for visualization.",
-                                "items" : {
-                                    "type" : "string",
-                                    "description": "Name of a single camera."
-                                }
-                                },
-                            },
-                        "required": ["cameras_names_list"]
-                        }
-                },
-                {
-                    "type": "function",
-                    "name": "control_actuator",
-                    "description": f"It allows to control a sequence of door actuators in the environment via ROS service calls defined in the {file_config} file.",
-                    "parameters": {    
-                        "type": "object",
-                        "properties": {
-                            "actuators_sequence": {
-                                "type": "array",
-                                "description": f"Ordered list of actuator commands. Each item specifies the ROS service name (from the {file_config} file) and the desired action ('open' or 'close').",
-                                "items": {
-                                    "type": "object",
-                                    "properties": {
-                                        "ros_service_name": {
-                                            "type": "string",
-                                            "description": f"Name of the ROS service corresponding to a specific door actuator, as defined in the {file_config} file."
-                                            },
-                                        "command": {
-                                            "type": "string",
-                                            "enum": ["open", "close"],
-                                            "description": "Action to perform on the actuator: either 'open' or 'close', based on the user's intent."
-                                            }
-                                        },
-                                    "required": ["ros_service_name", "command"]
-                                }
-                            }
-                        },
-                    "required": ["actuators_sequence"]
-                    }
-                },
-                {
-                    "type": "function",  
-                    "name": "send_robots_to_area",  
-                    "description": "Use this function to deploy a sequence of robots to corresponding areas. The function will return the success or failure of each robot deployment.",
-                    "parameters": {
-                        "type": "object",
-                        "properties": {
-                            "robots_sequence": {
-                                "type": "string",
-                                "description": "Lista dei robot e destinazioni"
-                            }
-                        },
-                        "required": ["robots_sequence"]
-                    }
-                },
-            ],
-    
-    async def handle_message(self, msg, authority):
-
-        # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
-        print("hadle_message function entered")
-        history = cl.user_session.get("history")
-        history.append({"role": authority, "content": msg})
-        with open('history.txt', 'w') as f:
-            print("\n\nrole: user"+ "\ncontent: "+ msg, file=f)
-            print("\n\nrole: user"+ "\ncontent: "+ msg)
-
-        # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
-        msg = cl.Message(content="")
-        
-        try:
-            stream = await self.client.responses.create(
-                model="gpt-4o",
-                input=history,
-                tools = [
                     {
                         "type":"file_search",
                         "vector_store_ids": [self.required_vector_store_id]
@@ -217,7 +135,7 @@ class RobotAssistant:
                     {
                         "type": "function", 
                         "name": "retrieve_system_state",  
-                        "description": "Use this function to request the current state of the system from the ROS data mediator. It returns information about the positions and orientation of robots and sensors, as well as positions and current states of door actuators . This function should be called before any other function call to ensure awareness of the system’s current condition, or whenever the user asks for the system’s status.",
+                        "description": "Use this function to request the current state of the system from the ROS data mediator. It returns information about the positions and orientation of robots and sensors, as well as positions and current states of door actuators.", # This function should be called before any other function call to ensure awareness of the system’s current condition, or whenever the user asks for the system’s status.",
                         "parameters": {}
                     },
                     {
@@ -238,7 +156,8 @@ class RobotAssistant:
                                     "description": "List of all the cameras names to considered for visualization.",
                                     "items" : {
                                         "type" : "string",
-                                        "description": "Name of a single camera."
+                                        "description": "Name of a single camera.",
+                                        "enum": self.cameras_list
                                     }
                                     },
                                 },
@@ -258,14 +177,15 @@ class RobotAssistant:
                                     "items": {
                                         "type": "object",
                                         "properties": {
-                                            "ros_service_name": {
+                                            "actuator_name": {
                                                 "type": "string",
-                                                "description": f"Name of the ROS service corresponding to a specific door actuator, as defined in the {file_config} file."
+                                                "description": f"Name of the door actuator, as defined in the {file_config} file.",
+                                                "enum":self.actuators_list
                                                 },
                                             "command": {
                                                 "type": "string",
-                                                "enum": ["open", "close"],
-                                                "description": "Action to perform on the actuator: either 'open' or 'close', based on the user's intent."
+                                                "description": "Action to perform on the actuator: either 'open' or 'close', based on the user's intent.",
+                                                "enum": ["open", "close"]
                                                 }
                                             },
                                         "required": ["ros_service_name", "command"]
@@ -290,11 +210,13 @@ class RobotAssistant:
                                         "properties": {
                                             "robot_to_send": {
                                                 "type": "string",
-                                                "description": "Name of the considered robot to deploy."
+                                                "description": "Name of the considered robot to deploy.",
+                                                "enum": self.robots_list
                                                 },
                                             "area_to_reach": {
                                                 "type": "string",
-                                                "description": "Letter of the area where the corresponding robot must be deploy."
+                                                "description": "Letter of the area where the corresponding robot must be deploy.",
+                                                "enum": self.areas_list
                                                 }
                                             },
                                         "required": ["robot_to_send", "area_to_reach"]
@@ -304,7 +226,26 @@ class RobotAssistant:
                             "required": ["robots_sequence"]
                             }
                     }
-                ],
+                ]
+    
+    async def handle_message(self, msg, authority):
+
+        # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
+        print("hadle_message function entered")
+        history = cl.user_session.get("history")
+        history.append({"role": authority, "content": msg})
+        with open('history.txt', 'w') as f:
+            print("\n\nrole: user"+ "\ncontent: "+ msg, file=f)
+            print("\n\nrole: user"+ "\ncontent: "+ msg)
+
+        # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
+        msg = cl.Message(content="")
+        
+        try:
+            stream = await self.client.responses.create(
+                model="gpt-4o",
+                input=history,
+                tools = self.available_tools,
                 stream=True
             )
         except Exception as e:
@@ -435,7 +376,7 @@ class RobotAssistant:
             follow_up_stream = await self.client.responses.create(
                 model="gpt-4o",
                 input=history, # La storia ora include l'esito dell'azione ROS
-                tools = [],
+                tools = self.available_tools,
                 stream=True
             )
     
@@ -613,28 +554,19 @@ class RobotAssistant:
 
     def send_robots_to_area(self, robots_sequence):
 
-        with open(file_paths[0], "r") as f:
-            info = json.load(f)
-
-        robots_dict = info["ros_publishers"]["robots"]
-        robots_list = robots_dict.keys()
-
-        areas_dict = info["areas"]
-        areas_list = areas_dict.keys()
-
         robot_deployment_correctness = {}
         
         for robot_to_deploy in robots_sequence:
             robot = robot_to_deploy.get("robot_to_send")
             area = robot_to_deploy.get("area_to_reach")
 
-            if robot in robots_list:    
-                if area in areas_list:
+            if robot in self.robots_list:    
+                if area in self.areas_list:
 
                 
-                    topic = robots_dict[robot]["ros_topic"]
-                    area_x = areas_dict[area]["coordinates"]["x"]
-                    area_y = areas_dict[area]["coordinates"]["y"]
+                    topic = self.robots_dict[robot]["ros_topic"]
+                    area_x = self.areas_dict[area]["coordinates"]["x"]
+                    area_y = self.areas_dict[area]["coordinates"]["y"]
 
                     # Create a temporary client to call the clear_costmap service for all robots:
                     match = re.search(r"_(\d+)$", robot)
@@ -703,8 +635,9 @@ class RobotAssistant:
 
         for actuator in actuators_sequence:
 
-            ros_service_name = actuator.get("ros_service_name")
+            actuator_name = actuator.get("actuator_name")
             command = actuator.get("command")
+            ros_service_name = self.actuators_dict[actuator_name]["ros_service_name"]
 
             if ros_service_name in ros_service_names_list:
                 try:
@@ -712,6 +645,7 @@ class RobotAssistant:
                 except rospy.ROSException as e:
                     rospy.logerr(f"Service {ros_service_name} not available: {e}")
                     response = {
+                        "actuator": actuator_name,
                         "ros_service_name" : ros_service_name,
                         "success" : "false",
                         "additional_info" : e
@@ -787,6 +721,34 @@ class RobotAssistant:
         self.robotGoalCheckerServer.set_succeeded(result)
         return 
 
+    
+    def display_cameras(self, cameras_names_list):        
+        """Function to open camera feed"""
+        camera_names_correctness = {}
+        topics_list = []
+
+        for camera_name in cameras_names_list:
+
+            camera_name_lower = camera_name.lower()
+
+            if camera_name_lower in self.cameras_list:
+                topics_list.append(self.sensors_dict[camera_name_lower]["ros_topic"])
+                camera_names_correctness[camera_name_lower] = {
+                    "correctness": True,
+                    "reason": ""
+                }  
+            
+            else:
+                camera_names_correctness[camera_name_lower] = {
+                    "correctness": False,
+                    "reason": "wrong name"
+                }    
+                print(camera_name)
+                print(camera_name_lower)
+        
+        subprocess.Popen(["python3", f"{script_dir}/display_camera.py"] + topics_list)
+
+        return f"Summary of cameras names correctness: {json.dumps(camera_names_correctness)}"
             
         
 
