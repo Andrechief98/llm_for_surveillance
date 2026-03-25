@@ -9,6 +9,36 @@
       "file_name": "building_plan.png",
       "file_ID": "file-MpR5jhynfjSzp5pVnNf7rk",
       "vector_store_id": "/"
+    },
+    {
+      "file_name": "infoj2.json",
+      "file_ID": "file-Bci4THsud8AeYVzGdCADaW",
+      "vector_store_id": "vs_69c308cc30708191b331ad11e8b56d2d"
+    },
+    {
+      "file_name": "building_planj2.png",
+      "file_ID": "file-39KdY8spbvcJMrs5Tsz6ux",
+      "vector_store_id": "/"
+    },
+    {
+      "file_name": "infoj1.json",
+      "file_ID": "file-NTNLHktjzqhk5Zoqvxc2Kz",
+      "vector_store_id": "vs_69c30bd9e9e48191b38270837dd05b2e"
+    },
+    {
+      "file_name": "building_planj1.png",
+      "file_ID": "file-JgoR8HFNYBbzEUi4gxeHWq",
+      "vector_store_id": "/"
+    },
+    {
+      "file_name": "infoj3.json",
+      "file_ID": "file-QbMfMg3ygYKVsGMbWYgj4u",
+      "vector_store_id": "vs_69c327fd6da48191822e14c1458b4437"
+    },
+    {
+      "file_name": "building_planj3.png",
+      "file_ID": "file-MsTh8Ztu3zUSGaUo5itVLy",
+      "vector_store_id": "/"
     }
   ]
 }

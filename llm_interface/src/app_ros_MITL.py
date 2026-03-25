@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 from openai import OpenAI
 import os
 from werkzeug.utils import secure_filename
 import rospy
-import actionlib
+import actionlib.simple_action_server
+from utilitiesOpenAI import *
 from std_msgs.msg import String
 from std_srvs.srv import Empty
 from geometry_msgs.msg import PoseStamped
@@ -15,7 +16,12 @@ from flask_socketio import SocketIO
 import json
 import time
 import logging
-
+import yaml
+import subprocess
+import re
+import rosgraph
+from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
+import actionlib
 from utilitiesOpenAI import extractFilesFromJson, updateFilesJsonFile
 
 script_dir = os.path.dirname(__file__)
@@ -26,7 +32,24 @@ logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 # In-memory chat history (simple session)
 session = {"messages": []}
 
-#definition of the chat node
+# Mode-based config
+if rospy.has_param("/markerVisualizationNode/mode"):
+    mode = rospy.get_param("/markerVisualizationNode/mode")
+else:
+    mode = "original"
+
+if mode == "original":
+    file_config = "info.json"
+    file_prompt = "prompts.yaml"
+    file_building_plan = "building_plan.png"
+else:
+    file_config = "info" + mode + ".json"
+    file_prompt = "prompts" + mode + ".yaml"
+    file_building_plan = "building_plan" + mode + ".png"
+
+print(file_config)
+
+# Definition of the chat node
 class ChatNode:
     def __init__(self):
         rospy.init_node("ChatNode", anonymous=True)
@@ -46,10 +69,14 @@ class ChatNode:
 
         self.client = OpenAI()
         self.model_to_use = "gpt-4o"
-        self.task_instructions = "You are a surveillance guard that must monitor an indoor environment."
+
+        # Load task instructions from yaml
+        with open(f"{script_dir}/../config/{file_prompt}") as f:
+            prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
+        prompt_type = "man_in_the_loop"
+        self.task_instructions = prompts_dict[prompt_type]
 
         # Ensure the info.json file is available in a vector store for file_search.
-        file_config = "info.json"
         file_paths = [os.path.join(script_dir, "..", "config", file_config)]
         file_streams = [open(path, "rb") for path in file_paths]
 
@@ -130,13 +157,13 @@ class ChatNode:
             {
                 "type": "function",
                 "name": "control_actuator",
-                "description": "Control door actuators via ROS services.",
+                "description": f"Use this function to control a sequence of door actuators in the environment via ROS service calls defined in the {file_config} file.",
                 "parameters": {
                     "type": "object",
                     "properties": {
                         "actuators_sequence": {
                             "type": "array",
-                            "description": "Ordered list of actuator commands.",
+                            "description": f"Ordered list of actuator commands. Each item specifies the ROS service name (from the {file_config} file) and the desired action ('open' or 'close').",
                             "items": {
                                 "type": "object",
                                 "properties": {
@@ -181,8 +208,8 @@ class ChatNode:
             {"role": "system", "content": self.task_instructions}
         ]
 
-        # Ensure the building plan image is accessible "note to self, add the rest of the building plans, later"
-        required_files_names_list = ["building_plan.png"]
+        # Ensure the building plan image is accessible
+        required_files_names_list = [file_building_plan]
         files_name_list, files_id_list, vector_store_id_list = extractFilesFromJson(self.client, script_dir)
         for required_file_name in required_files_names_list:
             if required_file_name in files_name_list:
@@ -339,7 +366,7 @@ class ChatNode:
         except Exception:
             return triggerGptResponse("Failed")
 
-        with open(f"{script_dir}/../config/info.json", "r") as f:
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
             info = json.load(f)
 
         areas_dict = info.get("areas", {})
@@ -372,7 +399,7 @@ class ChatNode:
     def retrieve_system_state(self):
         response = self.retrieveSystemStateClient()
         system_state = json.loads(response.system_state)
-        with open(f"{script_dir}/../config/info.json", "r") as f:
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
             info = json.load(f)
         areas_dict = info.get("areas", {})
 
@@ -397,21 +424,161 @@ class ChatNode:
         return json.dumps(system_state)
 
     def send_robots_to_area(self, robots_sequence):
-        # Basic implementation: publish goals for robots.
-        output = []
-        for item in robots_sequence:
-            robot = item.get("robot_to_send")
-            area = item.get("area_to_reach")
-            output.append(f"Would send {robot} to {area}")
-        return output
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
+            info = json.load(f)
+
+        robots_dict = info["ros_publishers"]["robots"]
+        robots_list = robots_dict.keys()
+
+        areas_dict = info["areas"]
+        areas_list = areas_dict.keys()
+
+        robot_deployment_correctness = {}
+
+        for robot_to_deploy in robots_sequence:
+            robot = robot_to_deploy.get("robot_to_send")
+            area = robot_to_deploy.get("area_to_reach")
+
+            if robot in robots_list:
+                if area in areas_list:
+                    topic = robots_dict[robot]["ros_topic"]
+                    area_x = areas_dict[area]["coordinates"]["x"]
+                    area_y = areas_dict[area]["coordinates"]["y"]
+
+                    # Create a temporary client to call the clear_costmap service for all robots:
+                    match = re.search(r"_(\d+)$", robot)
+                    number = str(int(match.group(1)))
+                    service_name = "turtlebot3_" + str(number) + "/move_base/clear_costmaps"
+                    clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
+
+                    clear_costmap_client()
+
+                    # Create a temporary publisher with the given topic
+                    temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
+
+                    # Wait to register the publisher
+                    rospy.sleep(0.5)
+
+                    goal_msg = PoseStamped()
+
+                    goal_msg.pose.position.x = float(area_x)
+                    goal_msg.pose.position.y = float(area_y)
+                    goal_msg.pose.position.z = 0.0
+                    goal_msg.pose.orientation.x = 0.0
+                    goal_msg.pose.orientation.y = 0.0
+                    goal_msg.pose.orientation.z = 0.0
+                    goal_msg.pose.orientation.w = 1.0
+                    goal_msg.header.stamp = rospy.Time.now()
+                    goal_msg.header.frame_id = "map"
+
+                    # Publish the goal message
+                    temp_pub.publish(goal_msg)
+
+                    # Wait to transmit the message
+                    rospy.sleep(0.5)
+
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": True,
+                        "additional_info": None
+                    }
+                else:
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": False,
+                        "additional_info": "Wrong area letter considered"
+                    }
+            else:
+                robot_deployment_correctness[robot] = {
+                    "deployment_success": False,
+                    "additional_info": "Wrong robot name considered"
+                }
+
+        return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}"
 
     def display_cameras(self, cameras_names_list):
-        #  implementation.
-        return f"Displaying cameras: {cameras_names_list}"
+        with open(f"{script_dir}/../config/{file_config}", "r") as f:
+            info = json.load(f)
+
+        sensors_dict = info["ros_subscribers"]["sensors"]
+        cameras_list = sensors_dict.keys()
+
+        camera_names_correctness = {}
+        topics_list = []
+
+        for camera_name in cameras_names_list:
+            camera_name_lower = camera_name.lower()
+
+            if camera_name_lower in cameras_list:
+                topics_list.append(sensors_dict[camera_name_lower]["ros_topic"])
+                camera_names_correctness[camera_name_lower] = {
+                    "correctness": True,
+                    "reason": ""
+                }
+            else:
+                camera_names_correctness[camera_name_lower] = {
+                    "correctness": False,
+                    "reason": "wrong name"
+                }
+
+        subprocess.Popen(["python3", f"{script_dir}/display_camera.py"] + topics_list)
+
+        return f"Summary of cameras names correctness: {json.dumps(camera_names_correctness)}"
 
     def control_actuator(self, actuators_sequence):
-        # implementation.
-        return f"Actuator commands: {actuators_sequence}"
+        master = rosgraph.Master('/rospy')
+        services_info = master.getSystemState()[2]  # [publishers, subscribers, services]
+
+        # Estrai solo i nomi dei servizi
+        ros_service_names_list = [service_info[0] for service_info in services_info]
+
+        responses_list = []
+
+        for actuator in actuators_sequence:
+            ros_service_name = actuator.get("ros_service_name")
+            command = actuator.get("command")
+
+            if ros_service_name in ros_service_names_list:
+                try:
+                    rospy.wait_for_service(ros_service_name, timeout=5)
+                except rospy.ROSException as e:
+                    response = {
+                        "ros_service_name": ros_service_name,
+                        "success": "false",
+                        "additional_info": str(e)
+                    }
+                    responses_list.append(response)
+                    continue
+
+                try:
+                    service_client = rospy.ServiceProxy(ros_service_name, doorStringCommand)
+
+                    req = doorStringCommandRequest()
+                    req.command = command
+
+                    resp = service_client(req)
+
+                    response = {
+                        "ros_service_name": ros_service_name,
+                        "success": "true",
+                        "additional_info": ""
+                    }
+                    responses_list.append(response)
+
+                except rospy.ServiceException as e:
+                    response = {
+                        "ros_service_name": ros_service_name,
+                        "success": "false",
+                        "additional_info": str(e)
+                    }
+                    responses_list.append(response)
+            else:
+                response = {
+                    "ros_service_name": ros_service_name,
+                    "success": "false",
+                    "additional_info": f"Wrong ros service name considered. Check again in the {file_config} file"
+                }
+                responses_list.append(response)
+
+        return str(responses_list)
 
 
 chatNode = ChatNode()
@@ -422,7 +589,7 @@ app.secret_key = "supersegreta"
 socketio = SocketIO(app)
 
 DEFAULT_MESSAGE = chatNode.task_instructions
-DEFAULT_IMAGE = "static/uploads/building_plan.png"
+DEFAULT_IMAGE = f"static/uploads/{file_building_plan}"
 
 
 @app.route("/")

@@ -2918,7 +2918,7 @@
         <scale>1 1 1</scale>
         <link name='link_1'>
           <pose>-2.49629 7.96793 1.87045 -3.01331 -0.003448 -1.5275</pose>
-          <velocity>1.5e-05 -0.010008 -0.000113 -0.000352 -0.00026 -3.3e-05</velocity>
+          <velocity>0 0 0 0 0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
