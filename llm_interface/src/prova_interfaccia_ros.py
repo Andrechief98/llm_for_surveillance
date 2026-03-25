@@ -198,9 +198,9 @@ class RobotAssistant:
         print("hadle_message function entered")
         history = cl.user_session.get("history")
         history.append({"role": authority, "content": msg})
-        with open('history.txt', 'w') as f:
-            print("\n\nrole: user"+ "\ncontent: "+ msg, file=f)
-            print("\n\nrole: user"+ "\ncontent: "+ msg)
+        # with open('history.txt', 'a') as f:
+        #     f.write("\n\nrole: user"+ "\ncontent: "+ msg)
+        #     print("\n\nrole: user"+ "\ncontent: "+ msg)
 
         # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
         msg = cl.Message(content="")
@@ -259,7 +259,7 @@ class RobotAssistant:
                                         "type": "object",
                                         "properties": {
                                             "ros_service_name": {
-                                                "type": "string",
+                                                "type": "string", #enum list of services from json
                                                 "description": f"Name of the ROS service corresponding to a specific door actuator, as defined in the {file_config} file."
                                                 },
                                             "command": {
