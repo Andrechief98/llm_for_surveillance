@@ -3671,7 +3671,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='turtlebot3_1'>
+      <!-- <model name='turtlebot3_1'>
         <pose>0 -4.5 0.0 0.0 0.0 1.57</pose>
         <scale>1 1 1</scale>
         <link name='base_footprint'>
@@ -3714,7 +3714,7 @@
           <acceleration>0.0 0.0 0.0 0.0 0.0 0.0</acceleration>
           <wrench>0.0 0.0 0.0 0.0</wrench>
         </link>
-      </model>
+      </model> -->
       <light name='sun'>
         <pose>0 0 10 0 -0 0</pose>
       </light>
@@ -6740,7 +6740,7 @@
       </plugin>
       <pose>0.179465 2.69354 0 0 -0 0</pose>
     </model>
-    <model name='turtlebot3_1'>
+    <!-- <model name='turtlebot3_1'>
       <link name='base_footprint'>
         <inertial>
           <pose>-0.00429 0 0.030734 0 -0 0</pose>
@@ -7519,6 +7519,6 @@
       </frame>
       <frame name='base_link' attached_to='base_joint'/>
       <pose>0 3.5 0 0 0 -1.57</pose>
-    </model>
+    </model> -->
   </world>
 </sdf>

@@ -69,6 +69,13 @@ class RobotAssistant:
         self.required_vector_store_id = None
         self.available_tools = None
         
+        # Setting for log the history
+        self.history_log_file = "history.txt"
+
+        # When we start the script we clear the file
+        with open(self.history_log_file, 'w') as f:
+            pass
+        
         # ROS network information from file
         with open(file_paths[0], "r") as f:
             info = json.load(f)
@@ -228,185 +235,339 @@ class RobotAssistant:
                     }
                 ]
     
+    def log_message_in_history_file(self, log, authority):
+        with open(self.history_log_file, "a") as f:
+            f.write(f"{authority}: \n\t{log}\n\n")
+        
+        return
+    
+    # async def handle_message(self, msg, authority):
+
+    #     # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
+    #     history = cl.user_session.get("history")
+    #     history.append({"role": authority, "content": msg})
+
+    #     self.log_message_in_history_file(log=msg, authority=authority)
+
+    #     # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
+    #     msg = cl.Message(content="")
+
+    #     full_ai_response = ""
+    #     final_tool_calls = {}
+    #     active_steps = {} # Teniamo traccia degli step attivi per indice
+    #     tool_outputs = []
+        
+    #     try:
+    #         stream = await self.client.responses.create(
+    #             model="gpt-4o",
+    #             input=history,
+    #             tools = self.available_tools,
+    #             stream=True
+    #         )
+    #     except Exception as e:
+    #         rospy.logerr(f"Error in the LLM response generation: \n {e}")
+            
+
+    #     async for event in stream:
+    #         # 1. GESTIONE TESTO
+    #         if event.type == "response.created":
+    #             pass # Ottimo per loggare l'ID della risposta
+            
+    #         elif event.type == "response.failed":
+    #             # Per avvisare direttamente in chat che c'è stato un errore
+    #             await cl.Message(content=f"Error: {event.error.message}").send()
+    #             break
+
+    #         # --- CASI DEL TESTO (OUTPUT) ---
+    #         elif event.type == "response.output_text.delta":
+    #             if not msg.id: 
+    #                 await msg.send()
+    #             full_ai_response += event.delta
+    #             await msg.stream_token(event.delta)
+
+    #         elif event.type == "response.text.done":
+    #             # Testo terminato, possiamo aggiornare lo stato finale
+    #             await msg.update()
+
+    #         # CASI DEI TOOL (FUNZIONI ROS)
+    #         elif event.type == "response.output_item.added":
+    #             # Viene aggiunto un nuovo item (testo o funzione)
+    #             if event.item.type == "function_call":
+    #                 idx = event.output_index
+    #                 tool_name = event.item.name 
+                    
+    #                 # Creiamo uno step per la visualizzazione
+    #                 step = cl.Step(name=tool_name, type="tool")
+    #                 step.language = "json" # Se vuoi mostrare i parametri
+    #                 await step.send()
+
+    #                 final_tool_calls[idx] = event.item # passiamo l'intero item 
+    #                 active_steps[idx] = step
+
+    #         elif event.type == "response.function_call_arguments.delta":
+    #             idx = event.output_index
+    #             if idx in final_tool_calls:
+    #                 # Accumulo asincrono dei parametri JSON
+    #                 if final_tool_calls[idx].arguments is None:
+    #                     final_tool_calls[idx].arguments = ""
+    #                 final_tool_calls[idx].arguments += event.delta
+
+    #             if idx in active_steps:
+    #                 if active_steps[idx].input is None:
+    #                     active_steps[idx].input = ""
+                    
+    #                 await active_steps[idx].stream_token(event.delta, is_input=True)
+
+    #         elif event.type == "response.function_call_arguments.done":
+    #             # Parametri pronti!
+    #             idx = event.output_index
+    #             tool_call = final_tool_calls[idx]
+    #             step = active_steps[idx] # Recuperiamo lo step creato in .added
+    #             args = event.arguments # event.arguments è la stringa completa
+                
+    #             # Esecuzione ROS effettiva
+    #             result = await cl.make_async(self.execute_ros_command)(tool_call.name, json.loads(args))
+
+    #             # Chiude lo step legato all'output
+    #             active_steps[idx].output = result
+    #             await active_steps[idx].update()
+
+
+    #             # Aggiungi la chiamata "completata"
+    #             history.append({
+    #                 "type": "function_call",
+    #                 "call_id": tool_call.call_id,
+    #                 "name": tool_name,
+    #                 "arguments": args
+    #             })
+
+    #             log = f"name - {tool_name} \n\targuments - {args}"
+    #             self.log_message_in_history_file(log=log, authority="function_call")
+
+    #             # Aggiungi l'output di ROS
+    #             history.append({
+    #                 "type": "function_call_output",
+    #                 "call_id": tool_call.call_id,
+    #                 "output": str(result)
+    #             })
+
+    #             log = str(result)
+    #             self.log_message_in_history_file(log=log, authority="ROS_output")
+
+    #             # Aggiunta ai tool chiamati in modo che sia possibile verificare la presenza di tool
+    #             tool_outputs.append({
+    #                 "type": "function_call_output",
+    #                 "call_id": tool_call.call_id,
+    #                 "output": json.dumps({
+    #                         "system_state": result
+    #                     })
+    #             })
+
+                
+
+    #         # CASI DI RAGIONAMENTO (REASONING)
+    #         elif event.type == "response.reasoning.delta":
+    #             # Se usi modelli o1/o3, qui arriva il "pensiero" del modello.
+    #             # Puoi scegliere se mostrarlo o ignorarlo.
+    #             pass
+
+    #         elif event.type == "response.completed":
+    #             if msg.id:
+    #                 await msg.update()
+    #             break # Esci dal ciclo per sicurezza
+        
+    #     if full_ai_response:
+    #         history.append({"role": "assistant", "content": full_ai_response})
+
+    #         self.log_message_in_history_file(log=full_ai_response, authority="assistant")
+
+        
+    #     if tool_outputs:
+                
+    #         follow_up_stream = await self.client.responses.create(
+    #             model="gpt-4o",
+    #             input=history, # La storia ora include l'esito dell'azione ROS
+    #             tools = self.available_tools,
+    #             stream=True
+    #         )
+    
+    #         # Continuiamo lo streaming nel messaggio originale 'msg'
+    #         tool_function_result_msg = ""
+    #         async for event in follow_up_stream:
+    #             if event.type == "response.created":
+    #                 pass # Ottimo per loggare l'ID della risposta
+                
+    #             elif event.type == "response.failed":
+    #                 # Per avvisare direttamente in chat che c'è stato un errore
+    #                 await cl.Message(content=f"Error: {event.error.message}").send()
+    #                 break
+
+    #             elif event.type == "response.output_text.delta":
+    #                 if not msg.id: 
+    #                     await msg.send()
+    #                 tool_function_result_msg += event.delta
+    #                 await msg.stream_token(event.delta)
+
+    #             elif event.type == "response.completed":
+    #                 if msg.id:
+    #                     await msg.update()
+    #                 break # Esci dal ciclo per sicurezza
+            
+    #         if tool_function_result_msg:
+    #             history.append({"role": "assistant", "content": tool_function_result_msg})
+
+    #             self.log_message_in_history_file(log=tool_function_result_msg, authority="assistant")
+        
+    #     cl.user_session.set("history", history)
+
     async def handle_message(self, msg, authority):
 
         # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
-        print("hadle_message function entered")
         history = cl.user_session.get("history")
         history.append({"role": authority, "content": msg})
-        with open('history.txt', 'w') as f:
-            print("\n\nrole: user"+ "\ncontent: "+ msg, file=f)
-            print("\n\nrole: user"+ "\ncontent: "+ msg)
+
+        self.log_message_in_history_file(log=msg, authority=authority)
 
         # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
         msg = cl.Message(content="")
-        
-        try:
-            stream = await self.client.responses.create(
-                model="gpt-4o",
-                input=history,
-                tools = self.available_tools,
-                stream=True
-            )
-        except Exception as e:
-            rospy.logerr(f"Error in the LLM response generation: \n {e}")
+
+        requires_action = True
+
+        while requires_action:
+            requires_action = False # Di default pensiamo di finire. Se esegue un tool è necessario continuare
+
+            full_ai_response = ""
+            final_tool_calls = {}
+            active_steps = {} # Teniamo traccia degli step attivi per indice
+            tool_outputs = []
+            
+            try:
+                response_stream = await self.client.responses.create(
+                    model="gpt-4o",
+                    input=history,
+                    tools = self.available_tools,
+                    stream=True
+                )                
+                async with response_stream as stream:
+                    async for event in stream:
+                        # 1. GESTIONE TESTO
+                        if event.type == "response.created":
+                            pass # Ottimo per loggare l'ID della risposta
+                        
+                        elif event.type == "response.failed":
+                            # Per avvisare direttamente in chat che c'è stato un errore
+                            await cl.Message(content=f"Error: {event.error.message}").send()
+                            break
+
+                        # --- CASI DEL TESTO (OUTPUT) ---
+                        elif event.type == "response.output_text.delta":
+                            if not msg.id: 
+                                await msg.send()
+                            full_ai_response += event.delta
+                            await msg.stream_token(event.delta)
+
+                        elif event.type == "response.text.done":
+                            # Testo terminato, possiamo aggiornare lo stato finale
+                            await msg.update()
+
+                        # CASI DEI TOOL (FUNZIONI ROS)
+                        elif event.type == "response.output_item.added":
+                            # Viene aggiunto un nuovo item (testo o funzione)
+                            if event.item.type == "function_call":
+                                idx = event.output_index
+                                tool_name = event.item.name 
+                                
+                                # Creiamo uno step per la visualizzazione
+                                step = cl.Step(name=tool_name, type="tool")
+                                step.language = "json" # Se vuoi mostrare i parametri
+                                await step.send()
+
+                                final_tool_calls[idx] = event.item # passiamo l'intero item 
+                                active_steps[idx] = step
+
+                        elif event.type == "response.function_call_arguments.delta":
+                            idx = event.output_index
+                            if idx in final_tool_calls:
+                                # Accumulo asincrono dei parametri JSON
+                                if final_tool_calls[idx].arguments is None:
+                                    final_tool_calls[idx].arguments = ""
+                                final_tool_calls[idx].arguments += event.delta
+
+                            if idx in active_steps:
+                                if active_steps[idx].input is None:
+                                    active_steps[idx].input = ""
+                                
+                                await active_steps[idx].stream_token(event.delta, is_input=True)
+
+                        elif event.type == "response.function_call_arguments.done":
+                            # Parametri pronti!
+                            idx = event.output_index
+                            tool_call = final_tool_calls[idx]
+                            step = active_steps[idx] # Recuperiamo lo step creato in .added
+                            args = event.arguments # event.arguments è la stringa completa
+                            
+                            # Esecuzione ROS effettiva
+                            result = await cl.make_async(self.execute_ros_command)(tool_call.name, json.loads(args))
+
+                            # Chiude lo step legato all'output
+                            active_steps[idx].output = result
+                            await active_steps[idx].update()
+
+
+                            # Aggiungi la chiamata "completata"
+                            history.append({
+                                "type": "function_call",
+                                "call_id": tool_call.call_id,
+                                "name": tool_name,
+                                "arguments": args
+                            })
+
+                            log = f"name - {tool_name} \n\targuments - {args}"
+                            self.log_message_in_history_file(log=log, authority="function_call")
+
+                            # Aggiungi l'output di ROS
+                            history.append({
+                                "type": "function_call_output",
+                                "call_id": tool_call.call_id,
+                                "output": str(result)
+                            })
+
+                            log = str(result)
+                            self.log_message_in_history_file(log=log, authority="ROS_output")
+
+                            # Aggiunta ai tool chiamati in modo che sia possibile verificare la presenza di tool
+                            tool_outputs.append({
+                                "type": "function_call_output",
+                                "call_id": tool_call.call_id,
+                                "output": json.dumps({
+                                        "system_state": result
+                                    })
+                            })
+
+                            # Se abbiamo eseguito un tool, dobbiamo fare un altro giro di loop in modo che LLM riceva l'output del tool
+                            requires_action = True
+
+                            
+
+                        # CASI DI RAGIONAMENTO (REASONING)
+                        elif event.type == "response.reasoning.delta":
+                            # Se usi modelli o1/o3, qui arriva il "pensiero" del modello.
+                            # Puoi scegliere se mostrarlo o ignorarlo.
+                            pass
+
+                        elif event.type == "response.completed":
+                            if msg.id:
+                                await msg.update()
+                            break # Esci dal ciclo per sicurezza
+                
+            except Exception as e:
+                rospy.logerr(f"Error in the LLM response generation: \n {e}")
             
 
-        full_ai_response = ""
-        final_tool_calls = {}
-        active_steps = {} # Teniamo traccia degli step attivi per indice
-        tool_outputs = []
-
-        async for event in stream:
-            # 1. GESTIONE TESTO
-            if event.type == "response.created":
-                pass # Ottimo per loggare l'ID della risposta
-            
-            elif event.type == "response.failed":
-                # Per avvisare direttamente in chat che c'è stato un errore
-                await cl.Message(content=f"Error: {event.error.message}").send()
-                break
-
-            # --- CASI DEL TESTO (OUTPUT) ---
-            elif event.type == "response.output_text.delta":
-                if not msg.id: 
-                    await msg.send()
-                full_ai_response += event.delta
-                await msg.stream_token(event.delta)
-
-            elif event.type == "response.text.done":
-                # Testo terminato, possiamo aggiornare lo stato finale
-                await msg.update()
-
-            # CASI DEI TOOL (FUNZIONI ROS)
-            elif event.type == "response.output_item.added":
-                # Viene aggiunto un nuovo item (testo o funzione)
-                if event.item.type == "function_call":
-                    idx = event.output_index
-                    tool_name = event.item.name 
-                    
-                    # Creiamo uno step professionale
-                    step = cl.Step(name=tool_name, type="tool")
-                    step.language = "json" # Se vuoi mostrare i parametri
-                    await step.send()
-
-                    final_tool_calls[idx] = event.item # passiamo l'intero item 
-                    active_steps[idx] = step
-
-            elif event.type == "response.function_call_arguments.delta":
-                idx = event.output_index
-                if idx in final_tool_calls:
-                    # Accumulo asincrono dei parametri JSON
-                    if final_tool_calls[idx].arguments is None:
-                        final_tool_calls[idx].arguments = ""
-                    final_tool_calls[idx].arguments += event.delta
-
-                if idx in active_steps:
-                    if active_steps[idx].input is None:
-                        active_steps[idx].input = ""
-                    
-                    await active_steps[idx].stream_token(event.delta, is_input=True)
-
-            elif event.type == "response.function_call_arguments.done":
-                # Parametri pronti!
-                idx = event.output_index
-                tool_call = final_tool_calls[idx]
-                step = active_steps[idx] # Recuperiamo lo step creato in .added
-                args = event.arguments # event.arguments è la stringa completa
-                
-                # Esecuzione ROS effettiva
-                result = await cl.make_async(self.execute_ros_command)(tool_call.name, json.loads(args))
-
-                # Chiude lo step legato all'output
-                active_steps[idx].output = result
-                await active_steps[idx].update()
-
-
-                # Aggiungi la chiamata "completata"
-                history.append({
-                    "type": "function_call",
-                    "call_id": tool_call.call_id,
-                    "name": tool_name,
-                    "arguments": args
-                })
-                with open('history.txt', 'w') as f:
-                    print("\n\nrole: function_call"+"\ncontent: name - "+ tool_name+"\narguments - "+args, file=f)
-                    print("\n\nrole: function_call"+"\ncontent: name - "+ tool_name+"\narguments - "+args)
-
-                # Aggiungi l'output di ROS
-                history.append({
-                    "type": "function_call_output",
-                    "call_id": tool_call.call_id,
-                    "output": str(result)
-                })
-                with open('history.txt', 'w') as f:
-                    print("\n\nrole: ROS output"+"\ncontent:"+str(result), file=f)
-                    print("\n\nrole: ROS output"+"\ncontent:"+str(result))
-
-                # Aggiunta ai tool chiamati in modo che sia possibile verificare la presenza di tool
-                tool_outputs.append({
-                    "type": "function_call_output",
-                    "call_id": tool_call.call_id,
-                    "output": json.dumps({
-                            "system_state": result
-                        })
-                })
-
-                
-
-            # CASI DI RAGIONAMENTO (REASONING)
-            elif event.type == "response.reasoning.delta":
-                # Se usi modelli o1/o3, qui arriva il "pensiero" del modello.
-                # Puoi scegliere se mostrarlo o ignorarlo.
-                pass
-
-            elif event.type == "response.completed":
-                if msg.id:
-                    await msg.update()
-                break # Esci dal ciclo per sicurezza
+            if full_ai_response:
+                    history.append({"role": "assistant", "content": full_ai_response})
+                    self.log_message_in_history_file(log=full_ai_response, authority="assistant")
         
-        if full_ai_response:
-            history.append({"role": "assistant", "content": full_ai_response})
-            with open('history.txt', 'w') as f:
-                print("\n\nrole: user"+ "\ncontent: "+ full_ai_response, file=f)
-                print("\n\nrole: user"+ "\ncontent: "+ full_ai_response)
-        
-        if tool_outputs:
-                
-            follow_up_stream = await self.client.responses.create(
-                model="gpt-4o",
-                input=history, # La storia ora include l'esito dell'azione ROS
-                tools = self.available_tools,
-                stream=True
-            )
-    
-            # Continuiamo lo streaming nel messaggio originale 'msg'
-            tool_function_result_msg = ""
-            async for event in follow_up_stream:
-                if event.type == "response.created":
-                    pass # Ottimo per loggare l'ID della risposta
-                
-                elif event.type == "response.failed":
-                    # Per avvisare direttamente in chat che c'è stato un errore
-                    await cl.Message(content=f"Error: {event.error.message}").send()
-                    break
-
-                elif event.type == "response.output_text.delta":
-                    if not msg.id: 
-                        await msg.send()
-                    tool_function_result_msg += event.delta
-                    await msg.stream_token(event.delta)
-
-                elif event.type == "response.completed":
-                    if msg.id:
-                        await msg.update()
-                    break # Esci dal ciclo per sicurezza
-            
-            if tool_function_result_msg:
-                history.append({"role": "assistant", "content": full_ai_response})
-                with open('history.txt', 'w') as f:
-                    print("\n\nrole: user"+ "\ncontent: "+ full_ai_response, file=f)
-                    print("\n\nrole: user"+ "\ncontent: "+ full_ai_response)
         
         cl.user_session.set("history", history)
 
@@ -518,8 +679,14 @@ class RobotAssistant:
                             active_sensors = alert_info["activated_sensors"]
 
                             await cl.Message(
-                                content=f"🚨 **DATA MEDIATOR**\nSensori: {active_sensors}",
                                 author="Data Mediator",
+                                elements=[
+                                    cl.Text(
+                                        name="🚨 **DATA MEDIATOR**", 
+                                        content=f"\tActivated sensors: {active_sensors}", 
+                                        display="inline"
+                                    )
+                                ],
                                 type="status" # Lo rende visivamente distinto
                             ).send()
 
@@ -569,9 +736,7 @@ class RobotAssistant:
                     area_y = self.areas_dict[area]["coordinates"]["y"]
 
                     # Create a temporary client to call the clear_costmap service for all robots:
-                    match = re.search(r"_(\d+)$", robot)
-                    number = str(int(match.group(1)))
-                    service_name = "turtlebot3_" + str(number) + "/move_base/clear_costmaps"
+                    service_name = robot + "/move_base/clear_costmaps"
                     clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
 
                     clear_costmap_client()

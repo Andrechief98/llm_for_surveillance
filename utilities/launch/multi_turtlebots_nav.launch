@@ -32,7 +32,7 @@
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
 
-    <!-- <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen" args="-urdf -model $(arg namespace_robot_1) -x $(arg r1_x) -y $(arg r1_y) -Y $(arg r1_yaw) -param robot_description"/> -->
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen" args="-urdf -model $(arg namespace_robot_1) -x $(arg r1_x) -y $(arg r1_y) -Y $(arg r1_yaw) -param robot_description"/>
 
     <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map$(arg m_sfx).yaml">
       <param name="frame_id" value="map" />
@@ -89,7 +89,7 @@
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
     <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
 
-    <!-- <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen" args="-urdf -model $(arg namespace_robot_2) -x $(arg r2_x) -y $(arg r2_y) -Y $(arg r2_yaw) -param robot_description"/> -->
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen" args="-urdf -model $(arg namespace_robot_2) -x $(arg r2_x) -y $(arg r2_y) -Y $(arg r2_yaw) -param robot_description"/>
 
     <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_map$(arg m_sfx).yaml">
       <param name="frame_id" value="map" />

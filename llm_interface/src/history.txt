@@ -1,11 +1,38 @@
+user: 
+	send robot 1 in area A
 
+function_call: 
+	name - retrieve_system_state 
+	arguments - {}
 
-role: user
-content: The robot in Area A has confirmed it is clear with no intruders identified.
+ROS_output: 
+	{"robots": {"turtlebot3_1": {"current_area": "E"}, "turtlebot3_2": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
 
-### Updated Status:
-- **Area A:** Clear, no intruders.
-- **Area B:** Intruder identified.
+function_call: 
+	name - control_actuator 
+	arguments - {"actuators_sequence":[{"actuator_name":"door_4","command":"open"}]}
 
-### Decision:
-- **User Action Required:** Please suggest the next steps for handling the situation in Area B where the intruder has been identified.
+ROS_output: 
+	[{'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}]
+
+function_call: 
+	name - send_robots_to_area 
+	arguments - {"robots_sequence":[{"robot_to_send":"turtlebot3_1","area_to_reach":"A"}]}
+
+ROS_output: 
+	Summary of robots deployments correctness: {"turtlebot3_1": {"deployment_success": true, "additional_info": null}}
+
+assistant: 
+	I have successfully sent robot 1 to area A. If you need further assistance or have any questions, feel free to ask!
+
+system: 
+	turtlebot3_1: Goal reached. Area A clear, no intruders identified
+
+assistant: 
+	**Robot Report:**
+- Analyzed area: A
+- No intruders detected.
+
+**Decision:**
+Would you like to take any further action, or is there anything else you'd like to check?
+
