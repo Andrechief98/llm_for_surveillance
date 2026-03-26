@@ -193,8 +193,8 @@ class Node():
 
                     # Mode-specific door orientation logic when door is closed
                     if self.mode == 'original':
-                        # Original mode: doors 2,3,4,7,8 horizontal
-                        if "2" in model_name or "3" in model_name or "4" in model_name or "7" in model_name or "8" in model_name:
+                        # Original mode: doors 2,3,5,6,8 horizontal
+                        if "2" in model_name or "3" in model_name or "5" in model_name or "6" in model_name or "8" in model_name:
                             # Horizontal orientation:
                             self.msg_marker_position.pose.orientation.x = 0
                             self.msg_marker_position.pose.orientation.y = 0

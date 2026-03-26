@@ -7,6 +7,7 @@
   <arg name="w_name" value="jamarworld.world"         if="$(eval arg('mode') == 'j1')"/>
   <arg name="w_name" value="jamarworld2.world"        if="$(eval arg('mode') == 'j2')"/>
   <arg name="w_name" value="jamarworld3.world"        if="$(eval arg('mode') == 'j3')"/>
+  
   <arg name="m_sfx"  value=""   if="$(eval arg('mode') == 'original')"/>
   <arg name="m_sfx"  value="j1" if="$(eval arg('mode') == 'j1')"/>
   <arg name="m_sfx"  value="j2" if="$(eval arg('mode') == 'j2')"/>
@@ -105,7 +106,7 @@
       <rosparam file="$(find utilities)/config/move_base/turtlebot3_2/move_base_params.yaml"      command="load"/>
       
       <param name="global_costmap/robot_base_frame" value="$(arg namespace_robot_2)/base_footprint"/>
-      <param name="global_costmap/global_frame"      value="map"/>
+      <param name="global_costmap/global_frame"     value="map"/>
       <param name="local_costmap/global_frame"      value="map"/>
       <param name="local_costmap/robot_base_frame"  value="$(arg namespace_robot_2)/base_footprint"/>
 

@@ -1,38 +1,20 @@
 user: 
-	send robot 1 in area A
+	chiudi tutte le porte
 
 function_call: 
 	name - retrieve_system_state 
 	arguments - {}
 
 ROS_output: 
-	{"robots": {"turtlebot3_1": {"current_area": "E"}, "turtlebot3_2": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+	{"robots": {"turtlebot3_2": {"current_area": "E"}, "turtlebot3_1": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
 
 function_call: 
 	name - control_actuator 
-	arguments - {"actuators_sequence":[{"actuator_name":"door_4","command":"open"}]}
+	arguments - {"actuators_sequence":[{"actuator_name":"door_2","command":"close"},{"actuator_name":"door_3","command":"close"},{"actuator_name":"door_4","command":"close"},{"actuator_name":"door_5","command":"close"},{"actuator_name":"door_6","command":"close"},{"actuator_name":"door_7","command":"close"},{"actuator_name":"door_8","command":"close"},{"actuator_name":"door_9","command":"close"}]}
 
 ROS_output: 
-	[{'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}]
-
-function_call: 
-	name - send_robots_to_area 
-	arguments - {"robots_sequence":[{"robot_to_send":"turtlebot3_1","area_to_reach":"A"}]}
-
-ROS_output: 
-	Summary of robots deployments correctness: {"turtlebot3_1": {"deployment_success": true, "additional_info": null}}
+	[{'ros_service_name': '/door_2_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_3_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_5_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_6_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_7_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_8_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_9_control_service', 'success': 'true', 'additional_info': ''}]
 
 assistant: 
-	I have successfully sent robot 1 to area A. If you need further assistance or have any questions, feel free to ask!
-
-system: 
-	turtlebot3_1: Goal reached. Area A clear, no intruders identified
-
-assistant: 
-	**Robot Report:**
-- Analyzed area: A
-- No intruders detected.
-
-**Decision:**
-Would you like to take any further action, or is there anything else you'd like to check?
+	All doors are now closed successfully. If you need anything else, feel free to ask!
 
