@@ -791,6 +791,11 @@ async def set_starters():
             message="Send robot 1 in area A",
             icon="/public/forward.svg",
             ),
+        cl.Starter(
+            label="Close all doors",
+            message="Close all the doors",
+            icon="/public/door-closed.svg",
+            ),
         ]
 
 @cl.on_settings_update

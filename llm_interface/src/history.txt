@@ -1,5 +1,5 @@
 user: 
-	chiudi tutte le porte
+	Close all the doors
 
 function_call: 
 	name - retrieve_system_state 
@@ -16,5 +16,7 @@ ROS_output:
 	[{'ros_service_name': '/door_2_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_3_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_5_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_6_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_7_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_8_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_9_control_service', 'success': 'true', 'additional_info': ''}]
 
 assistant: 
-	All doors are now closed successfully. If you need anything else, feel free to ask!
+	All doors have been successfully closed. 
+
+If you need further assistance, feel free to ask!
 

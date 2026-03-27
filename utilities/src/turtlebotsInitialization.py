@@ -76,9 +76,15 @@ if __name__=="__main__":
 
     # OPEN ALL THE DOORS
     rospy.sleep(2)
-    
-    for i in range(8, 10):
+    mode = rospy.get_param("mode", "original")
 
+    if mode == "original":
+        door_range = range(2,10)
+    else:
+        door_range = range(10,10)    
+
+
+    for i in door_range:
         service_name = f"/door_{i}_control_service"
         
         rospy.wait_for_service(service_name)

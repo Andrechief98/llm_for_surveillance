@@ -1208,6 +1208,43 @@
         <enable_wind>0</enable_wind>
         <kinematic>0</kinematic>
       </link>
+      <link name='Wall_50'>
+        <pose>-0.21 0.72 0 0 0 -1.5708</pose>
+        <visual name='Wall_50_Visual_0'>
+          <pose>-2.725 0 1.25 0 -0 0</pose> <geometry>
+            <box>
+              <size>4.25 0.15 2.5</size>
+            </box>
+          </geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/CeilingTiled</name></script></material>
+        </visual>
+        <collision name='Wall_50_Collision_0'>
+          <pose>-2.725 0 1.25 0 -0 0</pose>
+          <geometry><box><size>4.25 0.15 2.5</size></box></geometry>
+        </collision>
+        <visual name='Wall_50_Visual_1'>
+          <pose>2.425 0 1.25 0 -0 0</pose> <geometry>
+            <box>
+              <size>4.25 0.15 2.5</size>
+            </box>
+          </geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/CeilingTiled</name></script></material>
+        </visual>
+        <collision name='Wall_50_Collision_1'>
+          <pose>2.425 0 1.25 0 -0 0</pose>
+          <geometry><box><size>4.25 0.15 2.5</size></box></geometry>
+        </collision>
+        <visual name='Wall_50_Visual_2'>
+          <pose>-0.15 0 2.25 0 -0 0</pose>
+          <geometry><box><size>0.9 0.15 0.5</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/CeilingTiled</name></script></material>
+        </visual>
+        <collision name='Wall_50_Collision_2'>
+          <pose>-0.15 0 2.25 0 -0 0</pose>
+          <geometry><box><size>0.9 0.15 0.5</size></box></geometry>
+        </collision>
+      </link>
+      
       <static>1</static>
     </model>
     <state world_name='default'>
@@ -1290,6 +1327,12 @@
         </link>
         <link name='Wall_49'>
           <pose>-6.62339 5.7227 0 0 -0 3.14159</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+        <link name='Wall_50'>
+          <pose> 0.27 1.2 0 0 0 1.57</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>

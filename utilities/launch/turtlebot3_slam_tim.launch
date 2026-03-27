@@ -1,7 +1,7 @@
 
 <launch>
   <!-- Argomenti -->
-  <arg name="world_file" default="$(find utilities)/worlds/secworld_slam.world" />
+  <arg name="world_file" default="$(find utilities)/worlds/jamarworld_slam.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 
@@ -50,7 +50,7 @@
 
   <!-- PS4 controller for teleoperation -->
   <node pkg="joy" type="joy_node" name="joy_node" output="screen">
-    <param name="dev" value="/dev/input/js2"/>
+    <param name="dev" value="/dev/input/js0"/>
     <param name="deadzone" value="0.1"/>
   </node>
 

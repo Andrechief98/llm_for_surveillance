@@ -32,7 +32,6 @@
       },
       "door_4": {
         "ros_service_name": "/door_4_control_service"
-        
       },
       "door_5": {
         "ros_service_name": "/door_5_control_service"

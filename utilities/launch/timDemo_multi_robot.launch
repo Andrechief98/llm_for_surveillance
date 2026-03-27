@@ -4,6 +4,8 @@
     <param name="scenario" value="$(arg scenario)" /> 
 
     <arg name="mode" default="original" />
+    <param name="mode" value="$(arg mode)" /> 
+    
     <!-- Mode: original, j1, j2, j3 -->
     <!-- Controls which config files and world configurations are used -->
 
@@ -13,7 +15,6 @@
         pkg="utilities" 
         type="marker_visualization_node.py" 
         output="screen">
-        <param name="mode" value="$(arg mode)" />
     </node>
 
     <!-- Modular navigation launch - includes correct world and navigation setup based on mode -->
@@ -21,7 +22,7 @@
         <arg name="mode" value="$(arg mode)" />
     </include>
 
-    <!-- Teleoperation -->
+    <!-- Actor Teleoperation -->
     <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
     
     <!-- Robot initialization node -->

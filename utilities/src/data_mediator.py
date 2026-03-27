@@ -17,98 +17,14 @@ class Node():
             "robots_list_names": [],
             "robots":
                 {
-                    # "turtlebot3_1":{
-                    #     "current_position": [],
-                    #     "current_orientation": []
-                    #     },
-                    # "turtlebot3_2":{
-                    #     "current_position": [],
-                    #     "current_orientation": []
-                    #     }
                     },
             "sensors_list_names": [],
             "sensors":
                 {
-                    # "Camera_1":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Camera_2":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_1":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_2":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_3":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_4":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_5":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_6":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_7":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     },
-                    # "Lidar_8":{
-                    #     "position": [],
-                    #     "orientation": [],
-                    #     } 
                     },
             "actuators_list_names": [],
             "actuators":
                 {
-                    # "door_1":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_2":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_3":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_4":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_5":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_6":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_7":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_8":{
-                    #     "position": [],
-                    #     "state": "",
-                    #     },
-                    # "door_9":{
-                        # "position": [],
-                        # "state": "",
-                        # }     
                     },
             "activated_sensors": []
         }
@@ -123,7 +39,7 @@ class Node():
         self.client_service = rospy.ServiceProxy('/alert', triggerGpt)
         self.server = rospy.Service("/retrieve_system_state", retrieveSystemState, self.retrieve_system_state)
 
-
+        rospy.sleep(5)
         for i in range(1,10):
             topic = f"/door_{i}/door_state"
             subscriber = rospy.Subscriber(topic, String, self.extract_actuator_state(index = i), queue_size=1)
