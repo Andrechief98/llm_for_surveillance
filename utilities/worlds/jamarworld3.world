@@ -87,7 +87,7 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
-    <model name='jampworld2'>
+    <model name='jampworld'>
       <pose>0.323413 -0.899521 0 0 -0 0</pose>
       <link name='Wall_0'>
         <pose>-7.54157 0.258428 0 0 -0 1.5708</pose>
@@ -3260,7 +3260,7 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='jampworld2'>
+      <model name='jamworldp'>
         <pose>0.09733 0.3155 -1e-06 0.006456 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='Wall_0'>

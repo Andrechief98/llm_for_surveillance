@@ -1,7 +1,7 @@
 
 <launch>
   <!-- Argomenti -->
-  <arg name="world_file" default="$(find utilities)/worlds/jamarworld_slam.world" />
+  <arg name="world_file" default="$(find utilities)/worlds/jamarworld2_slam.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 
