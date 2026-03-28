@@ -32,7 +32,6 @@
       },
       "door_4": {
         "ros_service_name": "/door_4_control_service"
-        
       },
       "door_5": {
         "ros_service_name": "/door_5_control_service"
@@ -59,17 +58,17 @@
       "actuators": ["door_3"],
       "coordinate_ranges": {
         "x": {
-          "min": 1,
-          "max": 8.1
+          "min": -4.82,
+          "max": 4.73
         },
         "y": {
-          "min": -5.2,
-          "max": -2
+          "min": -4.8,
+          "max": -2.46
         }
       },
       "coordinates": {
-        "x": 5.0,
-        "y": -5.0
+        "x": 0.0,
+        "y": -3.5
       }
     },
     "B": {
@@ -78,17 +77,17 @@
       "actuators": ["door_4"],
       "coordinate_ranges": {
         "x": {
-          "min": 1,
-          "max": 8.1
+          "min": -1.69,
+          "max": 1.62
         },
         "y": {
-          "min": -2,
-          "max": 0
+          "min": -2.28,
+          "max": 4.73
         }
       },
       "coordinates": {
-        "x": 5.5,
-        "y": 1.5
+        "x": 0.0,
+        "y": 1.24
       }
     },
     "C": {
@@ -97,17 +96,17 @@
       "actuators": [],
       "coordinate_ranges": {
         "x": {
-          "min": 1,
-          "max": 8.1
+          "min": -4.78,
+          "max": -2
         },
         "y": {
-          "min": 0,
-          "max": 1.5
+          "min": -2,
+          "max": 0
         }
       },
       "coordinates": {
-        "x": 3.5,
-        "y": 5.5
+        "x": -3.5,
+        "y": -1.14
       }
     },
     "D": {
@@ -116,17 +115,17 @@
       "actuators": ["door_5"],
       "coordinate_ranges": {
         "x": {
-          "min": -8.1,
-          "max": 8.1
+          "min": -4.78,
+          "max": -2
         },
         "y": {
-          "min": 1.5,
-          "max": 5.5
+          "min": 0.3,
+          "max": 2.4
         }
       },
       "coordinates": {
-        "x": -5.5,
-        "y": 4.5
+        "x": -3.5,
+        "y": 1.5
       }
     },
     "E": {
@@ -135,17 +134,17 @@
       "actuators": ["door_1"],
       "coordinate_ranges": {
         "x": {
-          "min": -4,
-          "max": 1
+          "min": -4.78,
+          "max": -2
         },
         "y": {
-          "min": -5.22,
-          "max": 4.3
+          "min": 2.76,
+          "max": 4.72
         }
       },
       "coordinates": {
-        "x": -2.5,
-        "y": 1.5
+        "x": -3.5,
+        "y": 3.7
       }
     },
     "F": {
@@ -154,17 +153,17 @@
       "actuators": ["door_2"],
       "coordinate_ranges": {
         "x": {
-          "min": -6.3,
-          "max": 2
+          "min": 1.96,
+          "max": 4.72
         },
         "y": {
-          "min": -7,
-          "max": 4.3
+          "min": 2.76,
+          "max": 4.73
         }
       },
       "coordinates": {
-        "x": -3.5,
-        "y": -5
+        "x": 3.5,
+        "y": 3.78
       }
     },
     "G": {
@@ -173,17 +172,36 @@
       "actuators": ["door_1"],
       "coordinate_ranges": {
         "x": {
-          "min": -4,
-          "max": 1
+          "min": 1.96,
+          "max": 4.71
         },
         "y": {
-          "min": -5.22,
-          "max": 4.3
+          "min": 0.25,
+          "max": 2.4
         }
       },
       "coordinates": {
-        "x": 0,
-        "y": 0
+        "x": 3.5,
+        "y": 1.43
+      }
+    },
+    "H": {
+      "description": "",
+      "sensors": ["Lidar_2"],
+      "actuators": ["door_1"],
+      "coordinate_ranges": {
+        "x": {
+          "min": 1.96,
+          "max": 4.72
+        },
+        "y": {
+          "min": -2.1,
+          "max": -0.13
+        }
+      },
+      "coordinates": {
+        "x": 3.5,
+        "y": -1.12
       }
     }
   },

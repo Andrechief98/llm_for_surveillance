@@ -17,7 +17,7 @@
   <arg name="r1_x"   value="0.0"   if="$(eval arg('mode') == 'original')"/>
   <arg name="r1_x"   value="-2.5"  if="$(eval arg('mode') == 'j1')"/> 
   <arg name="r1_x"   value="-4.0"  if="$(eval arg('mode') == 'j2')"/> 
-  <arg name="r1_x"   value="-4.0"  if="$(eval arg('mode') == 'j3')"/> 
+  <arg name="r1_x"   value="0"     if="$(eval arg('mode') == 'j3')"/> 
 
   <arg name="r1_y"   value="-4.5"  if="$(eval arg('mode') == 'original')"/>
   <arg name="r1_y"   value="-4.5"  if="$(eval arg('mode') == 'j1')"/>
@@ -33,7 +33,7 @@
   <arg name="r2_x"   value="0.0"   if="$(eval arg('mode') == 'original')"/>
   <arg name="r2_x"   value="-2.5"  if="$(eval arg('mode') == 'j1')"/> 
   <arg name="r2_x"   value="-4.0"  if="$(eval arg('mode') == 'j2')"/> 
-  <arg name="r2_x"   value="-4.0"  if="$(eval arg('mode') == 'j3')"/> 
+  <arg name="r2_x"   value="0"     if="$(eval arg('mode') == 'j3')"/> 
 
   <arg name="r2_y"   value="3.5"   if="$(eval arg('mode') == 'original')"/>
   <arg name="r2_y"   value="3.5"   if="$(eval arg('mode') == 'j1')"/>
