@@ -1,5 +1,7 @@
 import chainlit as cl
 from chainlit.input_widget import Select
+from chainlit.context import get_context, init_ws_context
+from chainlit.session import WebsocketSession
 from openai import AsyncOpenAI
 import rospy
 import rosgraph
@@ -19,14 +21,15 @@ import json
 import os
 import asyncio
 from queue import Queue
+import base64
 
 
 
 #retirve file paths
 script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_interface/src
-print("\n" + script_dir)
-if rospy.has_param("/markerVisualizationNode/mode"):
-    mode = rospy.get_param("/markerVisualizationNode/mode")
+
+if rospy.has_param("/mode"):
+    mode = rospy.get_param("/mode")
     #print("parameter /markerVisualizationNode/mode found")
     #print(mode)
 else:
@@ -40,6 +43,8 @@ else:
     file_config = "info"+mode+".json"
     file_prompt = "prompts"+mode+".yaml"
     file_building_plan = "building_plan"+mode+".png"
+
+path_building_plan = os.path.join(script_dir, "static/uploads", file_building_plan)
 
 file_paths = [os.path.join(script_dir, "..", "config", file_config)]
 file_streams = [open(path, "rb") for path in file_paths]
@@ -488,8 +493,15 @@ class RobotAssistant:
         return triggerGptResponse("Failed")
     
 
-    async def async_process_queue(self):
-            
+    async def async_process_queue(self, session_id):
+            try:
+                # 1. Recupera la sessione tramite l'ID
+                session = WebsocketSession.get_by_id(session_id)
+                # 2. Inizializza il contesto usando quella sessione
+                init_ws_context(session)
+            except Exception as e:
+                print(f"Error in setting the session id: {e}")
+
             while True:
                 if not self.alert_queue.empty():
                     try:
@@ -505,16 +517,12 @@ class RobotAssistant:
                             # Estraiamo i sensori attivi
                             active_sensors = alert_info["activated_sensors"]
 
+                            # Trasformiamo la lista in una stringa di elementi avvolti da backtick `
+                            sensors_formatted = ", ".join([f"`{sensor}`" for sensor in active_sensors])
+
                             await cl.Message(
                                 author="Data Mediator",
-                                elements=[
-                                    cl.Text(
-                                        name="🚨 **DATA MEDIATOR**", 
-                                        content=f"\tActivated sensors: {active_sensors}", 
-                                        display="inline"
-                                    )
-                                ],
-                                type="status" # Lo rende visivamente distinto
+                                content=f"### 🚨 **DATA MEDIATOR ALERT**\n\n**Activated sensors:** {sensors_formatted}",
                             ).send()
 
                             # Messaggio da inviare al'LLM
@@ -531,7 +539,7 @@ class RobotAssistant:
 
                         # Chiamata al modello per rispondere
                         start_response_time = time.time()
-                        await self.handle_message(msg=message, authority="system")
+                        await self.handle_message(msg=message, authority="user")
                         end_response_time = time.time()
 
                         response_time = round(end_response_time - start_response_time, 4)
@@ -766,16 +774,40 @@ async def start():
             initial_index=0,
         )
     ]).send()
+
     history = []
-    history.append({"role": "system", "content": str(prompt)})
+     
+    # Uploading the prompt
+    history.append({"role": "user", "content": str(prompt)})
+
+    # Uploading the image
+    with open(path_building_plan, "rb") as f:
+        img_b64 = base64.b64encode(f.read()).decode("utf-8")
+    
+    history.append(
+        {
+            "role": "user", 
+            "content": [
+                    {
+                        "type": "input_image",
+                        "image_url": f"data:image/png;base64,{img_b64}",
+                    },
+                ],
+            }
+        )
+
+
     cl.user_session.set("history", history)
     cl.user_session.set("model", settings["Model"])
     cl.user_session.set("agent", agent)
 
+    context = get_context()
+    session_id = context.session.id
+
     # Per gestire gli alert da parte del data mediator creiamo una coda in cui il servizio ros
     # va ad inserire la richiesta da processare da parte dell'alert. In seguito dentro il 
     # servizio ros si processa la coda tramite la funzine "async_process_queue"
-    asyncio.create_task(agent.async_process_queue())
+    asyncio.create_task(agent.async_process_queue(session_id))
     
 
 # Setta comandi di test che si possono usare per inserire prompt di default

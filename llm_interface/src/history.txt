@@ -1,46 +1,26 @@
 user: 
-	Provide me the system state of the environment
-
-function_call: 
-	name - retrieve_system_state 
-	arguments - {}
-
-ROS_output: 
-	{"robots": {"turtlebot3_2": {"current_area": "E"}, "turtlebot3_1": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+	describe the image I provided you
 
 assistant: 
-	The current system state is as follows:
+	The image shows a floor plan of an indoor environment with the following features:
 
-- **Robots:**
-  - `turtlebot3_1` is in area E.
-  - `turtlebot3_2` is in area E.
-
-- **Doors Status:**
-  - Door 1: Closed
-  - Door 2: Open
-  - Door 3: Open
-  - Door 4: Open
-  - Door 5: Open
-  - Door 6: Open
-  - Door 7: Open
-  - Door 8: Open
-  - Door 9: Open
-
-- **Activated Sensors:**
-  - No sensors are currently activated.
+- **8 Areas (A - H):** Different areas are marked with letters A to H. Solid black lines indicate impassable walls, and blue dashed lines are imaginary boundaries indicating non-physical divisions.
   
-If you need detailed spatial information or plan to perform any actions, feel free to ask!
+- **Walkable Space:** Light gray regions represent areas that can be traversed.
+
+- **Lidar Sensors:** There are eight lidar sensors located at room entrances, labeled Lidar_1 through Lidar_8 (red squares).
+
+- **Doors:** The environment contains nine doors, labeled door_1 through door_9.
+
+- **Cameras:** Two cameras are present (Camera_1 and Camera_2), represented by red arrows pointing in the direction they cover.
+
+- **Mobile Robots:** Two robots, turtlebot3_1 and turtlebot3_2, are included in the plan. The initial positions of the robots are marked on the map.
+
+This layout is used for monitoring and controlling access and intrusions in the designated areas.
 
 user: 
-	close all doors
-
-function_call: 
-	name - control_actuator 
-	arguments - {"actuators_sequence":[{"actuator_name":"door_2","command":"close"},{"actuator_name":"door_3","command":"close"},{"actuator_name":"door_4","command":"close"},{"actuator_name":"door_5","command":"close"},{"actuator_name":"door_6","command":"close"},{"actuator_name":"door_7","command":"close"},{"actuator_name":"door_8","command":"close"},{"actuator_name":"door_9","command":"close"}]}
-
-ROS_output: 
-	[{'ros_service_name': '/door_2_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_3_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_5_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_6_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_7_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_8_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_9_control_service', 'success': 'true', 'additional_info': ''}]
+	which is the color that represents the areas name?
 
 assistant: 
-	I have successfully closed all the doors. If you need anything else or want to take further actions, feel free to let me know!
+	The areas (A - H) are represented in **blue** color on the map.
 

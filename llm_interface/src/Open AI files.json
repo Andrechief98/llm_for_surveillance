@@ -9,6 +9,16 @@
       "file_name": "infoj1.json",
       "file_ID": "file-8s7RoQUL6tNGwio9EXbFe4",
       "vector_store_id": "vs_69c2c67ca2f88191ab203c6d7c624598"
+    },
+    {
+      "file_name": "infoj2.json",
+      "file_ID": "file-GCxuUShYup8KQy9uASqTJr",
+      "vector_store_id": "vs_69ca51caf0e4819198a9c2367cc29c0e"
+    },
+    {
+      "file_name": "infoj3.json",
+      "file_ID": "file-PjZ11QL3951SEnFeMpg2Jx",
+      "vector_store_id": "vs_69ca525495688191b5b3311b478ca5d4"
     }
   ]
 }
