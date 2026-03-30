@@ -1,5 +1,5 @@
 user: 
-	Close all the doors
+	Provide me the system state of the environment
 
 function_call: 
 	name - retrieve_system_state 
@@ -7,6 +7,32 @@ function_call:
 
 ROS_output: 
 	{"robots": {"turtlebot3_2": {"current_area": "E"}, "turtlebot3_1": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+
+assistant: 
+	The current system state is as follows:
+
+- **Robots:**
+  - `turtlebot3_1` is in area E.
+  - `turtlebot3_2` is in area E.
+
+- **Doors Status:**
+  - Door 1: Closed
+  - Door 2: Open
+  - Door 3: Open
+  - Door 4: Open
+  - Door 5: Open
+  - Door 6: Open
+  - Door 7: Open
+  - Door 8: Open
+  - Door 9: Open
+
+- **Activated Sensors:**
+  - No sensors are currently activated.
+  
+If you need detailed spatial information or plan to perform any actions, feel free to ask!
+
+user: 
+	close all doors
 
 function_call: 
 	name - control_actuator 
@@ -16,7 +42,5 @@ ROS_output:
 	[{'ros_service_name': '/door_2_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_3_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_5_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_6_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_7_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_8_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_9_control_service', 'success': 'true', 'additional_info': ''}]
 
 assistant: 
-	All doors have been successfully closed. 
-
-If you need further assistance, feel free to ask!
+	I have successfully closed all the doors. If you need anything else or want to take further actions, feel free to let me know!
 
