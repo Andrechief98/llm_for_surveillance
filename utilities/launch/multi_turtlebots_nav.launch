@@ -3,10 +3,10 @@
   <arg name="namespace_robot_1" default="turtlebot3_1"/>
   <arg name="namespace_robot_2" default="turtlebot3_2"/>
 
-  <arg name="w_name" value="Tim_building_world.world" if="$(eval arg('mode') == 'original')"/>
+  <!-- <arg name="w_name" value="Tim_building_world.world" if="$(eval arg('mode') == 'original')"/>
   <arg name="w_name" value="jamarworld.world"         if="$(eval arg('mode') == 'j1')"/>
   <arg name="w_name" value="jamarworld2.world"        if="$(eval arg('mode') == 'j2')"/>
-  <arg name="w_name" value="jamarworld3.world"        if="$(eval arg('mode') == 'j3')"/>
+  <arg name="w_name" value="jamarworld3.world"        if="$(eval arg('mode') == 'j3')"/> -->
   
   <arg name="m_sfx"  value=""   if="$(eval arg('mode') == 'original')"/>
   <arg name="m_sfx"  value="j1" if="$(eval arg('mode') == 'j1')"/>
@@ -47,9 +47,9 @@
 
 
 
-  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+  <!-- <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(find utilities)/worlds/$(arg w_name)"/>
-  </include>
+  </include> -->
 
   <group ns="$(arg namespace_robot_1)">
     <param name="tf_prefix" value="$(arg namespace_robot_1)" />
@@ -159,5 +159,14 @@
         <param name="global_frame_id" value="map"/>
       </node>
   </group>
+
+
+  <node 
+    name="initializationNode" 
+    pkg="utilities" 
+    type="turtlebotsInitialization.py" 
+    output="screen">
+  </node>
+    
 
 </launch>
