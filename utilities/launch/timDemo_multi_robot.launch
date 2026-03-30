@@ -1,15 +1,7 @@
 <launch>
 
-    <arg name="scenario" default="1"/>
-    <param name="scenario" value="$(arg scenario)" /> 
-
     <arg name="mode" default="original" />
     <param name="mode" value="$(arg mode)" /> 
-
-    <arg name="w_name" value="Tim_building_world.world" if="$(eval arg('mode') == 'original')"/>
-    <arg name="w_name" value="jamarworld.world"         if="$(eval arg('mode') == 'j1')"/>
-    <arg name="w_name" value="jamarworld2.world"        if="$(eval arg('mode') == 'j2')"/>
-    <arg name="w_name" value="jamarworld3.world"        if="$(eval arg('mode') == 'j3')"/>
     
     <!-- Mode: original, j1, j2, j3 -->
     <!-- Controls which config files and world configurations are used -->
@@ -22,27 +14,22 @@
         output="screen">
     </node>
 
-    <include file="$(find gazebo_ros)/launch/empty_world.launch">
-        <arg name="world_name" value="$(find utilities)/worlds/$(arg w_name)"/>
-    </include>
-
-
     <!-- Modular navigation launch - includes correct world and navigation setup based on mode -->
-    <!-- <include file="$(find utilities)/launch/multi_turtlebots_nav.launch">
+    <include file="$(find utilities)/launch/multi_turtlebots_nav.launch">
         <arg name="mode" value="$(arg mode)" />
-    </include> -->
+    </include>
 
     <!-- Actor Teleoperation -->
     <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
     
     <!-- Robot initialization node -->
-    <!-- <node 
+    <node 
         name="initializationNode" 
         pkg="utilities" 
         type="turtlebotsInitialization.py" 
         output="screen">
     </node>
-     -->
+    
     <!-- Data mediator node -->
     <node 
         name="dataMediatorNode" 

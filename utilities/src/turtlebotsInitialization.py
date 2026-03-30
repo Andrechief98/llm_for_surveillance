@@ -13,8 +13,6 @@ class Node():
     def __init__(self):
 
         rospy.init_node("pathNode",anonymous=True)
-        self.scenario_number  = rospy.get_param("/scenario")
-
 
         self.initialPose_pub_turtlebot_1 = rospy.Publisher("/turtlebot3_1/initialpose", PoseWithCovarianceStamped, queue_size=10)
         self.initialPose_pub_turtlebot_2 = rospy.Publisher("/turtlebot3_2/initialpose", PoseWithCovarianceStamped, queue_size=10)
