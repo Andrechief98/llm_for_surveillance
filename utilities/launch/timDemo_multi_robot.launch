@@ -1,6 +1,8 @@
 <launch>
 
     <arg name="mode" default="original" />
+    <arg name="control_mode" default="joystick" doc="Type of control: 'joystick' or 'keyboard'"/>
+
     <param name="mode" value="$(arg mode)" /> 
     
     <!-- Mode: original, j1, j2, j3 -->
@@ -20,7 +22,9 @@
     </include>
 
     <!-- Actor Teleoperation -->
-    <include file="$(find utilities)/launch/timDemo_teleop.launch"/>
+    <include file="$(find utilities)/launch/timDemo_teleop.launch">
+        <arg name="control_mode" value="$(arg control_mode)" />
+    </include>
     
     <!-- Robot initialization node -->
     <node 
