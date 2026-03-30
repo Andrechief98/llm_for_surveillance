@@ -54,7 +54,6 @@
 
   "areas": {
     "A": {
-      "description": "",
       "sensors": ["Lidar_2", "Lidar_7"],
       "actuators": ["door_4", "door_5"],
       "coordinate_ranges": {
@@ -73,7 +72,6 @@
       }
     },
     "B": {
-      "description": "",
       "sensors": ["Lidar_3", "Lidar_7", "Camera_1"],
       "actuators": ["door_5","door_6"],
       "coordinate_ranges": {
@@ -92,7 +90,6 @@
       }
     },
     "C": {
-      "description": "",
       "sensors": ["Lidar_3", "Lidar_4"],
       "actuators": ["door_6", "door_8"],
       "coordinate_ranges": {
@@ -111,7 +108,6 @@
       }
     },
     "D": {
-      "description": "",
       "sensors": ["Lidar_4", "Lidar_5"],
       "actuators": ["door_8", "door_9"],
       "coordinate_ranges": {
@@ -130,7 +126,6 @@
       }
     },
     "E": {
-      "description": "",
       "sensors": ["Lidar_5", "Lidar_6, Lidar_2"],
       "actuators": ["door_1", "door_4", "door_9", "door_7"],
       "coordinate_ranges": {
@@ -149,7 +144,6 @@
       }
     },
     "F": {
-      "description": "",
       "sensors": ["Camera_2"],
       "actuators": [],
       "coordinate_ranges": {
@@ -168,7 +162,6 @@
       }
     },
     "G": {
-      "description": "",
       "sensors": ["Lidar_6", "Lidar_8"],
       "actuators": ["door_3", "door_7"],
       "coordinate_ranges": {
@@ -187,7 +180,6 @@
       }
     },
     "H": {
-      "description": "",
       "sensors": ["Lidar_1"],
       "actuators": ["door_2"],
       "coordinate_ranges": {
@@ -209,81 +201,60 @@
 
   "areas_connections": [
     {
-      "connection_type" : "open",
-      "door": "",
       "connected_areas": ["F", "E"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "open_passage",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "open",
-      "door": "",
       "connected_areas": ["E", "B"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "open_passage",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_1",
       "connected_areas": ["E", "outdoor"],
+      "connection" : "door_1",
       "direction": "bidirectional",
       "note": "it remains closed"
     },
     {
-      "connection_type" : "door",
-      "door": "door_2",
       "connected_areas": ["H", "E"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_2",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_3",
       "connected_areas": ["G", "E"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_3",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_4",
       "connected_areas": ["E", "A"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_4",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_5",
       "connected_areas": ["A", "B"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_5",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_6",
       "connected_areas": ["B", "C"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_6",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_7",
       "connected_areas": ["E", "G"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_7",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_8",
       "connected_areas": ["C", "D"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_8",
+      "direction": "bidirectional"
     },
     {
-      "connection_type" : "door",
-      "door": "door_9",
       "connected_areas": ["D", "E"],
-      "direction": "bidirectional",
-      "note": ""
+      "connection" : "door_9",
+      "direction": "bidirectional"
     }
   ]
 }

@@ -1,4 +1,22 @@
+user: 
+	Close all the doors
 
+function_call: 
+	name - retrieve_system_state 
+	arguments - {}
 
-role: user
-content: 
+ROS_output: 
+	{"robots": {"turtlebot3_2": {"current_area": "E"}, "turtlebot3_1": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+
+function_call: 
+	name - control_actuator 
+	arguments - {"actuators_sequence":[{"actuator_name":"door_2","command":"close"},{"actuator_name":"door_3","command":"close"},{"actuator_name":"door_4","command":"close"},{"actuator_name":"door_5","command":"close"},{"actuator_name":"door_6","command":"close"},{"actuator_name":"door_7","command":"close"},{"actuator_name":"door_8","command":"close"},{"actuator_name":"door_9","command":"close"}]}
+
+ROS_output: 
+	[{'ros_service_name': '/door_2_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_3_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_4_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_5_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_6_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_7_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_8_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_9_control_service', 'success': 'true', 'additional_info': ''}]
+
+assistant: 
+	All doors have been successfully closed. 
+
+If you need further assistance, feel free to ask!
+
