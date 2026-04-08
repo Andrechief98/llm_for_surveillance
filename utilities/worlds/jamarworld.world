@@ -1837,7 +1837,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -1961,7 +1961,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -2085,7 +2085,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -2209,7 +2209,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -2333,7 +2333,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -2457,7 +2457,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -2581,7 +2581,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>
@@ -2705,7 +2705,7 @@
           <xyz>1 0 0</xyz>
           <limit>
             <lower>0</lower>
-            <upper>0.5</upper>
+            <upper>2.0</upper>
           </limit>
           <dynamics>
             <spring_reference>0</spring_reference>

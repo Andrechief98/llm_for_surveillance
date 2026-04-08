@@ -1,7 +1,7 @@
 
 <launch>
   <!-- Argomenti -->
-  <arg name="world_file" default="$(find utilities)/worlds/secworld_slam.world" />
+  <arg name="world_file" default="$(find utilities)/worlds/jamarworld3_slam.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 
@@ -54,7 +54,7 @@
     <param name="deadzone" value="0.1"/>
   </node>
 
-  <node pkg="utilities" type="ps4_joystick_control.py" name="ps4_joystick_control" output="screen">
+  <node pkg="intruder_actor" type="ps4_joystick_control.py" name="ps4_joystick_control" output="screen">
       <!-- Axis mapping (customizza se necessario) -->
       <param name="axis_linear" value="1"/>
       <param name="axis_l2" value="2"/>
