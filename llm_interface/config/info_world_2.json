@@ -16,6 +16,24 @@
       },
       "camera_2": {
         "ros_topic": "/gazebo_multi_camera/camera/camera_sensor2/image_raw"
+      },
+      "camera_3": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor3/image_raw"
+      },
+      "camera_4": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor4/image_raw"
+      },
+      "camera_5": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor5/image_raw"
+      },
+      "camera_6": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor6/image_raw"
+      },
+      "camera_7": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor7/image_raw"
+      },
+      "camera_8": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor8/image_raw"
       }
     }
   },
@@ -47,6 +65,21 @@
       },
       "door_9": {
         "ros_service_name": "/door_9_control_service"
+      },
+      "door_10": {
+        "ros_service_name": "/door_10_control_service"
+      },
+      "door_11": {
+        "ros_service_name": "/door_11_control_service"
+      },
+      "door_12": {
+        "ros_service_name": "/door_12_control_service"
+      },
+      "door_13": {
+        "ros_service_name": "/door_13_control_service"
+      },
+      "door_14": {
+        "ros_service_name": "/door_14_control_service"
       }
     }
   },
@@ -204,6 +237,85 @@
         "y": -2.5
       }
     }
+  },
 
-  }
+  "areas_connections": [
+    {
+      "connection_type" : "open",
+      "door": "",
+      "connected_areas": ["F", "E"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "open",
+      "door": "",
+      "connected_areas": ["E", "B"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_1",
+      "connected_areas": ["E", "outdoor"],
+      "direction": "bidirectional",
+      "note": "it remains closed"
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_2",
+      "connected_areas": ["H", "E"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_3",
+      "connected_areas": ["G", "E"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_4",
+      "connected_areas": ["E", "A"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_5",
+      "connected_areas": ["A", "B"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_6",
+      "connected_areas": ["B", "C"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_7",
+      "connected_areas": ["E", "G"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_8",
+      "connected_areas": ["C", "D"],
+      "direction": "bidirectional",
+      "note": ""
+    },
+    {
+      "connection_type" : "door",
+      "door": "door_9",
+      "connected_areas": ["D", "E"],
+      "direction": "bidirectional",
+      "note": ""
+    }
+  ]
 }

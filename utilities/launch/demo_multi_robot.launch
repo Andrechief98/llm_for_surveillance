@@ -1,9 +1,9 @@
 <launch>
 
-    <arg name="scenario"    default="1"/>
-    <param name="scenario" value="$(arg scenario)" /> 
+    <arg name="world_file" default="$(find utilities)/worlds/original_world.world"/>
+    <arg name="world_name" default="original_world"/>
 
-
+    <!-- Running the node for Rviz markers -->
     <node 
         name="markerVisualizationNode" 
         pkg="utilities" 
@@ -11,11 +11,13 @@
         output="screen">
     </node>
 
+    <!-- Launching Gazebo simultion -->
+    <include file="$(find utilities)/launch/multi_turtlebots_nav.launch">
+        <arg name="world_name" value="$(arg world_name)" />
+    </include>
+    <include file="$(find utilities)/launch/demo_teleop.launch" />
 
-    <include file="$(find utilities)/launch/multi_turtlebots_nav.launch" />
-    <include file="$(find utilities)/launch/timDemo_teleop.launch" />
-
-    
+    <!-- Running the node to initialize turtlebot positions -->
     <node 
         name="initializationNode" 
         pkg="utilities" 

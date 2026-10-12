@@ -4,7 +4,7 @@
         <param name="BURGER_MAX_LIN_VEL" value="1"/>
     </node> 
 
-    <node pkg="utilities" type="timDemoTeleop.py" name="actor_teleop">
+    <node pkg="utilities" type="demoTeleop.py" name="actor_teleop">
         <remap from="cmd_vel" to="actor/cmd_vel"/> 
     </node>  -->
 

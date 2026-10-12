@@ -1,10 +1,10 @@
 <launch>
-  <!-- Argomenti -->
+  <!-- Arguments of the launch file -->
   <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world_slam.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 
-  <!-- Avvio Gazebo -->
+  <!-- Launch Gazebo -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
     <arg name="world_name" value="$(arg world_file)"/>
   </include>
@@ -13,12 +13,12 @@
       args="0 0 0 0 0 0 map $(arg namespace)/map 100" />
 
 
-  <!-- Gruppo con namespace -->
+  <!-- Group of nodes with namespace -->
   <group ns="$(arg namespace)">
-    <!-- Prefisso per tf -->
+    <!-- Prefix for tf -->
     <param name="tf_prefix" value="$(arg namespace)" />
 
-     <!-- robot_description -->
+     <!-- Robot_description -->
     <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_$(arg model).urdf.xacro'" />
 
     <!-- Robot State Publisher -->
@@ -31,14 +31,14 @@
 
     <!-- SLAM Gmapping -->
     <node name="slam_gmapping" pkg="gmapping" type="slam_gmapping" output="screen">
-      <!-- Frame rimappati con prefisso -->
+      <!-- Remapping frames with tf prefix -->
       <param name="base_frame" value="$(arg namespace)/base_footprint"/>
       <param name="odom_frame" value="$(arg namespace)/odom"/>
       <!-- <param name="map_frame"  value="$(arg namespace)/map"/> -->
       <remap from="scan" to="scan"/>
     </node>
 
-    <!-- Teleoperation -->
+    <!-- Teleoperation with keyboard-->
     <!-- <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="teleop" /> -->
 
     <!-- RViz -->
@@ -46,14 +46,14 @@
           args="-d $(find utilities)/config/rviz/turtlebot3_slam.rviz"/>
   </group>
 
-  <!-- PS4 controller for teleoperation -->
+  <!-- Teleoperation with PS4 controller -->
   <node pkg="joy" type="joy_node" name="joy_node" output="screen">
     <param name="dev" value="/dev/input/js0"/>
     <param name="deadzone" value="0.1"/>
   </node>
 
   <node pkg="utilities" type="ps4_joystick_control.py" name="ps4_joystick_control" output="screen">
-      <!-- Axis mapping (customizza se necessario) -->
+      <!-- Axis mapping -->
       <param name="axis_linear" value="1"/>
       <param name="axis_l2" value="2"/>
       <param name="axis_r2" value="5"/>
@@ -64,7 +64,7 @@
       <param name="invert_linear" value="false"/>
       <param name="invert_angular" value="false"/>
       <param name="soft_scale" value="true"/>
-      <!-- Remap topic to your robot controller if necessario -->
+      <!-- Remap velocity command topic to incorporate namespace -->
       <remap from="cmd_vel" to="turtlebot3_1/cmd_vel"/>
   </node>
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import rospy
+import rospy, rosservice, re
 from geometry_msgs.msg import Twist, PoseStamped, PoseWithCovarianceStamped
 from gazebo_msgs.srv import GetModelState
 from std_msgs.msg import Float64, String
@@ -13,8 +13,6 @@ class Node():
     def __init__(self):
 
         rospy.init_node("pathNode",anonymous=True)
-        self.scenario_number  = rospy.get_param("/scenario")
-
 
         self.initialPose_pub_turtlebot_1 = rospy.Publisher("/turtlebot3_1/initialpose", PoseWithCovarianceStamped, queue_size=10)
         self.initialPose_pub_turtlebot_2 = rospy.Publisher("/turtlebot3_2/initialpose", PoseWithCovarianceStamped, queue_size=10)
@@ -32,7 +30,21 @@ if __name__=="__main__":
 
     pathNode = Node()
 
-    rospy.sleep(3) 
+    rospy.sleep(3)
+    
+    # Wait for Gazebo service to be available (increased timeout)
+    try:
+        rospy.loginfo("Waiting for /gazebo/get_model_state service...")
+        rospy.wait_for_service("/gazebo/get_model_state", timeout=30)
+        rospy.loginfo("/gazebo/get_model_state service is available")
+    except rospy.ROSException as e:
+        rospy.logerr("Gazebo service not available: %s", e)
+        rospy.logerr("Make sure Gazebo is running and properly initialized")
+        rospy.signal_shutdown("Gazebo service unavailable")
+        exit(1)
+
+    # Additional delay to ensure Gazebo models are spawned
+    rospy.sleep(5)
 
     # SETTING THE INITIAL ESTIMATED POSE DURING LOCALIZATION
     response_list = [pathNode.client_initialPose("turtlebot3_1",""), pathNode.client_initialPose("turtlebot3_2","")]
@@ -60,24 +72,30 @@ if __name__=="__main__":
         counter += 1
 
 
-    # OPEN ALL THE DOORS
+    # Open all the doors in the environment (except door1 in the original world)
     rospy.sleep(2)
-    
-    for i in range(2, 10):
+    mode = rospy.get_param("mode", "original")
 
-        service_name = f"/door_{i}_control_service"
-        
-        rospy.wait_for_service(service_name)
-        try:
-            door_control = rospy.ServiceProxy(service_name, doorStringCommand)
+    active_services = rosservice.get_service_list()
+    pattern = re.compile(r"^/door_(\d+)_control_service$")
 
-            response = door_control("open")
+    for service_name in active_services:
+        if pattern.match(service_name):
+            try:
+                if mode == "original" and service_name == "/door_1_control_service":
+                    continue
+                else:
+                    rospy.wait_for_service(service_name)
+                    door_control = rospy.ServiceProxy(service_name, doorStringCommand)
+                    response = door_control("open")
 
-        except rospy.ServiceException as e:
-            rospy.logerr("Service call failed on %s: %s", service_name, e)
+                    rospy.loginfo("Service %s called successfully", service_name)
+
+            except rospy.ServiceException as e:
+                rospy.logerr("Service call failed on %s: %s", service_name, e)
 
 
-    # CLEAR COSTMAP
+    # Clear turtlebots' costmaps
     rospy.sleep(2)
     pathNode.clear_costmap_turtlebot_1() 
     pathNode.clear_costmap_turtlebot_2() 
