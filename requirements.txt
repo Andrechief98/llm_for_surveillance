@@ -1,0 +1,4 @@
+chainlit==1.1.402
+openai==1.99.9
+requests
+Flask==3.0.3

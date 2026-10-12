@@ -1,2 +1,22 @@
 .vscode/
 __pycache__/
+*.py[cod]
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Virtual environments
+.venv/
+venv/
+
+# Generated ROS / Catkin workspace files
+build/
+devel/
+install/
+logs/
+
+# Temporary files
+*.log
+.DS_Store
