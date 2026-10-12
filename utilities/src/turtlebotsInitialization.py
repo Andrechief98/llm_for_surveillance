@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import rospy
+import rospy, rosservice, re
 from geometry_msgs.msg import Twist, PoseStamped, PoseWithCovarianceStamped
 from gazebo_msgs.srv import GetModelState
 from std_msgs.msg import Float64, String
@@ -81,18 +81,23 @@ if __name__=="__main__":
     else:
         door_range = range(10,10)    
 
+    active_services = rosservice.get_service_list()
+    pattern = re.compile(r"^/door_(\d+)_control_service$")
 
-    for i in door_range:
-        service_name = f"/door_{i}_control_service"
-        
-        rospy.wait_for_service(service_name)
-        try:
-            door_control = rospy.ServiceProxy(service_name, doorStringCommand)
+    for service_name in active_services:
+        if pattern.match(service_name):
+            try:
+                if mode == "original" and service_name == "/door_1_control_service":
+                    continue
+                else:
+                    rospy.wait_for_service(service_name)
+                    door_control = rospy.ServiceProxy(service_name, doorStringCommand)
+                    response = door_control("open")
 
-            response = door_control("open")
+                    rospy.loginfo("Service %s called successfully", service_name)
 
-        except rospy.ServiceException as e:
-            rospy.logerr("Service call failed on %s: %s", service_name, e)
+            except rospy.ServiceException as e:
+                rospy.logerr("Service call failed on %s: %s", service_name, e)
 
 
     # CLEAR COSTMAP
