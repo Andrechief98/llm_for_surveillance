@@ -1,53 +1,224 @@
-# llm_for_surveillance
+# LLM for Surveillance
+
+This repository contains the software for an LLM-driven indoor surveillance system integrated with ROS, Gazebo, and TurtleBot3 robots. It includes the ROS packages, LLM interfaces, and supporting utilities used by the surveillance application.
 
 ## Requirements
+
+### Option 1: Docker (Recommended)
+
+- Docker Desktop with Linux containers enabled
+- An OpenAI API key for LLM functionality
+
+Docker provides a reproducible environment with ROS Noetic, the required system packages, Python dependencies, and the Catkin workspace.
+
+### Option 2: Native installation
+
+For running the project directly on Ubuntu, the main requirements are:
+
 - Ubuntu 20.04 LTS
-- ROS1 Noetic - installation and invironment configuration guide in ROS wiki
-- ROS plugins for the turtlebot3 (https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/)
-- download in catkin worspace and built gazebo_plugins package
-- python packages (install with `pip3 install`)
-  - Flask v. 3.0.3
-  - openai v. 1.99.9
-  - werkzeug v. 3.0.6
-  - PyYAML v. 5.3.1
-  - python-socketio v. 5.15.0
-  - flask-socketio v. 5.5.1
-  - Chainlit, v 1.1.402
-- download repo in your catkin workspace and build it
+- ROS 1 Noetic
+- TurtleBot3 ROS packages and Gazebo integration
+- Python 3 and the packages listed in `requirements.txt`
 
+Refer to the [ROS Noetic documentation](https://wiki.ros.org/noetic) and the [TurtleBot3 documentation](https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/) for installation instructions.
 
-## How to use it
+## Run with Docker
 
-Before starting the simulation build the downloaded package with the `catkin_make` command and cancel the thread ID so that it acn be sobstituted with yours. to do this go in `.../llm_for_surveillance/llm_interface/src/Open AI threads.json` and cancel the data. It should look like this:
+### 1. Clone the repository
+
+Clone the `Ehsan` branch:
+
+```bash
+git clone -b Ehsan https://github.com/Andrechief98/llm_for_surveillance.git
+cd llm_for_surveillance
+```
+
+### 2. Build the image
+
+Build the Docker image from the included `Dockerfile`:
+
+```bash
+docker build -t llm-surveillance:dev .
+```
+
+The build installs the required ROS and system packages, copies the project and additional ROS packages into the Catkin workspace, installs the Python dependencies, and builds the workspace with `catkin_make`.
+
+### 3. Configure the OpenAI API key
+
+The surveillance application requires an active OpenAI API key for LLM functionality.
+
+In Windows Command Prompt, set the key for the current terminal session:
+
+```cmd
+set OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+```
+
+Replace `YOUR_OPENAI_API_KEY` with your own key. Do not commit API keys to Git or hardcode them in source files.
+
+### 4. Start the container
+
+Run:
+
+```cmd
+docker run -it --name llm-surveillance -p 8000:8000 -e OPENAI_API_KEY llm-surveillance:dev bash
+```
+
+This starts a container and opens a shell inside it.
+
+### 5. Start the Chainlit application
+
+Inside the container, run:
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /root/catkin_ws/devel/setup.bash
+cd /root/catkin_ws/src/llm_for_surveillance/llm_interface/src
+chainlit run surveillance_supervisor_app.py --host 0.0.0.0 --port 8000
+```
+
+Once the application starts, open the following address in your browser:
+
+[http://localhost:8000](http://localhost:8000)
+
+Keep the terminal running while using the application.
+
+### 6. Start the mock TIM server (if required)
+
+If the application needs the mock TIM backend, open a second terminal on the host and run:
+
+```cmd
+docker exec -it llm-surveillance bash
+```
+
+Inside the second container shell, run:
+
+```bash
+source /opt/ros/noetic/setup.bash
+source /root/catkin_ws/devel/setup.bash
+cd /root/catkin_ws/src/llm_for_surveillance/llm_interface/src
+python3 mock_tim_server.py
+```
+
+Keep the mock server running while the application uses it.
+
+### 7. Stop and restart the container
+
+To stop the container:
+
+```cmd
+docker stop llm-surveillance
+```
+
+To start it again:
+
+```cmd
+docker start -ai llm-surveillance
+```
+
+If you need to remove the container and recreate it, first stop it and then run:
+
+```cmd
+docker rm llm-surveillance
+```
+
+The Docker image remains available locally unless you remove it separately.
+
+## Running the ROS simulation
+
+The Docker image builds the Catkin workspace, but starting the Chainlit interface alone does not launch the full ROS/Gazebo simulation.
+
+Full surveillance functionality may require a running ROS master, Gazebo, the robot simulation, and the relevant sensor and control nodes.
+
+The original simulation workflow is described below.
+
+### 1. Build the workspace
+
+For a native ROS installation, open a terminal in the Catkin workspace and run:
+
+```bash
+catkin_make
+source devel/setup.bash
+```
+
+The Docker image already runs `catkin_make` during its build.
+
+### 2. Prepare the OpenAI thread configuration
+
+Before starting the application, check the file:
+
+`llm_interface/src/Open AI threads.json`
+
+If you need to reset the saved thread information, back up the file first and ensure its contents have the following structure:
+
 ```json
 {
-  "threads": [
-
-  ]
+  "threads": []
 }
 ```
 
-### Launch the simulation:
+Only reset this file when you intend to clear the stored thread references.
 
-first launch the ROS simulation 
+### 3. Launch the simulation
+
+Launch the multi-robot simulation:
+
 ```bash
-    roslaunch utilities timDemo_multi_robot.launch
+roslaunch utilities timDemo_multi_robot.launch
 ```
-<!-- Launch the PS4 controller node for actor teleoperation
+
+The PS4 controller launch command is available in the original project configuration but is commented out in the README:
+
 ```bash
-    roslaunch utilities timDemo_teleop.launch
-``` -->
-The start the LLM, by running script
+roslaunch utilities timDemo_teleop.launch
+```
 
-`../llm_for_surveillance/llm_interface/src/app_ros_MITL.py` 
+### 4. Launch an LLM interface
 
-or 
+The original ROS-integrated interfaces include:
 
-`.../llm_for_surveillance/llm_interface/src/app_ros_autonomous.py` 
+- `llm_interface/src/app_ros_MITL.py`
+- `llm_interface/src/app_ros_autonomous.py`
 
-using `/bin/python3 <sript>`
+Run the appropriate script in an environment where ROS and the required Python dependencies are configured. For example:
 
-and launch chat in browser (http://127.0.0.1:5000/) to interact with the LLM.
+```bash
+python3 llm_interface/src/app_ros_MITL.py
+```
 
-Note that you need an active key to be able to use OpneAI LLM.
+Or:
 
+```bash
+python3 llm_interface/src/app_ros_autonomous.py
+```
+
+Follow the interface's startup output for the correct web address and port. The original README used `http://127.0.0.1:5000/` for these interfaces; the Docker-based Chainlit application described above uses port `8000`.
+
+## Repository structure
+
+```text
+llm_for_surveillance/
+├── Dockerfile
+├── .dockerignore
+├── requirements.txt
+├── llm_interface/
+├── utilities/
+├── llm_data_analysis/
+└── extra_ros_packages/
+    ├── gazebo_plugins/
+    └── llm_robot/
+```
+
+- `llm_interface/`: LLM interfaces and application code.
+- `utilities/`: ROS simulation, robot, and sensor utilities.
+- `llm_data_analysis/`: Data analysis components.
+- `extra_ros_packages/gazebo_plugins/`: Additional ROS package containing custom Gazebo-related services.
+- `extra_ros_packages/llm_robot/`: Additional robot-related ROS package.
+- `Dockerfile`: Instructions for building the development environment.
+- `requirements.txt`: Python dependencies used by the application.
+
+## Notes
+
+- An OpenAI API key is required for LLM functionality.
+- The Docker image builds the workspace, but external ROS services and Gazebo simulation may need to be started separately.
+- The mock TIM server is intended for workflows that need a simulated TIM backend.
+- The Docker setup and the original ROS-integrated applications use different startup commands and may expose different ports.

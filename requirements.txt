@@ -1,4 +1,6 @@
-chainlit==1.1.402
-openai==1.99.9
+chainlit==1.1.304
+openai==2.2.0
+uptrace<1.34.0
 requests
 Flask==3.0.3
+pydantic==2.7.4
