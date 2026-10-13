@@ -1,17 +1,17 @@
 <launch>
-  <!-- Argomenti per il namespace e per il file world -->
+  <!-- Arguments for robots namespace and scenario ID (for running the correct world in Gazebo) -->
   <arg name="namespace_robot_1" default="turtlebot3_1"/>
   <arg name="namespace_robot_2" default="turtlebot3_2"/>
-  <!-- <arg name="world_file" default="$(find utilities)/worlds/Tim_building_world.world"/> -->
-  <arg name="world_name" default="original_world"/>
+
+  <arg name="world_id" default="1"/>
 
   
   <!-- Avvio di Gazebo con il world personalizzato -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <arg name="world_name" value="$(find utilities)/worlds/$(arg world_name).world"/>
+    <arg name="world_name" value="$(find utilities)/worlds/world_$(arg world_id).world"/>
   </include>
   
-  <!-- Nodi relativi al TurtleBot3 sotto il namespace indicato -->
+  <!-- Nodes related to the TurtleBot3_1 -->
   <group ns="$(arg namespace_robot_1)">
     <param name="tf_prefix" value="$(arg namespace_robot_1)" />
     <!-- URDF + Robot State Publisher -->
@@ -28,15 +28,12 @@
     <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
           args="-urdf -model turtlebot3_1 -x 0.0 -y -4.5 -Y 1.57 -param robot_description"/>
 
-    <!-- Map server con il namespace -->
-    <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map.yaml">
-      <param name="frame_id" value="$(arg namespace_robot_1)/map" />
-    </node> -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1_map.yaml">
+    <!-- Loading the correct map -->
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_1/map$(arg world_id).yaml">
       <param name="frame_id" value="map" />
     </node>
 
-    <!-- Move base con il namespace -->
+    <!-- Move base with corresponding namespace -->
     <node pkg="move_base" type="move_base" name="move_base" output="screen">
       <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="global_costmap"/>
       <rosparam file="$(find utilities)/config/move_base/turtlebot3_1/common_costmap_params.yaml" command="load" ns="local_costmap"/>
@@ -61,7 +58,7 @@
       <remap from="odom" to="odom"/>
     </node>
 
-    <!-- AMCL con il namespace -->
+    <!-- AMCL with corresponding namespace -->
     <node name="amcl" pkg="amcl" type="amcl" output="screen">
       <param name="min_particles" value="500"/>
       <param name="max_particles" value="3000"/>
@@ -96,7 +93,7 @@
   <group ns="$(arg namespace_robot_2)">
     <param name="tf_prefix" value="$(arg namespace_robot_2)" />
     <!-- URDF + Robot State Publisher -->
-    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" /> <!--forse da creare un urdf personalizzato in cui si inserisce il namespace per ogni link e si passa esternamente come arguments-->
+    <param name="robot_description" command="$(find xacro)/xacro '$(find turtlebot3_description)/urdf/turtlebot3_burger.urdf.xacro'" /> 
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen"/>
 
@@ -106,11 +103,8 @@
     <node pkg="gazebo_ros" type="spawn_model" name="spawn_turtlebot3" output="screen"
           args="-urdf -model turtlebot3_2 -x 0.0 -y 3.5 -Y -1.57 -param robot_description"/>
 
-    <!-- Map server con il namespace -->
-    <!-- <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_map.yaml">
-      <param name="frame_id" value="$(arg namespace_robot_2)/map" />
-    </node> -->
-    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2_map.yaml">
+    <!-- Loading the correct map -->
+    <node pkg="map_server" name="map_server" type="map_server" args="$(find utilities)/config/maps/turtlebot3_2/map$(arg world_id).yaml">
       <param name="frame_id" value="map" />
     </node>
 

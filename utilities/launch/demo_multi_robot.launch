@@ -1,7 +1,13 @@
 <launch>
 
-    <arg name="world_file" default="$(find utilities)/worlds/original_world.world"/>
-    <arg name="world_name" default="original_world"/>
+    <!-- 
+    world_id specifies the type of desidered environment for the simulation 
+        1 = first world (map1)
+        2 = second world (map2) 
+        -->
+    <arg name="world_id" default="2"/> 
+
+    <param name="/world_id" value="$(arg world_id)"/>
 
     <!-- Running the node for Rviz markers -->
     <node 
@@ -13,7 +19,7 @@
 
     <!-- Launching Gazebo simultion -->
     <include file="$(find utilities)/launch/multi_turtlebots_nav.launch">
-        <arg name="world_name" value="$(arg world_name)" />
+        <arg name="world_id" value="$(arg world_id)"/>
     </include>
     <include file="$(find utilities)/launch/demo_teleop.launch" />
 
