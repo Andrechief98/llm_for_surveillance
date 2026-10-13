@@ -1,0 +1,46 @@
+user: 
+	Provide me the system state of the environment
+
+function_call: 
+	name - retrieve_system_state 
+	arguments - {}
+
+ROS_output: 
+	{"robots": {"turtlebot3_1": {"current_area": "E"}, "turtlebot3_2": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+
+assistant: 
+	Here's the current system state:
+
+- **Robots Status:**
+  - `turtlebot3_1` is in area E.
+  - `turtlebot3_2` is in area E.
+
+- **Door Status:**
+  - `door_1`: Closed
+  - `door_2`: Open
+  - `door_3`: Open
+  - `door_4`: Open
+  - `door_5`: Open
+  - `door_6`: Open
+  - `door_7`: Open
+  - `door_8`: Open
+  - `door_9`: Open
+
+- **Activated Sensors:**
+  - No sensors are currently activated.
+
+Let me know if you need further assistance!
+
+user: 
+	send robot 1 in area B
+
+function_call: 
+	name - send_robots_to_area 
+	arguments - {"robots_sequence":[{"robot_to_send":"turtlebot3_1","area_to_reach":"B"}]}
+
+ROS_output: 
+	Summary of robots deployments correctness: {"turtlebot3_1": {"deployment_success": true, "additional_info": null}}
+
+assistant: 
+	`turtlebot3_1` has been successfully sent to area B. Let me know if you need anything else!
+
