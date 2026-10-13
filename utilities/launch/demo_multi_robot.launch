@@ -5,7 +5,7 @@
         1 = first world (map1)
         2 = second world (map2) 
         -->
-    <arg name="world_id" default="2"/> 
+    <arg name="world_id" default="1"/> 
 
     <param name="/world_id" value="$(arg world_id)"/>
 

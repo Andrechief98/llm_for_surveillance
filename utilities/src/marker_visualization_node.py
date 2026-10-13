@@ -19,18 +19,50 @@ class Node():
 
         rospy.init_node("marker_visualization_node",anonymous=True)
 
+        # Get the world_id parameter from ROS parameter server
+        self.world_id = str(rospy.get_param('world_id', '1'))
+
+        # Opening the correct Json configuration file
+        with open(f"{script_dir}/../../llm_interface/config/info_map{self.world_id}.json", "r") as f:
+            info = json.load(f)
+
+        self.areas_dict = info["areas"]
+        self.areas_names = self.areas_dict.keys()
+
+        # Dictionary for RViz marker offset: 
+        # structure of the dictionary: { mode: { model_name: (offset_x, offset_y, offset_z) } }
+        self.textual_offsets = {
+            "1": {
+                "Camera_1": (-0.5, -0.25, 0.0),
+                "Camera_2": (0.5, -0.25, 0.0),
+                "Lidar_4": (0.6, -0.25, 0.0), 
+                "door_1": (0.0, 0.25, 0.0), 
+                "door_3": (0.5, 0.25, 0.0), 
+                "door_5": (-0.25, -0.25, 0.0),
+                "door_6": (-0.2, -0.25, 0.0), 
+                "door_8": (0.2, -0.25, 0.0), 
+                "default_door": (0.5, -0.25, 0.0),
+                "default": (0.0, -0.25, 0.0)
+            },
+            "2": {
+                "default_door": (0.5, -0.25, 0.0),
+                "default": (0.0, -0.25, 0.0)
+                }
+        }
+
+        # Definition of horizontal doors for each specific environment
+        self.horizontal_doors_map = {
+            '1': {"2", "3", "5", "6", "8"},
+            '2': {}
+        }
+
+        # Retrieving the set of horizontal doors for the corresponding world (empty set by default)
+        self.horiz_set = self.horizontal_doors_map.get(self.world_id, set())
 
         self.subscriber = rospy.Subscriber("/data", String, self.publishMarkerArrayCallback, queue_size=1)
         self.publisher = rospy.Publisher('/visualization_marker_array', MarkerArray, queue_size=1)
         
         self.rate=rospy.Rate(10)
-
-        with open(f"{script_dir}/../../llm_interface/config/info.json", "r") as f:
-            info = json.load(f)
-    
-        self.areas_dict = info["areas"]
-
-        self.areas_names = self.areas_dict.keys()
 
 
 
@@ -43,16 +75,13 @@ class Node():
         robots_list = self.data["robots_list_names"]
         actuator_list = self.data["actuators_list_names"]
         actuator_data = self.data["actuators"]
+        activated_sensors = self.data["activated_sensors"]
 
         models_list = sensors_list + robots_list + actuator_list
-        activated_sensors = self.data["activated_sensors"]
-        # print(activated_sensors)
-
         counter = 0
-        # print(gazeboMsgData)
 
         for model_name in models_list:
-
+            # 1. Retrieving Gazebo models information 
             if model_name in sensors_list:
                 model_position = self.data["sensors"][model_name]["position"]
                 model_orientation = self.data["sensors"][model_name]["orientation"]
@@ -62,7 +91,6 @@ class Node():
             else:
                 model_position = self.data["actuators"][model_name]["position"]
 
-            model_position_x, model_position_y, model_position_z = model_position
             model_orientation_x, model_orientation_y, model_orientation_z, model_orientation_w = model_orientation
             
 
@@ -88,22 +116,19 @@ class Node():
             self.msg_marker_text.header.stamp = rospy.Time.now()
             self.msg_marker_text.id = counter # unique identifier for the text markers 
 
-            if model_name == "Camera_1":
-                self.msg_marker_text.pose.position.x = model_position_x-0.5
-            elif model_name == "Camera_2":
-                self.msg_marker_text.pose.position.x = model_position_x+0.5
-            elif model_name == "door_1":
-                self.msg_marker_text.pose.position.y = model_position_y+0.5
-            elif model_name == "door_2" or model_name == "door_3" or model_name == "door_4" or model_name == "door_7" or model_name == "door_9":
-                self.msg_marker_text.pose.position.x = model_position_x+0.5
+            if model_name in list(self.textual_offsets[self.world_id].keys()):
+                text_off_x, text_off_y, text_off_z = self.textual_offsets[self.world_id][model_name]
             else:
-                self.msg_marker_text.pose.position.x = model_position_x
-
-            self.msg_marker_text.pose.position.y = model_position_y-0.25
-            self.msg_marker_text.pose.position.z = 0
+                if "door" in model_name:
+                    text_off_x, text_off_y, text_off_z = self.textual_offsets[self.world_id]["default_door"]
+                else:
+                    text_off_x, text_off_y, text_off_z = self.textual_offsets[self.world_id]["default"]
+            
+            self.msg_marker_text.pose.position.x = model_position[0] + text_off_x
+            self.msg_marker_text.pose.position.y = model_position[1] + text_off_y
+            self.msg_marker_text.pose.position.z = 0.0 + text_off_z
 
             self.msg_marker_array.markers.append(self.msg_marker_text)
-
 
 
             # Create a position marker
@@ -124,7 +149,7 @@ class Node():
                 self.msg_marker_position.scale.y = 0.15
                 self.msg_marker_position.scale.z = 0.15
 
-                self.msg_marker_position.pose.position.z = model_position_z
+                self.msg_marker_position.pose.position.z = model_position[2]
 
                 if model_name in activated_sensors:
                     self.msg_marker_position.color.r = 0.0
@@ -165,92 +190,61 @@ class Node():
                     self.msg_marker_position.color.a = 1.0
             
             elif "door" in model_name:
+                # In the world_1 we skip the first door
+                if "1" in model_name and self.world_id=="1":
+                    counter += 1
+                    continue
+                
                 self.msg_marker_position.type = 1 # 1 = cube 
                 self.msg_marker_position.id = counter+500 # unique identifier for door position markers 
                 self.msg_marker_position.pose.position.z = 0
 
-                if actuator_data[model_name]["state"]=="close":
-                    # Create a door position marker (rectangular)
+                
 
-                    if "1" in model_name:
-                        counter += 1
-                        continue
+                # Check if the current door must be represented horizontally: 
+                # it extracts the number from the name and check in the corresponding set
+                is_horizontal = any(num in model_name for num in self.horiz_set)
 
-                    elif "2" in model_name or "3" in model_name or "5" in model_name or "6" in model_name or "8" in model_name:
-                        # Horizontal orientation:
-                        self.msg_marker_position.pose.orientation.x = 0
-                        self.msg_marker_position.pose.orientation.y = 0
-                        self.msg_marker_position.pose.orientation.z = 0
-                        self.msg_marker_position.pose.orientation.w = 1
+                # Check if the door is closed
+                is_closed = actuator_data[model_name]["state"] == "close"
+                # Scale: 1.0 if closed (blu bar), 0.0 if open (no bar)
+                val = 1.0 if is_closed else 0.0
 
-                        self.msg_marker_position.scale.x = 1.0 # cube length
-                        self.msg_marker_position.scale.y = 0.1 # cube width
-                        self.msg_marker_position.scale.z = 0.1 # cube height
-
-                    else:
-                        # Vertical orientation:
-                        self.msg_marker_position.pose.orientation.x = 0
-                        self.msg_marker_position.pose.orientation.y = 0.707
-                        self.msg_marker_position.pose.orientation.z = 0
-                        self.msg_marker_position.pose.orientation.w = 0.707
-
-                        self.msg_marker_position.scale.x = 0.1 # cube length
-                        self.msg_marker_position.scale.y = 1.0 # cube width
-                        self.msg_marker_position.scale.z = 0.1 # cube height
+                if is_horizontal:
+                    self.msg_marker_position.pose.orientation.x = 0
+                    self.msg_marker_position.pose.orientation.y = 0
+                    self.msg_marker_position.pose.orientation.z = 0
+                    self.msg_marker_position.pose.orientation.w = 1
                     
-                    self.msg_marker_position.color.r = 0.0
-                    self.msg_marker_position.color.g = 0.0
-                    self.msg_marker_position.color.b = 1.0
-                    self.msg_marker_position.color.a = 1.0
-
+                    self.msg_marker_position.scale.x = val
+                    self.msg_marker_position.scale.y = 0.1 if is_closed else 0.0
+                    self.msg_marker_position.scale.z = 0.1 if is_closed else 0.0
                 else:
-                    if "1" in model_name:
-                        counter += 1
-                        continue
+                    # Orientamento Verticale
+                    self.msg_marker_position.pose.orientation.x = 0
+                    self.msg_marker_position.pose.orientation.y = 0.707
+                    self.msg_marker_position.pose.orientation.z = 0
+                    self.msg_marker_position.pose.orientation.w = 0.707
 
-                    elif "2" in model_name or "3" in model_name or "5" in model_name or "6" in model_name or "8" in model_name:
-                        # Horizontal orientation:
-                        self.msg_marker_position.pose.orientation.x = 0
-                        self.msg_marker_position.pose.orientation.y = 0
-                        self.msg_marker_position.pose.orientation.z = 0
-                        self.msg_marker_position.pose.orientation.w = 1
+                    self.msg_marker_position.scale.x = 0.1 if is_closed else 0.0
+                    self.msg_marker_position.scale.y = val
+                    self.msg_marker_position.scale.z = 0.1 if is_closed else 0.0
 
-                        self.msg_marker_position.scale.x = 0.0 # cube length
-                        self.msg_marker_position.scale.y = 0.0 # cube width
-                        self.msg_marker_position.scale.z = 0.0 # cube height
-
-                    else:
-                        # Vertical orientation:
-                        self.msg_marker_position.pose.orientation.x = 0
-                        self.msg_marker_position.pose.orientation.y = 0.707
-                        self.msg_marker_position.pose.orientation.z = 0
-                        self.msg_marker_position.pose.orientation.w = 0.707
-
-                        self.msg_marker_position.scale.x = 0.0 # cube length
-                        self.msg_marker_position.scale.y = 0.0 # cube width
-                        self.msg_marker_position.scale.z = 0.0 # cube height
-                    
-                    self.msg_marker_position.color.r = 0.0
-                    self.msg_marker_position.color.g = 0.0
-                    self.msg_marker_position.color.b = 1.0
-                    self.msg_marker_position.color.a = 1.0
-
+                self.msg_marker_position.color.r = 0.0
+                self.msg_marker_position.color.g = 0.0
+                self.msg_marker_position.color.b = 1.0
+                self.msg_marker_position.color.a = 1.0 if is_closed else 0.0
             elif "turtlebot" in model_name:
                 counter += 1
                 continue
 
             else:
-                print("Error")
-            
-
-            
-
+                rospy.logwarn(f"Unknown model type: {model_name}")
             
             self.msg_marker_position.header.stamp = rospy.Time.now()
-            
 
-            self.msg_marker_position.pose.position.x = model_position_x
-            self.msg_marker_position.pose.position.y = model_position_y
+            self.msg_marker_position.pose.position.x = model_position[0]
+            self.msg_marker_position.pose.position.y = model_position[1]
             
             self.msg_marker_array.markers.append(self.msg_marker_position)
             
