@@ -3,7 +3,8 @@ import rospy
 import json
 from llm_interface.srv import triggerGpt, triggerGptRequest, retrieveSystemState, retrieveSystemStateResponse
 from std_msgs.msg import String
-from std_srvs.srv import Empty, EmptyResponse 
+from std_srvs.srv import Empty, EmptyResponse
+from cob_srvs.srv import SetString, SetStringResponse
 from tf.transformations import quaternion_matrix
 from gazebo_msgs.msg import ModelStates
 import numpy as np
@@ -15,7 +16,8 @@ class Node():
         rospy.init_node("sensors_activation_node",anonymous=True)
         self.subscriber = rospy.Subscriber("/gazebo/model_states", ModelStates, self.publishActivatedSensors, queue_size=1)
         self.activated_sensors_publisher = rospy.Publisher("/activated_sensors",String, queue_size=1)
-        self.server = rospy.Service("/resetSensorActivation", Empty, self.reset_sensor_activation)
+        self.server_reset_sensors = rospy.Service("/resetSensorActivation", Empty, self.reset_sensor_activation)
+        self.server_activate_sensor = rospy.Service("/activateSensor", SetString, self.activate_sensor)
         self.activated_sensors = []
 
     def publishActivatedSensors(self, gazeboMsgData):
@@ -68,6 +70,19 @@ class Node():
         str_msg = json.dumps(self.activated_sensors)
         self.activated_sensors_publisher.publish(str_msg)
 
+    def activate_sensor(self, req):
+        try:
+            sensor_name = req.data
+            self.activated_sensors.append(sensor_name)
+            response = SetStringResponse()
+            response.success = True
+            response.message = "Sensor activated correctly"
+        except Exception as e:
+            response.success = False
+            response.message = "Sensor not activated"
+            rospy.logerr(f"[Sensor_activation_node] - Sensor not activated: {e}")    
+        return response
+    
     def reset_sensor_activation(self, req):
         self.activated_sensors = []
         return EmptyResponse()
