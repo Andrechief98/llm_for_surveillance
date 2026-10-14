@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import rospy
+import rospy, re, rostopic, rosservice
 import json
 from llm_interface.srv import triggerGpt, triggerGptRequest, retrieveSystemState, retrieveSystemStateResponse
 from std_msgs.msg import String
@@ -39,10 +39,27 @@ class Node():
         self.client_service = rospy.ServiceProxy('/alert', triggerGpt)
         self.server = rospy.Service("/retrieve_system_state", retrieveSystemState, self.retrieve_system_state)
 
-        rospy.sleep(5)
-        for i in range(1,10):
-            topic = f"/door_{i}/door_state"
-            subscriber = rospy.Subscriber(topic, String, self.extract_actuator_state(index = i), queue_size=1)
+        rospy.sleep(2)
+
+        active_services = rosservice.get_service_list()
+        pattern = re.compile(r"^/door_(\d+)_control_service$")
+
+        for service_name in active_services:
+            match = pattern.match(service_name)
+            if match:
+                try:
+                    i = match.group(1)
+                    topic = f"/door_{i}/door_state"
+                    subscriber = rospy.Subscriber(topic, String, self.extract_actuator_state(index = i), queue_size=1)
+
+                    rospy.loginfo("Subscriber %s created successfully", topic)
+
+                except rospy.ROSException as e:
+                    rospy.logerr("Subscriber %s creation failed: %s", topic, e)
+
+        # for i in range(1,10):
+        #     topic = f"/door_{i}/door_state"
+        #     subscriber = rospy.Subscriber(topic, String, self.extract_actuator_state(index = i), queue_size=1)
 
 
         

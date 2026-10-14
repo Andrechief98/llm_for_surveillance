@@ -73,8 +73,8 @@ if __name__=="__main__":
 
 
     # Open all the doors in the environment (except door1 in the original world)
-    rospy.sleep(2)
-    mode = rospy.get_param("mode", "original")
+    rospy.sleep(1)
+    world_id = str(rospy.get_param('world_id', '1'))
 
     active_services = rosservice.get_service_list()
     pattern = re.compile(r"^/door_(\d+)_control_service$")
@@ -82,7 +82,7 @@ if __name__=="__main__":
     for service_name in active_services:
         if pattern.match(service_name):
             try:
-                if mode == "original" and service_name == "/door_1_control_service":
+                if world_id == "1" and service_name == "/door_1_control_service":
                     continue
                 else:
                     rospy.wait_for_service(service_name)

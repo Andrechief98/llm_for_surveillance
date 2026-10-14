@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import rospy
+import rospy, re
 from  visualization_msgs.msg import Marker
 from  visualization_msgs.msg import MarkerArray
 from gazebo_msgs.msg import ModelStates
@@ -45,15 +45,32 @@ class Node():
                 "default": (0.0, -0.25, 0.0)
             },
             "2": {
+                # "Camera_1": (-0.5, -0.25, 0.0),
+                # "Camera_2": (0.5, -0.25, 0.0),
+                # "Camera_3": (-0.5, -0.25, 0.0),
+                # "Camera_4": (0.5, -0.25, 0.0),
+                # "Camera_5": (-0.5, -0.25, 0.0),
+                # "Camera_6": (0.5, -0.25, 0.0),
+                # "Camera_7": (-0.5, -0.25, 0.0),
+                # "Camera_8": (0.5, -0.25, 0.0),
+                # "Camera_9": (-0.5, -0.25, 0.0),
+                # "Camera_10": (0.5, -0.25, 0.0),
                 "default_door": (0.5, -0.25, 0.0),
                 "default": (0.0, -0.25, 0.0)
                 }
         }
 
+        self.text_scales = {
+                    "1": 0.25,
+                    "2": 0.5
+                }
+
+        self.text_scale = self.text_scales.get(self.world_id, 0.15)
+
         # Definition of horizontal doors for each specific environment
         self.horizontal_doors_map = {
             '1': {"2", "3", "5", "6", "8"},
-            '2': {}
+            '2': {"1", "3", "4", "5", "6", "11", "12", "13", "14"}
         }
 
         # Retrieving the set of horizontal doors for the corresponding world (empty set by default)
@@ -106,7 +123,7 @@ class Node():
             self.msg_marker_text.pose.orientation.w = 1.0
 
      
-            self.msg_marker_text.scale.z = 0.25
+            self.msg_marker_text.scale.z = self.text_scale
             self.msg_marker_text.text = model_name
             
             self.msg_marker_text.color.r = 0.0
@@ -199,11 +216,11 @@ class Node():
                 self.msg_marker_position.id = counter+500 # unique identifier for door position markers 
                 self.msg_marker_position.pose.position.z = 0
 
-                
 
                 # Check if the current door must be represented horizontally: 
-                # it extracts the number from the name and check in the corresponding set
-                is_horizontal = any(num in model_name for num in self.horiz_set)
+                # it extracts the number from the name and check in the corresponding set                    
+                match = re.search(r"door_(\d+)", model_name)
+                is_horizontal = (match is not None and match.group(1) in self.horiz_set)
 
                 # Check if the door is closed
                 is_closed = actuator_data[model_name]["state"] == "close"
