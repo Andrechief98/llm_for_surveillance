@@ -1,0 +1,170 @@
+{
+  "areas": {
+    "A": {
+      "sensors": ["Camera_10", "Lidar_1", "Lidar_2"],
+      "actuators": ["door_1", "door_2"],
+      "connected_to_area":{
+          "B":"open_passage",
+          "C":"open_passage",
+          "D":"open_passage",
+          "E":"open_passage",
+          "F":"door_1",
+          "T":"door_2"
+        }
+    },
+    "B": {
+      "sensors": ["Camera_1"],
+      "actuators": [],
+      "connected_to_area":{
+          "A":"open_passage"
+        }
+      },
+    "C": {
+      "sensors": ["Camera_8"],
+      "actuators": [],
+      "connected_to_area":{
+          "A":"open_passage"
+        }
+    },
+    "D": {
+      "sensors": ["Camera_9"],
+      "actuators": [],
+      "connected_to_area":{
+          "A":"open_passage"
+        }
+    },
+    "E": {
+      "sensors": ["Camera_2"],
+      "actuators": [],
+      "connected_to_area":{
+          "A":"open_passage"
+        }
+    },
+    "F": {
+      "sensors": ["Camera_5", "Lidar_1"],
+      "actuators": ["door_1"],
+      "connected_to_area":{
+          "A":"door_1"
+        }
+    },
+    "G": {
+      "sensors": ["Lidar_3"],
+      "actuators": ["door_3"],
+      "connected_to_area":{
+          "T":"door_3"
+        }
+    },
+    "H": {
+      "sensors": ["Lidar_5"],
+      "actuators": ["door_5"],
+      "connected_to_area":{
+          "T":"door_5"
+        }
+    },
+    "I": {
+      "sensors": ["Camera_7", "Lidar_6"],
+      "actuators": ["door_6"],
+      "connected_to_area":{
+          "T":"door_6"
+        }
+    },
+    "L": {
+      "sensors": ["Lidar_7"],
+      "actuators": ["door_7"],
+      "connected_to_area":{
+          "S":"door_7"
+        }
+    },
+    "M": {
+      "sensors": ["Lidar_8"],
+      "actuators": ["door_8"],
+      "connected_to_area":{
+          "S":"door_8"
+        }
+    },
+    "N": {
+      "sensors": ["Lidar_10"],
+      "actuators": ["door_10"],
+      "connected_to_area":{
+          "S":"door_10"
+        }
+    },
+    "O": {
+      "sensors": ["Camera_6", "Lidar_11"],
+      "actuators": ["door_11"],
+      "connected_to_area":{
+          "S":"door_11"
+        }
+    },
+    "P": {
+      "sensors": ["Lidar_12"],
+      "actuators": ["door_12"],
+      "connected_to_area":{
+          "R":"door_12"
+        }
+    },
+    "Q": {
+      "sensors": ["Camera_11", "Lidar_13"],
+      "actuators": ["door_13"],
+      "connected_to_area":{
+          "R":"door_13"
+        }
+    },
+    "R": {
+      "sensors": ["Lidar_12", "Lidar_13", "Lidar_14"],
+      "actuators": ["door_12", "door_13", "door_14"],
+      "connected_to_area":{
+          "P":"door_12",
+          "Q":"door_13",
+          "S":"open_passage",
+          "V":"door_14"
+        }
+    },
+    "S": {
+      "sensors": ["Lidar_7", "Lidar_8", "Lidar_9", "Lidar_10", "Lidar_11"],
+      "actuators": ["door_7", "door_8", "door_9", "door_10", "door_11"],
+      "connected_to_area":{
+          "L":"door_7",
+          "M":"door_8",
+          "N":"door_10",
+          "O":"door_11",
+          "R":"open_passage",
+          "T":"open_passage",
+          "Z":"door_9"
+        }
+    },
+    "T": {
+      "sensors": ["Lidar_2", "Lidar_3", "Lidar_4", "Lidar_5", "Lidar_6"],
+      "actuators": ["door_2", "door_3", "door_4", "door_5", "door_6"],
+      "connected_to_area":{
+          "A":"door_2",
+          "G":"door_3",
+          "H":"door_5",
+          "I":"door_6",
+          "S":"open_passage",
+          "U":"door_4"
+        }
+    },
+    "U": {
+      "sensors": ["Camera_3", "Lidar_4"],
+      "actuators": ["door_4"],
+      "connected_to_area":{
+        "T":"door_4"
+        }
+    },
+    "V": {
+      "sensors": ["Lidar_14"],
+      "actuators": ["door_14"],
+      "connected_to_area":{
+        "R":"door_14"
+        }
+    },
+    "Z": {
+      "sensors": ["Lidar_9"],
+      "actuators": ["door_9"],
+      "connected_to_area":{
+        "S":"door_9"
+        }
+    }
+  }
+}

@@ -19,7 +19,7 @@ class checkRobotGoalNode():
         # Get the world_id parameter from ROS parameter server
         self.mode = rospy.get_param('world_id', '1')
 
-        with open(f"{script_dir}/../../llm_interface/config/info_map{self.mode}.json", "r") as f:
+        with open(f"{script_dir}/../../llm_interface/config/ROS/info_map{self.mode}.json", "r") as f:
             info = json.load(f)
 
         self.robots_dict = info["ros_publishers"]["robots"]

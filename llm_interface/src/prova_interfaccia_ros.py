@@ -28,35 +28,38 @@ import base64
 # Retrieve file paths
 script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_interface/src
 
-if rospy.has_param("/mode"):
-    mode = rospy.get_param("/mode")
-    #print("parameter /markerVisualizationNode/mode found")
-    #print(mode)
-else:
-    mode = "original"
+# Retrieve ROS parameters
+world_id = str(rospy.get_param("world_id", 1))
+llm_modality = rospy.get_param("llm_modality", "HITL")
+print_rag_search = rospy.get_param("print_rag_search", False)
 
-if mode == "original":
-    file_config = "info.json"
-    file_prompt = "prompts.yaml"
-    file_building_plan = "building_plan.png"
-else:
-    file_config = "info"+mode+".json"
-    file_prompt = "prompts"+mode+".yaml"
-    file_building_plan = "building_plan"+mode+".png"
+# Creating corresponding file names
+file_RAG = f"RAG_map{world_id}.json"
+file_prompt = f"prompts_map{world_id}.yaml"
+file_building_plan = f"building_plan_map{world_id}.png"
+file_ROS_info = f"info_map{world_id}.json"
 
-path_building_plan = os.path.join(script_dir, "static/uploads", file_building_plan)
+# Preparing correct building plan image
+path_building_plan = os.path.join(script_dir, "../config/uploads", file_building_plan)
 
-file_paths = [os.path.join(script_dir, "..", "config", file_config)]
-file_streams = [open(path, "rb") for path in file_paths]
+# Preparing the RAG files for the vector database
+file_RAG_paths = [os.path.join(script_dir, "../config/RAG", file_RAG)]
+file_RAG_streams = [open(path, "rb") for path in file_RAG_paths]
 
-with open(f"{script_dir}/../config/{file_prompt}") as f:
+# Preparing the ROS file configuration
+file_ROS_path = os.path.join(script_dir, "../config/ROS", file_ROS_info)
+
+# Loading the correct prompt based on the specified LLM modality
+with open(f"{script_dir}/../config/prompts/{file_prompt}") as f:
     prompts_dict = yaml.load(f, Loader=yaml.SafeLoader)
-prompt_type = "man_in_the_loop"
-prompt = prompts_dict[prompt_type]
 
-class RobotAssistant:
+prompt = prompts_dict[llm_modality]
+
+
+# Creating the Robot Assistant
+class LLM_cognitive_module:
     def __init__(self):
-        rospy.init_node('RobotAssistant', anonymous=True)
+        rospy.init_node('LLM_cognitive_module', anonymous=True)
         self.client = AsyncOpenAI()
 
         self.rosServer = rospy.Service('/alert', triggerGpt, self.handleDataMediatorAlert)
@@ -70,7 +73,7 @@ class RobotAssistant:
         # Necessario per evitare che si perdano messaggi dai robot quando deploiati insieme
         self.lock = asyncio.Lock()
 
-        # Definiamo una coda, necessaria per gestire gli alert da parte del datamediator (in quanto i servizi ros non sono )
+        # Definiamo una coda, necessaria per gestire gli alert da parte del datamediator 
         self.alert_queue = Queue()
 
         # Setting of configuration file
@@ -85,19 +88,19 @@ class RobotAssistant:
             pass
         
         # ROS network information from file
-        with open(file_paths[0], "r") as f:
-            info = json.load(f)
+        with open(file_ROS_path, "r") as f:
+            ros_info = json.load(f)
 
-        self.robots_dict = info["ros_publishers"]["robots"]
+        self.robots_dict = ros_info["ros_publishers"]["robots"]
         self.robots_list = list(self.robots_dict.keys())
 
-        self.areas_dict = info["areas"]
+        self.areas_dict = ros_info["areas"]
         self.areas_list = list(self.areas_dict.keys())
 
-        self.sensors_dict = info["ros_subscribers"]["sensors"]
+        self.sensors_dict = ros_info["ros_subscribers"]["sensors"]
         self.cameras_list = list(self.sensors_dict.keys())
 
-        self.actuators_dict = info["ros_services"]["actuators"]
+        self.actuators_dict = ros_info["ros_services"]["actuators"]
         self.actuators_list = list(self.actuators_dict.keys())
 
 
@@ -106,19 +109,19 @@ class RobotAssistant:
             
         found = False
 
-        if file_config in files_name_list:
+        if file_RAG in files_name_list:
             # the configuration file is already uploaded. We search for the correct vector_store_id
             for vector_store_id in vector_store_id_list:
                 async for file in self.client.vector_stores.files.list(vector_store_id = vector_store_id):
                     retrieved_file = await self.client.files.retrieve(file_id=file.id)       
-                    if retrieved_file.filename == file_config:
+                    if retrieved_file.filename == file_RAG:
                         self.required_vector_store_id =  vector_store_id
                         found = True
                         break
 
                 if found:
                     break
-            print(f"Already created file {file_config} considered")
+            print(f"Already created file {file_RAG} considered")
         else:
             # Vector store is needed to upload files to the assistant.
             vector_store = await self.client.vector_stores.create(name="Environmental and ROS information for surveillance")
@@ -126,26 +129,27 @@ class RobotAssistant:
 
             # We upload the file
             file_batch = await self.client.vector_stores.file_batches.upload_and_poll(
-                vector_store_id = self.required_vector_store_id, files=file_streams
+                vector_store_id = self.required_vector_store_id, files=file_RAG_streams
             )
             # print(file_batch.status)
             # print(file_batch.file_counts)
 
             async for file in self.client.vector_stores.files.list(vector_store_id = self.required_vector_store_id):
                 retrieved_file = await self.client.files.retrieve(file_id=file.id)       
-                if retrieved_file.filename == file_config:
-                    files_name_list.append(file_config)
+                if retrieved_file.filename == file_RAG:
+                    files_name_list.append(file_RAG)
                     files_id_list.append(file.id)
                     vector_store_id_list.append(self.required_vector_store_id)
 
 
             updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
-            print(f"New {file_config} file uploaded")
+            print(f"New {file_RAG} file uploaded")
 
         self.available_tools = [
                     {
                         "type":"file_search",
-                        "vector_store_ids": [self.required_vector_store_id]
+                        "vector_store_ids": [self.required_vector_store_id],
+                         "max_num_results": 10,
                     },
                     {
                         "type": "function", 
@@ -278,6 +282,7 @@ class RobotAssistant:
                         model="gpt-4o",
                         input=history,
                         tools = self.available_tools,
+                        include=["file_search_call.results"],
                         stream=True
                     )                
                     async with response_stream as stream:
@@ -316,6 +321,17 @@ class RobotAssistant:
 
                                     final_tool_calls[idx] = event.item # passiamo l'intero item 
                                     active_steps[idx] = step
+                            
+                            elif event.type == "response.output_item.done":
+                                # To visualize the obtained text from RAG
+                                if print_rag_search and event.item.type == "file_search_call":
+                                    print("\n\n=== RISULTATI FILE SEARCH ===")
+                                    for result in event.item.results or []:
+                                        print(f"\nFile: {result.filename}")
+                                        print(f"File ID: {result.file_id}")
+                                        print(f"Testo recuperato:\n{result.text}")
+                                        print(f"Score: {result.score}")
+                                        print(f"Attributi: {result.attributes}")
 
                             elif event.type == "response.function_call_arguments.delta":
                                 idx = event.output_index
@@ -434,10 +450,10 @@ class RobotAssistant:
     
     def clear_environment_state(self, environment_state):
         """Clear the information obtained by the data mediator"""
-        with open(f"{script_dir}/../config/{file_config}", "r") as f:
-            info = json.load(f)
+        with open(f"{script_dir}/../config/ROS/{file_ROS_info}", "r") as f:
+            ROS_info = json.load(f)
 
-        areas_dict = info["areas"]
+        areas_dict = ROS_info["areas"]
     
         del environment_state["robots_list_names"]
         del environment_state["sensors_list_names"]
@@ -681,7 +697,7 @@ class RobotAssistant:
                 response = {
                         "ros_service_name" : ros_service_name,
                         "success" : "false",
-                        "additional_info" : f"Wrong ros service name considered. Check again in the {file_config} file"
+                        "additional_info" : f"Wrong ros service name considered. Check again in the {file_RAG} file"
                     }
                 responses_list.append(response)
         
@@ -753,7 +769,7 @@ class RobotAssistant:
         
 
 
-agent = RobotAssistant()
+agent = LLM_cognitive_module()
 
 # --- Integrazione Chainlit ---
 @cl.on_chat_start
@@ -768,8 +784,8 @@ async def start():
 
     settings = await cl.ChatSettings([
         Select(
-            id="Model",
-            label="OpenAI - Modello",
+            id="model",
+            label="OpenAI - modello",
             values=["gpt-4o", "gpt-4-turbo", "gpt-5"], 
             initial_index=0,
         )
@@ -798,7 +814,7 @@ async def start():
 
 
     cl.user_session.set("history", history)
-    cl.user_session.set("model", settings["Model"])
+    cl.user_session.set("model", settings["model"])
     cl.user_session.set("agent", agent)
 
     context = get_context()
@@ -833,7 +849,7 @@ async def set_starters():
 
 @cl.on_settings_update
 async def update_settings(settings):
-    cl.user_session.set("model", settings["Model"])
+    cl.user_session.set("model", settings["model"])
 
 @cl.on_message
 async def main(message: cl.Message):

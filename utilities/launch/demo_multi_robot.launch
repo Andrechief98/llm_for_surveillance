@@ -1,13 +1,12 @@
 <launch>
 
-    <!-- 
-    world_id specifies the type of desidered environment for the simulation 
-        1 = first world (map1)
-        2 = second world (map2) 
-        -->
-    <arg name="world_id" default="1"/> 
+    <arg name="world_id" default="1"/>                      <!-- world_id specifies the type of desidered environment for the simulation: 1 = first world (map1), 2 = second world (map2) -->
+    <arg name="llm_modality" default="HITL"/>               <!-- llm_modality: HTIL = LLM with Human-in-the-loop, AUTO = LLM autonomous  -->
+    <arg name="print_rag_search" default="false"/>          <!-- print_rag_search: true = it prints the text obtained from RAG in the chainlit terminal, false = it doesn't print anythiong  -->
 
     <param name="/world_id" value="$(arg world_id)"/>
+    <param name="/llm_modality" value="$(arg llm_modality)"/>
+    <param name="/print_rag_search" value="$(arg print_rag_search)"/>
 
     <!-- Running the node for Rviz markers -->
     <node 

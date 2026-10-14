@@ -6,41 +6,48 @@ function_call:
 	arguments - {}
 
 ROS_output: 
-	{"robots": {"turtlebot3_1": {"current_area": "E"}, "turtlebot3_2": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+	{"robots": {"turtlebot3_2": {"current_area": "E"}, "turtlebot3_1": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
 
 assistant: 
-	Here's the current system state:
+	The system state is as follows:
 
-- **Robots Status:**
-  - `turtlebot3_1` is in area E.
-  - `turtlebot3_2` is in area E.
+- **Activated Sensors:** None
+- **Robots:**
+  - `turtlebot3_1` is in Area E
+  - `turtlebot3_2` is in Area E
+- **Actuators (Doors):**
+  - Door 1: Closed
+  - Door 2: Open
+  - Door 3: Open
+  - Door 4: Open
+  - Door 5: Open
+  - Door 6: Open
+  - Door 7: Open
+  - Door 8: Open
+  - Door 9: Open
 
-- **Door Status:**
-  - `door_1`: Closed
-  - `door_2`: Open
-  - `door_3`: Open
-  - `door_4`: Open
-  - `door_5`: Open
-  - `door_6`: Open
-  - `door_7`: Open
-  - `door_8`: Open
-  - `door_9`: Open
-
-- **Activated Sensors:**
-  - No sensors are currently activated.
-
-Let me know if you need further assistance!
+Let me know if you need any further actions or information!
 
 user: 
-	send robot 1 in area B
-
-function_call: 
-	name - send_robots_to_area 
-	arguments - {"robots_sequence":[{"robot_to_send":"turtlebot3_1","area_to_reach":"B"}]}
-
-ROS_output: 
-	Summary of robots deployments correctness: {"turtlebot3_1": {"deployment_success": true, "additional_info": null}}
+	report the connections among areas
 
 assistant: 
-	`turtlebot3_1` has been successfully sent to area B. Let me know if you need anything else!
+	Here are the connections among the areas:
+
+- **Open Connections:**
+  - F <-> E
+  - E <-> B
+
+- **Door Connections:**
+  - Door 2: H <-> E
+  - Door 3: G <-> E
+  - Door 4: E <-> A
+  - Door 5: A <-> B
+  - Door 6: B <-> C
+  - Door 7: E <-> G
+  - Door 8: C <-> D
+  - Door 9: D <-> E
+  
+- **Note:**
+  - Door 1 connects E to the outdoor area and must remain closed.
 

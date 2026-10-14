@@ -19,6 +19,11 @@
       "file_name": "infoj3.json",
       "file_ID": "file-PjZ11QL3951SEnFeMpg2Jx",
       "vector_store_id": "vs_69ca525495688191b5b3311b478ca5d4"
+    },
+    {
+      "file_name": "RAG_map1.json",
+      "file_ID": "file-9GKkiEYGPhfruGDziqSyrf",
+      "vector_store_id": "vs_6acf995b52fc81918310a1a4ec1083a3"
     }
   ]
 }

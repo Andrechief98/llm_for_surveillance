@@ -23,7 +23,7 @@ class Node():
         self.world_id = str(rospy.get_param('world_id', '1'))
 
         # Opening the correct Json configuration file
-        with open(f"{script_dir}/../../llm_interface/config/info_map{self.world_id}.json", "r") as f:
+        with open(f"{script_dir}/../../llm_interface/config/ROS/info_map{self.world_id}.json", "r") as f:
             info = json.load(f)
 
         self.areas_dict = info["areas"]
