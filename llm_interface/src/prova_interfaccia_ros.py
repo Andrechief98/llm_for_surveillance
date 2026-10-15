@@ -100,11 +100,17 @@ class LLM_cognitive_module:
         self.areas_dict = ros_info["areas"]
         self.areas_list = list(self.areas_dict.keys())
 
-        self.sensors_dict = ros_info["ros_subscribers"]["sensors"]
-        self.cameras_list = list(self.sensors_dict.keys())
+        self.cameras_dict = ros_info["ros_subscribers"]["sensors"]
+        self.cameras_list = list(self.cameras_dict.keys())
 
         self.actuators_dict = ros_info["ros_services"]["actuators"]
         self.actuators_list = list(self.actuators_dict.keys())
+
+
+        with open(file_RAG_paths[0], 'r') as f:
+            self.RAG_info = json.load(f)
+
+        self.sensors_list = list(self.RAG_info["sensors"].keys())
 
 
     async def initialize_assistant(self):
@@ -153,6 +159,46 @@ class LLM_cognitive_module:
                         "type":"file_search",
                         "vector_store_ids": [self.required_vector_store_id],
                          "max_num_results": 10,
+                    },
+                    {
+                        "type": "function", 
+                        "name": "get_sensors_info",  
+                        "description": "Use this function to retrieve the information related to a given sequence of sensors. It returns the area covered by cameras and associated to lidars.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "sensor_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the sensor names for which you want to retrieve information.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single sensor.",
+                                        "enum": self.sensors_list
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                        }
+                    },
+                    {
+                        "type": "function", 
+                        "name": "get_areas_info",  
+                        "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "area_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the area names for which you want to retrieve information.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single area.",
+                                        "enum": self.areas_list
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                        }
                     },
                     {
                         "type": "function", 
@@ -796,6 +842,23 @@ class LLM_cognitive_module:
         self.robotGoalCheckerServer.set_succeeded(result)
         return 
 
+    def get_sensors_info(self, sensor_names_list):
+
+        sensor_information = {}
+
+        for sensor in sensor_names_list:
+            sensor_information[sensor] = self.RAG_info["sensors"][sensor]
+
+        return json.dumps(sensor_information)
+
+    def get_areas_info(self, area_names_list):
+        areas_information = {}
+        
+        for area in area_names_list:
+            areas_information[area] = self.RAG_info["areas"][area]
+
+        return json.dumps(areas_information)
+
     def get_camera_feed(self, cameras_names_list):
         """Acquire one frame from each provided camera in the list and convert it in a suitable format for the LLM."""
 
@@ -825,7 +888,7 @@ class LLM_cognitive_module:
 
             response[camera_name_lower]["name"]["correctness"] = True
 
-            topic = self.sensors_dict[camera_name_lower]["ros_topic"]
+            topic = self.cameras_dict[camera_name_lower]["ros_topic"]
 
             try:
                 # Acquire one frame
@@ -869,7 +932,7 @@ class LLM_cognitive_module:
             camera_name_lower = camera_name.lower()
 
             if camera_name_lower in self.cameras_list:
-                topics_list.append(self.sensors_dict[camera_name_lower]["ros_topic"])
+                topics_list.append(self.cameras_dict[camera_name_lower]["ros_topic"])
                 camera_names_correctness[camera_name_lower] = {
                     "correctness": True,
                     "reason": ""

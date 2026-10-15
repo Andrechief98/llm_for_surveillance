@@ -1,5 +1,16 @@
 {
-  
+  "sensors":{
+    "Camera_1":{},
+    "Camera_2":{},
+    "Lidar_1":{},
+    "Lidar_2":{},
+    "Lidar_3":{},
+    "Lidar_4":{},
+    "Lidar_5":{},
+    "Lidar_6":{},
+    "Lidar_7":{},
+    "Lidar_8":{}
+  },
   "areas": {
     "A": {
       "sensors": ["Lidar_2", "Lidar_7"],

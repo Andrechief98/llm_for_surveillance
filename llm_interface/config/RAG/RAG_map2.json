@@ -1,4 +1,84 @@
 {
+  "sensors": {
+    "Camera_1": {
+      "areas": ["B"]
+    },
+    "Camera_2": {
+      "areas": ["E"]
+    },
+    "Camera_3": {
+      "areas": ["U"]
+    },
+    "Camera_4": {
+      "areas": []
+    },
+    "Camera_5": {
+      "areas": ["F"]
+    },
+    "Camera_6": {
+      "areas": ["O"]
+    },
+    "Camera_7": {
+      "areas": ["I"]
+    },
+    "Camera_8": {
+      "areas": ["C"]
+    },
+    "Camera_9": {
+      "areas": ["D"]
+    },
+    "Camera_10": {
+      "areas": ["A"]
+    },
+    "Camera_11": {
+      "areas": ["Q"]
+    },
+    "Lidar_1": {
+      "areas": ["A", "F"],
+      "area_connection_type":{
+        "door": "door_1"
+      }
+    },
+    "Lidar_2": {
+      "areas": ["A", "T"]
+    },
+    "Lidar_3": {
+      "areas": ["G", "T"]
+    },
+    "Lidar_4": {
+      "areas": ["T", "U"]
+    },
+    "Lidar_5": {
+      "areas": ["H", "T"]
+    },
+    "Lidar_6": {
+      "areas": ["I", "T"]
+    },
+    "Lidar_7": {
+      "areas": ["L", "S"]
+    },
+    "Lidar_8": {
+      "areas": ["M", "S"]
+    },
+    "Lidar_9": {
+      "areas": ["S", "Z"]
+    },
+    "Lidar_10": {
+      "areas": ["N", "S"]
+    },
+    "Lidar_11": {
+      "areas": ["O", "S"]
+    },
+    "Lidar_12": {
+      "areas": ["P", "R"]
+    },
+    "Lidar_13": {
+      "areas": ["Q", "R"]
+    },
+    "Lidar_14": {
+      "areas": ["R", "V"]
+    }
+  },
   "areas": {
     "A": {
       "sensors": ["Camera_10", "Lidar_1", "Lidar_2"],
