@@ -22,6 +22,9 @@ import os
 import asyncio
 from queue import Queue
 import base64
+import cv2
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 
 
 
@@ -184,6 +187,26 @@ class LLM_cognitive_module:
                             }
                     },
                     {
+                        "type": "function", 
+                        "name": "get_camera_feed",
+                        "description": "It returns the image representing the current feed of the sequence of specified cameras. The function must be used to analyze the area related to the considered camera.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "cameras_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the cameras names to considered for visualization.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single camera.",
+                                        "enum": self.cameras_list
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                            }
+                    },
+                    {
                         "type": "function",
                         "name": "control_actuator",
                         "description": f"It allows to control a sequence of door actuators in the environment.",
@@ -325,13 +348,13 @@ class LLM_cognitive_module:
                             elif event.type == "response.output_item.done":
                                 # To visualize the obtained text from RAG
                                 if print_rag_search and event.item.type == "file_search_call":
-                                    print("\n\n=== RISULTATI FILE SEARCH ===")
+                                    print("\n\n=== FILE SEARCH RESULTS ===")
                                     for result in event.item.results or []:
                                         print(f"\nFile: {result.filename}")
                                         print(f"File ID: {result.file_id}")
-                                        print(f"Testo recuperato:\n{result.text}")
+                                        print(f"Retrived text:\n{result.text}")
                                         print(f"Score: {result.score}")
-                                        print(f"Attributi: {result.attributes}")
+                                        print(f"Attributes: {result.attributes}")
 
                             elif event.type == "response.function_call_arguments.delta":
                                 idx = event.output_index
@@ -357,12 +380,7 @@ class LLM_cognitive_module:
                                 # Esecuzione ROS effettiva
                                 result = await cl.make_async(self.execute_ros_command)(tool_call.name, json.loads(args))
 
-                                # Chiude lo step legato all'output
-                                active_steps[idx].output = result
-                                await active_steps[idx].update()
-
-
-                                # Aggiungi la chiamata "completata"
+                                # Aggiungi la chiamata "completata" alla cronologia
                                 history.append({
                                     "type": "function_call",
                                     "call_id": tool_call.call_id,
@@ -373,23 +391,64 @@ class LLM_cognitive_module:
                                 log = f"name - {tool_name} \n\targuments - {args}"
                                 self.log_message_in_history_file(log=log, authority="function_call")
 
+                                
                                 # Aggiungi l'output di ROS
+                                if tool_call.name == "get_camera_feed": 
+                                    # We must manage the dictionary received by the function containing both the image and the feedback
+                                    camera_data = json.loads(result)
+                                    images = []
+
+                                    for camera_name in camera_data.keys():
+                                        # Extraction of the image from the dictionary
+                                        image_base64 = camera_data[camera_name].pop("retrieved_image_base64", "")
+                                        info = camera_data[camera_name]
+
+                                        if (info["name"]["correctness"] and info["image_conversion"]["success"] and image_base64):
+                                            images.append({
+                                                "type": "input_text",
+                                                "text": f"Frame from camera: {camera_name}"
+                                            })
+
+                                            images.append({
+                                                "type": "input_image",
+                                                "image_url": (
+                                                    f"data:image/jpeg;base64,{image_base64}"
+                                                ),
+                                                "detail": "high"
+                                            })
+
+                                    output = [{
+                                            "type": "input_text",
+                                            "text": json.dumps(camera_data, ensure_ascii=False)
+                                        },
+                                        *images
+                                    ]
+                                    
+                                    log = json.dumps(camera_data, ensure_ascii=False)
+
+                                else:
+                                    output = str(result)
+                                    log = str(result)
+
+                                # Chiude lo step legato all'output
+                                active_steps[idx].output = log
+                                await active_steps[idx].update()
+                                                                
+
                                 history.append({
                                     "type": "function_call_output",
                                     "call_id": tool_call.call_id,
-                                    "output": str(result)
+                                    "output": output
                                 })
 
-                                log = str(result)
+                                
                                 self.log_message_in_history_file(log=log, authority="ROS_output")
 
                                 # Aggiunta ai tool chiamati in modo che sia possibile verificare la presenza di tool
                                 tool_outputs.append({
                                     "type": "function_call_output",
                                     "call_id": tool_call.call_id,
-                                    "output": json.dumps({
-                                            "system_state": result
-                                        })
+                                    "output": output
                                 })
 
                                 # Se abbiamo eseguito un tool, dobbiamo fare un altro giro di loop in modo che LLM riceva l'output del tool
@@ -737,6 +796,68 @@ class LLM_cognitive_module:
         self.robotGoalCheckerServer.set_succeeded(result)
         return 
 
+    def get_camera_feed(self, cameras_names_list):
+        """Acquire one frame from each provided camera in the list and convert it in a suitable format for the LLM."""
+
+        response = {}
+        bridge = CvBridge()
+
+        for camera_name in cameras_names_list:
+            camera_name_lower = camera_name.lower()
+
+            # Initialize response structure
+            response[camera_name_lower] = {
+                "name": {
+                    "correctness": False,
+                    "reason": ""
+                },
+                "image_conversion": {
+                    "success": False,
+                    "reason": ""
+                },
+                "retrieved_image_base64": ""
+            }
+
+            # Check camera name correctness
+            if camera_name_lower not in self.cameras_list:
+                response[camera_name_lower]["name"]["reason"] = "wrong name"
+                continue
+
+            response[camera_name_lower]["name"]["correctness"] = True
+
+            topic = self.sensors_dict[camera_name_lower]["ros_topic"]
+
+            try:
+                # Acquire one frame
+                msg = rospy.wait_for_message(
+                    topic,
+                    Image,
+                    timeout=5.0
+                )
+
+                # Convert ROS Image to OpenCV image
+                cv_image = bridge.imgmsg_to_cv2(
+                    msg,
+                    desired_encoding="bgr8"
+                )
+
+                # Encode image as JPEG
+                success, buffer = cv2.imencode(".jpg", cv_image)
+
+                if not success:
+                    raise RuntimeError("JPEG encoding failed")
+
+                # Store result
+                response[camera_name_lower]["image_conversion"]["success"] = True
+                response[camera_name_lower]["retrieved_image_base64"] = (
+                    base64.b64encode(buffer.tobytes()).decode("utf-8")
+                )
+
+            except Exception as e:
+                response[camera_name_lower]["image_conversion"]["reason"] = str(e)
+
+        return f"{json.dumps(response)}"
+        
     
     def display_cameras(self, cameras_names_list):        
         """Function to open camera feed"""

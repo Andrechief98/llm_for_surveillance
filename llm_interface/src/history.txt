@@ -1,53 +1,28 @@
 user: 
-	Provide me the system state of the environment
+	analizza l'ambiente attraverso get_camera_feed su camera 1
 
 function_call: 
-	name - retrieve_system_state 
-	arguments - {}
+	name - get_camera_feed 
+	arguments - {"cameras_names_list":["camera_1"]}
 
 ROS_output: 
-	{"robots": {"turtlebot3_2": {"current_area": "E"}, "turtlebot3_1": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": []}
+	{"camera_1": {"name": {"correctness": true, "reason": ""}, "image_conversion": {"success": true, "reason": ""}}}
 
 assistant: 
-	The system state is as follows:
+	Ho analizzato il feed della **Camera 1**. Si vede una persona nel corridoio.
 
-- **Activated Sensors:** None
-- **Robots:**
-  - `turtlebot3_1` is in Area E
-  - `turtlebot3_2` is in Area E
-- **Actuators (Doors):**
-  - Door 1: Closed
-  - Door 2: Open
-  - Door 3: Open
-  - Door 4: Open
-  - Door 5: Open
-  - Door 6: Open
-  - Door 7: Open
-  - Door 8: Open
-  - Door 9: Open
+In base alle informazioni disponibili, ecco alcune considerazioni sulla situazione:
 
-Let me know if you need any further actions or information!
+- La **Camera 1** monitora l'area B e i suoi dintorni immediati.
 
-user: 
-	report the connections among areas
+**Azioni consigliate:**
 
-assistant: 
-	Here are the connections among the areas:
+1. **Controllo delle porte:** Considerando le aree connesse ad A e B, potresti voler chiudere alcune porte per limitare i movimenti:
+   - Porta 5: collega le aree A e B.
+   - Porta 6: collega le aree B e C.
+   - Porta 4: collega le aree A e E.
+   
+2. **Monitoraggio robotico:** Potresti considerare di inviare un robot per ulteriori controlli nelle aree adiacenti (A, C, E) per capire meglio la situazione.
 
-- **Open Connections:**
-  - F <-> E
-  - E <-> B
-
-- **Door Connections:**
-  - Door 2: H <-> E
-  - Door 3: G <-> E
-  - Door 4: E <-> A
-  - Door 5: A <-> B
-  - Door 6: B <-> C
-  - Door 7: E <-> G
-  - Door 8: C <-> D
-  - Door 9: D <-> E
-  
-- **Note:**
-  - Door 1 connects E to the outdoor area and must remain closed.
+Fammi sapere come procedere o se desideri ulteriori azioni.
 
