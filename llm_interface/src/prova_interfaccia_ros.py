@@ -155,11 +155,11 @@ class LLM_cognitive_module:
             print(f"New {file_RAG} file uploaded")
 
         self.available_tools = [
-                    {
-                        "type":"file_search",
-                        "vector_store_ids": [self.required_vector_store_id],
-                         "max_num_results": 10,
-                    },
+                    # {
+                    #     "type":"file_search",
+                    #     "vector_store_ids": [self.required_vector_store_id],
+                    #      "max_num_results": 10,
+                    # },
                     {
                         "type": "function", 
                         "name": "get_sensors_info",  

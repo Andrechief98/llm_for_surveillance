@@ -69,7 +69,7 @@ class Node():
 
         # Definition of horizontal doors for each specific environment
         self.horizontal_doors_map = {
-            '1': {"2", "3", "5", "6", "8"},
+            '1': {"2", "3", "4", "7", "8"},
             '2': {"1", "3", "4", "5", "6", "11", "12", "13", "14"}
         }
 
@@ -207,10 +207,6 @@ class Node():
                     self.msg_marker_position.color.a = 1.0
             
             elif "door" in model_name:
-                # In the world_1 we skip the first door
-                if "1" in model_name and self.world_id=="1":
-                    counter += 1
-                    continue
                 
                 self.msg_marker_position.type = 1 # 1 = cube 
                 self.msg_marker_position.id = counter+500 # unique identifier for door position markers 

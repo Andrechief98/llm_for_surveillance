@@ -1,6 +1,6 @@
 <launch>
   <!-- Arguments of the launch file -->
-  <arg name="world_file" default="$(find utilities)/worlds/new_environment.world" />
+  <arg name="world_file" default="$(find utilities)/worlds/world_1.world" />
   <arg name="model" default="burger" />
   <arg name="namespace" default="turtlebot3_1"/>
 

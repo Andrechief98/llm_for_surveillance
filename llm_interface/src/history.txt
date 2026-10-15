@@ -1,28 +1,45 @@
 user: 
-	analizza l'ambiente attraverso get_camera_feed su camera 1
+	Environmental alert detected. Current environment state: {"robots": {"turtlebot3_1": {"current_area": "E"}, "turtlebot3_2": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": ["Lidar_3"]}. Propose a strategy to inspect the environment.
 
 function_call: 
-	name - get_camera_feed 
-	arguments - {"cameras_names_list":["camera_1"]}
+	name - get_sensors_info 
+	arguments - {"sensor_names_list":["Lidar_3"]}
 
 ROS_output: 
-	{"camera_1": {"name": {"correctness": true, "reason": ""}, "image_conversion": {"success": true, "reason": ""}}}
+	{"Lidar_3": {}}
+
+function_call: 
+	name - retrieve_system_state 
+	arguments - {}
+
+ROS_output: 
+	{"robots": {"turtlebot3_1": {"current_area": "E"}, "turtlebot3_2": {"current_area": "E"}}, "actuators": {"door_1": {"state": "close"}, "door_2": {"state": "open"}, "door_3": {"state": "open"}, "door_4": {"state": "open"}, "door_5": {"state": "open"}, "door_6": {"state": "open"}, "door_7": {"state": "open"}, "door_8": {"state": "open"}, "door_9": {"state": "open"}}, "activated_sensors": ["Lidar_3"]}
+
+function_call: 
+	name - get_areas_info 
+	arguments - {"area_names_list":["B","E"]}
+
+ROS_output: 
+	{"B": {"sensors": ["Lidar_3", "Lidar_7", "Camera_1"], "actuators": ["door_5", "door_6"]}, "E": {"sensors": ["Lidar_5", "Lidar_6, Lidar_2"], "actuators": ["door_1", "door_4", "door_9", "door_7"]}}
 
 assistant: 
-	Ho analizzato il feed della **Camera 1**. Si vede una persona nel corridoio.
+	- **Status:**
+  - Activated Sensors: Lidar_3
+  - **Related Areas:**
+    - **Involved areas:**
+      - B (Lidar_3, Camera_1)
+      - Nearby: E
+    - **Areas connections:**
+      - B is connected to E via door_6
+  - **Robots Status:**
+    - turtlebot3_1: Area E
+    - turtlebot3_2: Area E
 
-In base alle informazioni disponibili, ecco alcune considerazioni sulla situazione:
+- **Plan:**
+  1. **Check Area B**: 
+     - Deploy Turtlebot3_1 to area B for inspection.
+  2. **Monitor with Camera**: 
+     - Use Camera_1 in area B to verify suspicious activity. 
 
-- La **Camera 1** monitora l'area B e i suoi dintorni immediati.
-
-**Azioni consigliate:**
-
-1. **Controllo delle porte:** Considerando le aree connesse ad A e B, potresti voler chiudere alcune porte per limitare i movimenti:
-   - Porta 5: collega le aree A e B.
-   - Porta 6: collega le aree B e C.
-   - Porta 4: collega le aree A e E.
-   
-2. **Monitoraggio robotico:** Potresti considerare di inviare un robot per ulteriori controlli nelle aree adiacenti (A, C, E) per capire meglio la situazione.
-
-Fammi sapere come procedere o se desideri ulteriori azioni.
+This plan ensures efficient coverage of the area near the activated sensor, while using the camera for additional monitoring. Would you like to proceed with this plan?
 

@@ -1065,7 +1065,7 @@
         <collision name='Wall_63_Collision'>
           <geometry>
             <box>
-              <size>1 0.15 2.5</size>
+              <size>2.5 0.15 2.5</size>
             </box>
           </geometry>
           <pose>0 0 1.25 0 -0 0</pose>
@@ -1087,7 +1087,7 @@
           <pose>0 0 1.25 0 -0 0</pose>
           <geometry>
             <box>
-              <size>1 0.15 2.5</size>
+              <size>2.5 0.15 2.5</size>
             </box>
           </geometry>
           <material>
@@ -1155,7 +1155,7 @@
         <collision name='Wall_8_Collision'>
           <geometry>
             <box>
-              <size>4.25 0.15 2.5</size>
+              <size>6.3 0.15 2.5</size>
             </box>
           </geometry>
           <pose>0 0 1.25 0 -0 0</pose>
@@ -1177,7 +1177,7 @@
           <pose>0 0 1.25 0 -0 0</pose>
           <geometry>
             <box>
-              <size>4.25 0.15 2.5</size>
+              <size>6.3 0.15 2.5</size>
             </box>
           </geometry>
           <material>
@@ -1198,7 +1198,7 @@
       </link>
       <static>1</static>
     </model>
-    <model name='Lidar_1'>
+    <model name='Lidar_8'>
       <link name='link_1'>
         <inertial>
           <mass>0.00014111</mass>
@@ -1299,7 +1299,7 @@
       </link>
       <static>0</static>
       <allow_auto_disable>1</allow_auto_disable>
-      <pose>-4.26248 -3.46317 0 0 -0 0</pose>
+      <pose>-3.3 -3.46317 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
       <sim_time>2025 426000000</sim_time>
@@ -1450,13 +1450,13 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_62'>
-          <pose>2.55101 0.791714 0 0 0 -1.5708</pose>
+          <pose>0.915 0.791714 0 0 0 -1.5708</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_63'>
-          <pose>2.97601 -0.008284 0 0 -0 0</pose>
+          <pose>2.25 -0.008284 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1468,13 +1468,13 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
         <link name='Wall_8'>
-          <pose>-4.51342 -5.38469 0 0 -0 0</pose>
+          <pose>-3.5 -5.38469 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
-      <model name='Lidar_1'>
+      <model name='Lidar_8'>
         <pose>-4.25776 -3.50341 0.029926 -1e-06 -0 -0.001906</pose>
         <scale>1 1 1</scale>
         <link name='link_1'>
@@ -1484,7 +1484,7 @@
           <wrench>0.00105 -0.000752 0.001458 0 -0 0</wrench>
         </link>
       </model>
-      <model name='Lidar_2'>
+      <model name='Lidar_1'>
         <pose>1.09749 -2.73381 0.029924 6.1e-05 -0.000135 -1.56366</pose>
         <scale>1 1 1</scale>
         <link name='link_1'>
@@ -1524,7 +1524,7 @@
           <wrench>-0.000134 0.000134 -0.001126 0 -0 0</wrench>
         </link>
       </model>
-      <model name='Lidar_6'>
+      <model name='Lidar_6_'>
         <pose>-1.90196 1.4346 0.029926 0 1e-06 -1.57737</pose>
         <scale>1 1 1</scale>
         <link name='link_1'>
@@ -1534,7 +1534,7 @@
           <wrench>0.001101 0.000695 0.001459 0 -0 0</wrench>
         </link>
       </model>
-      <model name='Lidar_7'>
+      <model name='Lidar_2'>
         <pose>4.99634 -2.0856 0.029921 -8.9e-05 -0.00011 -0.006261</pose>
         <scale>1 1 1</scale>
         <link name='link_1'>
@@ -1544,7 +1544,7 @@
           <wrench>-0.000133 0.000136 -0.001126 0 -0 0</wrench>
         </link>
       </model>
-      <model name='Lidar_8'>
+      <model name='Lidar_7'>
         <pose>-6.11261 -0.796443 0.029926 -0 -0 -0.009822</pose>
         <scale>1 1 1</scale>
         <link name='link_1'>
@@ -1554,251 +1554,7 @@
           <wrench>0.001153 -5.5e-05 0.000923 0 -0 0</wrench>
         </link>
       </model>
-      <!-- <model name='actor'>
-        <pose>1 -1 1 1.57 -0 1.57</pose>
-        <scale>1 1 1</scale>
-        <link name='Head'>
-          <pose>1.02591 -1.02158 1.46549 1.75374 -0.123609 1.59109</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='Hips'>
-          <pose>1 -1 1 1.57 -0 1.57</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LHipJoint'>
-          <pose>1 -1 1 -1.96392 0.689137 -2.58649</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LThumb'>
-          <pose>0.952829 -0.771459 0.80022 -1.67894 -0.131131 -2.59657</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftArm'>
-          <pose>0.98411 -0.830325 1.3383 -1.76977 0.027868 -1.58039</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftFingerBase'>
-          <pose>0.952829 -0.771459 0.80022 -2.04562 0.413928 -1.95034</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftFoot'>
-          <pose>1.30404 -0.865466 0.07076 -3.04446 -0.085529 1.51577</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftForeArm'>
-          <pose>0.921043 -0.820992 1.02524 -1.43714 0.218789 -1.58667</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftHand'>
-          <pose>0.952829 -0.771459 0.80022 -1.50113 0.246358 -1.86262</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftHandIndex1'>
-          <pose>0.943245 -0.755 0.773506 -2.02473 0.302708 -1.8909</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftLeg'>
-          <pose>1.26615 -0.890613 0.514406 -1.48888 0.06109 -1.62427</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftShoulder'>
-          <pose>1.04663 -1.01999 1.26109 1.15427 1.16547 1.44055</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftToeBase'>
-          <pose>1.44033 -0.871835 0.057515 2.76884 -0.078721 1.52439</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LeftUpLeg'>
-          <pose>1.04565 -0.902474 0.890526 -1.04324 0.062324 -1.62355</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='LowerBack'>
-          <pose>1 -1 1 1.84234 -0.072733 1.59583</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='Neck'>
-          <pose>1.04663 -1.01999 1.26109 1.44812 0.05628 1.65013</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='Neck1'>
-          <pose>1.0322 -1.01475 1.37421 1.49771 -0.070394 1.63227</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RHipJoint'>
-          <pose>1 -1 1 -1.96396 -0.663499 -0.521434</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RThumb'>
-          <pose>1.20003 -1.21865 0.7919 -0.850718 -0.79118 -0.499318</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightArm'>
-          <pose>1.04684 -1.21904 1.30358 -1.52599 0.029123 -1.20445</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightFingerBase'>
-          <pose>1.20003 -1.21865 0.7919 -0.723954 -0.450989 -1.44757</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightFoot'>
-          <pose>0.670831 -1.01801 0.117834 -2.37362 -0.082086 1.63262</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightForeArm'>
-          <pose>1.05715 -1.20486 0.975693 -0.957012 -0.268849 -1.30655</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightHand'>
-          <pose>1.20003 -1.21865 0.7919 -0.967333 -0.293739 -1.26938</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightHandIndex1'>
-          <pose>1.23612 -1.22766 0.764279 -0.763657 -0.366714 -1.34786</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightLeg'>
-          <pose>0.941168 -1.04119 0.464411 -2.22122 0.145641 -1.46787</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightShoulder'>
-          <pose>1.04663 -1.01999 1.26109 1.26879 -1.35034 1.88085</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightToeBase'>
-          <pose>0.774622 -1.00329 0.017253 -2.89791 -0.082661 1.61985</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='RightUpLeg'>
-          <pose>1.0455 -1.0926 0.890526 -1.79563 0.144231 -1.46754</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='Spine'>
-          <pose>1.03624 -1.0085 1.12902 1.64088 -0.093521 1.66101</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='Spine1'>
-          <pose>1.04663 -1.01999 1.26109 1.61307 -0.126053 1.69114</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-        <link name='actor_pose'>
-          <pose>1 -1 1 1.57 -0 1.57</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
-        </link>
-      </model> -->
       <model name='door_1'>
-        <pose>-1.1447 -5.3842 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='door'>
-          <pose>-1.43351 -5.3842 1.25 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -2.59492 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-        <link name='door_frame'>
-          <pose>-0.438851 -5.3842 1.25 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='door_2'>
-        <pose>-3.3612 -3.45338 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='door'>
-          <pose>-2.59646 -3.45338 1.25 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -4.14936 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-        <link name='door_frame'>
-          <pose>-3.1112 -3.45338 1.25 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='door_3'>
-        <pose>-5.66385 -0.853123 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='door'>
-          <pose>-4.7854 -0.853123 1.25 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -6.79225 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-        <link name='door_frame'>
-          <pose>-5.41385 -0.853123 1.25 0 -0 0</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='door_4'>
         <pose>1.04541 -3.38243 0 0 0 -1.57622</pose>
         <scale>1 1 1</scale>
         <link name='door'>
@@ -1814,7 +1570,7 @@
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
-      <model name='door_5'>
+      <model name='door_2'>
         <pose>6.22032 -2.03543 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='door'>
@@ -1830,7 +1586,7 @@
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
-      <model name='door_6'>
+      <model name='door_3'>
         <pose>3.75281 0.00756 -0 0 0 -3.13224</pose>
         <scale>1 1 1</scale>
         <link name='door'>
@@ -1846,23 +1602,7 @@
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
-      <model name='door_7'>
-        <pose>-1.92829 0.48974 0 0 0 -1.56911</pose>
-        <scale>1 1 1</scale>
-        <link name='door'>
-          <pose>-1.92728 -0.110028 1.25 0 0 -1.56911</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -8.41751 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-        <link name='door_frame'>
-          <pose>-1.92787 0.23974 1.25 0 0 -1.56911</pose>
-          <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
-          <wrench>0 0 -9.8 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='door_8'>
+      <model name='door_4'>
         <pose>5.59079 1.69004 0 0 -0 3.13813</pose>
         <scale>1 1 1</scale>
         <link name='door'>
@@ -1878,7 +1618,7 @@
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
-      <model name='door_9'>
+      <model name='door_5'>
         <pose>0.895522 2.88667 0 0 0 -1.57961</pose>
         <scale>1 1 1</scale>
         <link name='door'>
@@ -1889,6 +1629,54 @@
         </link>
         <link name='door_frame'>
           <pose>0.893319 2.63668 1.25 0 0 -1.57961</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='door_6'>
+        <pose>-1.92829 0.48974 0 0 0 -1.56911</pose>
+        <scale>1 1 1</scale>
+        <link name='door'>
+          <pose>-1.92728 -0.110028 1.25 0 0 -1.56911</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -8.41751 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+        <link name='door_frame'>
+          <pose>-1.92787 0.23974 1.25 0 0 -1.56911</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='door_7'>
+        <pose>-5.66385 -0.853123 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='door'>
+          <pose>-4.7854 -0.853123 1.25 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -6.79225 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+        <link name='door_frame'>
+          <pose>-5.41385 -0.853123 1.25 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='door_8'>
+        <pose>-3.3612 -3.45338 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='door'>
+          <pose>-2.59646 -3.45338 1.25 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -4.14936 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
+        </link>
+        <link name='door_frame'>
+          <pose>-3.1112 -3.45338 1.25 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
@@ -1915,7 +1703,7 @@
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
-    <model name='Lidar_2'>
+    <model name='Lidar_1'>
       <link name='link_1'>
         <inertial>
           <mass>0.00014111</mass>
@@ -2327,7 +2115,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>0.908452 3.5318 0 0 -0 0</pose>
     </model>
-    <model name='Lidar_6'>
+    <model name='Lidar_6_'>
       <link name='link_1'>
         <inertial>
           <mass>0.00014111</mass>
@@ -2430,7 +2218,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-1.92424 0.795651 0 0 -0 0</pose>
     </model>
-    <model name='Lidar_7'>
+    <model name='Lidar_2'>
       <link name='link_1'>
         <inertial>
           <mass>0.00014111</mass>
@@ -2533,7 +2321,7 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>4.99401 -2.04778 0 0 -0 0</pose>
     </model>
-    <model name='Lidar_8'>
+    <model name='Lidar_7'>
       <link name='link_1'>
         <inertial>
           <mass>0.00014111</mass>
@@ -2888,687 +2676,6 @@
     </model>
     <model name='door_1'>
       <link name='door_frame'>
-        <pose>0.705849 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <kinematic>1</kinematic>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>1</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1</iyy>
-            <iyz>0</iyz>
-            <izz>1</izz>
-          </inertia>
-          <mass>1</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='frame_visual'>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.7 0.7 0.7 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_2::door_frame::frame_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='frame_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <link name='door'>
-        <kinematic>1</kinematic>
-        <pose>-0.288809 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>1.96777</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>3.08912</iyy>
-            <iyz>0</iyz>
-            <izz>1.12292</izz>
-          </inertia>
-          <mass>3.77661</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='door_visual'>
-          <geometry>
-            <box>
-              <size>1.88826 0.05 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.2 0.2 0.8 1</ambient>
-            <diffuse>0.3 0.3 0.9 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_2::door::door_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='door_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>1.88826 0.05 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <joint name='door_joint' type='prismatic'>
-        <parent>door_frame</parent>
-        <child>door</child>
-        <pose>0 0 0 0 -0 0</pose>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>0</lower>
-            <upper>2</upper>
-            <effort>-1</effort>
-            <velocity>-1</velocity>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-            <damping>0</damping>
-            <friction>0</friction>
-          </dynamics>
-        </axis>
-        <physics>
-          <ode>
-            <limit>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </limit>
-            <suspension>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </suspension>
-          </ode>
-        </physics>
-      </joint>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
-        <door_joint>door_joint</door_joint>
-        <speed>1.0</speed>
-        <open_target>2.0</open_target>
-        <close_target>0.0</close_target>
-      </plugin>
-      <pose>-1.1447 -5.3842 0 0 -0 0</pose>
-    </model>
-    <model name='door_2'>
-      <link name='door_frame'>
-        <pose>0.25 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <kinematic>1</kinematic>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>1</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1</iyy>
-            <iyz>0</iyz>
-            <izz>1</izz>
-          </inertia>
-          <mass>1</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='frame_visual'>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.7 0.7 0.7 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_2::door_frame::frame_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='frame_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <link name='door'>
-        <kinematic>1</kinematic>
-        <pose>-0.335256 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>1.2306</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1.50458</iyy>
-            <iyz>0</iyz>
-            <izz>0.27496</izz>
-          </inertia>
-          <mass>2.36181</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='door_visual'>
-          <geometry>
-            <box>
-              <size>1.1809 0.05 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.2 0.2 0.8 1</ambient>
-            <diffuse>0.3 0.3 0.9 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_2::door::door_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='door_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>1.1809 0.05 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <joint name='door_joint' type='prismatic'>
-        <parent>door_frame</parent>
-        <child>door</child>
-        <pose>0 0 0 0 -0 0</pose>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>0</lower>
-            <upper>1.1</upper>
-            <effort>-1</effort>
-            <velocity>-1</velocity>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-            <damping>0</damping>
-            <friction>0</friction>
-          </dynamics>
-        </axis>
-        <physics>
-          <ode>
-            <limit>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </limit>
-            <suspension>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </suspension>
-          </ode>
-        </physics>
-      </joint>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
-        <door_joint>door_joint</door_joint>
-        <speed>1.0</speed>
-        <open_target>1.1</open_target>
-        <close_target>0.0</close_target>
-      </plugin>
-      <pose>-3.3612 -3.45338 0 0 -0 0</pose>
-    </model>
-    <model name='door_3'>
-      <link name='door_frame'>
-        <pose>0.25 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <kinematic>1</kinematic>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>1</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1</iyy>
-            <iyz>0</iyz>
-            <izz>1</izz>
-          </inertia>
-          <mass>1</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='frame_visual'>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.7 0.7 0.7 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_1::door_frame::frame_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='frame_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <link name='door'>
-        <kinematic>1</kinematic>
-        <pose>-0.121545 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>0.75177</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.814042</iyy>
-            <iyz>0</iyz>
-            <izz>0.062873</izz>
-          </inertia>
-          <mass>1.44282</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='door_visual'>
-          <geometry>
-            <box>
-              <size>0.721399 0.05 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.2 0.2 0.8 1</ambient>
-            <diffuse>0.3 0.3 0.9 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_1::door::door_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='door_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.721399 0.05 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <joint name='door_joint' type='prismatic'>
-        <parent>door_frame</parent>
-        <child>door</child>
-        <pose>0 0 0 0 -0 0</pose>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>0</lower>
-            <upper>1</upper>
-            <effort>-1</effort>
-            <velocity>-1</velocity>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-            <damping>0</damping>
-            <friction>0</friction>
-          </dynamics>
-        </axis>
-        <physics>
-          <ode>
-            <limit>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </limit>
-            <suspension>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </suspension>
-          </ode>
-        </physics>
-      </joint>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
-        <door_joint>door_joint</door_joint>
-        <speed>1.0</speed>
-        <open_target>1.0</open_target>
-        <close_target>0.0</close_target>
-      </plugin>
-      <pose>-5.66385 -0.853123 0 0 -0 0</pose>
-    </model>
-    <model name='door_4'>
-      <link name='door_frame'>
         <pose>0.25 -0 1.25 0 -0 0</pose>
         <self_collide>0</self_collide>
         <kinematic>1</kinematic>
@@ -3794,7 +2901,7 @@
       </plugin>
       <pose>0.480662 -3.48333 0 0 -0 0</pose>
     </model>
-    <model name='door_5'>
+    <model name='door_2'>
       <link name='door_frame'>
         <pose>0.25 0 1.25 0 -0 0</pose>
         <self_collide>0</self_collide>
@@ -4021,7 +3128,7 @@
       </plugin>
       <pose>6.22032 -2.03543 0 0 -0 0</pose>
     </model>
-    <model name='door_6'>
+    <model name='door_3'>
       <link name='door_frame'>
         <pose>0.25 0 1.25 0 -0 0</pose>
         <self_collide>0</self_collide>
@@ -4248,234 +3355,7 @@
       </plugin>
       <pose>4.25314 -0.335315 0 0 -0 0</pose>
     </model>
-    <model name='door_7'>
-      <link name='door_frame'>
-        <pose>0.25 0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <kinematic>1</kinematic>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>1</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>1</iyy>
-            <iyz>0</iyz>
-            <izz>1</izz>
-          </inertia>
-          <mass>1</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='frame_visual'>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.7 0.7 0.7 1</ambient>
-            <diffuse>0.8 0.8 0.8 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_1::door_frame::frame_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='frame_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>0.1 0.1 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <link name='door'>
-        <kinematic>1</kinematic>
-        <pose>-0.4 -0 1.25 0 -0 0</pose>
-        <self_collide>0</self_collide>
-        <inertial>
-          <pose>0 0 0 0 -0 0</pose>
-          <inertia>
-            <ixx>0.606619</ixx>
-            <ixy>0</ixy>
-            <ixz>0</ixz>
-            <iyy>0.639253</iyy>
-            <iyz>0</iyz>
-            <izz>0.0331193</izz>
-          </inertia>
-          <mass>1.16424</mass>
-        </inertial>
-        <enable_wind>0</enable_wind>
-        <visual name='door_visual'>
-          <geometry>
-            <box>
-              <size>1.2 0.05 2.5</size>
-            </box>
-          </geometry>
-          <material>
-            <ambient>0.2 0.2 0.8 1</ambient>
-            <diffuse>0.3 0.3 0.9 1</diffuse>
-            <shader type='pixel'/>
-            <script>
-              <name>ModelPreview_1::door::door_visual_MATERIAL_</name>
-              <uri>__default__</uri>
-            </script>
-          </material>
-          <pose>0 0 0 0 -0 0</pose>
-          <transparency>0</transparency>
-          <cast_shadows>1</cast_shadows>
-        </visual>
-        <collision name='door_collision'>
-          <laser_retro>0</laser_retro>
-          <max_contacts>10</max_contacts>
-          <pose>0 0 0 0 -0 0</pose>
-          <geometry>
-            <box>
-              <size>1.2 0.05 2.5</size>
-            </box>
-          </geometry>
-          <surface>
-            <friction>
-              <ode>
-                <mu>1</mu>
-                <mu2>1</mu2>
-                <fdir1>0 0 0</fdir1>
-                <slip1>0</slip1>
-                <slip2>0</slip2>
-              </ode>
-              <torsional>
-                <coefficient>1</coefficient>
-                <patch_radius>0</patch_radius>
-                <surface_radius>0</surface_radius>
-                <use_patch_radius>1</use_patch_radius>
-                <ode>
-                  <slip>0</slip>
-                </ode>
-              </torsional>
-            </friction>
-            <bounce>
-              <restitution_coefficient>0</restitution_coefficient>
-              <threshold>1e+06</threshold>
-            </bounce>
-            <contact>
-              <collide_without_contact>0</collide_without_contact>
-              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
-              <collide_bitmask>1</collide_bitmask>
-              <ode>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-                <max_vel>0.01</max_vel>
-                <min_depth>0</min_depth>
-              </ode>
-              <bullet>
-                <split_impulse>1</split_impulse>
-                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
-                <soft_cfm>0</soft_cfm>
-                <soft_erp>0.2</soft_erp>
-                <kp>1e+13</kp>
-                <kd>1</kd>
-              </bullet>
-            </contact>
-          </surface>
-        </collision>
-      </link>
-      <joint name='door_joint' type='prismatic'>
-        <parent>door_frame</parent>
-        <child>door</child>
-        <pose>0 0 0 0 -0 0</pose>
-        <axis>
-          <xyz>1 0 0</xyz>
-          <limit>
-            <lower>0</lower>
-            <upper>1</upper>
-            <effort>-1</effort>
-            <velocity>-1</velocity>
-          </limit>
-          <dynamics>
-            <spring_reference>0</spring_reference>
-            <spring_stiffness>0</spring_stiffness>
-            <damping>0</damping>
-            <friction>0</friction>
-          </dynamics>
-        </axis>
-        <physics>
-          <ode>
-            <limit>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </limit>
-            <suspension>
-              <cfm>0</cfm>
-              <erp>0.2</erp>
-            </suspension>
-          </ode>
-        </physics>
-      </joint>
-      <static>0</static>
-      <allow_auto_disable>1</allow_auto_disable>
-      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
-        <door_joint>door_joint</door_joint>
-        <speed>1.0</speed>
-        <open_target>1</open_target>
-        <close_target>0.0</close_target>
-      </plugin>
-      <pose>-1.37429 0.509719 0 0 -0 0</pose>
-    </model>
-    <model name='door_8'>
+    <model name='door_4'>
       <link name='door_frame'>
         <pose>0.25 -0 1.25 0 -0 0</pose>
         <self_collide>0</self_collide>
@@ -4702,7 +3582,7 @@
       </plugin>
       <pose>6.21664 1.68788 0 0 -0 0</pose>
     </model>
-    <model name='door_9'>
+    <model name='door_5'>
       <link name='door_frame'>
         <pose>0.25 -0 1.25 0 -0 0</pose>
         <self_collide>0</self_collide>
@@ -4928,6 +3808,687 @@
         <close_target>0.0</close_target>
       </plugin>
       <pose>0.179465 2.69354 0 0 -0 0</pose>
+    </model>
+    <model name='door_6'>
+      <link name='door_frame'>
+        <pose>0.25 0 1.25 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <kinematic>1</kinematic>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <visual name='frame_visual'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <shader type='pixel'/>
+            <script>
+              <name>ModelPreview_1::door_frame::frame_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='frame_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='door'>
+        <kinematic>1</kinematic>
+        <pose>-0.4 -0 1.25 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>0.606619</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.639253</iyy>
+            <iyz>0</iyz>
+            <izz>0.0331193</izz>
+          </inertia>
+          <mass>1.16424</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <visual name='door_visual'>
+          <geometry>
+            <box>
+              <size>1.2 0.05 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.8 1</ambient>
+            <diffuse>0.3 0.3 0.9 1</diffuse>
+            <shader type='pixel'/>
+            <script>
+              <name>ModelPreview_1::door::door_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='door_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.2 0.05 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <joint name='door_joint' type='prismatic'>
+        <parent>door_frame</parent>
+        <child>door</child>
+        <pose>0 0 0 0 -0 0</pose>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>1</upper>
+            <effort>-1</effort>
+            <velocity>-1</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>0</damping>
+            <friction>0</friction>
+          </dynamics>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+            <suspension>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </suspension>
+          </ode>
+        </physics>
+      </joint>
+      <static>0</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
+        <door_joint>door_joint</door_joint>
+        <speed>1.0</speed>
+        <open_target>1</open_target>
+        <close_target>0.0</close_target>
+      </plugin>
+      <pose>-1.37429 0.509719 0 0 -0 0</pose>
+    </model>
+    <model name='door_7'>
+      <link name='door_frame'>
+        <pose>0.25 0 1.25 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <kinematic>1</kinematic>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <visual name='frame_visual'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <shader type='pixel'/>
+            <script>
+              <name>ModelPreview_1::door_frame::frame_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='frame_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='door'>
+        <kinematic>1</kinematic>
+        <pose>-0.121545 0 1.25 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>0.75177</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.814042</iyy>
+            <iyz>0</iyz>
+            <izz>0.062873</izz>
+          </inertia>
+          <mass>1.44282</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <visual name='door_visual'>
+          <geometry>
+            <box>
+              <size>0.721399 0.05 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.8 1</ambient>
+            <diffuse>0.3 0.3 0.9 1</diffuse>
+            <shader type='pixel'/>
+            <script>
+              <name>ModelPreview_1::door::door_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='door_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.721399 0.05 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <joint name='door_joint' type='prismatic'>
+        <parent>door_frame</parent>
+        <child>door</child>
+        <pose>0 0 0 0 -0 0</pose>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>1</upper>
+            <effort>-1</effort>
+            <velocity>-1</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>0</damping>
+            <friction>0</friction>
+          </dynamics>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+            <suspension>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </suspension>
+          </ode>
+        </physics>
+      </joint>
+      <static>0</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
+        <door_joint>door_joint</door_joint>
+        <speed>1.0</speed>
+        <open_target>1.0</open_target>
+        <close_target>0.0</close_target>
+      </plugin>
+      <pose>-5.66385 -0.853123 0 0 -0 0</pose>
+    </model>
+    <model name='door_8'>
+      <link name='door_frame'>
+        <pose>0.25 0 1.25 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <kinematic>1</kinematic>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1</iyy>
+            <iyz>0</iyz>
+            <izz>1</izz>
+          </inertia>
+          <mass>1</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <visual name='frame_visual'>
+          <geometry>
+            <box>
+              <size>0.1 0.1 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.7 0.7 0.7 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+            <shader type='pixel'/>
+            <script>
+              <name>ModelPreview_2::door_frame::frame_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='frame_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.1 0.1 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <link name='door'>
+        <kinematic>1</kinematic>
+        <pose>-0.335256 0 1.25 0 -0 0</pose>
+        <self_collide>0</self_collide>
+        <inertial>
+          <pose>0 0 0 0 -0 0</pose>
+          <inertia>
+            <ixx>1.2306</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.50458</iyy>
+            <iyz>0</iyz>
+            <izz>0.27496</izz>
+          </inertia>
+          <mass>2.36181</mass>
+        </inertial>
+        <enable_wind>0</enable_wind>
+        <visual name='door_visual'>
+          <geometry>
+            <box>
+              <size>1.1809 0.05 2.5</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.2 0.2 0.8 1</ambient>
+            <diffuse>0.3 0.3 0.9 1</diffuse>
+            <shader type='pixel'/>
+            <script>
+              <name>ModelPreview_2::door::door_visual_MATERIAL_</name>
+              <uri>__default__</uri>
+            </script>
+          </material>
+          <pose>0 0 0 0 -0 0</pose>
+          <transparency>0</transparency>
+          <cast_shadows>1</cast_shadows>
+        </visual>
+        <collision name='door_collision'>
+          <laser_retro>0</laser_retro>
+          <max_contacts>10</max_contacts>
+          <pose>0 0 0 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>1.1809 0.05 2.5</size>
+            </box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>1</mu>
+                <mu2>1</mu2>
+                <fdir1>0 0 0</fdir1>
+                <slip1>0</slip1>
+                <slip2>0</slip2>
+              </ode>
+              <torsional>
+                <coefficient>1</coefficient>
+                <patch_radius>0</patch_radius>
+                <surface_radius>0</surface_radius>
+                <use_patch_radius>1</use_patch_radius>
+                <ode>
+                  <slip>0</slip>
+                </ode>
+              </torsional>
+            </friction>
+            <bounce>
+              <restitution_coefficient>0</restitution_coefficient>
+              <threshold>1e+06</threshold>
+            </bounce>
+            <contact>
+              <collide_without_contact>0</collide_without_contact>
+              <collide_without_contact_bitmask>1</collide_without_contact_bitmask>
+              <collide_bitmask>1</collide_bitmask>
+              <ode>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+                <max_vel>0.01</max_vel>
+                <min_depth>0</min_depth>
+              </ode>
+              <bullet>
+                <split_impulse>1</split_impulse>
+                <split_impulse_penetration_threshold>-0.01</split_impulse_penetration_threshold>
+                <soft_cfm>0</soft_cfm>
+                <soft_erp>0.2</soft_erp>
+                <kp>1e+13</kp>
+                <kd>1</kd>
+              </bullet>
+            </contact>
+          </surface>
+        </collision>
+      </link>
+      <joint name='door_joint' type='prismatic'>
+        <parent>door_frame</parent>
+        <child>door</child>
+        <pose>0 0 0 0 -0 0</pose>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>0</lower>
+            <upper>1.1</upper>
+            <effort>-1</effort>
+            <velocity>-1</velocity>
+          </limit>
+          <dynamics>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+            <damping>0</damping>
+            <friction>0</friction>
+          </dynamics>
+        </axis>
+        <physics>
+          <ode>
+            <limit>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </limit>
+            <suspension>
+              <cfm>0</cfm>
+              <erp>0.2</erp>
+            </suspension>
+          </ode>
+        </physics>
+      </joint>
+      <static>0</static>
+      <allow_auto_disable>1</allow_auto_disable>
+      <plugin name='door_control_plugin' filename='libdoor_control_plugin.so'>
+        <door_joint>door_joint</door_joint>
+        <speed>1.0</speed>
+        <open_target>1.1</open_target>
+        <close_target>0.0</close_target>
+      </plugin>
+      <pose>-3.3612 -3.45338 0 0 -0 0</pose>
     </model>
   </world>
 </sdf>

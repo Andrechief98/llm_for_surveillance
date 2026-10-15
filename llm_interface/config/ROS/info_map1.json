@@ -179,6 +179,38 @@
         "x": -3,
         "y": -2.5
       }
+    },
+    "I": {
+      "coordinate_ranges": {
+        "x": {
+          "min": -5,
+          "max": -1.6 
+        },
+        "y": {
+          "min": -5.2,
+          "max": -3.6
+        }
+      },
+      "coordinates": {
+        "x": -3,
+        "y": -4.3
+      }
+    },
+    "L": {
+      "coordinate_ranges": {
+        "x": {
+          "min": -6.4,
+          "max": -5 
+        },
+        "y": {
+          "min": -5.2,
+          "max": -1
+        }
+      },
+      "coordinates": {
+        "x": -5.8,
+        "y": -3
+      }
     }
   }
 }

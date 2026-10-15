@@ -1,8 +1,14 @@
 {
   "sensors":{
-    "Camera_1":{},
-    "Camera_2":{},
-    "Lidar_1":{},
+    "Camera_1":{
+      "areas": ["B"]
+    },
+    "Camera_2":{
+      "areas": ["F"]
+    },
+    "Lidar_1":{
+      "areas": ["H"]
+    },
     "Lidar_2":{},
     "Lidar_3":{},
     "Lidar_4":{},
@@ -43,6 +49,14 @@
     "H": {
       "sensors": ["Lidar_1"],
       "actuators": ["door_2"]
+    },
+    "I": {
+      "sensors": ["Lidar_1"],
+      "actuators": ["door_2"]
+    },
+    "L": {
+      "sensors": ["Lidar_8"],
+      "actuators": ["door_3"]
     }
   },
 
