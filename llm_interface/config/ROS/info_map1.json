@@ -44,9 +44,6 @@
       },
       "door_8": {
         "ros_service_name": "/door_8_control_service"
-      },
-      "door_9": {
-        "ros_service_name": "/door_9_control_service"
       }
     }
   },
@@ -167,17 +164,17 @@
     "H": {
       "coordinate_ranges": {
         "x": {
-          "min": -4.7,
-          "max": -2 
+          "min": -6.4,
+          "max": -5 
         },
         "y": {
-          "min": -0.6,
-          "max": -3.3
+          "min": -5.2,
+          "max": -1
         }
       },
       "coordinates": {
-        "x": -3,
-        "y": -2.5
+        "x": -5.8,
+        "y": -3
       }
     },
     "I": {
@@ -199,17 +196,17 @@
     "L": {
       "coordinate_ranges": {
         "x": {
-          "min": -6.4,
-          "max": -5 
+          "min": -4.7,
+          "max": -2 
         },
         "y": {
-          "min": -5.2,
-          "max": -1
+          "min": -0.6,
+          "max": -3.3
         }
       },
       "coordinates": {
-        "x": -5.8,
-        "y": -3
+        "x": -3,
+        "y": -2.5
       }
     }
   }

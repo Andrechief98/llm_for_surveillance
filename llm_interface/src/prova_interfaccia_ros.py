@@ -9,6 +9,8 @@ from utilitiesOpenAI import *
 from std_msgs.msg import String 
 from std_srvs.srv import Empty 
 from geometry_msgs.msg import PoseStamped
+from gazebo_msgs.srv import SetModelState
+from gazebo_msgs.msg import ModelState
 from llm_interface.srv import triggerGpt, triggerGptResponse, retrieveSystemState
 from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCheckerLLMFeedback
 from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest 
@@ -35,6 +37,7 @@ script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_int
 world_id = str(rospy.get_param("world_id", 1))
 llm_modality = rospy.get_param("llm_modality", "HITL")
 print_rag_search = rospy.get_param("print_rag_search", False)
+teleport_robots = rospy.get_param("teleport_robots",True)
 
 # Creating corresponding file names
 file_RAG = f"RAG_map{world_id}.json"
@@ -685,49 +688,92 @@ class LLM_cognitive_module:
 
             if robot in self.robots_list:    
                 if area in self.areas_list:
-
                 
-                    topic = self.robots_dict[robot]["ros_topic"]
                     area_x = self.areas_dict[area]["coordinates"]["x"]
                     area_y = self.areas_dict[area]["coordinates"]["y"]
 
-                    # Create a temporary client to call the clear_costmap service for all robots:
-                    service_name = robot + "/move_base/clear_costmaps"
-                    clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
 
-                    clear_costmap_client()
+                    if teleport_robots:
+                        # Create a temporary client to call the gazebo service to teleport a given model
+                        set_model_state = rospy.ServiceProxy("/gazebo/set_model_state",SetModelState)
 
-                    
-                    # Create a temporary publisher with the given topic
-                    temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
-                    
-                    # Wait to register the publisher
-                    rospy.sleep(0.5)
-                    
-                    goal_msg = PoseStamped()
+                        model_state = ModelState()
+                        model_state.model_name = robot  # name of robot model in Gazebo
+    
+                        model_state.pose.position.x = area_x
+                        model_state.pose.position.y = area_y
+                        model_state.pose.position.z = 0.0
+    
+                        # Orientation 
+                        model_state.pose.orientation.x = 0.0
+                        model_state.pose.orientation.y = 0.0
+                        model_state.pose.orientation.z = 0.0
+                        model_state.pose.orientation.w = 1.0
+    
+                        # Null linear and angular velocity
+                        model_state.twist.linear.x = 0.0
+                        model_state.twist.linear.y = 0.0
+                        model_state.twist.linear.z = 0.0
+                        model_state.twist.angular.x = 0.0
+                        model_state.twist.angular.y = 0.0
+                        model_state.twist.angular.z = 0.0
+    
+                        model_state.reference_frame = "map"
+    
+                        response = set_model_state(model_state)
 
-                    
-                    goal_msg.pose.position.x = float(area_x)
-                    goal_msg.pose.position.y = float(area_y)
-                    goal_msg.pose.position.z = 0.0
-                    goal_msg.pose.orientation.x = 0.0
-                    goal_msg.pose.orientation.y = 0.0
-                    goal_msg.pose.orientation.z = 0.0
-                    goal_msg.pose.orientation.w = 1.0 
-                    goal_msg.header.stamp = rospy.Time.now()
-                    goal_msg.header.frame_id = f"map"
+                        if response.success:
+                            robot_deployment_correctness[robot] = {
+                                "deployment_success": True,
+                                "additional_info": None
+                            }
+                        else:
+                            robot_deployment_correctness[robot] = {
+                                "deployment_success": False,
+                                "additional_info": "Error in the Gazebo set_model service"
+                            }
+                        
+                    else:
+                        # We publish the final goal to reach for each robot
+                        topic = self.robots_dict[robot]["ros_topic"]
 
-                    # Publish the goal message
-                    temp_pub.publish(goal_msg)
-                    
-                    # Wait to transmit the message
-                    rospy.sleep(0.5)
+                        # Create a temporary client to call the clear_costmap service for all robots:
+                        service_name = robot + "/move_base/clear_costmaps"
+                        clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
 
-                    # return f"{robot} sent to area {area}"
-                    robot_deployment_correctness[robot] = {
-                        "deployment_success": True,
-                        "additional_info": None
-                    }
+                        clear_costmap_client()
+
+                        
+                        # Create a temporary publisher with the given topic
+                        temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
+                        
+                        # Wait to register the publisher
+                        rospy.sleep(0.5)
+                        
+                        goal_msg = PoseStamped()
+
+                        
+                        goal_msg.pose.position.x = float(area_x)
+                        goal_msg.pose.position.y = float(area_y)
+                        goal_msg.pose.position.z = 0.0
+                        goal_msg.pose.orientation.x = 0.0
+                        goal_msg.pose.orientation.y = 0.0
+                        goal_msg.pose.orientation.z = 0.0
+                        goal_msg.pose.orientation.w = 1.0 
+                        goal_msg.header.stamp = rospy.Time.now()
+                        goal_msg.header.frame_id = f"map"
+
+                        # Publish the goal message
+                        temp_pub.publish(goal_msg)
+                        
+                        # Wait to transmit the message
+                        rospy.sleep(0.5)
+
+                        # return f"{robot} sent to area {area}"
+                        robot_deployment_correctness[robot] = {
+                            "deployment_success": True,
+                            "additional_info": None
+                        }
                 
                 else:
                     robot_deployment_correctness[robot] = {

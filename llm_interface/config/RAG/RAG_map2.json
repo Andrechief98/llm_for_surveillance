@@ -40,43 +40,82 @@
       }
     },
     "Lidar_2": {
-      "areas": ["A", "T"]
+      "areas": ["A", "T"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_3": {
-      "areas": ["G", "T"]
+      "areas": ["G", "T"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_4": {
-      "areas": ["T", "U"]
+      "areas": ["T", "U"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_5": {
-      "areas": ["H", "T"]
+      "areas": ["H", "T"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_6": {
-      "areas": ["I", "T"]
+      "areas": ["I", "T"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_7": {
-      "areas": ["L", "S"]
+      "areas": ["L", "S"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_8": {
-      "areas": ["M", "S"]
+      "areas": ["M", "S"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_9": {
-      "areas": ["S", "Z"]
+      "areas": ["S", "Z"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_10": {
-      "areas": ["N", "S"]
+      "areas": ["N", "S"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_11": {
-      "areas": ["O", "S"]
+      "areas": ["O", "S"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_12": {
-      "areas": ["P", "R"]
+      "areas": ["P", "R"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_13": {
-      "areas": ["Q", "R"]
+      "areas": ["Q", "R"],
+      "area_connection_type":{
+        "": ""
+      }
     },
     "Lidar_14": {
-      "areas": ["R", "V"]
+      "areas": ["R", "V"],
+      "area_connection_type":{
+        "": ""
+      }
     }
   },
   "areas": {
