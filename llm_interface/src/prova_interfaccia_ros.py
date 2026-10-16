@@ -8,8 +8,9 @@ import rosgraph
 from utilitiesOpenAI import *
 from std_msgs.msg import String 
 from std_srvs.srv import Empty 
+from nav_msgs.srv import GetPlan
 from geometry_msgs.msg import PoseStamped
-from gazebo_msgs.srv import SetModelState
+from gazebo_msgs.srv import SetModelState, GetModelState
 from gazebo_msgs.msg import ModelState
 from llm_interface.srv import triggerGpt, triggerGptResponse, retrieveSystemState
 from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCheckerLLMFeedback
@@ -27,6 +28,8 @@ import base64
 import cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
+import tf2_ros
+import math
 
 
 
@@ -38,12 +41,15 @@ world_id = str(rospy.get_param("world_id", 1))
 llm_modality = rospy.get_param("llm_modality", "HITL")
 print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
+sensor_sequence = rospy.get_param("sensor_sequence", "").split()
+
 
 # Creating corresponding file names
 file_RAG = f"RAG_map{world_id}.json"
 file_prompt = f"prompts_map{world_id}.yaml"
 file_building_plan = f"building_plan_map{world_id}.png"
 file_ROS_info = f"info_map{world_id}.json"
+file_experiments = "experiments.json"
 
 # Preparing correct building plan image
 path_building_plan = os.path.join(script_dir, "../config/uploads", file_building_plan)
@@ -54,6 +60,9 @@ file_RAG_streams = [open(path, "rb") for path in file_RAG_paths]
 
 # Preparing the ROS file configuration
 file_ROS_path = os.path.join(script_dir, "../config/ROS", file_ROS_info)
+
+# Preparing experiments file 
+file_experiments_path = os.path.join(script_dir, "../../llm_data_analysis/", file_experiments)
 
 # Loading the correct prompt based on the specified LLM modality
 with open(f"{script_dir}/../config/prompts/{file_prompt}") as f:
@@ -67,7 +76,7 @@ class LLM_cognitive_module:
     def __init__(self):
         rospy.init_node('LLM_cognitive_module', anonymous=True)
         self.client = AsyncOpenAI()
-
+        self.llm_model = "gpt-4o"
         self.rosServer = rospy.Service('/alert', triggerGpt, self.handleDataMediatorAlert)
 
         self.robotGoalCheckerServer = actionlib.SimpleActionServer('/robot_goal_checker', goalCheckerLLMAction, self.handleRobotGoalChecker, auto_start = False)
@@ -85,13 +94,19 @@ class LLM_cognitive_module:
         # Setting of configuration file
         self.required_vector_store_id = None
         self.available_tools = None
-        
-        # Setting for log the history
-        self.history_log_file = "history.txt"
 
-        # When we start the script we clear the file
-        with open(self.history_log_file, 'w') as f:
-            pass
+        # Extracting experiments data from json file
+        with open(file_experiments_path, "r") as f:
+            self.experiments_data = json.load(f) 
+
+        # Preparing single run experiment dictionary 
+        self.data_experiment_run = {
+            "world_id":world_id,
+            "model":self.llm_model,
+            "sensor_sequence":sensor_sequence,
+            "conversation":[]
+        }
+
         
         # ROS network information from file
         with open(file_ROS_path, "r") as f:
@@ -114,6 +129,8 @@ class LLM_cognitive_module:
             self.RAG_info = json.load(f)
 
         self.sensors_list = list(self.RAG_info["sensors"].keys())
+
+        self.robot_current_positions = {}
 
 
     async def initialize_assistant(self):
@@ -288,6 +305,26 @@ class LLM_cognitive_module:
                         }
                     },
                     {
+                        "type":"function",
+                        "name":"compute_robot_area_distance",
+                        "description":"It provides the optimal robot-area allocation based on distance to the areas to inspect. It must be used after the area to inspect are decided and before sending the robots. ",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "areas_to_inspect": {
+                                    "type": "array", 
+                                    "description": "List of all the area names where the robot should be deployed.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single area to inspect.",
+                                        "enum": self.areas_list
+                                    }
+                                    },
+                                },
+                            "required": ["areas_to_inspect"]
+                        }
+                    },
+                    {
                         "type": "function", 
                         "name": "send_robots_to_area",
                         "description": "Use this function to deploy a sequence of robots to corresponding areas.",
@@ -320,13 +357,35 @@ class LLM_cognitive_module:
                     }
                 ]
     
-    def log_message_in_history_file(self, log, authority):
-        with open(self.history_log_file, "a") as f:
-            f.write(f"{authority}: \n\t{log}\n\n")
-        
+    def log_conversation_message(self, log, authority):
+        self.data_experiment_run["conversation"].append({authority:log})
+        print(self.data_experiment_run)
         return
-    
 
+    def save_experiment_run(self):
+        run_id = len(self.experiments_data[llm_modality]) + 1
+        self.experiments_data[llm_modality][f"run_{run_id}"] = self.data_experiment_run
+
+        text = json.dumps(self.experiments_data, indent=2, ensure_ascii=False)
+        text = re.sub(r'\[\s*((?:"[^"]*"(?:,\s*)?)*)\s*\]',
+                    lambda m: '[' + re.sub(r',\s*', ', ', m.group(1)) + ']',
+                    text)
+        text = re.sub(r'\{\s*("(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null)(?:,\s*"(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null))*)\s*\}',
+                    lambda m: '{' + m.group(1).replace('\n', '') + '}',
+                    text)
+
+        with open(file_experiments_path, "w", encoding="utf-8") as f:
+            f.write(text)
+
+        # run_id = len(list(self.experiments_data[llm_modality].keys())) + 1
+        # self.experiments_data[llm_modality][f"run_{run_id}"] = self.data_experiment_run
+        # print(self.experiments_data)
+
+        # with open(file_experiments_path, "w") as f:
+        #     json.dump(self.experiments_data, f, ensure_ascii=False)
+        
+        return 
+    
     async def handle_message(self, msg, authority):
         async with self.lock:
             # Riprendiamo lo storico della conversazione a cui aggiungeremo il nuovo messaggio
@@ -334,7 +393,7 @@ class LLM_cognitive_module:
             history = cl.user_session.get("history")
             history.append({"role": authority, "content": msg})
 
-            self.log_message_in_history_file(log=msg, authority=authority)
+            self.log_conversation_message(log=msg, authority=authority)
 
             # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
             msg = cl.Message(content="")
@@ -438,7 +497,7 @@ class LLM_cognitive_module:
                                 })
 
                                 log = f"name - {tool_name} \n\targuments - {args}"
-                                self.log_message_in_history_file(log=log, authority="function_call")
+                                self.log_conversation_message(log=log, authority="function_call")
 
                                 
                                 # Aggiungi l'output di ROS
@@ -491,7 +550,7 @@ class LLM_cognitive_module:
                                 })
 
                                 
-                                self.log_message_in_history_file(log=log, authority="ROS_output")
+                                self.log_conversation_message(log=log, authority="ROS_output")
 
                                 # Aggiunta ai tool chiamati in modo che sia possibile verificare la presenza di tool
                                 tool_outputs.append({
@@ -522,7 +581,7 @@ class LLM_cognitive_module:
 
                 if full_ai_response:
                         history.append({"role": "assistant", "content": full_ai_response})
-                        self.log_message_in_history_file(log=full_ai_response, authority="assistant")
+                        self.log_conversation_message(log=full_ai_response, authority="assistant")
             
             
             cl.user_session.set("history", history)
@@ -677,6 +736,64 @@ class LLM_cognitive_module:
         response = self.resetSensorsActivationClient()
         return f"All sensors deactivated"
 
+    def compute_robot_area_distance(self,areas_to_inspect):
+
+        robot_area_allocation = {}
+
+        for area in areas_to_inspect:
+            area_to_inspect_coordinates =  self.areas_dict[area]["coordinates"]
+
+            robot_area_allocation[area] = {}
+
+            for robot in self.robots_list:
+                # Create the client to retrieve the robot position from gazebo
+                rospy.wait_for_service('/gazebo/get_model_state')
+            
+                get_model_state_client = rospy.ServiceProxy('/gazebo/get_model_state',GetModelState)
+
+                current_position = get_model_state_client(model_name=robot, relative_entity_name='map')
+
+                # We use the same message received by Gazebo as starting point to generate the path towards the goal
+                start = PoseStamped()
+                start.header.frame_id = 'map'
+                start.header.stamp = rospy.Time(0)
+
+                # Defining the initial pose of the path
+                start.pose = current_position.pose
+
+                # Defining the final pose to reach
+                goal = PoseStamped()
+                goal.header.frame_id = 'map'
+                goal.header.stamp = rospy.Time(0)
+
+                goal.pose.position.x = area_to_inspect_coordinates["x"]
+                goal.pose.position.y = area_to_inspect_coordinates["y"]
+                goal.pose.position.z = 0.0
+
+                goal.pose.orientation.x = 0.0
+                goal.pose.orientation.y = 0.0
+                goal.pose.orientation.z = 0.0
+                goal.pose.orientation.w = 1.0
+
+                # Create the client to call the make_plan service
+                rospy.wait_for_service(f'{robot}/move_base/make_plan')
+                make_plan_client = rospy.ServiceProxy(f'{robot}/move_base/make_plan', GetPlan)
+
+                # Generate the path
+                response = make_plan_client(start=start, goal=goal, tolerance=0.2)
+
+                # Computing the total distance
+                poses = response.plan.poses
+                total_distance = 0.0
+
+                for i in range(1, len(poses)):
+                    dx = (poses[i].pose.position.x - poses[i - 1].pose.position.x)
+                    dy = (poses[i].pose.position.y - poses[i - 1].pose.position.y)
+                    total_distance += math.hypot(dx, dy)
+
+                robot_area_allocation[area][robot] = round(total_distance,2)
+
+        return json.dumps(robot_area_allocation)
 
     def send_robots_to_area(self, robots_sequence):
 
@@ -722,58 +839,46 @@ class LLM_cognitive_module:
     
                         response = set_model_state(model_state)
 
-                        if response.success:
-                            robot_deployment_correctness[robot] = {
-                                "deployment_success": True,
-                                "additional_info": None
-                            }
-                        else:
-                            robot_deployment_correctness[robot] = {
-                                "deployment_success": False,
-                                "additional_info": "Error in the Gazebo set_model service"
-                            }
-                        
-                    else:
-                        # We publish the final goal to reach for each robot
-                        topic = self.robots_dict[robot]["ros_topic"]
 
-                        # Create a temporary client to call the clear_costmap service for all robots:
-                        service_name = robot + "/move_base/clear_costmaps"
-                        clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
+                    # We publish the final goal to reach for each robot in order to trigger the check robot goal
+                    topic = self.robots_dict[robot]["ros_topic"]
 
-                        clear_costmap_client()
+                    # Create a temporary client to call the clear_costmap service for all robots:
+                    service_name = robot + "/move_base/clear_costmaps"
+                    clear_costmap_client = rospy.ServiceProxy(service_name, Empty)
 
-                        
-                        # Create a temporary publisher with the given topic
-                        temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
-                        
-                        # Wait to register the publisher
-                        rospy.sleep(0.5)
-                        
-                        goal_msg = PoseStamped()
+                    clear_costmap_client()
 
-                        
-                        goal_msg.pose.position.x = float(area_x)
-                        goal_msg.pose.position.y = float(area_y)
-                        goal_msg.pose.position.z = 0.0
-                        goal_msg.pose.orientation.x = 0.0
-                        goal_msg.pose.orientation.y = 0.0
-                        goal_msg.pose.orientation.z = 0.0
-                        goal_msg.pose.orientation.w = 1.0 
-                        goal_msg.header.stamp = rospy.Time.now()
-                        goal_msg.header.frame_id = f"map"
+                    
+                    # Create a temporary publisher with the given topic
+                    temp_pub = rospy.Publisher(topic, PoseStamped, queue_size=10)
+                    
+                    # Wait to register the publisher
+                    rospy.sleep(0.5)
+                    
+                    goal_msg = PoseStamped()
+                    
+                    goal_msg.pose.position.x = float(area_x)
+                    goal_msg.pose.position.y = float(area_y)
+                    goal_msg.pose.position.z = 0.0
+                    goal_msg.pose.orientation.x = 0.0
+                    goal_msg.pose.orientation.y = 0.0
+                    goal_msg.pose.orientation.z = 0.0
+                    goal_msg.pose.orientation.w = 1.0 
+                    goal_msg.header.stamp = rospy.Time.now()
+                    goal_msg.header.frame_id = f"map"
 
-                        # Publish the goal message
-                        temp_pub.publish(goal_msg)
-                        
-                        # Wait to transmit the message
-                        rospy.sleep(0.5)
+                    # Publish the goal message
+                    temp_pub.publish(goal_msg)
+                    
+                    # Wait to transmit the message
+                    rospy.sleep(0.5)
 
-                        # return f"{robot} sent to area {area}"
-                        robot_deployment_correctness[robot] = {
-                            "deployment_success": True,
-                            "additional_info": None
-                        }
+                    # return f"{robot} sent to area {area}"
+                    robot_deployment_correctness[robot] = {
+                        "deployment_success": True,
+                        "additional_info": None
+                    }
                 
                 else:
                     robot_deployment_correctness[robot] = {
@@ -1087,3 +1192,8 @@ async def main(message: cl.Message):
     
     agent = cl.user_session.get("agent")
     await agent.handle_message(msg=message.content, authority="user")
+
+@cl.on_chat_end
+def on_chat_end():
+    print("Shutting down Chainlit: saving conversation ...")
+    agent.save_experiment_run()

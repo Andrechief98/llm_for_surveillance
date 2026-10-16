@@ -1,0 +1,59 @@
+{
+  "HITL": {
+    "run_1": {
+      "world_id": "1",
+      "model": "gpt-4o",
+      "sensor_sequence": ["Lidar_1", "Lidar_2"],
+      "conversation": [
+        {"user": "ciao"},
+        {"assistant": "Ciao! Come posso aiutarti oggi?"},
+        {"user": "manda robot 1 in area B"},
+        {"function_call": "name - retrieve_system_state \n\targuments - {}"},
+        {"ROS_output": "{\"robots\": {\"turtlebot3_2\": {\"current_area\": \"E\"}, \"turtlebot3_1\": {\"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": []}"},
+        {"function_call": "name - send_robots_to_area \n\targuments - {\"robots_sequence\":[{\"robot_to_send\":\"turtlebot3_1\",\"area_to_reach\":\"B\"}]}"},
+        {"ROS_output": "Summary of robots deployments correctness: {\"turtlebot3_1\": {\"deployment_success\": true, \"additional_info\": null}}"},
+        {"assistant": "Il robot 1 è stato inviato con successo nell'area B. Hai bisogno di altro?"},
+        {"user": "turtlebot3_1: Goal reached. Area B: Intruder identified"},
+        {"assistant": "### Robot Report\n- **Robot:** turtlebot3_1\n- **Area Analyzed:** B\n- **Report:** Intruder identified\n\n### Decision\nPropongo di notificare la sicurezza e rafforzare il monitoraggio. Vuoi che faccia altro?"}
+      ]
+    },
+    "run_2": {
+      "world_id": "1",
+      "model": "gpt-4o",
+      "sensor_sequence": ["Lidar_1", "Lidar_2"],
+      "conversation": [
+        {"user": "ciao"},
+        {"assistant": "Ciao! Come posso aiutarti oggi?"},
+        {"user": "manda robot 1 in area B"},
+        {"function_call": "name - retrieve_system_state \n\targuments - {}"},
+        {"ROS_output": "{\"robots\": {\"turtlebot3_1\": {\"current_area\": \"E\"}, \"turtlebot3_2\": {\"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": []}"},
+        {"function_call": "name - control_actuator \n\targuments - {\"actuators_sequence\":[{\"actuator_name\":\"door_5\",\"command\":\"open\"},{\"actuator_name\":\"door_6\",\"command\":\"open\"}]}"},
+        {"ROS_output": "[{'ros_service_name': '/door_5_control_service', 'success': 'true', 'additional_info': ''}, {'ros_service_name': '/door_6_control_service', 'success': 'true', 'additional_info': ''}]"},
+        {"function_call": "name - send_robots_to_area \n\targuments - {\"robots_sequence\":[{\"robot_to_send\":\"turtlebot3_1\",\"area_to_reach\":\"B\"}]}"},
+        {"ROS_output": "Summary of robots deployments correctness: {\"turtlebot3_1\": {\"deployment_success\": true, \"additional_info\": null}}"},
+        {"assistant": "Il robot 1 è stato inviato con successo nell'area B. C'è qualcos'altro in cui posso aiutarti?"},
+        {"user": "turtlebot3_1: Goal reached. Area B: Intruder identified"},
+        {"assistant": "**Rapporto Robot:**\n- **Area Analizzata:** B\n- **Rapporto:** Intruso identificato\n\n**Decisione:**\nProponi di:\n1. Avvisare immediatamente la sicurezza umana.\n2. Evacuare eventuali persone dalla zona.\n3. Valutare l'attivazione dei sistemi di blocco per contenere l'intruso. Vuoi eseguire altre azioni?"}
+      ]
+    }
+  },
+  "AUTO": {
+    "run_1": {
+      "world_id": "1",
+      "model": "gpt-4o",
+      "sensor_sequence": ["Lidar_1", "Lidar_2"],
+      "conversation": [
+        {"user": "ciao"},
+        {"assistant": "Ciao! Come posso aiutarti oggi?"},
+        {"user": "manda robot 1 in area B"},
+        {"function_call": "name - retrieve_system_state \n\targuments - {}"},
+        {"ROS_output": "{\"robots\": {\"turtlebot3_2\": {\"current_area\": \"E\"}, \"turtlebot3_1\": {\"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": []}"},
+        {"function_call": "name - send_robots_to_area \n\targuments - {\"robots_sequence\":[{\"robot_to_send\":\"turtlebot3_1\",\"area_to_reach\":\"B\"}]}"},
+        {"ROS_output": "Summary of robots deployments correctness: {\"turtlebot3_1\": {\"deployment_success\": true, \"additional_info\": null}}"},
+        {"assistant": "Il robot 1 è stato inviato con successo nell'area B. Hai bisogno di altro?"},
+        {"user": "turtlebot3_1: Goal reached. Area B: Intruder identified"},
+        {"assistant": "### Robot Report\n- **Robot:** turtlebot3_1\n- **Area Analyzed:** B\n- **Report:** Intruder identified\n\n### Decision\nPropongo di notificare la sicurezza e rafforzare il monitoraggio. Vuoi che faccia altro?"}
+      ]
+    }
+  }
+}

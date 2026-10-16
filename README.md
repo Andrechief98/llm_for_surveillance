@@ -193,6 +193,41 @@ python3 llm_interface/src/app_ros_autonomous.py
 
 Follow the interface's startup output for the correct web address and port. The original README used `http://127.0.0.1:5000/` for these interfaces; the Docker-based Chainlit application described above uses port `8000`.
 
+## Evaluate LLM responses
+This section describes how to launch the LLM Conversation Reviewer, a web-based interface for inspecting LLM conversations and manually evaluating errors across different experimental modes, such as HITL and AUTO. The platform displays conversations in a human-readable format and saves evaluation results to a separate JSON file.
+
+### 1. Go to the llm_data_analysis folder
+Open a terminal and navigate to the project directory:
+
+```bash
+llm_data_analysis
+```
+### 2. Run the evaluation platform
+Launch the Streamlit application:
+
+```bash
+streamlit run app_evaluation.py
+```
+The application will open in your default browser. If it does not open automatically, navigate to the URL displayed in the terminal (usually http://localhost:8501).
+
+### 3. Load the conversation dataset
+Upload the JSON file containing the experimental runs.
+Select the experimental mode (HITL or AUTO).
+Use the navigation arrows to move between runs.
+Inspect the conversation, including user messages, assistant responses, function calls, and ROS outputs.
+
+### 4. Evaluate the LLM responses
+Define the error categories in the evaluation panel.
+Assign the number of errors for each category.
+Add notes to explain the evaluation, if necessary.
+Click Save evaluation to save the results.
+
+### 5. Retrieve the evaluation results
+The platform saves the evaluation results in evaluations.json and the error categories in error_categories.json, in the directory from which Streamlit was launched.
+
+The original conversation dataset is not modified.
+
+
 ## Repository structure
 
 ```text
