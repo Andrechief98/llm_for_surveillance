@@ -231,11 +231,38 @@ class LLM_cognitive_module:
                                                 "enum": ["open", "close"]
                                                 }
                                             },
-                                        "required": ["ros_service_name", "command"]
+                                        "required": ["actuator_name", "command"]
                                     }
                                 }
                             },
                         "required": ["actuators_sequence"]
+                        }
+                    },
+                    {
+                        "type": "function",
+                        "name": "compute_robot_area_distance",
+                        "description": (
+                            "Compute the straight-line Euclidean distance from every robot's current "
+                            "position to each requested area. Call this after retrieving the environment "
+                            "state and using RAG to identify the areas that should be inspected. "
+                            "This is geometric distance, not a navigable path length."
+                        ),
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "areas_to_inspect": {
+                                    "type": "array",
+                                    "description": "Area IDs to evaluate for inspection.",
+                                    "items": {
+                                        "type": "string",
+                                        "enum": self.areas_list
+                                    },
+                                    "minItems": 1,
+                                    "uniqueItems": True
+                                }
+                            },
+                            "required": ["areas_to_inspect"],
+                            "additionalProperties": False
                         }
                     },
                     {
@@ -384,11 +411,11 @@ class LLM_cognitive_module:
                                 history.append({
                                     "type": "function_call",
                                     "call_id": tool_call.call_id,
-                                    "name": tool_name,
+                                    "name": tool_call.name,
                                     "arguments": args
                                 })
 
-                                log = f"name - {tool_name} \n\targuments - {args}"
+                                log = f"name - {tool_call.name} \n\targuments - {args}"
                                 self.log_message_in_history_file(log=log, authority="function_call")
 
                                 
@@ -627,6 +654,88 @@ class LLM_cognitive_module:
     def reset_sensors_activation(self):
         response = self.resetSensorsActivationClient()
         return f"All sensors deactivated"
+
+
+    def compute_robot_area_distance(self, areas_to_inspect):
+        """Return straight-line distances from every robot to each requested area.
+
+        Robot positions are taken from the live data-mediator state. If a robot's
+        position is unavailable but its current area is known, that area's configured
+        center is used as a fallback. Distances are Euclidean map-coordinate distances;
+        they are not ROS navigation/path-planner costs.
+        """
+        if not isinstance(areas_to_inspect, list) or not areas_to_inspect:
+            return json.dumps({
+                "success": False,
+                "error": "areas_to_inspect must be a non-empty list of area IDs."
+            })
+
+        invalid_areas = [area for area in areas_to_inspect if area not in self.areas_dict]
+        if invalid_areas:
+            return json.dumps({
+                "success": False,
+                "error": "Unknown area ID(s).",
+                "invalid_areas": invalid_areas,
+                "available_areas": self.areas_list
+            })
+
+        try:
+            response = self.retrieveSystemStateClient()
+            raw_state = json.loads(response.system_state)
+        except Exception as exc:
+            rospy.logerr(f"Could not retrieve robot positions for distance calculation: {exc}")
+            return json.dumps({
+                "success": False,
+                "error": f"Could not retrieve current system state: {exc}"
+            })
+
+        robot_states = raw_state.get("robots", {})
+        distances = {}
+        for robot_name in self.robots_list:
+            robot_state = robot_states.get(robot_name, {})
+            robot_position = robot_state.get("current_position")
+
+            # Some data-mediator versions may expose x/y directly rather than as a list.
+            if isinstance(robot_position, dict):
+                robot_x = robot_position.get("x")
+                robot_y = robot_position.get("y")
+            elif isinstance(robot_position, (list, tuple)) and len(robot_position) >= 2:
+                robot_x, robot_y = robot_position[0], robot_position[1]
+            else:
+                robot_x = robot_state.get("x")
+                robot_y = robot_state.get("y")
+
+            if robot_x is None or robot_y is None:
+                current_area = robot_state.get("current_area")
+                if current_area in self.areas_dict:
+                    robot_x = self.areas_dict[current_area]["coordinates"]["x"]
+                    robot_y = self.areas_dict[current_area]["coordinates"]["y"]
+                else:
+                    distances[robot_name] = {
+                        area: {"distance": None, "error": "Robot position/current area unavailable"}
+                        for area in areas_to_inspect
+                    }
+                    continue
+
+            robot_x, robot_y = float(robot_x), float(robot_y)
+            distances[robot_name] = {}
+            for area in areas_to_inspect:
+                target = self.areas_dict[area]["coordinates"]
+                dx = float(target["x"]) - robot_x
+                dy = float(target["y"]) - robot_y
+                distances[robot_name][area] = {
+                    "distance": round((dx * dx + dy * dy) ** 0.5, 3),
+                    "distance_metric": "Euclidean map-coordinate distance",
+                    "robot_position": {"x": robot_x, "y": robot_y},
+                    "area_position": {"x": float(target["x"]), "y": float(target["y"])}
+                }
+
+        return json.dumps({
+            "success": True,
+            "areas_to_inspect": areas_to_inspect,
+            "distances": distances,
+            "note": "Distances are straight-line geometric distances, not obstacle-aware navigation path lengths."
+        })
 
 
     def send_robots_to_area(self, robots_sequence):
