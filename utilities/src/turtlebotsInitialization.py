@@ -82,14 +82,11 @@ if __name__=="__main__":
     for service_name in active_services:
         if pattern.match(service_name):
             try:
-                if world_id == "1" and service_name == "/door_1_control_service":
-                    continue
-                else:
-                    rospy.wait_for_service(service_name)
-                    door_control = rospy.ServiceProxy(service_name, doorStringCommand)
-                    response = door_control("open")
+                rospy.wait_for_service(service_name)
+                door_control = rospy.ServiceProxy(service_name, doorStringCommand)
+                response = door_control("open")
 
-                    rospy.loginfo("Service %s called successfully", service_name)
+                rospy.loginfo("Service %s called successfully", service_name)
 
             except rospy.ServiceException as e:
                 rospy.logerr("Service call failed on %s: %s", service_name, e)

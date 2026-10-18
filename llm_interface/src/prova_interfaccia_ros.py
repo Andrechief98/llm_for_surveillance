@@ -42,6 +42,7 @@ llm_modality = rospy.get_param("llm_modality", "HITL")
 print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
 sensor_sequence = rospy.get_param("sensor_sequence", "").split()
+semantic_RAG = rospy.get_param("semantic_RAG", False)
 
 
 # Creating corresponding file names
@@ -174,52 +175,53 @@ class LLM_cognitive_module:
             updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
             print(f"New {file_RAG} file uploaded")
 
+
         self.available_tools = [
                     # {
                     #     "type":"file_search",
                     #     "vector_store_ids": [self.required_vector_store_id],
                     #      "max_num_results": 10,
                     # },
-                    {
-                        "type": "function", 
-                        "name": "get_sensors_info",  
-                        "description": "Use this function to retrieve the information related to a given sequence of sensors. It returns the area covered by cameras and associated to lidars.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "sensor_names_list": {
-                                    "type": "array", 
-                                    "description": "List of all the sensor names for which you want to retrieve information.",
-                                    "items" : {
-                                        "type" : "string",
-                                        "description": "Name of a single sensor.",
-                                        "enum": self.sensors_list
-                                    }
-                                    },
-                                },
-                            "required": ["cameras_names_list"]
-                        }
-                    },
-                    {
-                        "type": "function", 
-                        "name": "get_areas_info",  
-                        "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "area_names_list": {
-                                    "type": "array", 
-                                    "description": "List of all the area names for which you want to retrieve information.",
-                                    "items" : {
-                                        "type" : "string",
-                                        "description": "Name of a single area.",
-                                        "enum": self.areas_list
-                                    }
-                                    },
-                                },
-                            "required": ["cameras_names_list"]
-                        }
-                    },
+                    # {
+                    #     "type": "function", 
+                    #     "name": "get_sensors_info",  
+                    #     "description": "Use this function to retrieve the information related to a given sequence of sensors. It returns the area covered by cameras and associated to lidars.",
+                    #     "parameters": {
+                    #         "type": "object",
+                    #         "properties": {
+                    #             "sensor_names_list": {
+                    #                 "type": "array", 
+                    #                 "description": "List of all the sensor names for which you want to retrieve information.",
+                    #                 "items" : {
+                    #                     "type" : "string",
+                    #                     "description": "Name of a single sensor.",
+                    #                     "enum": self.sensors_list
+                    #                 }
+                    #                 },
+                    #             },
+                    #         "required": ["cameras_names_list"]
+                    #     }
+                    # },
+                    # {
+                    #     "type": "function", 
+                    #     "name": "get_areas_info",  
+                    #     "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
+                    #     "parameters": {
+                    #         "type": "object",
+                    #         "properties": {
+                    #             "area_names_list": {
+                    #                 "type": "array", 
+                    #                 "description": "List of all the area names for which you want to retrieve information.",
+                    #                 "items" : {
+                    #                     "type" : "string",
+                    #                     "description": "Name of a single area.",
+                    #                     "enum": self.areas_list
+                    #                 }
+                    #                 },
+                    #             },
+                    #         "required": ["cameras_names_list"]
+                    #     }
+                    # },
                     {
                         "type": "function", 
                         "name": "retrieve_system_state",  
@@ -356,6 +358,61 @@ class LLM_cognitive_module:
                             }
                     }
                 ]
+        
+        if semantic_RAG:
+            RAG_functions = [
+                {
+                    "type":"file_search",
+                    "vector_store_ids": [self.required_vector_store_id],
+                    "max_num_results": 10,
+                }
+            ]
+        else:
+            RAG_functions = [
+                {
+                    "type": "function", 
+                    "name": "get_sensors_info",  
+                    "description": "Use this function to retrieve the information related to a given sequence of sensors. It returns the area covered by cameras and associated to lidars.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "sensor_names_list": {
+                                "type": "array", 
+                                "description": "List of all the sensor names for which you want to retrieve information.",
+                                "items" : {
+                                    "type" : "string",
+                                    "description": "Name of a single sensor.",
+                                    "enum": self.sensors_list
+                                }
+                                },
+                            },
+                        "required": ["cameras_names_list"]
+                    }
+                },
+                {
+                    "type": "function", 
+                    "name": "get_areas_info",  
+                    "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
+                    "parameters": {
+                        "type": "object",
+                        "properties": {
+                            "area_names_list": {
+                                "type": "array", 
+                                "description": "List of all the area names for which you want to retrieve information.",
+                                "items" : {
+                                    "type" : "string",
+                                    "description": "Name of a single area.",
+                                    "enum": self.areas_list
+                                }
+                                },
+                            },
+                        "required": ["cameras_names_list"]
+                    }
+                },
+            ]
+
+        for function in RAG_functions:
+            self.available_tools.append(function)
     
     def log_conversation_message(self, log, authority):
         self.data_experiment_run["conversation"].append({authority:log})

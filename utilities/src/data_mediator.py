@@ -4,6 +4,7 @@ import json
 from llm_interface.srv import triggerGpt, triggerGptRequest, retrieveSystemState, retrieveSystemStateResponse
 from std_msgs.msg import String
 from gazebo_msgs.msg import ModelStates
+from cob_srvs.srv import SetString, SetStringResponse
 
 
 class Node():
@@ -33,12 +34,19 @@ class Node():
 
         self.msg_gazebo_models = ModelStates()
 
+        self.server_robot_state = rospy.Service("/deactivate_robot", SetString, self.updateRobotStatus)
         self.subscriber = rospy.Subscriber("/gazebo/model_states", ModelStates, self.publishData, queue_size=1)
         self.activated_sensors_subscriber = rospy.Subscriber("/activated_sensors", String, self.updateActivatedSensors, queue_size=1)
         self.publisher = rospy.Publisher('/data', String, queue_size=1)
         self.client_service = rospy.ServiceProxy('/alert', triggerGpt)
         self.server = rospy.Service("/retrieve_system_state", retrieveSystemState, self.retrieve_system_state)
 
+        self.robot_names_list = ["turtlebot3_1", "turtlebot3_2"]
+        self.robot_status = {}
+
+        for robot_name in self.robot_names_list:
+            self.robot_status.update({robot_name : "Available for deployment."})
+        
         rospy.sleep(2)
 
         active_services = rosservice.get_service_list()
@@ -57,18 +65,37 @@ class Node():
                 except rospy.ROSException as e:
                     rospy.logerr("Subscriber %s creation failed: %s", topic, e)
 
-        # for i in range(1,10):
-        #     topic = f"/door_{i}/door_state"
-        #     subscriber = rospy.Subscriber(topic, String, self.extract_actuator_state(index = i), queue_size=1)
-
-
-        
         self.rate=rospy.Rate(1)
 
     def updateActivatedSensors(self, activatedSensors_msg):
         activatedSensors = json.loads(activatedSensors_msg.data)
         self.message["activated_sensors"] = activatedSensors
-        
+        return
+
+    def updateRobotStatus(self, robotStatus_msg):
+        robot_to_deactivate = robotStatus_msg.data
+
+        response = SetStringResponse()
+
+        if not robot_to_deactivate:
+            response.success = False
+            response.message = "Robot name cannot be empty"
+            return response
+
+        if robot_to_deactivate in self.robot_names_list:
+            self.robot_status[robot_to_deactivate] = "Not available for deployment: malfunctioning"   
+
+            response.success = True
+            response.message = f"{robot_to_deactivate} marked as malfunctioning"
+
+            rospy.sleep(1)
+            self.triggerLLM()
+
+        else:
+            response.success = False
+            response.message = f"Unknown robot: {robot_to_deactivate}"
+
+        return response
         
     def triggerLLM(self):
 
@@ -108,12 +135,9 @@ class Node():
         - by the service TriggerLLM() --> in case of activated sensors, in order to inform the LLM"""
         self.msg_gazebo_models = gazeboMsgData
 
-        
-
         turtlebot_indices = [index for index, model_name in enumerate(self.msg_gazebo_models.name) if "turtlebot" in model_name]
         sensors_indices = [index for index, model_name in enumerate(self.msg_gazebo_models.name) if "Lidar" in model_name or "Camera" in model_name]
         actuators_indices = [index for index, model_name in enumerate(self.msg_gazebo_models.name) if "door" in model_name]
-
 
         turtlebot_list_names = []
         sensors_list_names = []
@@ -138,11 +162,12 @@ class Node():
         # Extraction of robots positions and orientation information
         for turtlebot_name, turtlebot_index in zip(turtlebot_list_names, turtlebot_indices):
 
-            if turtlebot_name in ["turtlebot3_1", "turtlebot3_2"]:
+            if turtlebot_name in self.robot_names_list:
                 turtlebot_pose =  self.msg_gazebo_models.pose[turtlebot_index]
                 self.message["robots"][turtlebot_name]={
                     "current_position": [round(turtlebot_pose.position.x, 2), round(turtlebot_pose.position.y, 2), round(turtlebot_pose.position.z,2)],
-                    "current_orientation":[round(turtlebot_pose.orientation.x, 2), round(turtlebot_pose.orientation.y, 2), round(turtlebot_pose.orientation.z, 2), round(turtlebot_pose.orientation.w,2)]
+                    "current_orientation":[round(turtlebot_pose.orientation.x, 2), round(turtlebot_pose.orientation.y, 2), round(turtlebot_pose.orientation.z, 2), round(turtlebot_pose.orientation.w,2)],
+                    "status" : self.robot_status[turtlebot_name]
                 }
                 
             else:
