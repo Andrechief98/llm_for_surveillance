@@ -10,7 +10,7 @@
       "areas": ["U"]
     },
     "Camera_4": {
-      "areas": []
+      "areas": ["Q"]
     },
     "Camera_5": {
       "areas": ["F"]
@@ -30,9 +30,6 @@
     "Camera_10": {
       "areas": ["A"]
     },
-    "Camera_11": {
-      "areas": ["Q"]
-    },
     "Lidar_1": {
       "areas": ["A", "F"],
       "area_connection_type":{
@@ -42,79 +39,79 @@
     "Lidar_2": {
       "areas": ["A", "T"],
       "area_connection_type":{
-        "": ""
+        "door": "door_2"
       }
     },
     "Lidar_3": {
       "areas": ["G", "T"],
       "area_connection_type":{
-        "": ""
+        "door": "door_3"
       }
     },
     "Lidar_4": {
       "areas": ["T", "U"],
       "area_connection_type":{
-        "": ""
+        "door": "door_4"
       }
     },
     "Lidar_5": {
       "areas": ["H", "T"],
       "area_connection_type":{
-        "": ""
+        "door": "door_5"
       }
     },
     "Lidar_6": {
       "areas": ["I", "T"],
       "area_connection_type":{
-        "": ""
+        "door": "door_6"
       }
     },
     "Lidar_7": {
       "areas": ["L", "S"],
       "area_connection_type":{
-        "": ""
+        "door": "door_7"
       }
     },
     "Lidar_8": {
       "areas": ["M", "S"],
       "area_connection_type":{
-        "": ""
+        "door": "door_8"
       }
     },
     "Lidar_9": {
       "areas": ["S", "Z"],
       "area_connection_type":{
-        "": ""
+        "door": "door_9"
       }
     },
     "Lidar_10": {
       "areas": ["N", "S"],
       "area_connection_type":{
-        "": ""
+        "door": "door_10"
       }
     },
     "Lidar_11": {
       "areas": ["O", "S"],
       "area_connection_type":{
-        "": ""
+        "door": "door_11"
       }
     },
     "Lidar_12": {
       "areas": ["P", "R"],
       "area_connection_type":{
-        "": ""
+        "door": "door_12"
       }
     },
     "Lidar_13": {
       "areas": ["Q", "R"],
       "area_connection_type":{
-        "": ""
+        "door": "door_13"
       }
     },
     "Lidar_14": {
       "areas": ["R", "V"],
       "area_connection_type":{
-        "": ""
+        "door": "door_14"
       }
     }
   },
@@ -223,7 +220,7 @@
         }
     },
     "Q": {
-      "sensors": ["Camera_11", "Lidar_13"],
+      "sensors": ["Camera_4", "Lidar_13"],
       "actuators": ["door_13"],
       "connected_to_area":{
           "R":"door_13"
