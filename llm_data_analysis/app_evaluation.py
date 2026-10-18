@@ -9,6 +9,84 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# ---------- Personalizzazione font ----------
+
+st.markdown(
+    """
+    <style>
+    /* Testo generale dell'applicazione */
+    .stApp {
+        font-size: 18px;
+    }
+
+    /* Testo di paragrafi, etichette e descrizioni */
+    .stApp p,
+    .stApp label,
+    .stApp .stMarkdown,
+    .stApp .stCaption {
+        font-size: 18px;
+    }
+
+    /* Titoli e intestazioni */
+    .stApp h1 {
+        font-size: 2.2rem;
+    }
+
+    .stApp h2 {
+        font-size: 1.8rem;
+    }
+
+    .stApp h3 {
+        font-size: 1.5rem;
+    }
+
+    /* Campi di testo e menu a tendina */
+    .stApp input,
+    .stApp textarea,
+    .stApp [data-baseweb="select"] {
+        font-size: 17px;
+    }
+
+    /* Pulsanti */
+    .stApp button {
+        font-size: 17px;
+    }
+
+    /* Testo dei blocchi di codice */
+    .stApp code,
+    .stApp pre {
+        font-size: 15px;
+    }
+
+    /* Testo dei messaggi assistant e user */
+    .stApp [data-testid="stChatMessage"] p {
+        font-size: 19px;
+        line-height: 1.6;
+    }
+
+    /* Migliora la leggibilità del Markdown nelle risposte */
+    .stApp [data-testid="stChatMessage"] li {
+        font-size: 19px;
+        line-height: 1.6;
+    }
+
+    /* Titoli Markdown all'interno dei messaggi */
+    .stApp [data-testid="stChatMessage"] h1 {
+        font-size: 1.7rem;
+    }
+
+    .stApp [data-testid="stChatMessage"] h2 {
+        font-size: 1.5rem;
+    }
+
+    .stApp [data-testid="stChatMessage"] h3 {
+        font-size: 1.3rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 EVALUATIONS_FILE = Path("evaluations.json")
 CATEGORIES_FILE = Path("error_categories.json")
 
@@ -52,7 +130,7 @@ def pretty_content(value):
 
 
 def render_event(event, index):
-    """Visualizza i diversi ruoli con icone riconoscibili."""
+    """Assistant a sinistra, user a destra, tool invariati."""
 
     if not isinstance(event, dict):
         with st.container(border=True):
@@ -63,20 +141,28 @@ def render_event(event, index):
     for role, content in event.items():
         role_lower = role.lower()
 
-        if role_lower == "user":
-            with st.chat_message("user", avatar="👤"):
-                st.markdown(str(content))
+        if role_lower == "assistant":
+            # Messaggio assistant allineato a sinistra
+            left, right = st.columns([1, 1])
 
-        elif role_lower == "assistant":
-            with st.chat_message("assistant", avatar="🤖"):
-                st.markdown(str(content))
+            with left:
+                with st.chat_message("assistant", avatar="🤖"):
+                    st.markdown(str(content))
+
+        elif role_lower == "user":
+            # Messaggio user allineato a destra
+            left, right = st.columns([1, 1])
+
+            with right:
+                with st.chat_message("user", avatar="👤"):
+                    st.markdown(str(content))
 
         elif role_lower == "function_call":
             with st.container(border=True):
                 st.markdown(
                     f"🔧 **FUNCTION CALL** · Evento {index + 1}"
                 )
-                with st.expander("Visualizza dettagli", expanded=False):
+                with st.expander("Visualizza dettagli"):
                     st.code(pretty_content(content))
 
         elif role_lower == "ros_output":
@@ -84,7 +170,7 @@ def render_event(event, index):
                 st.markdown(
                     f"⚙️ **ROS OUTPUT** · Evento {index + 1}"
                 )
-                with st.expander("Visualizza risultato ROS", expanded=False):
+                with st.expander("Visualizza risultato ROS"):
                     st.code(pretty_content(content))
 
         elif role_lower == "tool":
@@ -92,17 +178,17 @@ def render_event(event, index):
                 st.markdown(
                     f"🧰 **TOOL OUTPUT** · Evento {index + 1}"
                 )
-                with st.expander("Visualizza risultato", expanded=False):
+                with st.expander("Visualizza risultato"):
                     st.code(pretty_content(content))
 
         else:
             with st.container(border=True):
-                st.markdown(f"📄 **{role.upper()}** · Evento {index + 1}")
-                with st.expander("Visualizza contenuto", expanded=False):
+                st.markdown(
+                    f"📄 **{role.upper()}** · Evento {index + 1}"
+                )
+                with st.expander("Visualizza contenuto"):
                     st.code(pretty_content(content))
-
-
-# ---------- Caricamento ----------
+# ---------- Caricamento dataset ----------
 
 st.title("LLM Conversation Reviewer")
 st.caption(
@@ -128,7 +214,9 @@ if not isinstance(dataset, dict) or not dataset:
     st.error("Il JSON deve contenere un oggetto con le modalità.")
     st.stop()
 
-# Carica valutazioni e categorie
+
+# ---------- Caricamento valutazioni e categorie ----------
+
 evaluations = read_json(EVALUATIONS_FILE, {})
 categories = read_json(CATEGORIES_FILE, DEFAULT_CATEGORIES)
 
@@ -139,11 +227,19 @@ if not isinstance(categories, list):
     categories = DEFAULT_CATEGORIES.copy()
 
 
-# ---------- Selezione della modalità e della run ----------
+# ---------- Selezione modalità, trial e run ----------
 
 st.subheader("Navigazione")
 
-available_modes = list(dataset.keys())
+available_modes = [
+    mode_id
+    for mode_id, mode_data in dataset.items()
+    if isinstance(mode_data, dict)
+]
+
+if not available_modes:
+    st.error("Il dataset non contiene modalità valide.")
+    st.stop()
 
 mode = st.selectbox(
     "Modalità sperimentale",
@@ -151,29 +247,49 @@ mode = st.selectbox(
     key="selected_mode",
 )
 
-mode_data = dataset.get(mode, {})
+mode_data = dataset[mode]
 
-if not isinstance(mode_data, dict):
-    st.error("La modalità selezionata non contiene un oggetto valido.")
+available_trials = [
+    str(trial_id)
+    for trial_id, trial_data in mode_data.items()
+    if isinstance(trial_data, dict)
+]
+
+if not available_trials:
+    st.warning(f"La modalità {mode} non contiene trial validi.")
     st.stop()
+
+trial_key = f"selected_trial_{mode}"
+
+if st.session_state.get(trial_key) not in available_trials:
+    st.session_state[trial_key] = available_trials[0]
+
+trial_id = st.selectbox(
+    "Trial",
+    available_trials,
+    key=trial_key,
+)
+
+trial_data = mode_data[trial_id]
 
 valid_runs = {
     str(run_id): run
-    for run_id, run in mode_data.items()
+    for run_id, run in trial_data.items()
     if isinstance(run, dict)
     and isinstance(run.get("conversation"), list)
 }
 
 if not valid_runs:
     st.warning(
-        f"La modalità {mode} non contiene run da visualizzare."
+        f"Il trial {trial_id} della modalità {mode} "
+        "non contiene run valide."
     )
     st.stop()
 
-# Navigazione sequenziale, senza selezione del world_id
 world_runs = list(valid_runs.keys())
 
-nav_key = f"run_index_{mode}"
+# Indice indipendente per ciascuna combinazione modalità/trial.
+nav_key = f"run_index_{mode}_{trial_id}"
 
 if nav_key not in st.session_state:
     st.session_state[nav_key] = 0
@@ -190,6 +306,7 @@ with nav_left:
         "← Precedente",
         disabled=st.session_state[nav_key] == 0,
         use_container_width=True,
+        key=f"prev_{mode}_{trial_id}",
     ):
         st.session_state[nav_key] -= 1
         st.rerun()
@@ -199,6 +316,7 @@ with nav_right:
         "Successiva →",
         disabled=st.session_state[nav_key] >= len(world_runs) - 1,
         use_container_width=True,
+        key=f"next_{mode}_{trial_id}",
     ):
         st.session_state[nav_key] += 1
         st.rerun()
@@ -216,17 +334,30 @@ with nav_center:
         unsafe_allow_html=True,
     )
 
-# Identificativo della valutazione:
-# la modalità e il run_id sono sufficienti.
-evaluation_key = f"{mode}/{run_id}"
+st.caption(
+    f"Selezione corrente: {mode} / {trial_id} / {run_id}"
+)
 
-# Le valutazioni sono organizzate per modalità e run,
-# senza usare world_id come chiave.
+
+# ---------- Identificazione della valutazione ----------
+
+# Ogni combinazione modalità/trial/run ha una valutazione indipendente.
 mode_evaluations = evaluations.setdefault(mode, {})
-old_evaluation = mode_evaluations.get(run_id, {})
+trial_evaluations = mode_evaluations.setdefault(trial_id, {})
+
+old_evaluation = trial_evaluations.get(run_id, {})
+
+if not isinstance(old_evaluation, dict):
+    old_evaluation = {}
 
 old_counts = old_evaluation.get("error_counts", {})
 old_notes = old_evaluation.get("notes", "")
+
+if not isinstance(old_counts, dict):
+    old_counts = {}
+
+if not isinstance(old_notes, str):
+    old_notes = ""
 
 
 # ---------- Interfaccia affiancata ----------
@@ -238,13 +369,12 @@ with left:
 
     st.caption(
         f"Modalità: {mode} · "
+        f"Trial: {trial_id} · "
         f"World: {run.get('world_id', 'N/D')} · "
         f"Run: {run_id} · "
         f"Modello: {run.get('model', 'N/D')}"
     )
 
-    # Il contenuto scorre dentro questo riquadro.
-    # I controlli nella colonna destra rimangono indipendenti.
     with st.container(height=650, border=True):
         with st.expander("Metadati della run"):
             metadata = {
@@ -263,10 +393,10 @@ with right:
 
     st.caption(
         "Registra il numero di errori per ciascuna categoria. "
-        "Usa le note per spiegare il giudizio."
+        "Usa le note per motivare il giudizio."
     )
 
-    # Editor delle categorie personalizzabili
+    # Editor delle categorie personalizzabili.
     categories_text = st.text_area(
         "Tipologie di errore (una per riga)",
         value="\n".join(str(c) for c in categories),
@@ -283,9 +413,15 @@ with right:
     counts = {}
 
     for category in current_categories:
-        widget_key = f"error_{mode}_{run_id}_{category}"
+        widget_key = (
+            f"error_{mode}_{trial_id}_{run_id}_{category}"
+        )
 
-        previous_value = int(old_counts.get(category, 0))
+        try:
+            previous_value = int(old_counts.get(category, 0))
+        except (TypeError, ValueError):
+            previous_value = 0
+
         previous_value = max(0, previous_value)
 
         counts[category] = st.number_input(
@@ -304,7 +440,7 @@ with right:
         "Note / motivazione",
         value=old_notes,
         height=120,
-        key=f"notes_{mode}_{run_id}"
+        key=f"notes_{mode}_{trial_id}_{run_id}",
     )
 
     if st.button(
@@ -312,9 +448,8 @@ with right:
         type="primary",
         use_container_width=True,
     ):
-        # Conserva eventuali valutazioni di altre modalità,
-        # mondi e run.
-        mode_evaluations[run_id] = {
+        # Salva solo nella combinazione corrente.
+        trial_evaluations[run_id] = {
             "world_id": run.get("world_id"),
             "model": run.get("model"),
             "sensor_sequence": run.get("sensor_sequence", []),
@@ -329,4 +464,7 @@ with right:
         write_json(EVALUATIONS_FILE, evaluations)
         write_json(CATEGORIES_FILE, current_categories)
 
-        st.success(f"Valutazione salvata per {evaluation_key}")
+        st.success(
+            "Valutazione salvata per "
+            f"{mode} / {trial_id} / {run_id}"
+        )
