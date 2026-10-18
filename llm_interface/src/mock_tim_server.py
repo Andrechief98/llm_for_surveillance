@@ -129,28 +129,56 @@ def get_connected_by_model(model):
 # 2. Orchestrator Alarms Endpoints
 # ==========================================
 
+# ==========================================
+# 2. Orchestrator Alarms Endpoints
+# ==========================================
+
 @app.route("/sec/orchestrator/alarm", methods=["GET"])
 @app.route("/gateway/orchestrator/alarm", methods=["GET"])
 def get_orchestrator_alarms():
-    logger.info(f"Serving active orchestrator alarms: {len(ACTIVE_ALARMS)} active.")
+    logger.info(
+        f"Serving active orchestrator alarms: "
+        f"{len(ACTIVE_ALARMS)} active."
+    )
     return jsonify(ACTIVE_ALARMS), 200
 
 
-@app.route("/sec/orchestrator/alarm/deactive//", methods=["GET", "POST"])
-@app.route("/gateway/orchestrator/alarm/deactive//", methods=["GET", "POST"])
+@app.route(
+    "/sec/orchestrator/alarm/deactive/<model>/<alarm_id>",
+    methods=["GET", "POST"]
+)
+@app.route(
+    "/gateway/orchestrator/alarm/deactive/<model>/<alarm_id>",
+    methods=["GET", "POST"]
+)
 def deactivate_alarm(model, alarm_id):
     global ACTIVE_ALARMS
-    logger.info(f"Deactivating alarm: ID {alarm_id} (model: {model})")
+
+    logger.info(
+        f"Deactivating alarm: ID {alarm_id} "
+        f"(model: {model})"
+    )
 
     initial_count = len(ACTIVE_ALARMS)
+
     ACTIVE_ALARMS = [
         a for a in ACTIVE_ALARMS
-        if not (str(a.get("id")) == str(alarm_id) or str(a.get("name")) == str(alarm_id))
+        if not (
+            str(a.get("id")) == str(alarm_id)
+            or str(a.get("name")) == str(alarm_id)
+        )
     ]
 
     if len(ACTIVE_ALARMS) < initial_count:
-        return jsonify({"status": "success", "message": f"Alarm {alarm_id} cleared"}), 200
-    return jsonify({"status": "not_found", "message": f"Alarm {alarm_id} was not active"}), 404
+        return jsonify({
+            "status": "success",
+            "message": f"Alarm {alarm_id} cleared"
+        }), 200
+
+    return jsonify({
+        "status": "not_found",
+        "message": f"Alarm {alarm_id} was not active"
+    }), 404
 
 
 # ==========================================
