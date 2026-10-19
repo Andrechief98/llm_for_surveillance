@@ -1,23 +1,25 @@
 
 #!/bin/bash
 
+# Parameters
+world_id="1"
+llm_modality="rag_with_functions"         # HITL - AUTO - rag_with_functions - rag_with_semantics - image - image_and_rag_with_functions - image_and_rag_with_semantics 
+semantic_RAG="false"
+teleport_robots="true"
+print_rag_search="false"
+trial_id="1"
+
 sensor_sequence=(
-    "Lidar_1" 
-    "Lidar_2" 
-    "turtlebot3_1"
+    "Lidar_4" 
+    "Lidar_3"
+    "Camera_1" 
+    "Lidar_2"
 )
 
 robot_list=(
     "turtlebot3_1"
     "turtlebot3_2"
 )
-
-# Parameters
-world_id="1"
-llm_modality="HITL"
-semantic_RAG="false"
-teleport_robots="true"
-print_rag_search="false"
 
 # Conversione della sequenza in una stringa
 sensor_sequence_str=$(IFS=,; echo "${sensor_sequence[*]}")
@@ -33,9 +35,17 @@ roslaunch utilities demo_multi_robot.launch \
     semantic_RAG:='$semantic_RAG' \
     teleport_robots:='$teleport_robots' \
     print_rag_search:='$print_rag_search' \
-    sensor_sequence:='$sensor_sequence_str';
+    sensor_sequence:='$sensor_sequence_str'\
+    trial_id:='$trial_id';
 exec bash
 "
+sleep 5
+
+gnome-terminal --title="LLM chainlit" -- bash -c '
+cd ~/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src || exit 1
+chainlit run prova_interfaccia_ros.py -w
+exec bash
+'
 
 sleep 20
 
@@ -64,5 +74,5 @@ for stringa in "${sensor_sequence[@]}"; do
 
     fi
     # Pausa per poter far arrivare il current state all'LLM
-    sleep 3
+    sleep 10
 done

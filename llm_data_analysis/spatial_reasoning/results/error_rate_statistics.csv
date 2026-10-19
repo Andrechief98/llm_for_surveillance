@@ -1,0 +1,4 @@
+mode,model,n_sensors,mean_error_rate,std_deviation,n_observations
+rag_with_functions,gpt-4o,4,0.25,0.28867513459481287,4
+rag_with_semantics,gpt-4o,4,0.25,0.2672612419124244,8
+rag_with_semantics,gpt-6-luna,4,0.25,0.2672612419124244,8

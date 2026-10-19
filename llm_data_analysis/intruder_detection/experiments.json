@@ -1,0 +1,43 @@
+{
+  "HITL": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {
+        }
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    },
+    "world_2": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  },
+  "AUTO": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    },
+    "world_2": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  }
+}

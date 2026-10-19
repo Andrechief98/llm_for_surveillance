@@ -1,0 +1,3 @@
+n_sensors,model,rag_with_functions,rag_with_semantics
+4,gpt-4o,0.2500 ± 0.2887,0.2500 ± 0.2673
+4,gpt-6-luna,,0.2500 ± 0.2673

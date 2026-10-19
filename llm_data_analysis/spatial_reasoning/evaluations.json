@@ -1,0 +1,50 @@
+{
+  "rag_with_functions": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {
+        },
+        "trial_2": {
+        }
+      }
+    },
+    "world_2": {
+      "gpt-4o": {
+        "trial_1": {
+        },
+        "trial_2": {
+        }
+      }
+    }
+  },
+  "rag_with_semantics": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {
+        },
+        "trial_2": {
+        }
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        },
+        "trial_2":{
+        }
+      }
+    },
+    "world_2": {
+      "gpt-4o": {
+        "trial_1": {
+        },
+        "trial_2": {
+        }
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        },
+        "trial_2":{
+        }
+      }
+    }
+  }
+}

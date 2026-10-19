@@ -2,6 +2,17 @@ import json
 from pathlib import Path
 
 import streamlit as st
+import os
+
+
+script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_data_analysis/spatial_reasoning
+images_path = os.path.join(script_dir, "../../llm_interface/config/uploads")
+
+WORLD_IMAGES = {
+    "world_1": os.path.join(images_path, "building_plan_map1.png"),
+    "world_2": os.path.join(images_path, "building_plan_map2.png"),
+}
+
 
 st.set_page_config(
     page_title="LLM Conversation Reviewer",
@@ -188,6 +199,107 @@ def render_event(event, index):
                 )
                 with st.expander("Visualizza contenuto"):
                     st.code(pretty_content(content))
+
+def count_message_types(conversation):
+    """Conta i messaggi totali e li raggruppa per tipologia di mittente."""
+    counts = {}
+
+    for event in conversation:
+        if isinstance(event, dict):
+            if not event:
+                counts["evento_vuoto"] = counts.get("evento_vuoto", 0) + 1
+                continue
+
+            # Ogni chiave rappresenta una tipologia di mittente.
+            # Un evento con più chiavi viene contato per ciascuna tipologia.
+            for role in event:
+                counts[role] = counts.get(role, 0) + 1
+        else:
+            counts["evento_non_strutturato"] = (
+                counts.get("evento_non_strutturato", 0) + 1
+            )
+
+    return len(conversation), counts
+
+
+# def render_world_image(world_id):
+#     """Mostra l'immagine associata al world_id selezionato."""
+
+#     reference_image = WORLD_IMAGES.get(str(world_id))
+
+#     if reference_image and os.path.isfile(reference_image):
+#         _, image_col, _ = st.columns([1, 2, 1])
+
+#         with image_col:
+#             st.image(
+#                 reference_image,
+#                 caption=f"Planimetria — World {world_id}",
+#                 width=700,
+#             )
+
+#             # Slider
+#             # image_width = st.slider(
+#             #     "Dimensione immagine",
+#             #     min_value=150,
+#             #     max_value=700,
+#             #     value=320,
+#             #     step=25,
+#             # )
+
+#             # st.image(
+#             #     reference_image,
+#             #     caption=f"Planimetria — World {world_id}",
+#             #     width=image_width,
+#             # )
+#     else:
+#         st.warning(
+#             f"Immagine non trovata per world_id {world_id}."
+#         )
+
+def render_world_image(world_id):
+    """Mostra l'immagine centrata nella colonna."""
+
+    reference_image = WORLD_IMAGES.get(str(world_id))
+
+    if reference_image and os.path.isfile(reference_image):
+        from pathlib import Path
+        import base64
+
+        image_bytes = Path(reference_image).read_bytes()
+        image_base64 = base64.b64encode(image_bytes).decode("utf-8")
+
+        st.markdown(
+            f"""
+            <div style="
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
+            ">
+                <img
+                    src="data:image/png;base64,{image_base64}"
+                    style="
+                        width: 700px;
+                        max-width: 100%;
+                        height: auto;
+                        object-fit: contain;
+                        display: block;
+                        margin: 0 auto;
+                    "
+                />
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        st.caption(f"Planimetria — World {world_id}")
+
+    else:
+        st.warning(
+            f"Immagine non trovata per world_id {world_id}."
+        )
+
 # ---------- Caricamento dataset ----------
 
 st.title("LLM Conversation Reviewer")
@@ -227,10 +339,11 @@ if not isinstance(categories, list):
     categories = DEFAULT_CATEGORIES.copy()
 
 
-# ---------- Selezione modalità, trial e run ----------
+# ---------- Selezione modalità, world_id, modello, trial e run ----------
 
 st.subheader("Navigazione")
 
+# Selezione modalità
 available_modes = [
     mode_id
     for mode_id, mode_data in dataset.items()
@@ -241,37 +354,93 @@ if not available_modes:
     st.error("Il dataset non contiene modalità valide.")
     st.stop()
 
-mode = st.selectbox(
-    "Modalità sperimentale",
-    available_modes,
-    key="selected_mode",
-)
+# Quattro menu sulla stessa riga
+nav_selectors = st.columns([1.5, 0.6, 1, 0.8], gap="small")
+
+with nav_selectors[0]:
+    mode = st.selectbox(
+        "Modalità sperimentale",
+        available_modes,
+        key="selected_mode",
+    )
 
 mode_data = dataset[mode]
 
+available_numbers = [
+    str(word_id)
+    for word_id, word_data in mode_data.items()
+    if isinstance(word_data, dict)
+]
+
+if not available_numbers:
+    st.error(f"La modalità {mode} non contiene numeri validi.")
+    st.stop()
+
+number_key = f"selected_number_{mode}"
+
+if st.session_state.get(number_key) not in available_numbers:
+    st.session_state[number_key] = available_numbers[0]
+
+with nav_selectors[1]:
+    word_id = st.selectbox(
+        "world_id",
+        available_numbers,
+        key=number_key,
+    )
+
+word_data = mode_data[word_id]
+
+available_models = [
+    str(model_id)
+    for model_id, model_data in word_data.items()
+    if isinstance(model_data, dict)
+]
+
+if not available_models:
+    st.error(f"Nessun modello valido per {mode} / {word_id}.")
+    st.stop()
+
+model_key = f"selected_model_{mode}_{word_id}"
+
+if st.session_state.get(model_key) not in available_models:
+    st.session_state[model_key] = available_models[0]
+
+with nav_selectors[2]:
+    model_id = st.selectbox(
+        "Modello",
+        available_models,
+        key=model_key,
+    )
+
+model_data = word_data[model_id]
+
 available_trials = [
     str(trial_id)
-    for trial_id, trial_data in mode_data.items()
+    for trial_id, trial_data in model_data.items()
     if isinstance(trial_data, dict)
 ]
 
 if not available_trials:
-    st.warning(f"La modalità {mode} non contiene trial validi.")
+    st.warning(
+        f"Nessun trial valido per {mode} / {word_id} / {model_id}."
+    )
     st.stop()
 
-trial_key = f"selected_trial_{mode}"
+trial_key = f"selected_trial_{mode}_{word_id}_{model_id}"
 
 if st.session_state.get(trial_key) not in available_trials:
     st.session_state[trial_key] = available_trials[0]
 
-trial_id = st.selectbox(
-    "Trial",
-    available_trials,
-    key=trial_key,
-)
+with nav_selectors[3]:
+    trial_id = st.selectbox(
+        "Trial",
+        available_trials,
+        key=trial_key,
+    )
 
-trial_data = mode_data[trial_id]
+trial_data = model_data[trial_id]
 
+# 5. Selezione run
 valid_runs = {
     str(run_id): run
     for run_id, run in trial_data.items()
@@ -281,15 +450,18 @@ valid_runs = {
 
 if not valid_runs:
     st.warning(
-        f"Il trial {trial_id} della modalità {mode} "
-        "non contiene run valide."
+        f"Il trial {trial_id} non contiene run valide "
+        "con una lista 'conversation'."
     )
     st.stop()
 
 world_runs = list(valid_runs.keys())
 
-# Indice indipendente per ciascuna combinazione modalità/trial.
-nav_key = f"run_index_{mode}_{trial_id}"
+# Indice indipendente per ogni combinazione
+# modalità / world_id / modello / trial.
+nav_key = (
+    f"run_index_{mode}_{word_id}_{model_id}_{trial_id}"
+)
 
 if nav_key not in st.session_state:
     st.session_state[nav_key] = 0
@@ -306,7 +478,7 @@ with nav_left:
         "← Precedente",
         disabled=st.session_state[nav_key] == 0,
         use_container_width=True,
-        key=f"prev_{mode}_{trial_id}",
+        key=f"prev_{mode}_{word_id}_{model_id}_{trial_id}",
     ):
         st.session_state[nav_key] -= 1
         st.rerun()
@@ -314,9 +486,11 @@ with nav_left:
 with nav_right:
     if st.button(
         "Successiva →",
-        disabled=st.session_state[nav_key] >= len(world_runs) - 1,
+        disabled=(
+            st.session_state[nav_key] >= len(world_runs) - 1
+        ),
         use_container_width=True,
-        key=f"next_{mode}_{trial_id}",
+        key=f"next_{mode}_{word_id}_{model_id}_{trial_id}",
     ):
         st.session_state[nav_key] += 1
         st.rerun()
@@ -335,15 +509,30 @@ with nav_center:
     )
 
 st.caption(
-    f"Selezione corrente: {mode} / {trial_id} / {run_id}"
+    f"Selezione corrente: "
+    f"{mode} / {word_id} / {model_id} / "
+    f"{trial_id} / {run_id}"
 )
 
 
 # ---------- Identificazione della valutazione ----------
 
-# Ogni combinazione modalità/trial/run ha una valutazione indipendente.
+# Ogni combinazione modalità / world_id / modello / trial / run
+# ha una valutazione indipendente.
+
 mode_evaluations = evaluations.setdefault(mode, {})
-trial_evaluations = mode_evaluations.setdefault(trial_id, {})
+
+number_evaluations = mode_evaluations.setdefault(
+    word_id, {}
+)
+
+model_evaluations = number_evaluations.setdefault(
+    model_id, {}
+)
+
+trial_evaluations = model_evaluations.setdefault(
+    trial_id, {}
+)
 
 old_evaluation = trial_evaluations.get(run_id, {})
 
@@ -362,9 +551,13 @@ if not isinstance(old_notes, str):
 
 # ---------- Interfaccia affiancata ----------
 
+st.subheader("Immagine di riferimento")
 left, right = st.columns([1.65, 1], gap="large")
 
 with left:
+    # Immagine associata al world_id selezionato
+    render_world_image(word_id)
+
     st.subheader("Conversazione")
 
     st.caption(
@@ -389,6 +582,36 @@ with left:
 
 
 with right:
+    # ---------- Statistiche conversazione ----------
+
+    total_messages, message_counts = count_message_types(
+        run["conversation"]
+    )
+
+    st.markdown("#### Statistiche messaggi")
+    st.caption(f"Totale: {total_messages}")
+
+    sorted_counts = sorted(
+        message_counts.items(),
+        key=lambda item: item[0].lower(),
+    )
+
+    columns_per_row = 3
+
+    for start in range(0, len(sorted_counts), columns_per_row):
+        row_counts = sorted_counts[start:start + columns_per_row]
+        stats_columns = st.columns(columns_per_row, gap="small")
+
+        for column, (role, count) in zip(stats_columns, row_counts):
+            with column:
+                st.metric(
+                    label=role,
+                    value=count,
+                    label_visibility="visible",
+                )
+
+    st.divider()
+
     st.subheader("Valutazione")
 
     st.caption(
@@ -414,7 +637,8 @@ with right:
 
     for category in current_categories:
         widget_key = (
-            f"error_{mode}_{trial_id}_{run_id}_{category}"
+            f"error_{mode}_{word_id}_{model_id}_"
+            f"{trial_id}_{run_id}_{category}"
         )
 
         try:
@@ -440,7 +664,10 @@ with right:
         "Note / motivazione",
         value=old_notes,
         height=120,
-        key=f"notes_{mode}_{trial_id}_{run_id}",
+        key=(
+            f"notes_{mode}_{word_id}_{model_id}_"
+            f"{trial_id}_{run_id}"
+        ),
     )
 
     if st.button(
@@ -448,11 +675,22 @@ with right:
         type="primary",
         use_container_width=True,
     ):
-        # Salva solo nella combinazione corrente.
+        # Calcola le statistiche della conversazione
+        total_messages, message_counts = count_message_types(
+            run["conversation"]
+        )
+
         trial_evaluations[run_id] = {
-            "world_id": run.get("world_id"),
-            "model": run.get("model"),
             "sensor_sequence": run.get("sensor_sequence", []),
+
+            # Statistiche della conversazione
+            "total_messages": int(total_messages),
+            "message_counts": {
+                authority: int(count)
+                for authority, count in message_counts.items()
+            },
+
+            # Valutazione degli errori
             "error_counts": {
                 category: int(count)
                 for category, count in counts.items()
@@ -466,5 +704,6 @@ with right:
 
         st.success(
             "Valutazione salvata per "
-            f"{mode} / {trial_id} / {run_id}"
+            f"{mode} / {word_id} / {model_id} / "
+            f"{trial_id} / {run_id}"
         )

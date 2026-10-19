@@ -1,0 +1,75 @@
+{
+  "rag_with_functions": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    },
+    "world_2": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  },
+  "rag_with_semantics": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    },
+    "world_2": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  },
+  "image": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  },
+  "image_and_rag_with_functions": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  },
+  "image_and_rag_with_semantics": {
+    "world_1": {
+      "gpt-4o": {
+        "trial_1": {}
+      },
+      "gpt-6-luna": {
+        "trial_1": {
+        }
+      }
+    }
+  }
+}
