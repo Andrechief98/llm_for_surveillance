@@ -285,8 +285,12 @@ class RobotAssistant:
                         "   - `target_poi`: Must be the exact POI or alarm name (e.g. 'alrm03', 'xingtera_01', 'area_B').\n"
                         "   - If the operator replies 'send it', 'deploy', or 'yes', take the recommended robot's numeric ID, model, and target_poi and call `send_robots_to_area` immediately.\n"
                         "5. TELEMETRY & STATUS:\n"
-                        "   - When an operator asks for status, telemetry, or alarms, call `retrieve_system_state`.\n"
+                        "   - When an operator asks for status, telemetry, alarms, or whether a robot was deployed, use the latest system state and conversation history.\n"
+                        "   - If current confirmation is needed, call `retrieve_system_state`.\n"
                         "   - Report both the calculated Zone name and coordinates.\n"
+                        "6. AUTONOMOUS BACKGROUND ACTIONS:\n"
+                        "   - The background autonomous worker may append messages describing actions it already performed. Treat those messages as authoritative execution history.\n"
+                        "   - If history says a robot was automatically dispatched, do not respond as if deployment is only a future possibility. Report that it was already deployed and, when useful, verify with `retrieve_system_state`.\n"
                         "Provide concise, operational, and professional answers."
                     )
                 }
@@ -665,7 +669,17 @@ class RobotAssistant:
 # --- Autonomous Background Polling Worker ---
 
 async def background_alarm_monitor(agent: RobotAssistant):
-    """Continuously monitors alarms and dispatches the optimal constrained robot."""
+    """
+    Continuously monitors active alarms while Fully Autonomous mode is enabled.
+
+    Flow:
+    1. Retrieve current alarms and fleet state.
+    2. Select the best eligible robot using the constrained solver.
+    3. Dispatch the selected robot through the TIM REST API.
+    4. Verify from telemetry that the robot is navigating to the target.
+    5. Clear the alarm only after deployment is confirmed.
+    6. Store the autonomous action in chat history so the LLM knows what happened.
+    """
     logger.info("Background alarm monitor worker started.")
     handled_alarms = set()
 
@@ -675,76 +689,293 @@ async def background_alarm_monitor(agent: RobotAssistant):
 
             if is_autonomous:
                 system_state = await cl.make_async(agent.retrieve_system_state)()
+
+                if "error" in system_state:
+                    logger.error(
+                        f"[AUTONOMOUS STATE ERROR] Could not retrieve system state: "
+                        f"{system_state.get('error')}"
+                    )
+                    await asyncio.sleep(5)
+                    continue
+
                 active_alarms = system_state.get("active_alarms", [])
 
                 if isinstance(active_alarms, list):
                     for alarm in active_alarms:
                         alarm_id = str(alarm.get("id"))
 
-                        if alarm_id not in handled_alarms:
-                            alarm_model = alarm.get("model", "shelly")
-                            alarm_name = alarm.get("name", "alrm03")
-                            alarm_zone = alarm.get("assigned_zone", "Monitored Zone")
+                        if alarm_id in handled_alarms:
+                            continue
+
+                        alarm_model = alarm.get("model", "shelly")
+                        alarm_name = alarm.get("name", "alrm03")
+                        alarm_zone = alarm.get("assigned_zone", "Monitored Zone")
+
+                        await cl.Message(
+                            content=(
+                                f"🚨 **Autonomous Trigger**: Detected alarm `{alarm_id}` "
+                                f"at `{alarm_name}` ({alarm_zone}). "
+                                f"Running multi-factor solver..."
+                            )
+                        ).send()
+
+                        connected_robots = system_state.get("connected_robots", [])
+
+                        tx, ty, tz, area_key, is_outdoor = get_alarm_target_coordinates(
+                            alarm_name,
+                            active_alarms
+                        )
+
+                        best_match, rejections = select_best_robot(
+                            connected_robots=connected_robots,
+                            target_x=tx,
+                            target_y=ty,
+                            target_z=tz,
+                            is_outdoor=is_outdoor,
+                            incident_type="ground_intrusion"
+                        )
+
+                        if not best_match:
+                            await cl.Message(
+                                content=(
+                                    f"⚠️ **Dispatch Warning**: No operational robot "
+                                    f"satisfied constraints for alarm `{alarm_id}`.\n"
+                                    + "\n".join([f"- {r}" for r in rejections])
+                                )
+                            ).send()
+                            continue
+
+                        chosen_robot_id = best_match["robot_id"]
+                        chosen_robot_model = best_match["model"]
+                        dist = best_match["distance"]
+                        batt = best_match["battery"]
+                        score = best_match["score"]
+
+                        # -------------------------------------------------
+                        # 1. Dispatch the selected robot
+                        # -------------------------------------------------
+                        dispatch_result = await cl.make_async(
+                            agent.send_robots_to_area
+                        )(
+                            robot_id=chosen_robot_id,
+                            target_poi=alarm_name,
+                            model=chosen_robot_model
+                        )
+
+                        logger.info(
+                            f"[AUTONOMOUS DISPATCH RESULT] {dispatch_result}"
+                        )
+
+                        # -------------------------------------------------
+                        # 2. Check whether the REST dispatch failed
+                        # -------------------------------------------------
+                        if (
+                            not isinstance(dispatch_result, dict)
+                            or "error" in dispatch_result
+                        ):
+                            error_details = (
+                                dispatch_result.get(
+                                    "error",
+                                    "Unknown dispatch error"
+                                )
+                                if isinstance(dispatch_result, dict)
+                                else str(dispatch_result)
+                            )
 
                             await cl.Message(
-                                content=f"🚨 **Autonomous Trigger**: Detected alarm `{alarm_id}` at `{alarm_name}` ({alarm_zone}). Running multi-factor solver..."
+                                content=(
+                                    f"❌ **Autonomous Dispatch Failed**\n\n"
+                                    f"- **Robot:** `{chosen_robot_id}` "
+                                    f"({chosen_robot_model.upper()})\n"
+                                    f"- **Target:** `{alarm_name}`\n"
+                                    f"- **Reason:** `{error_details}`\n\n"
+                                    f"The alarm has **not** been cleared."
+                                )
                             ).send()
 
-                            connected_robots = system_state.get("connected_robots", [])
-                            tx, ty, tz, area_key, is_outdoor = get_alarm_target_coordinates(alarm_name, active_alarms)
+                            logger.error(
+                                f"[AUTONOMOUS DISPATCH FAILED] "
+                                f"Robot={chosen_robot_id}, "
+                                f"Target={alarm_name}, "
+                                f"Result={dispatch_result}"
+                            )
+                            continue
 
-                            best_match, rejections = select_best_robot(
-                                connected_robots=connected_robots,
-                                target_x=tx,
-                                target_y=ty,
-                                target_z=tz,
-                                is_outdoor=is_outdoor,
-                                incident_type="ground_intrusion"
+                        # -------------------------------------------------
+                        # 3. Verify the updated robot telemetry
+                        # -------------------------------------------------
+                        updated_state = await cl.make_async(
+                            agent.retrieve_system_state
+                        )()
+
+                        if "error" in updated_state:
+                            await cl.Message(
+                                content=(
+                                    f"⚠️ **Dispatch Verification Failed**\n\n"
+                                    f"The command for robot `{chosen_robot_id}` was "
+                                    f"accepted, but updated telemetry could not be "
+                                    f"retrieved.\n\n"
+                                    f"The alarm will remain active."
+                                )
+                            ).send()
+                            logger.error(
+                                f"[AUTONOMOUS VERIFY ERROR] "
+                                f"{updated_state.get('error')}"
+                            )
+                            continue
+
+                        updated_robot = None
+
+                        for robot in updated_state.get("connected_robots", []):
+                            if str(robot.get("id")) == str(chosen_robot_id):
+                                updated_robot = robot
+                                break
+
+                        if not updated_robot:
+                            await cl.Message(
+                                content=(
+                                    f"⚠️ **Dispatch Verification Failed**\n\n"
+                                    f"The command was accepted, but robot "
+                                    f"`{chosen_robot_id}` could not be found in "
+                                    f"the updated telemetry.\n\n"
+                                    f"The alarm will remain active."
+                                )
+                            ).send()
+                            continue
+
+                        robot_status = str(
+                            updated_robot.get("status", "Unknown")
+                        )
+                        robot_target = updated_robot.get(
+                            "target",
+                            alarm_name
+                        )
+
+                        # -------------------------------------------------
+                        # 4. Confirm that the robot is actually navigating
+                        # -------------------------------------------------
+                        dispatch_confirmed = (
+                            "navigating" in robot_status.lower()
+                            and str(robot_target).lower()
+                            == str(alarm_name).lower()
+                        )
+
+                        if not dispatch_confirmed:
+                            await cl.Message(
+                                content=(
+                                    f"⚠️ **Dispatch Not Confirmed**\n\n"
+                                    f"- **Robot:** `{chosen_robot_id}` "
+                                    f"({chosen_robot_model.upper()})\n"
+                                    f"- **Returned Status:** `{robot_status}`\n"
+                                    f"- **Returned Target:** `{robot_target}`\n"
+                                    f"- **Expected Target:** `{alarm_name}`\n\n"
+                                    f"The alarm will remain active."
+                                )
+                            ).send()
+
+                            logger.warning(
+                                f"[AUTONOMOUS DISPATCH NOT CONFIRMED] "
+                                f"Robot={chosen_robot_id}, "
+                                f"Status={robot_status}, "
+                                f"Target={robot_target}"
+                            )
+                            continue
+
+                        # -------------------------------------------------
+                        # 5. Deployment confirmed -> clear the alarm
+                        # -------------------------------------------------
+                        clear_result = await cl.make_async(
+                            agent.deactivate_alarm
+                        )(
+                            model=alarm_model,
+                            alarm_id=alarm_id
+                        )
+
+                        logger.info(
+                            f"[AUTONOMOUS ALARM CLEAR RESULT] {clear_result}"
+                        )
+
+                        clear_success = (
+                            isinstance(clear_result, dict)
+                            and "error" not in clear_result
+                            and clear_result.get("status")
+                            not in ["not_cleared", "not_found"]
+                        )
+
+                        # The robot has already been dispatched successfully.
+                        # Mark this alarm as handled to prevent duplicate dispatches,
+                        # even if alarm clearing fails.
+                        handled_alarms.add(alarm_id)
+
+                        # -------------------------------------------------
+                        # 6. Store autonomous action in LLM conversation
+                        # -------------------------------------------------
+                        history = cl.user_session.get("history") or []
+
+                        history.append({
+                            "role": "assistant",
+                            "content": (
+                                f"Autonomous system event: Alarm {alarm_id} at "
+                                f"{alarm_name} was detected while Fully Autonomous "
+                                f"mode was active. Robot {chosen_robot_id} "
+                                f"({chosen_robot_model.upper()}) was selected by the "
+                                f"multi-factor solver and successfully dispatched to "
+                                f"{alarm_name}. Telemetry confirmed status "
+                                f"'{robot_status}' with target '{robot_target}'. "
+                                + (
+                                    f"Alarm {alarm_id} was successfully cleared."
+                                    if clear_success
+                                    else (
+                                        f"Robot deployment succeeded, but alarm "
+                                        f"{alarm_id} could not be confirmed as cleared."
+                                    )
+                                )
+                            )
+                        })
+
+                        cl.user_session.set("history", history)
+
+                        # -------------------------------------------------
+                        # 7. Report the result in the Chainlit UI
+                        # -------------------------------------------------
+                        resolution_summary = (
+                            f"✅ **Autonomous Resolution Complete:**\n"
+                            f"- **Selected Robot:** `{chosen_robot_id}` "
+                            f"({chosen_robot_model.upper()})\n"
+                            f"- **Deployment:** ✅ Successfully dispatched\n"
+                            f"- **Robot Status:** `{robot_status}`\n"
+                            f"- **Target:** `{robot_target}`\n"
+                            f"- **Euclidean Distance:** `{dist}m` to target\n"
+                            f"- **Battery Level:** `{batt}%`\n"
+                            f"- **Suitability Score:** `{score}` "
+                            f"(Distance 65%, Battery 35%)\n"
+                            f"- **Target POI:** `{alarm_name}` ({alarm_zone})\n"
+                        )
+
+                        if clear_success:
+                            resolution_summary += (
+                                f"- **Cleared Alarm:** `{alarm_id}`"
+                            )
+                        else:
+                            resolution_summary += (
+                                f"- **Alarm Clear:** ⚠️ Could not confirm clearing "
+                                f"`{alarm_id}`"
                             )
 
-                            if not best_match:
-                                await cl.Message(
-                                    content=f"⚠️ **Dispatch Warning**: No operational robot satisfied constraints for alarm `{alarm_id}`.\n" +
-                                            "\n".join([f"- {r}" for r in rejections])
-                                ).send()
-                                continue
-
-                            chosen_robot_id = best_match["robot_id"]
-                            chosen_robot_model = best_match["model"]
-                            dist = best_match["distance"]
-                            batt = best_match["battery"]
-                            score = best_match["score"]
-
-                            await cl.make_async(agent.send_robots_to_area)(
-                                robot_id=chosen_robot_id,
-                                target_poi=alarm_name,
-                                model=chosen_robot_model
+                        if rejections:
+                            resolution_summary += (
+                                "\n\n**Disqualified Candidates:**\n"
+                                + "\n".join([f"- {r}" for r in rejections])
                             )
 
-                            await cl.make_async(agent.deactivate_alarm)(
-                                model=alarm_model,
-                                alarm_id=alarm_id
-                            )
-
-                            handled_alarms.add(alarm_id)
-
-                            resolution_summary = (
-                                f"✅ **Autonomous Resolution Complete**:\n"
-                                f"- **Selected Robot**: `{chosen_robot_id}` ({chosen_robot_model.upper()})\n"
-                                f"- **Euclidean Distance**: `{dist}m` to target\n"
-                                f"- **Battery Level**: `{batt}%`\n"
-                                f"- **Suitability Score**: `{score}` (Distance 65%, Battery 35%)\n"
-                                f"- **Target POI**: `{alarm_name}` ({alarm_zone})\n"
-                                f"- **Cleared Alarm**: `{alarm_id}`"
-                            )
-
-                            if rejections:
-                                resolution_summary += "\n\n**Disqualified Candidates:**\n" + "\n".join([f"- {r}" for r in rejections])
-
-                            await cl.Message(content=resolution_summary).send()
+                        await cl.Message(
+                            content=resolution_summary
+                        ).send()
 
         except Exception as e:
-            logger.error(f"[Background Monitor Error]: {e}")
+            logger.exception(
+                f"[Background Monitor Error]: {e}"
+            )
 
         await asyncio.sleep(5)
 
