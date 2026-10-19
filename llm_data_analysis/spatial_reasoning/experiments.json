@@ -2,11 +2,51 @@
   "rag_with_functions": {
     "world_1": {
       "gpt-4o": {
-        "trial_1": {}
+        "trial_1": {
+          "run_1": {
+            "sensor_sequence": ["Lidar_3"],
+            "conversation": [
+              {"data_orchestrator": "Environmental alert detected. Current environment state: {\"robots\": {\"turtlebot3_1\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}, \"turtlebot3_2\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": [\"Lidar_3\"]}. Propose a strategy to inspect the environment."},
+              {"function_call": "name - get_sensors_info \n\targuments - {\"sensor_names_list\":[\"Lidar_3\"]}"},
+              {"ROS_output": "{\"Lidar_3\": {\"areas\": [\"B\", \"C\"], \"areas_connection_type\": {\"door\": \"door_3\"}}}"},
+              {"function_call": "name - get_areas_info \n\targuments - {\"area_names_list\":[\"B\"]}"},
+              {"ROS_output": "{\"B\": {\"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"], \"actuators\": [\"door_2\", \"door_3\"], \"connected_to_area\": {\"A\": \"door_2\", \"C\": \"door_3\", \"E\": \"open_passage\"}}}"},
+              {"function_call": "name - compute_robot_area_distance \n\targuments - {\"areas_to_inspect\":[\"B\"]}"},
+              {"ROS_output": "{\"B\": {\"turtlebot3_1\": 5.59, \"turtlebot3_2\": 6.56}}"},
+              {"function_call": "name - display_cameras \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}"},
+              {"ROS_output": "Summary of cameras names correctness: {\"camera_1\": {\"correctness\": true, \"reason\": \"\"}}"},
+              {"assistant": "### Status:\n\n- **Activated Sensors:** \n  - Lidar_3\n\n- **Areas:**\n  - **Involved Area:** \n    - B\n  - **Area Connections:**\n    - B is connected to:\n      - A via `door_2`.\n      - C via `door_3`.\n      - E via an open passage.\n  - **Related Doors:**\n    - All doors are currently open.\n\n- **Robots:**\n  - Status:\n    - `turtlebot3_1`: Available\n    - `turtlebot3_2`: Available\n  - Location:\n    - Both robots are in area E.\n\n- **Intruder:**\n  - **Possible Movements:** \n    - Moved from C to B.\n\n### Plan:\n\n- **Area to Investigate:**\n  - B (due to Lidar_3 activation)\n\n- **Robot Deployments:**\n  - Deploy `turtlebot3_1` to area B for inspection.\n\n- **Camera Inspections:**\n  - Monitor area B using `Camera_1`.\n\nPlease confirm the strategy to proceed with the actions."}
+            ]
+          },
+          "run_2": {
+            "sensor_sequence": ["Lidar_5, Camera_2"],
+            "conversation": [
+              {"data_orchestrator": "Environmental alert detected. Current environment state: {\"robots\": {\"turtlebot3_1\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}, \"turtlebot3_2\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": [\"Lidar_5\"]}. Propose a strategy to inspect the environment."},
+              {"function_call": "name - get_areas_info \n\targuments - {\"area_names_list\":[\"E\",\"D\"]}"},
+              {"ROS_output": "{\"E\": {\"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"], \"actuators\": [\"door_1\", \"door_5\", \"door_6\"], \"connected_to_area\": {\"A\": \"door_1\", \"B\": \"open_passage\", \"D\": \"door_5\", \"F\": \"open_passsage\", \"G\": \"door_6\", \"I\": \"open_passage\"}}, \"D\": {\"sensors\": [\"Lidar_4\", \"Lidar_5\"], \"actuators\": [\"door_4\", \"door_5\"], \"connected_to_area\": {\"C\": \"door_4\", \"E\": \"door_5\"}}}"},
+              {"function_call": "name - get_sensors_info \n\targuments - {\"sensor_names_list\":[\"Lidar_5\"]}"},
+              {"ROS_output": "{\"Lidar_5\": {\"areas\": [\"D\", \"E\"], \"areas_connection_type\": {\"door\": \"door_5\"}}}"},
+              {"function_call": "name - compute_robot_area_distance \n\targuments - {\"areas_to_inspect\":[\"D\",\"E\"]}"},
+              {"ROS_output": "{\"D\": {\"turtlebot3_1\": 10.89, \"turtlebot3_2\": 4.22}, \"E\": {\"turtlebot3_1\": 4.59, \"turtlebot3_2\": 3.64}}"},
+              {"function_call": "name - display_cameras \n\targuments - {\"cameras_names_list\":[\"camera_1\",\"camera_2\"]}"},
+              {"ROS_output": "Summary of cameras names correctness: {\"camera_1\": {\"correctness\": true, \"reason\": \"\"}, \"camera_2\": {\"correctness\": true, \"reason\": \"\"}}"},
+              {"assistant": "### Status:\n\n- **Activated Sensors:**\n  - Lidar_5\n\n- **Areas:**\n  - **Involved Areas:** D, E\n  - **Areas Connections:**\n    - E: Connected to A (door_1), B (open_passage), D (door_5), F (open_passage), G (door_6), I (open_passage)\n    - D: Connected to C (door_4), E (door_5)\n  - **Related Doors and Status:** All doors are currently open.\n\n- **Robots:**\n  - **turtlebot3_1:** Available, Current area: E\n  - **turtlebot3_2:** Available, Current area: E\n\n- **Intruder:**\n  - **Possible Movements:** From D to E or vice-versa through door_5\n\n### Plan:\n\n- **Area to Investigate:** Prioritize checking area D and E in sequence.\n\n- **Robot Deployments:**\n  - Deploy **turtlebot3_2** to area D (closest robot).\n  - Deploy **turtlebot3_1** to area E to ensure both areas are checked simultaneously.\n\n- **Camera Inspections:**\n  - Both cameras (Camera_1 and Camera_2) are active and can be checked if needed for additional verification.\n\nWould you like to proceed with this plan?"},
+              {"data_orchestrator": "Environmental alert detected. Current environment state: {\"robots\": {\"turtlebot3_1\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}, \"turtlebot3_2\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": [\"Lidar_5\", \"Camera_2\"]}. Propose a strategy to inspect the environment."},
+              {"function_call": "name - get_areas_info \n\targuments - {\"area_names_list\":[\"G\",\"F\"]}"},
+              {"ROS_output": "{\"G\": {\"sensors\": [\"Lidar_6\", \"Lidar_7\"], \"actuators\": [\"door_6\", \"door_7\"], \"connected_to_area\": {\"E\": \"door_6\", \"H\": \"door_7\"}}, \"F\": {\"sensors\": [\"Camera_2\"], \"actuators\": [], \"connected_to_area\": {\"E\": \"open_passage\"}}}"},
+              {"function_call": "name - get_sensors_info \n\targuments - {\"sensor_names_list\":[\"Camera_2\"]}"},
+              {"ROS_output": "{\"Camera_2\": {\"areas\": [\"F\"]}}"},
+              {"function_call": "name - compute_robot_area_distance \n\targuments - {\"areas_to_inspect\":[\"D\",\"F\"]}"},
+              {"ROS_output": "{\"D\": {\"turtlebot3_1\": 10.84, \"turtlebot3_2\": 4.16}, \"F\": {\"turtlebot3_1\": 9.66, \"turtlebot3_2\": 4.09}}"},
+              {"function_call": "name - display_cameras \n\targuments - {\"cameras_names_list\":[\"camera_1\",\"camera_2\"]}"},
+              {"ROS_output": "Summary of cameras names correctness: {\"camera_1\": {\"correctness\": true, \"reason\": \"\"}, \"camera_2\": {\"correctness\": true, \"reason\": \"\"}}"},
+              {"assistant": "### Status:\n\n- **Activated Sensors:**\n  - Lidar_5\n  - Camera_2\n\n- **Areas:**\n  - **Involved Areas:** D, E, F\n  - **Areas Connections:**\n    - E: Connected to A (door_1), B (open_passage), D (door_5), F (open_passage), G (door_6), I (open_passage)\n    - D: Connected to C (door_4), E (door_5)\n    - F: Connected to E (open_passage)\n\n- **Related Doors and Status:** All doors are currently open.\n\n- **Robots:**\n  - **turtlebot3_1:** Available, Current area: E\n  - **turtlebot3_2:** Available, Current area: E\n\n- **Intruder:**\n  - **Possible Movements:** Likely between E and F, or moving from D to F.\n\n### Plan:\n\n- **Area to Investigate:** Focus on areas F and D in sequence.\n\n- **Robot Deployments:**\n  - Deploy **turtlebot3_2** to area F (closest robot).\n  - Deploy **turtlebot3_1** to area D to cover both areas.\n\n- **Camera Inspections:**\n  - Monitor Camera_2 in area F for additional insights.\n\nWould you like to proceed with this plan?"}
+            ]
+          }
+        }
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     },
     "world_2": {
@@ -14,8 +54,7 @@
         "trial_1": {}
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     }
   },
@@ -25,8 +64,7 @@
         "trial_1": {}
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     },
     "world_2": {
@@ -34,8 +72,7 @@
         "trial_1": {}
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     }
   },
@@ -45,8 +82,7 @@
         "trial_1": {}
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     }
   },
@@ -56,8 +92,7 @@
         "trial_1": {}
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     }
   },
@@ -67,8 +102,7 @@
         "trial_1": {}
       },
       "gpt-6-luna": {
-        "trial_1": {
-        }
+        "trial_1": {}
       }
     }
   }
