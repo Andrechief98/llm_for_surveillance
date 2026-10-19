@@ -43,6 +43,7 @@ print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
 sensor_sequence = rospy.get_param("sensor_sequence", "").split()
 semantic_RAG = rospy.get_param("semantic_RAG", False)
+trial_id = rospy.get_param("trial_id", "0")
 
 
 # Creating corresponding file names
@@ -63,7 +64,17 @@ file_RAG_streams = [open(path, "rb") for path in file_RAG_paths]
 file_ROS_path = os.path.join(script_dir, "../config/ROS", file_ROS_info)
 
 # Preparing experiments file 
-file_experiments_path = os.path.join(script_dir, "../../llm_data_analysis/", file_experiments)
+spatial_reasoning_modalities = ["rag_with_functions", "rag_with_semantics", "image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]
+intruder_detection_modalities = ["HITL", "AUTO"]
+
+if llm_modality in spatial_reasoning_modalities:
+    experiment_folder = "spatial_reasoning"
+elif llm_modality in intruder_detection_modalities:
+    experiment_folder = "intruder_detection"
+else:
+    rospy.logerr("Wrong experiment folder considered")
+
+file_experiments_path = os.path.join(script_dir, "../../llm_data_analysis/", experiment_folder, file_experiments)
 
 # Loading the correct prompt based on the specified LLM modality
 with open(f"{script_dir}/../config/prompts/{file_prompt}") as f:
@@ -102,8 +113,8 @@ class LLM_cognitive_module:
 
         # Preparing single run experiment dictionary 
         self.data_experiment_run = {
-            "world_id":world_id,
-            "model":self.llm_model,
+            # "world_id":world_id,
+            # "model":self.llm_model,
             "sensor_sequence":sensor_sequence,
             "conversation":[]
         }
@@ -132,6 +143,7 @@ class LLM_cognitive_module:
         self.sensors_list = list(self.RAG_info["sensors"].keys())
 
         self.robot_current_positions = {}
+        self.alert_received = False
 
 
     async def initialize_assistant(self):
@@ -175,7 +187,6 @@ class LLM_cognitive_module:
             updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
             print(f"New {file_RAG} file uploaded")
 
-
         self.available_tools = [
                     # {
                     #     "type":"file_search",
@@ -202,38 +213,38 @@ class LLM_cognitive_module:
                     #         "required": ["cameras_names_list"]
                     #     }
                     # },
-                    # {
-                    #     "type": "function", 
-                    #     "name": "get_areas_info",  
-                    #     "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
-                    #     "parameters": {
-                    #         "type": "object",
-                    #         "properties": {
-                    #             "area_names_list": {
-                    #                 "type": "array", 
-                    #                 "description": "List of all the area names for which you want to retrieve information.",
-                    #                 "items" : {
-                    #                     "type" : "string",
-                    #                     "description": "Name of a single area.",
-                    #                     "enum": self.areas_list
-                    #                 }
-                    #                 },
-                    #             },
-                    #         "required": ["cameras_names_list"]
-                    #     }
-                    # },
+                    {
+                        "type": "function", 
+                        "name": "get_areas_info",  
+                        "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "area_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the area names for which you want to retrieve information.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single area.",
+                                        "enum": self.areas_list
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                        }
+                    },
                     {
                         "type": "function", 
                         "name": "retrieve_system_state",  
                         "description": "Use this function to request the current state of the system from the data mediator. It returns information robot locations, sensors and door actuator states.",
                         "parameters": {}
                     },
-                    {
-                        "type": "function", 
-                        "name": "reset_sensors_activation",
-                        "description": "Use this function to deactivate all sensors in the environment after the user explicit request.",
-                        "parameters": {} 
-                    },
+                    # {
+                    #     "type": "function", 
+                    #     "name": "reset_sensors_activation",
+                    #     "description": "Use this function to deactivate all sensors in the environment after the user explicit request.",
+                    #     "parameters": {} 
+                    # },
                     {
                         "type": "function", 
                         "name": "display_cameras",
@@ -416,30 +427,35 @@ class LLM_cognitive_module:
     
     def log_conversation_message(self, log, authority):
         self.data_experiment_run["conversation"].append({authority:log})
-        print(self.data_experiment_run)
         return
 
     def save_experiment_run(self):
-        run_id = len(self.experiments_data[llm_modality]) + 1
-        self.experiments_data[llm_modality][f"run_{run_id}"] = self.data_experiment_run
+        trial_name = f"trial_{trial_id}"
+        world_name = f"world_{world_id}"
 
-        text = json.dumps(self.experiments_data, indent=2, ensure_ascii=False)
-        text = re.sub(r'\[\s*((?:"[^"]*"(?:,\s*)?)*)\s*\]',
-                    lambda m: '[' + re.sub(r',\s*', ', ', m.group(1)) + ']',
-                    text)
-        text = re.sub(r'\{\s*("(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null)(?:,\s*"(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null))*)\s*\}',
-                    lambda m: '{' + m.group(1).replace('\n', '') + '}',
-                    text)
+        # Check dictionary keys
+        if llm_modality not in self.experiments_data:
+            rospy.logerr(f"Key '{llm_modality}' not present in {file_experiments}")
+        elif world_name not in self.experiments_data[llm_modality]:
+            rospy.logerr(f"Key '{world_name}' not present in experiments_data['{llm_modality}']")
+        elif self.llm_model not in self.experiments_data[llm_modality][world_name]:
+            rospy.logerr(f"Key '{self.llm_model}' not present in experiments_data['{llm_modality}']['{world_name}']")
+        elif trial_name not in self.experiments_data[llm_modality][world_name][self.llm_model]:
+            rospy.logerr(f"Key '{trial_name}' not present in experiments_data['{llm_modality}']['{world_name}']['{self.llm_model}']")
+        else:
+            run_id = len(self.experiments_data[llm_modality][world_name][self.llm_model][trial_name]) + 1
+            self.experiments_data[llm_modality][world_name][self.llm_model][trial_name][f"run_{run_id}"] = self.data_experiment_run
 
-        with open(file_experiments_path, "w", encoding="utf-8") as f:
-            f.write(text)
+            text = json.dumps(self.experiments_data, indent=2, ensure_ascii=False)
+            text = re.sub(r'\[\s*((?:"[^"]*"(?:,\s*)?)*)\s*\]',
+                        lambda m: '[' + re.sub(r',\s*', ', ', m.group(1)) + ']',
+                        text)
+            text = re.sub(r'\{\s*("(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null)(?:,\s*"(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null))*)\s*\}',
+                        lambda m: '{' + m.group(1).replace('\n', '') + '}',
+                        text)
 
-        # run_id = len(list(self.experiments_data[llm_modality].keys())) + 1
-        # self.experiments_data[llm_modality][f"run_{run_id}"] = self.data_experiment_run
-        # print(self.experiments_data)
-
-        # with open(file_experiments_path, "w") as f:
-        #     json.dump(self.experiments_data, f, ensure_ascii=False)
+            with open(file_experiments_path, "w", encoding="utf-8") as f:
+                f.write(text)
         
         return 
     
@@ -450,7 +466,11 @@ class LLM_cognitive_module:
             history = cl.user_session.get("history")
             history.append({"role": authority, "content": msg})
 
-            self.log_conversation_message(log=msg, authority=authority)
+            if self.alert_received:
+                self.log_conversation_message(log=msg, authority="data_orchestrator")
+                self.alert_received = False
+            else:
+                self.log_conversation_message(log=msg, authority=authority)
 
             # Creiamo un messaggio vuoto che "riempiremo" con lo streaming
             msg = cl.Message(content="")
@@ -642,6 +662,7 @@ class LLM_cognitive_module:
             
             
             cl.user_session.set("history", history)
+            rospy.set_param("/chainlit_done", True)
 
 
     def execute_ros_command(self, tool_name, args):
@@ -726,6 +747,7 @@ class LLM_cognitive_module:
                         "content": req,
                         }
                     )
+                self.alert_received = True
                 rospy.loginfo("Service added to queue")
                 return triggerGptResponse("Success")
             except Exception as e:
@@ -1151,8 +1173,8 @@ class LLM_cognitive_module:
                     "correctness": False,
                     "reason": "wrong name"
                 }    
-                print(camera_name)
-                print(camera_name_lower)
+                # print(camera_name)
+                # print(camera_name_lower)
         
         subprocess.Popen(["python3", f"{script_dir}/display_camera.py"] + topics_list)
 
