@@ -41,10 +41,33 @@ world_id = str(rospy.get_param("world_id", 1))
 llm_modality = rospy.get_param("llm_modality", "HITL")
 print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
-sensor_sequence = rospy.get_param("sensor_sequence", "").split()
-semantic_RAG = rospy.get_param("semantic_RAG", False)
+sensor_sequence = rospy.get_param("sensor_sequence", "").split(",")
+# semantic_RAG = rospy.get_param("semantic_RAG", False)
 trial_id = rospy.get_param("trial_id", "0")
 
+
+
+
+if llm_modality in ["rag_with_semantics", "image_and_rag_with_semantics"]:
+    semantic_RAG = True
+    function_RAG = False
+    
+elif llm_modality in ["rag_with_functions", "image_and_rag_with_functions"]:
+    semantic_RAG = False
+    function_RAG = True
+
+elif llm_modality in ["image"]:
+    semantic_RAG = False
+    function_RAG = False
+
+if llm_modality in ["image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]:
+    image_info = True
+elif llm_modality in ["rag_with_semantics", "rag_with_functions"]:
+    image_info = False
+
+print("semantic_RAG:", semantic_RAG)
+print("function_RAG:", function_RAG)
+print("image_info", image_info)
 
 # Creating corresponding file names
 file_RAG = f"RAG_map{world_id}.json"
@@ -88,7 +111,7 @@ class LLM_cognitive_module:
     def __init__(self):
         rospy.init_node('LLM_cognitive_module', anonymous=True)
         self.client = AsyncOpenAI()
-        self.llm_model = "gpt-4o"
+        self.llm_model = "gpt-6-luna" # gpt-4o , gpt-6-luna
         self.rosServer = rospy.Service('/alert', triggerGpt, self.handleDataMediatorAlert)
 
         self.robotGoalCheckerServer = actionlib.SimpleActionServer('/robot_goal_checker', goalCheckerLLMAction, self.handleRobotGoalChecker, auto_start = False)
@@ -113,8 +136,9 @@ class LLM_cognitive_module:
 
         # Preparing single run experiment dictionary 
         self.data_experiment_run = {
-            # "world_id":world_id,
-            # "model":self.llm_model,
+            "semantic_RAG":semantic_RAG,
+            "function_RAG":function_RAG,
+            "image_info":image_info,
             "sensor_sequence":sensor_sequence,
             "conversation":[]
         }
@@ -151,41 +175,47 @@ class LLM_cognitive_module:
             
         found = False
 
-        if file_RAG in files_name_list:
-            # the configuration file is already uploaded. We search for the correct vector_store_id
-            for vector_store_id in vector_store_id_list:
-                async for file in self.client.vector_stores.files.list(vector_store_id = vector_store_id):
+        if not semantic_RAG:
+            # Modalities don't need RAG files for semantic search
+            result = subprocess.run(["python3", f"{script_dir}/delete_file_openAI.py"], capture_output=True, text=True)
+            print("Output dello script:", result.stdout)
+        else:
+
+            if file_RAG in files_name_list:
+                # the configuration file is already uploaded. We search for the correct vector_store_id
+                for vector_store_id in vector_store_id_list:
+                    async for file in self.client.vector_stores.files.list(vector_store_id = vector_store_id):
+                        retrieved_file = await self.client.files.retrieve(file_id=file.id)       
+                        if retrieved_file.filename == file_RAG:
+                            self.required_vector_store_id =  vector_store_id
+                            found = True
+                            break
+
+                    if found:
+                        break
+                print(f"Already created file {file_RAG} considered")
+            else:
+                # Vector store is needed to upload files to the assistant.
+                vector_store = await self.client.vector_stores.create(name="Environmental and ROS information for surveillance")
+                self.required_vector_store_id = vector_store.id
+
+                # We upload the file
+                file_batch = await self.client.vector_stores.file_batches.upload_and_poll(
+                    vector_store_id = self.required_vector_store_id, files=file_RAG_streams
+                )
+                # print(file_batch.status)
+                # print(file_batch.file_counts)
+
+                async for file in self.client.vector_stores.files.list(vector_store_id = self.required_vector_store_id):
                     retrieved_file = await self.client.files.retrieve(file_id=file.id)       
                     if retrieved_file.filename == file_RAG:
-                        self.required_vector_store_id =  vector_store_id
-                        found = True
-                        break
-
-                if found:
-                    break
-            print(f"Already created file {file_RAG} considered")
-        else:
-            # Vector store is needed to upload files to the assistant.
-            vector_store = await self.client.vector_stores.create(name="Environmental and ROS information for surveillance")
-            self.required_vector_store_id = vector_store.id
-
-            # We upload the file
-            file_batch = await self.client.vector_stores.file_batches.upload_and_poll(
-                vector_store_id = self.required_vector_store_id, files=file_RAG_streams
-            )
-            # print(file_batch.status)
-            # print(file_batch.file_counts)
-
-            async for file in self.client.vector_stores.files.list(vector_store_id = self.required_vector_store_id):
-                retrieved_file = await self.client.files.retrieve(file_id=file.id)       
-                if retrieved_file.filename == file_RAG:
-                    files_name_list.append(file_RAG)
-                    files_id_list.append(file.id)
-                    vector_store_id_list.append(self.required_vector_store_id)
+                        files_name_list.append(file_RAG)
+                        files_id_list.append(file.id)
+                        vector_store_id_list.append(self.required_vector_store_id)
 
 
-            updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
-            print(f"New {file_RAG} file uploaded")
+                updateFilesJsonFile(files_name_list, files_id_list, vector_store_id_list, script_dir)
+                print(f"New {file_RAG} file uploaded")
 
         self.available_tools = [
                     # {
@@ -213,32 +243,32 @@ class LLM_cognitive_module:
                     #         "required": ["cameras_names_list"]
                     #     }
                     # },
-                    {
-                        "type": "function", 
-                        "name": "get_areas_info",  
-                        "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "area_names_list": {
-                                    "type": "array", 
-                                    "description": "List of all the area names for which you want to retrieve information.",
-                                    "items" : {
-                                        "type" : "string",
-                                        "description": "Name of a single area.",
-                                        "enum": self.areas_list
-                                    }
-                                    },
-                                },
-                            "required": ["cameras_names_list"]
-                        }
-                    },
-                    {
-                        "type": "function", 
-                        "name": "retrieve_system_state",  
-                        "description": "Use this function to request the current state of the system from the data mediator. It returns information robot locations, sensors and door actuator states.",
-                        "parameters": {}
-                    },
+                    # {
+                    #     "type": "function", 
+                    #     "name": "get_areas_info",  
+                    #     "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
+                    #     "parameters": {
+                    #         "type": "object",
+                    #         "properties": {
+                    #             "area_names_list": {
+                    #                 "type": "array", 
+                    #                 "description": "List of all the area names for which you want to retrieve information.",
+                    #                 "items" : {
+                    #                     "type" : "string",
+                    #                     "description": "Name of a single area.",
+                    #                     "enum": self.areas_list
+                    #                 }
+                    #                 },
+                    #             },
+                    #         "required": ["cameras_names_list"]
+                    #     }
+                    # },
+                    # {
+                    #     "type": "function", 
+                    #     "name": "retrieve_system_state",  
+                    #     "description": "Use this function to request the current state of the system from the data mediator. It returns information robot locations, sensors and door actuator states.",
+                    #     "parameters": {}
+                    # },
                     # {
                     #     "type": "function", 
                     #     "name": "reset_sensors_activation",
@@ -247,8 +277,8 @@ class LLM_cognitive_module:
                     # },
                     {
                         "type": "function", 
-                        "name": "display_cameras",
-                        "description": "It opens a window to visualize each camera. The function must be used every time a camera feed is required or proposed.",
+                        "name": "show_camera_to_user",
+                        "description": "It opens a window to allow the user to visualize each camera. Must be used if the plan include allowing user visualization of a camera feed.",
                         "parameters": {
                             "type": "object",
                             "properties": {
@@ -265,29 +295,29 @@ class LLM_cognitive_module:
                             "required": ["cameras_names_list"]
                             }
                     },
-                    {
-                        "type": "function", 
-                        "name": "get_camera_feed",
-                        "description": "It returns the image representing the current feed of the sequence of specified cameras. The function must be used to analyze the area related to the considered camera.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "cameras_names_list": {
-                                    "type": "array", 
-                                    "description": "List of all the cameras names to considered for visualization.",
-                                    "items" : {
-                                        "type" : "string",
-                                        "description": "Name of a single camera.",
-                                        "enum": self.cameras_list
-                                    }
-                                    },
-                                },
-                            "required": ["cameras_names_list"]
-                            }
-                    },
+                    # {
+                    #     "type": "function", 
+                    #     "name": "get_camera_feed",
+                    #     "description": "It returns the image representing the current feed of the sequence of specified cameras. The function must be used to analyze the area related to the considered camera.",
+                    #     "parameters": {
+                    #         "type": "object",
+                    #         "properties": {
+                    #             "cameras_names_list": {
+                    #                 "type": "array", 
+                    #                 "description": "List of all the cameras names to considered for visualization.",
+                    #                 "items" : {
+                    #                     "type" : "string",
+                    #                     "description": "Name of a single camera.",
+                    #                     "enum": self.cameras_list
+                    #                 }
+                    #                 },
+                    #             },
+                    #         "required": ["cameras_names_list"]
+                    #         }
+                    # },
                     {
                         "type": "function",
-                        "name": "control_actuator",
+                        "name": "control_actuators",
                         "description": f"It allows to control a sequence of door actuators in the environment.",
                         "parameters": {    
                             "type": "object",
@@ -375,10 +405,10 @@ class LLM_cognitive_module:
                 {
                     "type":"file_search",
                     "vector_store_ids": [self.required_vector_store_id],
-                    "max_num_results": 10,
+                    "max_num_results": 20,
                 }
             ]
-        else:
+        elif function_RAG:
             RAG_functions = [
                 {
                     "type": "function", 
@@ -421,6 +451,8 @@ class LLM_cognitive_module:
                     }
                 },
             ]
+        else:
+            RAG_functions = []
 
         for function in RAG_functions:
             self.available_tools.append(function)
@@ -436,26 +468,55 @@ class LLM_cognitive_module:
         # Check dictionary keys
         if llm_modality not in self.experiments_data:
             rospy.logerr(f"Key '{llm_modality}' not present in {file_experiments}")
-        elif world_name not in self.experiments_data[llm_modality]:
+
+            # We add the new llm modality
+            self.experiments_data.update({llm_modality:{}})
+        
+        if world_name not in self.experiments_data[llm_modality]:
             rospy.logerr(f"Key '{world_name}' not present in experiments_data['{llm_modality}']")
-        elif self.llm_model not in self.experiments_data[llm_modality][world_name]:
+
+            # We add the new world name
+            self.experiments_data[llm_modality].update({world_name:{}})
+
+        if self.llm_model not in self.experiments_data[llm_modality][world_name]:
             rospy.logerr(f"Key '{self.llm_model}' not present in experiments_data['{llm_modality}']['{world_name}']")
-        elif trial_name not in self.experiments_data[llm_modality][world_name][self.llm_model]:
+
+            # We add the new llm model
+            self.experiments_data[llm_modality][world_name].update({self.llm_model:{}})
+
+        if trial_name not in self.experiments_data[llm_modality][world_name][self.llm_model]:
             rospy.logerr(f"Key '{trial_name}' not present in experiments_data['{llm_modality}']['{world_name}']['{self.llm_model}']")
-        else:
-            run_id = len(self.experiments_data[llm_modality][world_name][self.llm_model][trial_name]) + 1
-            self.experiments_data[llm_modality][world_name][self.llm_model][trial_name][f"run_{run_id}"] = self.data_experiment_run
+            
+            # We add the new trial
+            self.experiments_data[llm_modality][world_name][self.llm_model].update({trial_name:{}})
 
-            text = json.dumps(self.experiments_data, indent=2, ensure_ascii=False)
-            text = re.sub(r'\[\s*((?:"[^"]*"(?:,\s*)?)*)\s*\]',
-                        lambda m: '[' + re.sub(r',\s*', ', ', m.group(1)) + ']',
-                        text)
-            text = re.sub(r'\{\s*("(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null)(?:,\s*"(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null))*)\s*\}',
-                        lambda m: '{' + m.group(1).replace('\n', '') + '}',
-                        text)
 
-            with open(file_experiments_path, "w", encoding="utf-8") as f:
-                f.write(text)
+        # Saving run in the correct trial
+        trial_runs = self.experiments_data[llm_modality][world_name][self.llm_model][trial_name]
+
+        new_run = True
+
+        for run_name, run_data in trial_runs.items():
+            if sensor_sequence == run_data["sensor_sequence"]:
+                new_run = False
+                break
+
+        if new_run:
+            run_id = len(trial_runs) + 1
+            run_name = f"run_{run_id}"
+
+        self.experiments_data[llm_modality][world_name][self.llm_model][trial_name][run_name] = self.data_experiment_run
+
+        text = json.dumps(self.experiments_data, indent=2, ensure_ascii=False)
+        text = re.sub(r'\[\s*((?:"[^"]*"(?:,\s*)?)*)\s*\]',
+                    lambda m: '[' + re.sub(r',\s*', ', ', m.group(1)) + ']',
+                    text)
+        text = re.sub(r'\{\s*("(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null)(?:,\s*"(?:[^"\\]|\\.)*":\s*(?:"(?:[^"\\]|\\.)*"|\d+|true|false|null))*)\s*\}',
+                    lambda m: '{' + m.group(1).replace('\n', '') + '}',
+                    text)
+
+        with open(file_experiments_path, "w", encoding="utf-8") as f:
+            f.write(text)
         
         return 
     
@@ -487,7 +548,7 @@ class LLM_cognitive_module:
                 
                 try:
                     response_stream = await self.client.responses.create(
-                        model="gpt-4o",
+                        model=self.llm_model,
                         input=history,
                         tools = self.available_tools,
                         include=["file_search_call.results"],
@@ -531,15 +592,38 @@ class LLM_cognitive_module:
                                     active_steps[idx] = step
                             
                             elif event.type == "response.output_item.done":
-                                # To visualize the obtained text from RAG
-                                if print_rag_search and event.item.type == "file_search_call":
-                                    print("\n\n=== FILE SEARCH RESULTS ===")
-                                    for result in event.item.results or []:
+                                
+                                if event.item.type == "file_search_call":
+
+                                    results = event.item.results or [] 
+                                    complete_file_search_call = ""
+                                    number_of_chunks = len(results) + 1
+
+                                    for i, result in enumerate(results, start=1):
+                                        complete_file_search_call =  complete_file_search_call + result.text 
                                         print(f"\nFile: {result.filename}")
                                         print(f"File ID: {result.file_id}")
                                         print(f"Retrived text:\n{result.text}")
                                         print(f"Score: {result.score}")
                                         print(f"Attributes: {result.attributes}")
+
+                                    rag_log = {
+                                        "number_of_chunks":number_of_chunks,
+                                        "retrieved_info":complete_file_search_call
+                                    }
+
+                                    self.log_conversation_message(log=rag_log, authority="file_search_call")
+
+                                    # To visualize the obtained text from RAG
+                                    if print_rag_search:  
+                                        print("\n\n=== FILE SEARCH RESULTS ===")
+                                        print(f"\n--- Chunk {i} ---")
+                                        for i, result in enumerate(results, start=1):
+                                            print(f"\nFile: {result.filename}")
+                                            print(f"File ID: {result.file_id}")
+                                            print(f"Retrived text:\n{result.text}")
+                                            print(f"Score: {result.score}")
+                                            print(f"Attributes: {result.attributes}")
 
                             elif event.type == "response.function_call_arguments.delta":
                                 idx = event.output_index
@@ -974,7 +1058,7 @@ class LLM_cognitive_module:
         return f"Summary of robots deployments correctness: {json.dumps(robot_deployment_correctness)}"
     
 
-    def control_actuator(self, actuators_sequence):
+    def control_actuators(self, actuators_sequence):
         """Function to control actuators"""
         master = rosgraph.Master('/rospy')
         services_info = master.getSystemState()[2]  # [publishers, subscribers, services]
@@ -1152,7 +1236,7 @@ class LLM_cognitive_module:
         return f"{json.dumps(response)}"
         
     
-    def display_cameras(self, cameras_names_list):        
+    def show_camera_to_user(self, cameras_names_list):        
         """Function to open camera feed"""
         camera_names_correctness = {}
         topics_list = []
@@ -1200,7 +1284,7 @@ async def start():
         Select(
             id="model",
             label="OpenAI - modello",
-            values=["gpt-4o", "gpt-4-turbo", "gpt-5"], 
+            values=["gpt-4o", "gpt-6-luna"], 
             initial_index=0,
         )
     ]).send()
@@ -1213,18 +1297,22 @@ async def start():
     # Uploading the image
     with open(path_building_plan, "rb") as f:
         img_b64 = base64.b64encode(f.read()).decode("utf-8")
-    
-    history.append(
-        {
-            "role": "user", 
-            "content": [
-                    {
-                        "type": "input_image",
-                        "image_url": f"data:image/png;base64,{img_b64}",
-                    },
-                ],
-            }
-        )
+
+    #if llm_modality in ["HITL", "AUTO","image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]:
+    if image_info:
+        history.append(
+            {
+                "role": "user", 
+                "content": [
+                        {
+                            "type": "input_image",
+                            "image_url": f"data:image/png;base64,{img_b64}",
+                        },
+                    ],
+                }
+            )
+        agent.log_conversation_message(log="Added building_plan image",authority="image")
+        
 
 
     cl.user_session.set("history", history)
@@ -1275,4 +1363,6 @@ async def main(message: cl.Message):
 @cl.on_chat_end
 def on_chat_end():
     print("Shutting down Chainlit: saving conversation ...")
-    agent.save_experiment_run()
+    valid_run = rospy.get_param("valid_run", False)
+    if valid_run:
+        agent.save_experiment_run()

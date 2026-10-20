@@ -5,14 +5,14 @@
     <arg name="print_rag_search"    default="false"/>                   <!-- print_rag_search: true = it prints the text obtained from RAG in the chainlit terminal, false = it doesn't print anything  -->
     <arg name="teleport_robots"     default="true"/>                    
     <arg name="sensor_sequence"     default=""/>                        <!-- sensor_sequence: sequence of sensor to activate during the experiment and that is used to create the run information -->
-    <arg name="semantic_RAG"        default="true"/>                    <!-- semantic_RAG: true = it enables the usage of RAG based on cosine similarity, false = it enables the use of deterministic function to retrieve spatial information -->
+    <!-- <arg name="semantic_RAG"        default="false"/>                    -->
     <arg name="trial_id"            default="1"/> 
 
     <param name="/world_id"         value="$(arg world_id)"/>
     <param name="/llm_modality"     value="$(arg llm_modality)"/>
     <param name="/print_rag_search" value="$(arg print_rag_search)"/>
     <param name="/sensor_sequence"  value="$(arg sensor_sequence)"/>
-    <param name="/semantic_RAG"     value="$(arg semantic_RAG)"/>
+    <!-- <param name="/semantic_RAG"     value="$(arg semantic_RAG)"/> -->
     <param name="/trial_id"         value="$(arg trial_id)"/>
 
     <!-- Running the node for Rviz markers -->

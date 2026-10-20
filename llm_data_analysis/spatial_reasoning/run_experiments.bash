@@ -2,11 +2,10 @@
 
 # PARAMETERS
 
-world_id="1"
+world_id="2"
 trial_id="1"
 
-llm_modality="rag_with_functions"
-semantic_RAG="false"
+llm_modality="image"
 teleport_robots="true"
 print_rag_search="false"
 
@@ -25,7 +24,7 @@ TERMINAL_PIDS=()
 
 declare -A world_sequences
 
-world_sequences["1"]="Lidar_3;Lidar_5,Camera_2;"
+world_sequences["1"]="Lidar_3;Lidar_5,Camera_2;Lidar_3,Camera_1,Lidar_2;Camera_2,Lidar_6,Lidar_7,Lidar_8" 
 world_sequences["2"]="Camera_9;Lidar_14,Lidar_9;Camera_10,Lidar_2,Lidar_3;Lidar_10,Lidar_2,Lidar_1,Camera_5"
 
 # SELECT WORLD
@@ -44,7 +43,6 @@ echo "Avvio simulazione ROS..."
 roslaunch utilities demo_multi_robot.launch \
     world_id:="$world_id" \
     llm_modality:="$llm_modality" \
-    semantic_RAG:="$semantic_RAG" \
     teleport_robots:="$teleport_robots" \
     print_rag_search:="$print_rag_search" \
     trial_id:="$trial_id" &
@@ -81,19 +79,28 @@ for sequence_str in "${sequences[@]}"; do
 
     sleep 2
 
-    # START CHAINLIT TERMINAL
-
     CHAINLIT_PID_FILE="/tmp/chainlit_${USER}_$$.pid"
+    CHROME_PID_FILE="/tmp/chrome_${USER}_$$.pid"
+
+    # --- START CHAINLIT & CHROME ---
 
     gnome-terminal --title="LLM Chainlit" -- bash -c "
         cd '$CHAINLIT_DIR' || exit 1
 
-        # Avvia Chainlit e registra il PID reale
-        chainlit run prova_interfaccia_ros.py -w &
+        # Avvia Chainlit
+        chainlit run prova_interfaccia_ros.py --headless &
         CHAINLIT_PID=\$!
-
         echo \$CHAINLIT_PID > '$CHAINLIT_PID_FILE'
 
+        # Aspetta che l'interfaccia sia pronta
+        sleep 2
+
+        # Avvia Chrome in una nuova finestra dedicata e salva il suo PID
+        google-chrome --new-window http://localhost:8000 &
+        CHROME_PID=\$!
+        echo \$CHROME_PID > '$CHROME_PID_FILE'
+
+        # Rimane in ascolto del processo Chainlit
         wait \$CHAINLIT_PID
     " &
 
@@ -101,7 +108,8 @@ for sequence_str in "${sequences[@]}"; do
     sleep 10
 
     # ACTIVATE SENSORS / DEACTIVATE ROBOTS
-
+    rosparam set /valid_run true
+    
     for i in "${!sensor_sequence[@]}"; do
 
         rosparam set /chainlit_done false
@@ -125,7 +133,7 @@ for sequence_str in "${sequences[@]}"; do
         fi
 
         # Wait untile the LLM finishes to generate the response (or wait 60 seconds)
-        echo "Attendo il completamento generazione risposta ..."
+        echo "Waiting response generation completion ..."
 
         timeout_seconds=180
         elapsed=0
@@ -133,12 +141,13 @@ for sequence_str in "${sequences[@]}"; do
             done_status=$(rosparam get /chainlit_done 2>/dev/null || echo "false")
 
             if [[ "$done_status" == "true" ]]; then
-                echo "Generazione e salvataggio completati."
+                echo "Generation completed."
                 break
             fi
 
             if (( elapsed >= timeout_seconds )); then
-                echo "ERRORE: timeout durante l'attesa di Chainlit."
+                echo "ERRORE: reached Chainlit timeout."
+                rosparam set /valid_run false
                 break
             fi
 
@@ -148,9 +157,35 @@ for sequence_str in "${sequences[@]}"; do
         
     done
 
-    # CLOSE CHAINLIT
+    # --- CHROME ---
+    echo "Shutting down Chrome..."
 
-    echo "Chiusura Chainlit..."
+    if [[ -f "$CHROME_PID_FILE" ]]; then
+        CHROME_PID=$(cat "$CHROME_PID_FILE")
+
+        if kill -0 "$CHROME_PID" 2>/dev/null; then
+            # Tenta una chiusura soft (invia il segnale di chiusura alla finestra)
+            kill -TERM "$CHROME_PID" 2>/dev/null
+
+            # Attende che si chiuda (max 5 secondi)
+            for ((i=0; i<5; i++)); do
+                if ! kill -0 "$CHROME_PID" 2>/dev/null; then
+                    break
+                fi
+                sleep 1
+            done
+
+            # Forza la chiusura se la finestra è bloccata
+            if kill -0 "$CHROME_PID" 2>/dev/null; then
+                kill -KILL "$CHROME_PID" 2>/dev/null
+            fi
+        fi
+        rm -f "$CHROME_PID_FILE"
+    fi
+
+
+    # --- CHAINLIT ---
+    echo "Shutting down Chainlit..."
 
     if [[ -f "$CHAINLIT_PID_FILE" ]]; then
         CHAINLIT_PID=$(cat "$CHAINLIT_PID_FILE")
@@ -158,7 +193,6 @@ for sequence_str in "${sequences[@]}"; do
         if kill -0 "$CHAINLIT_PID" 2>/dev/null; then
             kill -TERM "$CHAINLIT_PID" 2>/dev/null
 
-            # Attende al massimo 10 secondi
             for ((i=0; i<10; i++)); do
                 if ! kill -0 "$CHAINLIT_PID" 2>/dev/null; then
                     break
@@ -166,29 +200,29 @@ for sequence_str in "${sequences[@]}"; do
                 sleep 1
             done
 
-            # Forza la chiusura se ancora attivo
             if kill -0 "$CHAINLIT_PID" 2>/dev/null; then
                 kill -KILL "$CHAINLIT_PID" 2>/dev/null
             fi
         fi
-
         rm -f "$CHAINLIT_PID_FILE"
     fi
 
-    echo "Chainlit terminato."
-
     # RESET SENSORS
 
-    echo "Reset sensori..."
+    echo "Sensors reset ..."
     rosservice call /resetSensorActivation "{}"
 
     echo "Sequence $sequence_number completed."
+
+    sleep 5
 
 done
 
 # CLOSE ROS
 
-echo "Chiusura simulazione ROS..."
-kill "$ROS_PID" 2>/dev/null
+if kill -0 "$ROS_PID" 2>/dev/null; then
+    kill -INT "$ROS_PID" 2>/dev/null
+    wait "$ROS_PID" 2>/dev/null
+fi
 
 echo "Tutte le sequenze sono state completate."
