@@ -1,5 +1,15 @@
-[
-  "Reasoning error",
-  "Wrong function call",
-  "Hallucinations"
-]
+{
+  "Reasoning_errors": [
+    "wrong area inspected",
+    "wrong robot deployed",
+    "wrong sensor considered"
+  ],
+  "Hallucinations": [
+    "get_areas_info with useless areas",
+    "get_sensors_info with useless sensors"
+  ],
+  "Wrong_function_calls": [
+    "Unapproved action execution",
+    "Synthatically wrong parameters generated"
+  ]
+}

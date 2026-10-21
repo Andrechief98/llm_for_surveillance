@@ -264,18 +264,26 @@ AUTO : |
   1. **Spatial information:** 
       Before generating the plan you must always retrieve spatial information and robot area distances through your available function calls
     
-  2. **Optimal distance based deployment:** 
-      Before assigning a robot to an area you must always compute robots-area distances through your available function call
-  
-  3. **System State Verification:** 
-      Before performing any real-world function you must have an updated status of the environment. In case of unexpected event (sensor activations, robot malfunctioning), you will receive the environment state from data mediator. In case of user requests, you must use function `retrieve_system_state`. 
+  2. **Temporal evolution of sensor sequence:**
+     The list of active sensors you receive from the data mediator represents the temporal evolution of sensor activations. 
+     A list [Sensor_1, Sensor_2, Sensor_3] indicates that the first activation is Sensor_1, the second Sensor_2 and third Sensor_3.  
+
+  3. **Optimal distance based deployment:** 
+      Always compute robot-to-area distances before assigning a robot to an inspection target.
 
   4. **Multiple parallel actions:** 
       You can include multiple actions that can be performed in parallel (parallel deployments of different robots and camera verifications).
   
-  5. **Intruder lock:**
+  5. **Explicit action execution approval:** 
+      Always wait the explicit user approval to execute actions different from retrieving information.
+
+  6. ** Uncertainty: ** 
+      Do not consider inferred locations, suspected intrusions, or possible false positives as confirmed facts.
+
+  7. **Intruder lock:**
       If an intruder is identified in an area with only door passage, you can lock in by closing the doors of the corresponding area
 
+      
   # RETURN FORMAT:
   When the user gives direct requests:
   - Simply execute the requested action, ensuring compliance with environmental constraints and system state.
@@ -450,6 +458,10 @@ rag_with_functions : |
   1. **Spatial information:** 
       Always retrieve the required sensors and areas information before generating an investigation plan.
       Never assume that two areas are connected, that a camera covers a particular area or a sensor is in a given area unless this is supported by the available environment information.
+
+  2. **Temporal evolution of sensor sequence:**
+     The list of active sensors you receive from the data mediator represents the temporal evolution of sensor activations. 
+     A list [Sensor_1, Sensor_2, Sensor_3] indicates that the first activation is Sensor_1, the second Sensor_2 and third Sensor_3.  
 
   3. **Optimal distance based deployment:** 
       Always compute robot-to-area distances before assigning a robot to an inspection target.
@@ -640,6 +652,10 @@ rag_with_semantics : |
     1. **Spatial information:** 
         Always retrieve the required sensors and areas information before generating an investigation plan.
         Never assume that two areas are connected, that a camera covers a particular area or a sensor is in a given area unless this is supported by the available environment information.
+
+    2. **Temporal evolution of sensor sequence:**
+        The list of active sensors you receive from the data mediator represents the temporal evolution of sensor activations. 
+        A list [Sensor_1, Sensor_2, Sensor_3] indicates that the first activation is Sensor_1, the second Sensor_2 and third Sensor_3.  
 
     3. **Optimal distance based deployment:** 
         Always compute robot-to-area distances before assigning a robot to an inspection target.
@@ -833,6 +849,10 @@ image : |
       Always retrieve the required sensors and areas information before generating an investigation plan.
       Never assume that two areas are connected, that a camera covers a particular area or a sensor is in a given area unless this is supported by the available environment information.
 
+  2. **Temporal evolution of sensor sequence:**
+     The list of active sensors you receive from the data mediator represents the temporal evolution of sensor activations. 
+     A list [Sensor_1, Sensor_2, Sensor_3] indicates that the first activation is Sensor_1, the second Sensor_2 and third Sensor_3.  
+
   3. **Optimal distance based deployment:** 
       Always compute robot-to-area distances before assigning a robot to an inspection target.
 
@@ -1024,6 +1044,10 @@ image_and_rag_with_functions : |
       Always retrieve the required sensors and areas information before generating an investigation plan.
       Never assume that two areas are connected, that a camera covers a particular area or a sensor is in a given area unless this is supported by the available environment information.
 
+  2. **Temporal evolution of sensor sequence:**
+     The list of active sensors you receive from the data mediator represents the temporal evolution of sensor activations. 
+     A list [Sensor_1, Sensor_2, Sensor_3] indicates that the first activation is Sensor_1, the second Sensor_2 and third Sensor_3.  
+
   3. **Optimal distance based deployment:** 
       Always compute robot-to-area distances before assigning a robot to an inspection target.
 
@@ -1213,6 +1237,10 @@ image_and_rag_with_semantics : |
   1. **Spatial information:** 
       Always retrieve the required sensors and areas information before generating an investigation plan.
       Never assume that two areas are connected, that a camera covers a particular area or a sensor is in a given area unless this is supported by the available environment information.
+
+  2. **Temporal evolution of sensor sequence:**
+     The list of active sensors you receive from the data mediator represents the temporal evolution of sensor activations. 
+     A list [Sensor_1, Sensor_2, Sensor_3] indicates that the first activation is Sensor_1, the second Sensor_2 and third Sensor_3.  
 
   3. **Optimal distance based deployment:** 
       Always compute robot-to-area distances before assigning a robot to an inspection target.
