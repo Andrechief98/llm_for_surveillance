@@ -3,46 +3,52 @@
 This repository contains the software for an LLM-driven indoor surveillance system integrated with ROS, Gazebo, and TurtleBot3 robots. It includes the ROS packages, LLM interfaces, and supporting utilities used by the surveillance application.
 
 ## Requirements
-
-### Option 1: Docker (Recommended)
-
 - Docker Desktop with Linux containers enabled
 - An OpenAI API key for LLM functionality
 
-Docker provides a reproducible environment with ROS Noetic, the required system packages, Python dependencies, and the Catkin workspace.
 
-### Option 2: Native installation
-
-For running the project directly on Ubuntu, the main requirements are:
-
-- Ubuntu 20.04 LTS
-- ROS 1 Noetic
-- TurtleBot3 ROS packages and Gazebo integration
-- Python 3 and the packages listed in `requirements.txt`
-
-Refer to the [ROS Noetic documentation](https://wiki.ros.org/noetic) and the [TurtleBot3 documentation](https://emanual.robotis.com/docs/en/platform/turtlebot3/quick-start/) for installation instructions.
 
 ## Run with Docker
 
 ### 1. Clone the repository
 
-Clone the `Ehsan` branch:
+Clone the `Andrea` branch:
 
 ```bash
-git clone -b Ehsan https://github.com/Andrechief98/llm_for_surveillance.git
+git clone -b Andrea https://github.com/Andrechief98/llm_for_surveillance.git
 cd llm_for_surveillance
 ```
 
 ### 2. Build the image
-
 Build the Docker image from the included `Dockerfile`:
 
 ```bash
-docker build -t llm-surveillance:dev .
+docker build --no-cache -t llm-surveillance:latest .
 ```
 
-The build installs the required ROS and system packages, copies the project and additional ROS packages into the Catkin workspace, installs the Python dependencies, and builds the workspace with `catkin_make`.
+### 3. Enable GUI access
+Allow Docker containers to access the host's X11 display:
+```bash
+xhost +local:docker
+``` 
 
+### 4. Run the container
+Start a new container and open an interactive Bash shell:
+```bash
+docker compose run --rm llm_surveillance_container 
+```
+The container is automatically removed when you exit the shell.
+
+
+## Evaluation
+Navigate to llm_data_analysis folder and run Streamlit app
+```bash
+cd /home/ros_ws/src/llm_for_surveillance/llm_data_analysis/spatial_reasoning && streamlit run spatial_reasoning_evaluation_app.py 
+```
+Open a new page in the browser to the link:
+```bash
+http://localhost:8501
+```
 ### 3. Configure the OpenAI API key
 
 The surveillance application requires an active OpenAI API key for LLM functionality.

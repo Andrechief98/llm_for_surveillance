@@ -19,9 +19,33 @@
               "assistant": 1
             },
             "error_counts": {
-              "Reasoning error": 0,
-              "Wrong function call": 0,
-              "Hallucinations": 1
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area inspected": 1,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0
+                },
+                "total": 1
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 1,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
             },
             "total_errors": 1,
             "notes": "1 Hallucinations: get_sensors_info of useless sensors"

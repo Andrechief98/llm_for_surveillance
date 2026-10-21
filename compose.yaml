@@ -1,0 +1,17 @@
+services:
+  llm_surveillance_container:
+    image: llm_surveillance:latest
+    environment:
+      - DISPLAY=$DISPLAY
+      - QT_X11_NO_MITSHM=1
+      # To enable docker container to access to X server:
+      #   xhost +local:docker (valid untile the pc restart)
+      #   xhost -local:docker (to remove the container access to X server)
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # - ./llm_surveillance:/home/ros_ws/src/llm_surveillance
+    network_mode: host
+    privileged: true
+    tty: true
+    stdin_open: true
+    entrypoint: ["/bin/bash"]
