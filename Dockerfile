@@ -22,21 +22,27 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-cob-srvs \
     ros-noetic-turtlebot3-msgs \
     ros-noetic-turtlebot3-gazebo \
+    ros-noetic-gazebo-ros-pkgs \
+    ros-noetic-gazebo-plugins \
+    ros-noetic-gazebo-ros-control \
     && rm -rf /var/lib/apt/lists/*
 
 
 
-# Creating workspace
+# Going in the workspace
 WORKDIR ${CATKIN_WS}/src
 
+# Cloning actor plugin repository
+RUN git clone -b noetic-classic https://github.com/blackcoffeerobotics/gazebo-ros-actor-plugin.git
+
+# Adding folders from current repository
 COPY llm_interface ./llm_for_surveillance/llm_interface
 COPY utilities ./llm_for_surveillance/utilities
 COPY llm_data_analysis ./llm_for_surveillance/llm_data_analysis
 COPY requirements.txt ./llm_for_surveillance/requirements.txt
 
-# Include the additional ROS packages required by the workspace
-COPY extra_ros_packages/gazebo_plugins ./gazebo_plugins
-COPY extra_ros_packages/llm_robot ./llm_robot
+# Include the additional plugins required by sensors and actuators in the simulation
+COPY gazebo_plugins ./gazebo_plugins
 
 # Install Python dependencies
 WORKDIR ${CATKIN_WS}/src/llm_for_surveillance
@@ -51,6 +57,10 @@ RUN echo "source /home/ros_ws/devel/setup.bash" >> /root/.bashrc
 
 # Disable ROS Noetic EOL
 RUN echo "export DISABLE_ROS1_EOL_WARNINGS="true"" >> /root/.bashrc
+
+# Setting gazebo plugin directory
+RUN echo "export GAZEBO_PLUGIN_PATH=\${GAZEBO_PLUGIN_PATH}:${CATKIN_WS}/devel/lib" >> /root/.bashrc
+
 
 # Default directory for the surveillance application
 WORKDIR ${CATKIN_WS}/src/llm_for_surveillance

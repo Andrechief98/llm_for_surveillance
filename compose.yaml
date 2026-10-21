@@ -1,6 +1,6 @@
 services:
   llm_surveillance_container:
-    image: llm_surveillance:latest
+    image: llm-surveillance:latest
     environment:
       - DISPLAY=$DISPLAY
       - QT_X11_NO_MITSHM=1
