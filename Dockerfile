@@ -28,10 +28,6 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-gazebo-ros-control \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Updating rosdep
-RUN rosdep init && rosdep update
-
 # Going in the workspace
 WORKDIR ${CATKIN_WS}/src
 

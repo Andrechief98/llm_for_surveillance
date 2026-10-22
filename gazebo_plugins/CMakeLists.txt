@@ -59,7 +59,6 @@ target_link_libraries(camera_plugin
 
 # Catkin package configuration
 catkin_package(
-  INCLUDE_DIRS include
   LIBRARIES bounding_box_plugin door_control_plugin camera_plugin # Match the library name
   CATKIN_DEPENDS gazebo_ros roscpp geometry_msgs
 )
