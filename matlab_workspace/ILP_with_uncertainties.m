@@ -406,21 +406,33 @@ for trial=1:n_trials
 end
 
 %% Computing results
-n_success = sum(success, 2);                                                % successes per test, summed over trials
+assert(n_test == 32, "Expected 32 tests, got %d", n_test)
+
+n_success = sum(success, 2);                                                % successes per sequence, summed over trials
 
 results = table((1:n_test)', repmat(n_trials, n_test, 1), n_success, ...
     'VariableNames', {'Task', 'Trials', 'Successes'});
 disp(results)
 
-success_mean = mean(success,2);
+success_mean = mean(success,2);  % mean per sequence, summed over trials
 
-success_rate_1sens_logical = sum(success_mean(1:4))/length(success_mean(1:4))
-success_rate_2sens_logical = sum(success_mean(5:8))/length(success_mean(5:8))
-success_rate_3sens_logical = sum(success_mean(9:12))/length(success_mean(9:12))
+success_rate_1sens_logical = mean(success_mean(1:4))
+success_rate_2sens_logical = mean(success_mean(5:8))
+success_rate_3sens_logical = mean(success_mean(9:12))
+success_rate_4sens_logical = mean(success_mean(13:16))
 
-success_rate_1sens_fp_hi = sum(success_mean(13:16))/length(success_mean(13:16))
-success_rate_2sens_fp_hi = sum(success_mean(17:20))/length(success_mean(17:20))
-success_rate_3sens_fp_hi = sum(success_mean(21:24))/length(success_mean(21:24))
+success_rate_1sens_fp_hi = mean(success_mean(17:20))
+success_rate_2sens_fp_hi = mean(success_mean(21:24))
+success_rate_3sens_fp_hi = mean(success_mean(25:28))
+success_rate_4sens_fp_hi = mean(success_mean(29:32))
+
+% success_rate_1sens_logical = sum(success_mean(1:4))/length(success_mean(1:4))
+% success_rate_2sens_logical = sum(success_mean(5:8))/length(success_mean(5:8))
+% success_rate_3sens_logical = sum(success_mean(9:12))/length(success_mean(9:12))
+% 
+% success_rate_1sens_fp_hi = sum(success_mean(13:16))/length(success_mean(13:16))
+% success_rate_2sens_fp_hi = sum(success_mean(17:20))/length(success_mean(17:20))
+% success_rate_3sens_fp_hi = sum(success_mean(21:24))/length(success_mean(21:24))
 
 
 %%
