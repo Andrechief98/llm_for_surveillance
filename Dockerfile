@@ -18,8 +18,9 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-gazebo-ros \
     ros-noetic-gazebo-msgs \
     ros-noetic-navigation \
-    ros-noetic-turtlebot3 \
     ros-noetic-cob-srvs \
+    ros-noetic-visualization-msgs \
+    ros-noetic-turtlebot3 \
     ros-noetic-turtlebot3-msgs \
     ros-noetic-turtlebot3-gazebo \
     ros-noetic-gazebo-ros-pkgs \
