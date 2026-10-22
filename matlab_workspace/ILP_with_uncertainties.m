@@ -1,0 +1,460 @@
+
+%to use ROS with this
+try
+    rosinit;
+catch e
+    rosshutdown
+    rosinit;
+end
+
+rng(42);  % seed per riproducibilità
+
+
+%% DATA SETUP
+Scenario = 1 % Choose scenario 1 or 2 
+Modality = 0 %Choose 0 for unlimited iterations, 1 for limit depending on the number of active sensor
+% 3 seeds (equals to the number of trials). It allows diversity among
+% trials but reproducibility among runs
+seeds = [44, 55, 66];
+
+if Scenario == 1
+    [areaCoordinates, sensorToAreas, robotInitialPositions] = environment1();
+    testFcn = @testEnvironment1;
+else
+    [areaCoordinates, sensorToAreas, robotInitialPositions] = environment2();
+    testFcn = @testEnvironment2;
+end
+
+areaNames = fieldnames(areaCoordinates);
+sensorNames = fieldnames(sensorToAreas);
+n_trials = numel(seeds);
+n_test = size(testFcn(seeds(1)), 1); %discarded, it is just to count the amount of sequences present
+success = zeros(n_test, n_trials);  % Matrix to save successes or failures
+
+client_robot1 = rossvcclient("turtlebot3_1/move_base/make_plan","DataFormat","struct");
+client_robot2 = rossvcclient("turtlebot3_2/move_base/make_plan","DataFormat","struct");
+for trial=1:n_trials
+    tests = testFcn(seeds(trial));                                                % fix the new seed for each trial
+    fprintf("\n========== TRIAL %d / %d ==========\n", trial, n_trials)
+
+    for test = 1:size(tests,1)
+        false_positive = 0;
+         
+        fprintf("\nTEST %d / %d \n", test, length(tests))
+    
+    
+        % Robots initial positions (the same as the simulation in Gazebo).
+        % At the beginning of each test, we consider always the same
+        % initial positions
+        robotPositions = robotInitialPositions;
+        
+        % Retrieving number of available robots and total number of areas
+        numRobots = size(robotPositions, 1);
+        numAreas = numel(areaNames);                                       
+        
+        % Initialization vector areas to monitor (all areas)
+        areas_to_monitor = ones(1,numAreas);
+        
+        % Initialization matrix of areas frequencies: every time a sensor
+        % is activated, each area adjacent to that sensor will increase the
+        % frequency by 1
+        A_freq = zeros(size(areas_to_monitor));
+    
+        % Sequence of activated sensors:
+        sensor_seq = tests{test,1};
+    
+        % Intruder position:
+        intruder_pos = tests{test,2};
+        
+        % Custom print according to the number of activated sensor in the
+        % considered sequence
+        fprintf("Tested sensors [%s] \n", strjoin(sensor_seq, ", "))
+        
+        % We fix a maximum number of iteration for the optimization
+        % algorithm. In this case, the script will solve the Integer Linear
+        % Problem at the most N_max times.
+      
+        if Modality == 1
+            N_max = ceil(numel(sensor_seq)/2) + 1; % round up
+        else
+            % more iterations than can ever be needed, but avoid infinite
+            % more interations that could ever be needed, but avoid infinite loops
+            N_max = numAreas; 
+        end                              
+        
+        % Loop on the sensor sequence
+        for sensor = sensor_seq
+
+            % For each sensor in the sequence, it retrieves the asjacent
+            % areas
+            areas = sensorToAreas.(sensor);
+            
+            % For each adjacent areas, it update the frequency of the
+            % corresponding area in the A_freq matrix. To obtain the
+            % corresponding index of the letter (indicating the considered
+            % area)l the script use the function "letterToIndex" defined at
+            % the end of the script
+            for i=1:length(areas)
+                A_freq(letterToIndex(areas{i}(1))) = A_freq(letterToIndex(areas{i}(1))) + 1;
+            end
+        
+        end
+        
+        
+        
+        %% START SIMULATION
+        for n_sim = 1:N_max
+            
+            %Print the current information 
+            fprintf("Iteration %d / %d \n", n_sim, N_max)
+
+            %Identify wich areas are active and must be monitored
+            activeAreas = find(areas_to_monitor==1);
+            
+            if isempty(activeAreas)
+                fprintf("All areas monitored \n")
+                break
+            end
+
+            % Matrix to compute the inverse of each area frequency. The
+            % element of Psi are then used in the optimization algorithm to
+            % promote monitoring in more frequent areas.
+            Psi = zeros(size(A_freq));
+            
+            for i=1:length(A_freq)
+                if A_freq(i) ~= 0
+                    Psi(i) = 1/A_freq(i);
+                else
+                    % As the number of simulations increase, we further 
+                    % increase alsothe Psi value. This avoids the algorithm 
+                    % tries to monitor all areas indiscriminately, enforcing
+                    % a criteria to choose to not deploy any robots
+                    Psi(i) = 1+n_sim;
+                end
+            end
+            
+            
+            %Computing actual robot - areas distances:
+            D = zeros(numRobots, numAreas);                                 % Matrix of distances
+
+            for i = 1:numRobots
+                robot_pos = robotPositions(i, :);% Il servizio richiede una pose iniziale e una finale
+                %Creazione della pose iniziale
+                start = rosmessage("geometry_msgs/PoseStamped","DataFormat","struct");
+                
+                start.Header.FrameId = 'map';
+                start.Header.Stamp = rostime("now","DataFormat","struct");
+                
+                % Posizione iniziale del robot (ci devi mettere quella dell'area attuale in cui si trovano)
+                start.Pose.Position.X = robot_pos(1);
+                start.Pose.Position.Y = robot_pos(2);
+                start.Pose.Position.Z = 0.0;
+                
+                % Orientamento iniziale: yaw = 0 rad (cambia poco perchè tanto sono considerati come punti)
+                start.Pose.Orientation.X = 0.0;
+                start.Pose.Orientation.Y = 0.0;
+                start.Pose.Orientation.Z = 0.0;
+                start.Pose.Orientation.W = 1.0;
+
+                if i == 1
+                    client = client_robot1;
+                else
+                    client = client_robot2;
+                end
+
+                waitForServer(client,"Timeout",3)
+
+                for j = 1:numAreas
+                    area_pos = areaCoordinates.(areaNames{j});
+                    %Creazione della posa finale (ci devi inserire le coordinate dell'area in cui andare)
+                    goal = rosmessage("geometry_msgs/PoseStamped","DataFormat","struct");
+                    
+                    goal.Header.FrameId = 'map';
+                    goal.Header.Stamp = rostime("now","DataFormat","struct");
+                    
+                    goal.Pose.Position.X = area_pos(1);
+                    goal.Pose.Position.Y = area_pos(2);
+                    goal.Pose.Position.Z = 0.0;
+                    
+                    goal.Pose.Orientation.X = 0.0;
+                    goal.Pose.Orientation.Y = 0.0;
+                    goal.Pose.Orientation.Z = 0.0;
+                    goal.Pose.Orientation.W = 1.0;
+
+                    %Preparazione della richiesta nav_msgs/GetPlan
+                    request_message = rosmessage(client);
+                    request_message.Start = start;
+                    request_message.Goal = goal;
+                    request_message.Tolerance = single(0.2);
+                    
+                    response_message = call(client, request_message,"Timeout",3);
+                    D(i, j) = pathLength(response_message.Plan.Poses);  
+                end
+                
+            end
+            
+            %% Optimization problem       
+            C = 20;
+            nx = numRobots * numAreas;
+
+            % Setup variabili e obiettivo
+            nvars  = nx + 1; % + 1 for z
+            intcon = 1:nvars;
+            mask   = repmat(areas_to_monitor.*Psi, numRobots, 1);
+            
+            cost = D.*mask;
+
+            for r = 1:numRobots
+                for a = 1:numAreas
+                    if (cost(r,a) == 0)
+                        cost(r,a) = 1e2;                                    % Huge cost for already monitored area
+                    end
+                end
+            end
+
+            format bank                                                     % Used just to save and print values with 2 decimal value 
+            robotNames = {'Robot 1','Robot 2'};
+            T = array2table(cost, ...
+                'RowNames',    robotNames, ...
+                'VariableNames', areaNames);            
+            fprintf("Costs: \n")
+            disp(T)
+            format short                                                    % To come back to 4 decimal values
+            
+            
+            f = [cost(1,:)'; cost(2,:)'; -C];
+            
+            % Bounds to ban deployment in non-active areas
+            lb = zeros(nvars,1);
+            ub = ones(nvars,1);
+            % for a = 1:numAreas
+            %     if areas_to_monitor(a)==0
+            %         for r = 1:numRobots
+            %             idx      = sub2ind([numRobots,numAreas], r, a);
+            %             ub(idx) = 0;
+            %         end
+            %     end
+            % end
+            
+            % 1) It assigns at most 1 area for each robot (in case of deployment)
+            %    sum_a x_{r,a} - z ≤ 0
+            A_one_area_per_robot = zeros(numRobots, nvars);
+            b_one_area_per_robot = zeros(numRobots, 1);
+            
+            for r = 1 : numRobots
+                % computing index for each x_{r,1..numAreas}
+                cols = (r-1)*numAreas + (1:numAreas);
+
+                % computing the sum_a x_{r,a} for all the areas associated to a given robot r 
+                A_one_area_per_robot(r, cols) = 1;      
+
+                % subtracting z
+                A_one_area_per_robot(r, end) = -1;      
+            end
+            
+
+            % 2) It assigns at most 1 robot for each area
+            %    x_{1,a} + x_{2,a} + … + x_{numRobots,a} - z ≤ 0
+
+            A_one_robot_per_area = zeros(numAreas, nvars);
+            b_one_robot_per_area = zeros(numAreas, 1);
+            
+            for a = 1 : numAreas
+                % find all x_{1,a}, x_{2,a}, …, x_{numRobots,a}
+                rows = a : numAreas : nx;  
+                % computing sum_r x_{r,a} for all robots assigned to a given area a
+                A_one_robot_per_area(a, rows) = 1;
+                % subtracting z
+                A_one_robot_per_area(a, end) = -1;
+            end
+            
+
+            % 3) It imposes the deployment of K robots (in case of deployment)
+            %    sum_{idx=1..nx} x_idx  - K*z = 0
+            K = min(numRobots, sum(areas_to_monitor));
+            A_deployment = [ones(1, nx),  -K];
+            b_deployment = 0;
+
+            
+            Aineq = [
+                A_one_area_per_robot;  
+                A_one_robot_per_area;
+            ];
+            
+            bineq = [
+                b_one_area_per_robot;
+                b_one_robot_per_area;
+            ];
+
+            Aeq = [A_deployment];
+            beq = [b_deployment];
+          
+            
+            %% Risoluzione 
+            options = optimoptions('intlinprog','Display','none');
+            tic;
+            [sol, fval, exitflag, output] = intlinprog(f, intcon, Aineq, bineq, Aeq, beq, lb, ub, [], options); % Se si usa MOSEK togliere la cartella dal path perchè ha la medesima funzione che crea conflitto con l'optimization toolbox
+            time = toc;
+            
+            assignments = {}; 
+
+            if exitflag == 1
+                % Solution extraction
+    
+                % x_opt = reshape(sol(1:nvars-1), [numRobots, numAreas]);
+    
+                x_opt_rob1 = sol(1:(nvars-1)/2);
+                x_opt_rob2 = sol((nvars-1)/2+1:end-1);
+                x_opt = [x_opt_rob1'; x_opt_rob2'];
+    
+                z_opt = sol(end);
+
+                if round(z_opt) == 0
+                    fprintf("False positive: main areas monitored -  no intruder identified\n")
+                    fprintf("Intruder position: %s\n", intruder_pos)
+                    false_positive = 1;
+                    break
+                else
+                    if isempty(sol) % If the problem is infeasible or you stopped early with no solution
+                        disp('The solver did not return a solution.')
+                        return % Stop the script because there is nothing to examine
+
+                    else
+
+                        for r = 1:numRobots
+                            for i = 1:numAreas
+                                if round(x_opt(r,i)) == 1
+                                    % We convert the index of the assigned area to the
+                                    % corresponding letter
+                                    areaLetter = indexToLetter(i);
+        
+                                    % Adding data in the row of the cell array   
+                                    assignments(end+1, :) = {r, areaLetter, D(r, i), A_freq(i), round(D(r, i)*Psi(i),2)};
+                                end
+                            end
+                        end
+
+                        %% Results visulization
+                        activeAreas_letters = cell(size(activeAreas));
+                        for i = 1:length(activeAreas)
+                            activeAreas_letters{i} = indexToLetter(activeAreas(i));
+                        end
+                        
+                        disp('   Areas to monitor:'); disp(activeAreas_letters);
+                        disp('   Assignments:');
+                        disp(cell2table(assignments, 'VariableNames', {'Robot','Area','Distance','Frequency', 'Cost'}));
+                        % disp(['Total cost (weighted distance): ', num2str(fval)]);
+                
+                
+                        %% Update date for next iteration
+                        
+                        deployed_robots = length(assignments(:,1));
+                        assigned_area_idx = zeros(1,deployed_robots);
+                        assigned_area_letter = char(1, deployed_robots);
+                
+                        for r =1:deployed_robots
+                            assigned_area_letter(r) = assignments{r,2};
+                            assigned_area_idx(r) = letterToIndex(assigned_area_letter(r));
+                            robotPositions(assignments{r,1}, :) = areaCoordinates.(assigned_area_letter(r));
+                        end
+                        
+                        areas_to_monitor(assigned_area_idx) = 0;
+                
+                       
+                        if ismember(intruder_pos, assigned_area_letter)
+                            success(test,trial) = 1;
+                            fprintf("Success: Intruder identified \n")
+                            fprintf("Intruder position: %s \n", intruder_pos)
+                            fprintf("Areas monitored: %s \n", strjoin(assignments(:,2)', ", "))
+                
+                            % press ENTER to continue;
+                            % input('');
+                            break
+                        end
+                    end
+
+                end
+            else
+                warning('Solver exit flag: %d', exitflag);
+            end
+              
+        
+        end
+        
+        
+        % if success(test,trial) == 0 && false_positive == 0
+        %     fprintf("Max number of iteration reached: Intruder not identified \n")
+        %     % press ENTER to continue;
+        %     % input('');
+        % end
+
+
+        if false_positive == 0
+            if success(test,trial) == 0
+                fprintf("Max number of iteration reached: Intruder not identified \n")
+                fprintf("Intruder position: %s\n", intruder_pos)
+                % press ENTER to continue;
+                % input('');
+            end
+        else
+            if intruder_pos == "-"
+                success(test,trial) = 1;
+            end
+        end
+            
+    end
+end
+
+%% Computing results
+n_success = sum(success, 2);                                                % successes per test, summed over trials
+
+results = table((1:n_test)', repmat(n_trials, n_test, 1), n_success, ...
+    'VariableNames', {'Task', 'Trials', 'Successes'});
+disp(results)
+
+success_mean = mean(success,2);
+
+success_rate_1sens_logical = sum(success_mean(1:4))/length(success_mean(1:4))
+success_rate_2sens_logical = sum(success_mean(5:8))/length(success_mean(5:8))
+success_rate_3sens_logical = sum(success_mean(9:12))/length(success_mean(9:12))
+
+success_rate_1sens_fp_hi = sum(success_mean(13:16))/length(success_mean(13:16))
+success_rate_2sens_fp_hi = sum(success_mean(17:20))/length(success_mean(17:20))
+success_rate_3sens_fp_hi = sum(success_mean(21:24))/length(success_mean(21:24))
+
+
+%%
+%%%%%%%%%%
+function idx = letterToIndex(letter)
+% Converte una lettera dell'alfabeto italiano nel suo indice.
+% Accetta lettere maiuscole e minuscole.
+% Esempi:
+%   letterToIndex('A') -> 1
+%   letterToIndex('C') -> 3
+%   letterToIndex('L') -> 9
+    alphabet = 'ABCDEFGHILMNOPQRSTUVZ';
+    if ~ischar(letter) || length(letter) ~= 1 || ...
+            ~any(upper(letter) == alphabet)
+        error('Input non valido: inserire una singola lettera dell''alfabeto italiano.');
+    end
+    idx = find(alphabet == upper(letter), 1);
+end
+
+% 2. Funzione indexToLetter.m
+function letter = indexToLetter(idx)
+% Converte un indice (1-21) nella corrispondente lettera italiana.
+% Esempi:
+%   indexToLetter(1) -> 'A'
+%   indexToLetter(3) -> 'C'
+%   indexToLetter(9) -> 'L'
+    alphabet = 'ABCDEFGHILMNOPQRSTUVZ';
+    if ~isnumeric(idx) || ~isscalar(idx) || ...
+            ~isreal(idx) || ~isfinite(idx) || ...
+            idx < 1 || idx > length(alphabet) || ...
+            idx ~= floor(idx)
+        error('Input non valido: inserire un intero tra 1 e 21.');
+    end
+    letter = alphabet(idx);
+end
+
+
