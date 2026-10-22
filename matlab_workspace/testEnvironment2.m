@@ -18,6 +18,11 @@ function [tests] = testEnvironment2(seed)
         ["Camera_6", "Lidar_11", "Lidar_12"],  "P"
         ["Lidar_5", "Lidar_2", "Lidar_1"],     "F"
 
+        % ["Camera_9", "Camera_10", "Lidar_1", "Camera_3"],  "F"
+        % ["Lidar_3", "Lidar_4", "Lidar_5", "Lidar_6"],      "S"
+        % ["Camera_6", "Lidar_11", "Lidar_2", "Camera_10"],  "A"
+        % ["Lidar_11", "Lidar_10", "Lidar_8", "Lidar_7"],    "L"
+
         
 
         % FP & HI
@@ -37,6 +42,10 @@ function [tests] = testEnvironment2(seed)
         ["Lidar_6", "Lidar_8", "Lidar_12"],  randLetterFrom(["R", "T", "Z"])    % [-, -, HI]
         ["Lidar_5", "Lidar_2", "Lidar_1"],   randLetterFrom(["D", "E", "C"])    % [-, -, HI]
 
+        % ["Camera_8", "Camera_10", "Lidar_2", "Lidar_13"],             "T"                     % [-, -, -, FP]
+        % ["Lidar_7", "Lidar_2", "Lidar_11", "Camera_6"],               "O"                     % [-, FP, -, -]
+        % ["Camera_4", "Lidar_13", "Lidar_2", "Lidar_1"],   randLetterFrom(["F", "E", "A"])     % [-, -, -, HI]
+        % ["Lidar_12", "Lidar_10", "Lidar_9", "Lidar_8"],   randLetterFrom(["S", "M", "Z"])     % [-, -, -, HI]
 
       };
 end

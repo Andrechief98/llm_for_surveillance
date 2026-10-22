@@ -18,6 +18,11 @@ function [tests] = testEnvironment1(seed)
         ["Camera_2", "Lidar_6", "Lidar_8"], "G"
         ["Lidar_6", "Lidar_8", "Lidar_1"],  "H"
 
+        % ["Camera_2", "Lidar_6", "Lidar_7", "Lidar_8"],  "L"
+        % ["Lidar_7", "Lidar_6", "Lidar_5", "Lidar_4"],   "C"
+        % ["Lidar_5", "Lidar_4", "Lidar_3", "Lidar_2"],   "A"
+        % ["Lidar_1", "Lidar_8", "Lidar_7", "Lidar_6"],   "E"
+
         % FP & HI
         % [sensors]                         "final intruder position"          [Type of activation]
         ["Camera_2"],                       "-"                                 % [FP]
@@ -34,6 +39,11 @@ function [tests] = testEnvironment1(seed)
         ["Lidar_1", "Lidar_2", "Camera_2"], "A"                                 % [-, -, FP]
         ["Lidar_5", "Lidar_4", "Lidar_6"],  randLetterFrom(["B", "H", "F"])     % [-, -, HI]
         ["Lidar_7", "Lidar_2", "Lidar_1"],  randLetterFrom(["G", "E", "B"])     % [-, -, HI]
+
+        % ["Camera_1", "Lidar_2", "Lidar_1", "Lidar_7"],                 "A"                     % [-, -, -, FP]
+        % ["Lidar_8", "Lidar_1", "Camera_1", "Lidar_3"],                 "C"                     % [-, FP, -, -]
+        % ["Lidar_5", "Lidar_4", "Lidar_3", "Camera_1"],   randLetterFrom(["C", "B", "A"])       % [-, -, -, HI]
+        % ["Lidar_3", "Camera_1", "Lidar_6", "Lidar_7"],   randLetterFrom(["G", "H", "I"])       % [-, -, -, HI]
       };
 end
 
