@@ -28,8 +28,13 @@ RUN apt-get update && apt-get install -y \
     ros-noetic-gazebo-ros-control \
     && rm -rf /var/lib/apt/lists/*
 
+
 # Going in the workspace
 WORKDIR ${CATKIN_WS}/src
+
+#RUN apt-get update && rosdep update && \
+#    rosdep install --from-paths src --ignore-src -r -y && \
+#    rm -rf /var/lib/apt/lists/*
 
 # Cloning actor plugin repository
 RUN git clone -b noetic-classic https://github.com/blackcoffeerobotics/gazebo-ros-actor-plugin.git
@@ -55,7 +60,8 @@ RUN /bin/bash -c "source /opt/ros/noetic/setup.bash && catkin_make"
 RUN echo "source /home/ros_ws/devel/setup.bash" >> /root/.bashrc
 
 # Disable ROS Noetic EOL
-RUN echo "export DISABLE_ROS1_EOL_WARNINGS="true"" >> /root/.bashrc
+#RUN echo "export DISABLE_ROS1_EOL_WARNINGS="true"" >> /root/.bashrc
+ENV DISABLE_ROS1_EOL_WARNINGS=true
 
 # Setting gazebo plugin directory
 RUN echo "export GAZEBO_PLUGIN_PATH=\${GAZEBO_PLUGIN_PATH}:${CATKIN_WS}/devel/lib" >> /root/.bashrc
