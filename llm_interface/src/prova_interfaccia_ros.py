@@ -112,7 +112,7 @@ class LLM_cognitive_module:
     def __init__(self):
         rospy.init_node('LLM_cognitive_module', anonymous=True)
         self.client = AsyncOpenAI()
-        self.llm_model = "gpt-6-luna" # gpt-4o , gpt-6-luna
+        self.llm_model = llm_model # gpt-4o , gpt-6-luna
         self.rosServer = rospy.Service('/alert', triggerGpt, self.handleDataMediatorAlert)
 
         self.robotGoalCheckerServer = actionlib.SimpleActionServer('/robot_goal_checker', goalCheckerLLMAction, self.handleRobotGoalChecker, auto_start = False)

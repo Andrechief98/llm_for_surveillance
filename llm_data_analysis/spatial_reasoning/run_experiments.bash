@@ -2,10 +2,10 @@
 
 # PARAMETERS
 
-world_id="1"
-trial_id="1"
+world_id="2"
+trial_id="3"
 
-llm_modality="image"
+llm_modality="image_and_rag_with_semantics"
 teleport_robots="true"
 print_rag_search="false"
 llm_model="gpt-4o"
