@@ -627,6 +627,25 @@ with nav_right:
 run_id = world_runs[st.session_state[nav_key]]
 run = valid_runs[run_id]
 
+# ---------- Stato della valutazione ----------
+
+current_evaluation = (
+    evaluations
+    .get(mode, {})
+    .get(world_id, {})
+    .get(model_id, {})
+    .get(trial_id, {})
+    .get(run_id)
+)
+
+is_evaluated = (
+    isinstance(current_evaluation, dict)
+    and "error_counts" in current_evaluation
+)
+
+if st.session_state.get("evaluation_saved_message"):
+    st.success(st.session_state.pop("evaluation_saved_message"))
+
 with nav_center:
     st.markdown(
         f"<div style='text-align:center'>"
@@ -636,6 +655,11 @@ with nav_center:
         f"</div>",
         unsafe_allow_html=True,
     )
+
+    if is_evaluated:
+        st.success("🟢 Già valutata")
+    else:
+        st.warning("🟠 Da valutare")
 
 st.caption(
     f"Selezione corrente: "
@@ -1092,3 +1116,5 @@ with right:
             f"{mode} / {world_id} / {model_id} / "
             f"{trial_id} / {run_id}"
         )
+
+        st.rerun()
