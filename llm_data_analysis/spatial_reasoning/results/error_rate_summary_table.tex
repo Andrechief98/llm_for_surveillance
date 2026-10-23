@@ -1,14 +1,19 @@
 \begin{table}
 \caption{Mean and sample variance of the normalized error rate by sensor count, model, and mode.}
 \label{tab:spatial_reasoning}
-\begin{tabular}{llll}
+\begin{tabular}{llllll}
 \toprule
- &  & rag\_with\_functions & rag\_with\_semantics \\
-n_sensors & model &  &  \\
+ &  & image & image\_and\_rag\_with\_functions & rag\_with\_functions & rag\_with\_semantics \\
+n_sensors & model &  &  &  &  \\
 \midrule
-\multirow[t]{2}{*}{4} & gpt-4o & 0.2500 ± 0.2887 & 0.2500 ± 0.2673 \\
- & gpt-6-luna & NaN & 0.2500 ± 0.2673 \\
-\cline{1-4}
+1 & gpt-6-luna & 0.0000 ± 0.0000 & 2.0000 ± 0.0000 & 1.0000 ± 1.0000 & 0.3333 ± 0.5774 \\
+\cline{1-6}
+2 & gpt-6-luna & 1.6667 ± 1.1547 & 1.5000 ± 0.5000 & 1.6667 ± 0.2887 & 0.0000 ± 0.0000 \\
+\cline{1-6}
+3 & gpt-6-luna & 0.7778 ± 0.6939 & 1.7778 ± 1.0715 & 1.0000 ± 0.5774 & 0.0000 ± 0.0000 \\
+\cline{1-6}
+4 & gpt-6-luna & 0.7500 ± 0.9014 & 1.3333 ± 0.8780 & 1.0833 ± 0.1443 & 0.4167 ± 0.1443 \\
+\cline{1-6}
 \bottomrule
 \end{tabular}
 \end{table}

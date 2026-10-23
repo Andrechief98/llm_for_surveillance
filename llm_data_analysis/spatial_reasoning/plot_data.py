@@ -271,6 +271,7 @@ def plot_spatial_reasoning(summary, output_dir):
             FIGURE_SIZE_PER_SUBPLOT[1] * nrows,
         ),
         squeeze=False,
+        
     )
 
     axes = axes.flatten()
@@ -283,20 +284,36 @@ def plot_spatial_reasoning(summary, output_dir):
                 mode_data["model"] == model
             ].sort_values("n_sensors")
 
-            # Se il modello non ha dati per questa modalità,
-            # non viene tracciato e il programma continua.
-            if model_data.empty:
-                continue
+            # # Se il modello non ha dati per questa modalità,
+            # # non viene tracciato e il programma continua.
+            # if model_data.empty:
+            #     continue
 
+            # x = model_data["n_sensors"].to_numpy()
+            # y = model_data["mean_error_rate"].to_numpy()
+
+            # ax.plot(
+            #     x,
+            #     y,
+            #     marker="o",
+            #     markersize=6,
+            #     linewidth=1.8,
+            #     color=model_colors[model],
+            #     label=model,
+            # )
             x = model_data["n_sensors"].to_numpy()
             y = model_data["mean_error_rate"].to_numpy()
+            yerr = model_data["std_deviation"].to_numpy()
 
-            ax.plot(
+            ax.errorbar(
                 x,
                 y,
+                yerr=yerr,
                 marker="o",
                 markersize=6,
                 linewidth=1.8,
+                capsize=4,
+                elinewidth=1.2,
                 color=model_colors[model],
                 label=model,
             )
@@ -308,6 +325,9 @@ def plot_spatial_reasoning(summary, output_dir):
         ax.set_xticks(
             sorted(mode_data["n_sensors"].unique())
         )
+
+        ax.set_ylim(0, 4)
+
 
         ax.grid(True, linestyle="--", alpha=0.35)
         ax.legend()

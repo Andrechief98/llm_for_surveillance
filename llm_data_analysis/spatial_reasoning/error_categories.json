@@ -1,12 +1,16 @@
 {
   "Reasoning_errors": [
-    "wrong area inspected",
+    "wrong area proposed",
     "wrong robot deployed",
-    "wrong sensor considered"
+    "wrong sensor considered",
+    "unproposed area to inspect"
   ],
   "Hallucinations": [
     "get_areas_info with useless areas",
-    "get_sensors_info with useless sensors"
+    "get_sensors_info with useless sensors",
+    "computed_distance_to_area_covered_by_camera",
+    "called_again_the_same_function",
+    "computed_distance_to_wrong_area"
   ],
   "Wrong_function_calls": [
     "Unapproved action execution",

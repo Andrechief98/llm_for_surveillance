@@ -2,12 +2,13 @@
 
 # PARAMETERS
 
-world_id="2"
-trial_id="3"
+world_id="1"
+trial_id="1"
 
-llm_modality="image_and_rag_with_semantics"
+llm_modality="image"
 teleport_robots="true"
 print_rag_search="false"
+llm_model="gpt-4o"
 
 SENSOR_PARAM="sensor_sequence"
 
@@ -45,7 +46,8 @@ roslaunch utilities demo_multi_robot.launch \
     llm_modality:="$llm_modality" \
     teleport_robots:="$teleport_robots" \
     print_rag_search:="$print_rag_search" \
-    trial_id:="$trial_id" &
+    trial_id:="$trial_id" \
+    llm_model:="$llm_model" &
 
 ROS_PID=$!
 
