@@ -44,6 +44,7 @@ teleport_robots = rospy.get_param("teleport_robots",True)
 sensor_sequence = rospy.get_param("sensor_sequence", "").split(",")
 # semantic_RAG = rospy.get_param("semantic_RAG", False)
 trial_id = rospy.get_param("trial_id", "0")
+llm_model = rospy.get_param("llm_model", "")
 
 
 
