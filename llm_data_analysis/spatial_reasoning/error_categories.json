@@ -1,16 +1,24 @@
 {
   "Reasoning_errors": [
     "wrong area proposed",
+    "wrong robot camera inspections assignment",
     "wrong robot deployed",
     "wrong sensor considered",
-    "unproposed area to inspect"
+    "unproposed area to inspect",
+    "unproposed camera usage",
+    "called get_areas_info with missing areas",
+    "compute_distance for robot assignment not used",
+    "wrong intruder movement hypothesis",
+    "unoptimal robot deployment"
   ],
   "Hallucinations": [
     "get_areas_info with useless areas",
     "get_sensors_info with useless sensors",
     "computed_distance_to_area_covered_by_camera",
     "called_again_the_same_function",
-    "computed_distance_to_wrong_area"
+    "computed_distance_to_wrong_area",
+    "wrong spatial information for area connections",
+    "compute_distance used but not included for optimal robot deployment"
   ],
   "Wrong_function_calls": [
     "Unapproved action execution",
