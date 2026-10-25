@@ -342,6 +342,11 @@ def render_world_image(world_id):
         image_bytes = Path(reference_image).read_bytes()
         image_base64 = base64.b64encode(image_bytes).decode("utf-8")
 
+        if world_id == "world_2":
+            width = 1500
+        else:
+            width = 700
+
         st.markdown(
             f"""
             <div style="
@@ -354,7 +359,7 @@ def render_world_image(world_id):
                 <img
                     src="data:image/png;base64,{image_base64}"
                     style="
-                        width: 700px;
+                        width: {width}px;
                         max-width: 100%;
                         height: auto;
                         object-fit: contain;
@@ -367,11 +372,11 @@ def render_world_image(world_id):
             unsafe_allow_html=True,
         )
 
-        st.caption(f"Planimetria — World {world_id}")
+        st.caption(f"Planimetria — {world_id}")
 
     else:
         st.warning(
-            f"Immagine non trovata per world_id {world_id}."
+            f"Immagine non trovata per {world_id}."
         )
 
 # ---------- Caricamento dataset tramite browsing delle cartelle ----------

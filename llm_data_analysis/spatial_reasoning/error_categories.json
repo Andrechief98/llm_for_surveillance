@@ -9,7 +9,8 @@
     "called get_areas_info with missing areas",
     "compute_distance for robot assignment not used",
     "wrong intruder movement hypothesis",
-    "unoptimal robot deployment"
+    "unoptimal robot deployment",
+    "called get_areas_info with wrong area"
   ],
   "Hallucinations": [
     "get_areas_info with useless areas",
@@ -18,7 +19,8 @@
     "called_again_the_same_function",
     "computed_distance_to_wrong_area",
     "wrong spatial information for area connections",
-    "compute_distance used but not included for optimal robot deployment"
+    "compute_distance used but not included for optimal robot deployment",
+    "useless proposed camera inspection"
   ],
   "Wrong_function_calls": [
     "Unapproved action execution",
