@@ -34,9 +34,15 @@
       },
       "camera_8": {
         "ros_topic": "/gazebo_multi_camera/camera/camera_sensor8/image_raw"
+      },
+      "camera_9": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor9/image_raw"
+      },
+      "camera_10": {
+        "ros_topic": "/gazebo_multi_camera/camera/camera_sensor10/image_raw"
       }
     }
-  },
+    },
   "ros_services": {
     "actuators": {
       "door_1": {

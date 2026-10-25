@@ -5,10 +5,10 @@
 world_id="2"
 trial_id="3"
 
-llm_modality="image"
+llm_modality="rag_with_semantics"
 teleport_robots="true"
 print_rag_search="false"
-llm_model="gpt-6-luna"
+llm_model="gpt-4o"
 
 SENSOR_PARAM="sensor_sequence"
 
