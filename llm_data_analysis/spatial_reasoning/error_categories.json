@@ -19,6 +19,7 @@
     "called_again_the_same_function",
     "computed_distance_to_wrong_area",
     "wrong spatial information for area connections",
+    "wrong spatial information for sensors coverage",
     "compute_distance used but not included for optimal robot deployment",
     "useless proposed camera inspection"
   ],

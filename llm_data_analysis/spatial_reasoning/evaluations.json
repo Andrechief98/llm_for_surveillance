@@ -1391,6 +1391,66 @@
             },
             "total_errors": 2,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 26,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "function_call": 9,
+              "ROS_output": 9,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 2,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 4,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 3,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 1
+                },
+                "total": 10
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 10,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 10,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -1565,6 +1625,66 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 3,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 24,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "function_call": 8,
+              "ROS_output": 8,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 1,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 2,
+                  "unproposed camera usage": 3,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 2,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 2
+                },
+                "total": 14
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 14,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 14,
             "notes": ""
           }
         },
@@ -1741,6 +1861,67 @@
             },
             "total_errors": 2,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 26,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "function_call": 9,
+              "ROS_output": 9,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 2,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 3,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 2,
+                  "wrong intruder movement hypothesis": 1,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 2
+                },
+                "total": 10
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 3,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 2,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 5
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 10,
+              "Hallucinations": 5,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 15,
+            "notes": ""
           }
         }
       },
@@ -1898,6 +2079,67 @@
                   "called_again_the_same_function": 2,
                   "computed_distance_to_wrong_area": 2,
                   "wrong spatial information for area connections": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 10
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 2,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 2
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 0,
+              "Hallucinations": 10,
+              "Wrong_function_calls": 2
+            },
+            "total_errors": 12,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 48,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "function_call": 20,
+              "ROS_output": 20,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 0
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 1,
+                  "get_sensors_info with useless sensors": 3,
+                  "computed_distance_to_area_covered_by_camera": 3,
+                  "called_again_the_same_function": 3,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
                   "compute_distance used but not included for optimal robot deployment": 0,
                   "useless proposed camera inspection": 0
                 },
@@ -2094,6 +2336,67 @@
             },
             "total_errors": 1,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 36,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "function_call": 14,
+              "ROS_output": 14,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 0
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 1,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 2,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 3
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 1,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 1
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 0,
+              "Hallucinations": 3,
+              "Wrong_function_calls": 1
+            },
+            "total_errors": 4,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -2269,6 +2572,67 @@
               "Wrong_function_calls": 3
             },
             "total_errors": 4,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 48,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "function_call": 20,
+              "ROS_output": 20,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 0
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 2,
+                  "get_sensors_info with useless sensors": 4,
+                  "computed_distance_to_area_covered_by_camera": 4,
+                  "called_again_the_same_function": 6,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 16
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 1,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 1
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 0,
+              "Hallucinations": 16,
+              "Wrong_function_calls": 1
+            },
+            "total_errors": 17,
             "notes": ""
           }
         }
@@ -3710,6 +4074,66 @@
             },
             "total_errors": 4,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 12,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "file_search_call": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 1,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 2,
+                  "unproposed camera usage": 2,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 1,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 10
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 10,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 10,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -3885,6 +4309,66 @@
             },
             "total_errors": 2,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 12,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "file_search_call": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 1,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 3,
+                  "unproposed camera usage": 2,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 10
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 1,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 1
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 10,
+              "Hallucinations": 1,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 11,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -4057,6 +4541,66 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 2,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 12,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "file_search_call": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 1,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 1,
+                  "unproposed camera usage": 3,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 3,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 12
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 1,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 1
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 12,
+              "Hallucinations": 1,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 13,
             "notes": ""
           }
         }
@@ -4237,6 +4781,68 @@
             },
             "total_errors": 0,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 27,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "file_search_call": 9,
+              "function_call": 5,
+              "ROS_output": 5,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 0
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 1,
+                  "called_again_the_same_function": 1,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 2
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 0,
+              "Hallucinations": 2,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 2,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -4414,6 +5020,68 @@
             },
             "total_errors": 3,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 30,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "file_search_call": 10,
+              "function_call": 6,
+              "ROS_output": 6,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 0
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 0,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 0,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -4590,6 +5258,68 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 2,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 24,
+            "message_counts": {
+              "data_orchestrator": 4,
+              "file_search_call": 8,
+              "function_call": 4,
+              "ROS_output": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 0
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 3,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 3
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 0,
+              "Hallucinations": 3,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 3,
             "notes": ""
           }
         }
@@ -6029,6 +6759,66 @@
             },
             "total_errors": 12,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 9,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 4,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 4,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 4,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 16
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 4,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 4
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 16,
+              "Hallucinations": 4,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 20,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -6205,6 +6995,66 @@
             },
             "total_errors": 3,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 9,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 2,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 4,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 4,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 14
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 4,
+                  "wrong spatial information for sensors coverage": 1,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 5
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 14,
+              "Hallucinations": 5,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 19,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -6377,6 +7227,66 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 9,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 9,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 4,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 4,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 4,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 16
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 4,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 4
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 16,
+              "Hallucinations": 4,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 20,
             "notes": ""
           }
         }
@@ -6557,6 +7467,68 @@
             },
             "total_errors": 4,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 25,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 8,
+              "ROS_output": 8,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 1,
+                  "wrong robot camera inspections assignment": 1,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 1,
+                  "unproposed camera usage": 2,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 2,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 7
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 5,
+                  "called_again_the_same_function": 3,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 2,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 10
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 1,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 1
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 7,
+              "Hallucinations": 10,
+              "Wrong_function_calls": 1
+            },
+            "total_errors": 18,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -6736,6 +7708,68 @@
             },
             "total_errors": 3,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 25,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 8,
+              "ROS_output": 8,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 1,
+                  "wrong robot camera inspections assignment": 2,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 2,
+                  "unproposed camera usage": 2,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 1,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 8
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 3,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 4,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 7
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 3,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 3
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 8,
+              "Hallucinations": 7,
+              "Wrong_function_calls": 3
+            },
+            "total_errors": 18,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -6912,6 +7946,68 @@
               "Wrong_function_calls": 3
             },
             "total_errors": 3,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 21,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 6,
+              "ROS_output": 6,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 3,
+                  "wrong robot camera inspections assignment": 2,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 1,
+                  "unproposed area to inspect": 3,
+                  "unproposed camera usage": 1,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 4,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 14
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 4,
+                  "called_again_the_same_function": 1,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 4,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 9
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 1,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 1
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 14,
+              "Hallucinations": 9,
+              "Wrong_function_calls": 1
+            },
+            "total_errors": 24,
             "notes": ""
           }
         }
@@ -8373,6 +9469,68 @@
             },
             "total_errors": 6,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 33,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 12,
+              "ROS_output": 12,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 4,
+                  "wrong robot camera inspections assignment": 2,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 4,
+                  "unproposed area to inspect": 2,
+                  "unproposed camera usage": 2,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 2,
+                  "wrong intruder movement hypothesis": 4,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 1
+                },
+                "total": 21
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 1,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 2,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 3
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 1,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 1
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 21,
+              "Hallucinations": 3,
+              "Wrong_function_calls": 1
+            },
+            "total_errors": 25,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -8550,6 +9708,68 @@
             },
             "total_errors": 9,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 25,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 8,
+              "ROS_output": 8,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 4,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 1,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 1,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 6
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 2,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 2
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 6,
+              "Hallucinations": 2,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 8,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -8726,6 +9946,68 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 4,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 13,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "assistant": 4,
+              "function_call": 2,
+              "ROS_output": 2
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 4,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 4,
+                  "unproposed area to inspect": 3,
+                  "unproposed camera usage": 1,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 4,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 20
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 3,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 3
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 20,
+              "Hallucinations": 3,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 23,
             "notes": ""
           }
         }
@@ -8908,6 +10190,68 @@
             },
             "total_errors": 2,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 51,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 21,
+              "ROS_output": 21,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 1,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 1
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 4,
+                  "get_sensors_info with useless sensors": 7,
+                  "computed_distance_to_area_covered_by_camera": 2,
+                  "called_again_the_same_function": 8,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 21
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 1,
+              "Hallucinations": 21,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 22,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -9087,6 +10431,68 @@
             },
             "total_errors": 8,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 35,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 13,
+              "ROS_output": 13,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 4,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 4
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 4,
+                  "get_sensors_info with useless sensors": 2,
+                  "computed_distance_to_area_covered_by_camera": 1,
+                  "called_again_the_same_function": 1,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 8
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 4,
+              "Hallucinations": 8,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 12,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -9265,6 +10671,68 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 3,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 43,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "function_call": 17,
+              "ROS_output": 17,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 1,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 1
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 4,
+                  "get_sensors_info with useless sensors": 3,
+                  "computed_distance_to_area_covered_by_camera": 2,
+                  "called_again_the_same_function": 1,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 10
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 2,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 2
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 1,
+              "Hallucinations": 10,
+              "Wrong_function_calls": 2
+            },
+            "total_errors": 13,
             "notes": ""
           }
         }
@@ -10745,6 +12213,67 @@
             },
             "total_errors": 6,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 13,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "file_search_call": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 4,
+                  "unproposed camera usage": 2,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 10
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 10,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 10,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -10921,6 +12450,67 @@
             },
             "total_errors": 4,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 13,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "file_search_call": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 2,
+                  "unproposed area to inspect": 2,
+                  "unproposed camera usage": 1,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 4,
+                  "wrong intruder movement hypothesis": 2,
+                  "unoptimal robot deployment": 0,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 11
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 11,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 11,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -11096,6 +12686,69 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 4,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 17,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "file_search_call": 5,
+              "function_call": 1,
+              "ROS_output": 1,
+              "assistant": 5
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 1,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 1,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 3,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 3,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 8
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 1,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 1
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 8,
+              "Hallucinations": 1,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 9,
             "notes": ""
           }
         }
@@ -11279,6 +12932,69 @@
             },
             "total_errors": 1,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 22,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "file_search_call": 7,
+              "function_call": 3,
+              "ROS_output": 3,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 3,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 3
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 0,
+                  "called_again_the_same_function": 0,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 0
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 3,
+              "Hallucinations": 0,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 3,
+            "notes": ""
           }
         },
         "trial_2": {
@@ -11459,6 +13175,69 @@
             },
             "total_errors": 1,
             "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 27,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "file_search_call": 8,
+              "function_call": 5,
+              "ROS_output": 5,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 3,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 3
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 3,
+                  "called_again_the_same_function": 4,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 7
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 1,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 1
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 3,
+              "Hallucinations": 7,
+              "Wrong_function_calls": 1
+            },
+            "total_errors": 11,
+            "notes": ""
           }
         },
         "trial_3": {
@@ -11638,6 +13417,69 @@
               "Wrong_function_calls": 0
             },
             "total_errors": 0,
+            "notes": ""
+          },
+          "run_4": {
+            "sensor_sequence": [
+              "Lidar_10",
+              "Lidar_2",
+              "Lidar_1",
+              "Camera_5"
+            ],
+            "total_messages": 25,
+            "message_counts": {
+              "image": 1,
+              "data_orchestrator": 4,
+              "file_search_call": 8,
+              "function_call": 4,
+              "ROS_output": 4,
+              "assistant": 4
+            },
+            "error_counts": {
+              "Reasoning_errors": {
+                "subcategories": {
+                  "wrong area proposed": 0,
+                  "wrong robot camera inspections assignment": 0,
+                  "wrong robot deployed": 0,
+                  "wrong sensor considered": 0,
+                  "unproposed area to inspect": 0,
+                  "unproposed camera usage": 0,
+                  "called get_areas_info with missing areas": 0,
+                  "compute_distance for robot assignment not used": 0,
+                  "wrong intruder movement hypothesis": 0,
+                  "unoptimal robot deployment": 3,
+                  "called get_areas_info with wrong area": 0
+                },
+                "total": 3
+              },
+              "Hallucinations": {
+                "subcategories": {
+                  "get_areas_info with useless areas": 0,
+                  "get_sensors_info with useless sensors": 0,
+                  "computed_distance_to_area_covered_by_camera": 1,
+                  "called_again_the_same_function": 4,
+                  "computed_distance_to_wrong_area": 0,
+                  "wrong spatial information for area connections": 0,
+                  "wrong spatial information for sensors coverage": 0,
+                  "compute_distance used but not included for optimal robot deployment": 0,
+                  "useless proposed camera inspection": 0
+                },
+                "total": 5
+              },
+              "Wrong_function_calls": {
+                "subcategories": {
+                  "Unapproved action execution": 0,
+                  "Synthatically wrong parameters generated": 0
+                },
+                "total": 0
+              }
+            },
+            "macro_totals": {
+              "Reasoning_errors": 3,
+              "Hallucinations": 5,
+              "Wrong_function_calls": 0
+            },
+            "total_errors": 8,
             "notes": ""
           }
         }

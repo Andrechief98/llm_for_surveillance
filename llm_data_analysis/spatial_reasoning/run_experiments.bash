@@ -5,10 +5,10 @@
 world_id="2"
 trial_id="3"
 
-llm_modality="rag_with_semantics"
+llm_modality="image_and_rag_with_semantics"
 teleport_robots="true"
 print_rag_search="false"
-llm_model="gpt-4o"
+llm_model="gpt-6-luna"
 
 SENSOR_PARAM="sensor_sequence"
 
@@ -26,7 +26,7 @@ TERMINAL_PIDS=()
 declare -A world_sequences
 
 world_sequences["1"]="Lidar_3;Lidar_5,Camera_2;Lidar_3,Camera_1,Lidar_2;Camera_2,Lidar_6,Lidar_7,Lidar_8" 
-world_sequences["2"]="Camera_9;Lidar_14,Lidar_9;Camera_10,Lidar_2,Lidar_3;Lidar_10,Lidar_2,Lidar_1,Camera_5"
+world_sequences["2"]="Lidar_10,Lidar_2,Lidar_1,Camera_5" #Camera_9;Lidar_14,Lidar_9;Camera_10,Lidar_2,Lidar_3;Lidar_10,Lidar_2,Lidar_1,Camera_5"
 
 # SELECT WORLD
 

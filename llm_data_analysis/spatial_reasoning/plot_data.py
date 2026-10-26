@@ -284,23 +284,6 @@ def plot_spatial_reasoning(summary, output_dir):
                 mode_data["model"] == model
             ].sort_values("n_sensors")
 
-            # # Se il modello non ha dati per questa modalità,
-            # # non viene tracciato e il programma continua.
-            # if model_data.empty:
-            #     continue
-
-            # x = model_data["n_sensors"].to_numpy()
-            # y = model_data["mean_error_rate"].to_numpy()
-
-            # ax.plot(
-            #     x,
-            #     y,
-            #     marker="o",
-            #     markersize=6,
-            #     linewidth=1.8,
-            #     color=model_colors[model],
-            #     label=model,
-            # )
             x = model_data["n_sensors"].to_numpy()
             y = model_data["mean_error_rate"].to_numpy()
             yerr = model_data["std_deviation"].to_numpy()
@@ -326,7 +309,7 @@ def plot_spatial_reasoning(summary, output_dir):
             sorted(mode_data["n_sensors"].unique())
         )
 
-        ax.set_ylim(0, 4)
+        ax.set_ylim(-1, 6)
 
 
         ax.grid(True, linestyle="--", alpha=0.35)
