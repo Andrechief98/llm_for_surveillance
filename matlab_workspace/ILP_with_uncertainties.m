@@ -11,20 +11,28 @@ rng(42);  % seed per riproducibilità
 
 
 %% DATA SETUP
-Scenario = 1 % Choose scenario 1 or 2 
-Modality = 0 %Choose 0 for unlimited iterations, 1 for limit depending on the number of active sensor
+Scenario = 2; % Choose scenario 1 or 2 
+Modality = 0; %Choose 0 for unlimited iterations, 1 for limit depending on the number of active sensor
+C = 50;
 % 3 seeds (equals to the number of trials). It allows diversity among
 % trials but reproducibility among runs
-seeds = [44, 55, 66];
+%seeds = [44, 55, 66];
+seeds = [44, 55];
+timestampText = char(datetime('now', 'Format', 'yyyy-MM-dd_HH-mm'));
 
 if Scenario == 1
     [areaCoordinates, sensorToAreas, robotInitialPositions] = environment1();
     testFcn = @testEnvironment1;
+    logFileName   = ['matlab_log_env_1' timestampText '.txt'];
+    diary(logFileName)
 else
     [areaCoordinates, sensorToAreas, robotInitialPositions] = environment2();
     testFcn = @testEnvironment2;
+    logFileName   = ['matlab_log_env2_' timestampText '.txt'];
+    diary(logFileName)
 end
 
+fprintf('\n========== Simulation in environment %d, mode %d, B = %d ==========\n', Scenario, Modality, C);
 areaNames = fieldnames(areaCoordinates);
 sensorNames = fieldnames(sensorToAreas);
 n_trials = numel(seeds);
@@ -35,6 +43,7 @@ client_robot1 = rossvcclient("turtlebot3_1/move_base/make_plan","DataFormat","st
 client_robot2 = rossvcclient("turtlebot3_2/move_base/make_plan","DataFormat","struct");
 for trial=1:n_trials
     tests = testFcn(seeds(trial));                                                % fix the new seed for each trial
+    
     fprintf("\n========== TRIAL %d / %d ==========\n", trial, n_trials)
 
     for test = 1:size(tests,1)
@@ -194,7 +203,7 @@ for trial=1:n_trials
             end
             
             %% Optimization problem       
-            C = 20;
+            %C = 40;
             nx = numRobots * numAreas;
 
             % Setup variabili e obiettivo
@@ -433,7 +442,7 @@ success_rate_4sens_fp_hi = mean(success_mean(29:32))
 % success_rate_1sens_fp_hi = sum(success_mean(13:16))/length(success_mean(13:16))
 % success_rate_2sens_fp_hi = sum(success_mean(17:20))/length(success_mean(17:20))
 % success_rate_3sens_fp_hi = sum(success_mean(21:24))/length(success_mean(21:24))
-
+diary off
 
 %%
 %%%%%%%%%%
