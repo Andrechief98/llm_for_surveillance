@@ -26,11 +26,11 @@ function [tests] = testEnvironment1(seed)
         % FP & HI
         % [sensors]                         "final intruder position"          [Type of activation]
         ["Camera_2"],                       "-"                                 % [FP]
-        ["Lidar_8"],                        randLetterFrom(["L", "E","A"])      % [HI]
+        ["Lidar_8"],                        randLetterFrom(["L", "A", "I"])      % [HI]
         ["Lidar_1"],                        "-"                                 % [FP]
-        ["Lidar_5"],                        randLetterFrom(["F", "C", "G"])     % [HI]
+        ["Lidar_5"],                        randLetterFrom(["F", "C", "D"])     % [HI]
 
-        ["Camera_1", "Lidar_3"],            randLetterFrom(["E", "A", "D"])     % [-, HI]
+        ["Camera_1", "Lidar_3"],            randLetterFrom(["E", "A", "C"])     % [-, HI]
         ["Lidar_1", "Lidar_8"],             randLetterFrom(["H", "G", "B"])     % [-, HI]
         ["Lidar_3","Lidar_7"],              "C"                                 % [-, FP]
         ["Lidar_4","Lidar_1"],              "E"                                 % [FP, -]
