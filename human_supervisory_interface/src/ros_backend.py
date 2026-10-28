@@ -147,7 +147,7 @@ class SupervisorBackend:
         future = self.executor.submit(run)
 
         return task_id
-
+    
     def get_tasks(self):
         with self.lock:
             return {
@@ -340,3 +340,25 @@ class SupervisorBackend:
         self.camera_topics = []
 
         return {"status": "closed"}
+
+    # ========================================================
+    # CONTROLLO ESPERIMENTO E SEQUENZE SENSORI
+    # ========================================================
+
+    def next_sensor_sequence(self):
+        """Richiede il passaggio alla sequenza di sensori successiva."""
+        rospy.set_param("/next_sequence", True)
+
+        return {
+            "parameter": "/next_sequence",
+            "value": True,
+        }
+
+    def stop_experiment(self):
+        """Richiede l'interruzione dell'esperimento."""
+        rospy.set_param("/stop_experiment", True)
+
+        return {
+            "parameter": "/stop_experiment",
+            "value": True,
+        }

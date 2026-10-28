@@ -203,6 +203,10 @@ sleep 20
 
 sequence_number=0
 
+# Setting ros param and corresponding flag to false in order to continue the experiment
+rosparam set /stop_experiment false
+stop_experiment=false
+
 for record in "${randomized_sequences[@]}"; do
 
     # Skip empty records.
@@ -244,11 +248,7 @@ for record in "${randomized_sequences[@]}"; do
 
     # Update the ROS parameter with the current sensor sequence.
     rosparam set "$SENSOR_PARAM" "$sensors_str"
-
-    # Publish the expected final intruder position.
-    rosparam set /expected_intruder_position "$target_spec"
-
-
+    
     sleep 2
 
     CHAINLIT_PID_FILE="/tmp/chainlit_${USER}_$$.pid"
@@ -280,10 +280,14 @@ for record in "${randomized_sequences[@]}"; do
     " &
 
     # Wait 10 seconds for Chainlit/Streamlit
+    echo "Waiting for interface startup..."
     sleep 10
 
     # ACTIVATE SENSORS / DEACTIVATE ROBOTS
     rosparam set /valid_run true
+    
+    # Reset authorization before starting the next sequence.
+    rosparam set /next_sequence false
     
     for i in "${!sensor_sequence[@]}"; do
 
@@ -331,6 +335,41 @@ for record in "${randomized_sequences[@]}"; do
         done
         
     done
+
+    # INTRUDER TELEPORT
+    if [[ "$target_spec" != "-" ]]; then
+        echo "Teleporting intruder to target: $target_spec"
+        rosservice call /teleport_actor "data: '$target_spec'"
+    fi
+
+    # WAIT FOR HUMAN DECISION
+    echo "Waiting for human supervisor..."
+    echo "Set ros param /next_sequence=true to proceed to the next sequence."
+    echo "Set ros param /stop_experiment=true to terminate the experiment."
+
+    while true; do
+
+        # Check whether the entire experiment must stop.
+        stop_experiment_param=$(rosparam get /stop_experiment 2>/dev/null || echo "false")
+
+        if [[ "$stop_experiment_param" == "true" ]]; then
+            echo "Experiment termination requested."
+            stop_experiment=true
+            break
+        fi
+
+        # Check whether the human authorizes the next sequence.
+        next_sequence_param=$(rosparam get /next_sequence 2>/dev/null || echo "false")
+
+        if [[ "$next_sequence_param" == "true" ]]; then
+            echo "Next sequence authorized."
+            break
+        fi
+
+        # Poll ROS parameters every 2 seconds.
+        sleep 2
+    done
+
 
     # --- CHROME ---
     echo "Shutting down Chrome..."
@@ -389,6 +428,11 @@ for record in "${randomized_sequences[@]}"; do
 
     echo "Sequence $sequence_number completed."
 
+    if [[ "$stop_experiment" == true ]]; then
+        echo "Stopping experiment after cleanup."
+        break
+    fi
+
     sleep 5
 
 done
@@ -400,4 +444,4 @@ if kill -0 "$ROS_PID" 2>/dev/null; then
     wait "$ROS_PID" 2>/dev/null
 fi
 
-echo "Tutte le sequenze sono state completate."
+echo "All sequences completed."

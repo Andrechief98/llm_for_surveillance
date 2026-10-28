@@ -264,6 +264,48 @@ def render_metrics():
 
 render_metrics()
 
+
+# ============================================================
+# CONTROLLO ESPERIMENTO
+# ============================================================
+
+st.subheader("🧪 Experiment Control")
+st.caption(
+    "Advance the sensor sequence or stop the current experiment."
+)
+
+next_col, stop_col = st.columns(2, gap="large")
+
+with next_col:
+    if st.button(
+        "⏭️ Next sensor sequence",
+        type="primary",
+        use_container_width=True,
+        key="next_sensor_sequence_button",
+    ):
+        execute_command(
+            description="Advance to next sensor sequence",
+            callback=backend.next_sensor_sequence,
+            success_message=(
+                "Next sensor sequence requested."
+            ),
+        )
+
+with stop_col:
+    if st.button(
+        "🛑 Stop experiment",
+        type="secondary",
+        use_container_width=True,
+        key="stop_experiment_button",
+    ):
+        execute_command(
+            description="Stop experiment",
+            callback=backend.stop_experiment,
+            success_message=(
+                "Experiment stop requested."
+            ),
+        )
+
 st.divider()
 
 

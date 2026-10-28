@@ -124,7 +124,7 @@ class actorNode:
 
         model_state.pose.position.x = x
         model_state.pose.position.y = y
-        model_state.pose.position.z = 0.5
+        model_state.pose.position.z = 0.7
 
         # Neutral orientation
         model_state.pose.orientation.x = 0.0
