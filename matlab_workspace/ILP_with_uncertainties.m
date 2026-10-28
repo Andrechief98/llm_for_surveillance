@@ -13,7 +13,7 @@ rng(42);  % seed per riproducibilità
 %% DATA SETUP
 Scenario = 2; % Choose scenario 1 or 2 
 Modality = 0; %Choose 0 for unlimited iterations, 1 for limit depending on the number of active sensor
-C = 50;
+C = 80;
 % 3 seeds (equals to the number of trials). It allows diversity among
 % trials but reproducibility among runs
 %seeds = [44, 55, 66];

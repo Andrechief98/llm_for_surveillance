@@ -1,0 +1,8 @@
+table,source_file,trial,test,missing_columns,area_order,iteration,robot,task,name
+tests,matlab_log_env2_2026-10-27_13-32.txt,1.0,17.0,outcome,,,,,
+tests,matlab_log_env2_2026-10-27_13-32.txt,1.0,19.0,outcome,,,,,
+tests,matlab_log_env2_2026-10-27_13-32.txt,1.0,32.0,outcome,,,,,
+tests,matlab_log_env2_2026-10-27_13-32.txt,2.0,17.0,outcome,,,,,
+tests,matlab_log_env2_2026-10-27_13-32.txt,2.0,19.0,outcome,,,,,
+tests,matlab_log_env2_2026-10-27_13-32.txt,2.0,21.0,outcome,,,,,
+tests,matlab_log_env2_2026-10-27_13-32.txt,2.0,31.0,outcome,,,,,
