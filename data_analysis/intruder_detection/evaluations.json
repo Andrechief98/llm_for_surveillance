@@ -1,0 +1,22 @@
+{
+  "HITL": {
+    "1": {
+      "gpt-4o": {
+        "trial_1": {
+          "run_1": {
+            "sensor_sequence": [
+              "Lidar_4, Lidar_3, Camera_1, Lidar_2"
+            ],
+            "error_counts": {
+              "Reasoning error": 1,
+              "Wrong function call": 0,
+              "Hallucinations": 0
+            },
+            "total_errors": 1,
+            "notes": ""
+          }
+        }
+      }
+    }
+  }
+}
