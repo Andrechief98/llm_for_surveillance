@@ -1,352 +1,311 @@
 {
-  "deterministic":{
+  "deterministic": {
     "HITL": {
       "world_1": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_3": {
+              "semantic_RAG": true,
+              "function_RAG": false,
+              "image_info": false,
+              "sensor_sequence": ["Lidar_2"],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       }
     },
     "AUTO": {
       "world_1": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       }
     },
     "HUMAN": {
       "world_1": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       }
     }
   },
-  "uncertain":{
+  "uncertain": {
     "HITL": {
       "world_1": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       }
     },
     "AUTO": {
       "world_1": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       }
     },
     "HUMAN": {
       "world_1": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-            "trial_1": {
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
             },
-            "trial_2":{
-              "run_1": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              },
-              "run_2": {
-                "sensor_sequence": [],
-                "conversation": [
-                ]
-              }
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
             }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": [],
+              "conversation": []
+            },
+            "run_2": {
+              "sensor_sequence": [],
+              "conversation": []
+            }
+          }
         }
       }
     }

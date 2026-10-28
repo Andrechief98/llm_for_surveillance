@@ -8,6 +8,7 @@
     <!-- <arg name="semantic_RAG"        default="false"/>                    -->
     <arg name="trial_id"            default="1"/> 
     <arg name="llm_model"           default=""/> 
+    <arg name="experiment_type"     default=""/>
 
     <param name="/world_id"         value="$(arg world_id)"/>
     <param name="/llm_modality"     value="$(arg llm_modality)"/>
@@ -15,7 +16,8 @@
     <param name="/sensor_sequence"  value="$(arg sensor_sequence)"/>
     <!-- <param name="/semantic_RAG"     value="$(arg semantic_RAG)"/> -->
     <param name="/trial_id"         value="$(arg trial_id)"/>
-    <param name="/llm_model"         value="$(arg llm_model)"/>
+    <param name="/llm_model"        value="$(arg llm_model)"/>
+    <param name="/experiment_type"  value="$(arg experiment_type)"/>
 
     <!-- Running the node for Rviz markers -->
     <node 

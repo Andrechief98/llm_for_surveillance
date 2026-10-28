@@ -37,38 +37,34 @@ import math
 script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_interface/src
 
 # Retrieve ROS parameters
+experiment_type=rospy.get_param("experiment_type", "")
 world_id = str(rospy.get_param("world_id", 1))
 llm_modality = rospy.get_param("llm_modality", "HITL")
 print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
 sensor_sequence = rospy.get_param("sensor_sequence", "").split(",")
-# semantic_RAG = rospy.get_param("semantic_RAG", False)
 trial_id = rospy.get_param("trial_id", "0")
 llm_model = rospy.get_param("llm_model", "")
 
 
 
 
-if llm_modality in ["rag_with_semantics", "image_and_rag_with_semantics"]:
-    semantic_RAG = True
-    function_RAG = False
+# if llm_modality in ["rag_with_semantics", "image_and_rag_with_semantics"]:
+#     semantic_RAG = True
+#     function_RAG = False
     
-elif llm_modality in ["rag_with_functions", "image_and_rag_with_functions"]:
-    semantic_RAG = False
-    function_RAG = True
+# elif llm_modality in ["rag_with_functions", "image_and_rag_with_functions"]:
+#     semantic_RAG = False
+#     function_RAG = True
 
-elif llm_modality in ["image"]:
-    semantic_RAG = False
-    function_RAG = False
+# elif llm_modality in ["image"]:
+#     semantic_RAG = False
+#     function_RAG = False
 
-if llm_modality in ["image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]:
-    image_info = True
-elif llm_modality in ["rag_with_semantics", "rag_with_functions"]:
-    image_info = False
-
-print("semantic_RAG:", semantic_RAG)
-print("function_RAG:", function_RAG)
-print("image_info", image_info)
+# if llm_modality in ["image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]:
+#     image_info = True
+# elif llm_modality in ["rag_with_semantics", "rag_with_functions"]:
+#     image_info = False
 
 # Creating corresponding file names
 file_RAG = f"RAG_map{world_id}.json"
@@ -87,18 +83,49 @@ file_RAG_streams = [open(path, "rb") for path in file_RAG_paths]
 # Preparing the ROS file configuration
 file_ROS_path = os.path.join(script_dir, "../config/ROS", file_ROS_info)
 
-# Preparing experiments file 
+# Preparing experiments file and modality
 spatial_reasoning_modalities = ["rag_with_functions", "rag_with_semantics", "image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]
 intruder_detection_modalities = ["HITL", "AUTO"]
 
 if llm_modality in spatial_reasoning_modalities:
     experiment_folder = "spatial_reasoning"
+
+    if llm_modality in ["rag_with_semantics", "image_and_rag_with_semantics"]:
+        semantic_RAG = True
+        function_RAG = False
+        
+    elif llm_modality in ["rag_with_functions", "image_and_rag_with_functions"]:
+        semantic_RAG = False
+        function_RAG = True
+
+    elif llm_modality in ["image"]:
+        semantic_RAG = False
+        function_RAG = False
+
+    if llm_modality in ["image", "image_and_rag_with_functions", "image_and_rag_with_semantics"]:
+        image_info = True
+    elif llm_modality in ["rag_with_semantics", "rag_with_functions"]:
+        image_info = False
+
+
+
 elif llm_modality in intruder_detection_modalities:
     experiment_folder = "intruder_detection"
+
+    # We choose the best modality obtained from ablation study
+    semantic_RAG = True
+    function_RAG = False
+    image_info = False
 else:
     rospy.logerr("Wrong experiment folder considered")
 
-file_experiments_path = os.path.join(script_dir, "../../llm_data_analysis/", experiment_folder, file_experiments)
+
+print("semantic_RAG:", semantic_RAG)
+print("function_RAG:", function_RAG)
+print("image_info", image_info)
+
+
+file_experiments_path = os.path.join(script_dir, "../../data_analysis/", experiment_folder, file_experiments)
 
 # Loading the correct prompt based on the specified LLM modality
 with open(f"{script_dir}/../config/prompts/{file_prompt}") as f:
@@ -466,47 +493,56 @@ class LLM_cognitive_module:
         trial_name = f"trial_{trial_id}"
         world_name = f"world_{world_id}"
 
+        # Select the correct root of the JSON structure
+        if experiment_folder == "intruder_detection":
+            root_data = self.experiments_data.setdefault(experiment_type, {})
+        else:
+            root_data = self.experiments_data
+
+        print(root_data)
         # Check dictionary keys
-        if llm_modality not in self.experiments_data:
+        if llm_modality not in root_data:
             rospy.logerr(f"Key '{llm_modality}' not present in {file_experiments}")
 
             # We add the new llm modality
-            self.experiments_data.update({llm_modality:{}})
+            root_data.update({llm_modality:{}})
         
-        if world_name not in self.experiments_data[llm_modality]:
+        if world_name not in root_data[llm_modality]:
             rospy.logerr(f"Key '{world_name}' not present in experiments_data['{llm_modality}']")
 
             # We add the new world name
-            self.experiments_data[llm_modality].update({world_name:{}})
+            root_data[llm_modality].update({world_name:{}})
 
-        if self.llm_model not in self.experiments_data[llm_modality][world_name]:
+        if self.llm_model not in root_data[llm_modality][world_name]:
             rospy.logerr(f"Key '{self.llm_model}' not present in experiments_data['{llm_modality}']['{world_name}']")
 
             # We add the new llm model
-            self.experiments_data[llm_modality][world_name].update({self.llm_model:{}})
+            root_data[llm_modality][world_name].update({self.llm_model:{}})
 
-        if trial_name not in self.experiments_data[llm_modality][world_name][self.llm_model]:
+        if trial_name not in root_data[llm_modality][world_name][self.llm_model]:
             rospy.logerr(f"Key '{trial_name}' not present in experiments_data['{llm_modality}']['{world_name}']['{self.llm_model}']")
             
             # We add the new trial
-            self.experiments_data[llm_modality][world_name][self.llm_model].update({trial_name:{}})
+            root_data[llm_modality][world_name][self.llm_model].update({trial_name:{}})
 
 
         # Saving run in the correct trial
-        trial_runs = self.experiments_data[llm_modality][world_name][self.llm_model][trial_name]
+        trial_runs = root_data[llm_modality][world_name][self.llm_model][trial_name]
 
         new_run = True
 
-        for run_name, run_data in trial_runs.items():
+        for existing_run_name, run_data in trial_runs.items():
             if sensor_sequence == run_data["sensor_sequence"]:
                 new_run = False
+                run_name = existing_run_name
                 break
 
         if new_run:
             run_id = len(trial_runs) + 1
             run_name = f"run_{run_id}"
 
-        self.experiments_data[llm_modality][world_name][self.llm_model][trial_name][run_name] = self.data_experiment_run
+        # Save experiment run
+        trial_runs[run_name] = self.data_experiment_run
 
         text = json.dumps(self.experiments_data, indent=2, ensure_ascii=False)
         text = re.sub(r'\[\s*((?:"[^"]*"(?:,\s*)?)*)\s*\]',
@@ -602,11 +638,11 @@ class LLM_cognitive_module:
 
                                     for i, result in enumerate(results, start=1):
                                         complete_file_search_call =  complete_file_search_call + result.text 
-                                        print(f"\nFile: {result.filename}")
-                                        print(f"File ID: {result.file_id}")
-                                        print(f"Retrived text:\n{result.text}")
-                                        print(f"Score: {result.score}")
-                                        print(f"Attributes: {result.attributes}")
+                                        # print(f"\nFile: {result.filename}")
+                                        # print(f"File ID: {result.file_id}")
+                                        # print(f"Retrived text:\n{result.text}")
+                                        # print(f"Score: {result.score}")
+                                        # print(f"Attributes: {result.attributes}")
 
                                     rag_log = {
                                         "number_of_chunks":number_of_chunks,
@@ -622,7 +658,7 @@ class LLM_cognitive_module:
                                         for i, result in enumerate(results, start=1):
                                             print(f"\nFile: {result.filename}")
                                             print(f"File ID: {result.file_id}")
-                                            print(f"Retrived text:\n{result.text}")
+                                            print(f"Retrieved text:\n{result.text}")
                                             print(f"Score: {result.score}")
                                             print(f"Attributes: {result.attributes}")
 
