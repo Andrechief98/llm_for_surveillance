@@ -39,7 +39,7 @@ script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_int
 # Retrieve ROS parameters
 experiment_type=rospy.get_param("experiment_type", "")
 world_id = str(rospy.get_param("world_id", 1))
-llm_modality = rospy.get_param("llm_modality", "HITL")
+llm_modality = rospy.get_param("modality", "HITL")
 print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
 sensor_sequence = rospy.get_param("sensor_sequence", "").split(",")
@@ -1017,8 +1017,8 @@ class LLM_cognitive_module:
                         model_state = ModelState()
                         model_state.model_name = robot  # name of robot model in Gazebo
     
-                        model_state.pose.position.x = area_x
-                        model_state.pose.position.y = area_y
+                        model_state.pose.position.x = area_x-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
+                        model_state.pose.position.y = area_y-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
                         model_state.pose.position.z = 0.0
     
                         # Orientation 

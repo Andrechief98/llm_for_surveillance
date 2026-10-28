@@ -1,23 +1,26 @@
 <launch>
 
-    <arg name="world_id"            default="1"/>                       <!-- world_id specifies the type of desidered environment for the simulation: 1 = first world (map1), 2 = second world (map2) -->
-    <arg name="llm_modality"        default="HITL"/>                    <!-- llm_modality: HTIL = LLM with Human-in-the-loop, AUTO = LLM autonomous  -->
-    <arg name="print_rag_search"    default="false"/>                   <!-- print_rag_search: true = it prints the text obtained from RAG in the chainlit terminal, false = it doesn't print anything  -->
-    <arg name="teleport_robots"     default="true"/>                    
-    <arg name="sensor_sequence"     default=""/>                        <!-- sensor_sequence: sequence of sensor to activate during the experiment and that is used to create the run information -->
-    <!-- <arg name="semantic_RAG"        default="false"/>                    -->
-    <arg name="trial_id"            default="1"/> 
-    <arg name="llm_model"           default=""/> 
-    <arg name="experiment_type"     default=""/>
+    <arg name="world_id"                    default="1"/>                       <!-- world_id specifies the type of desidered environment for the simulation: 1 = first world (map1), 2 = second world (map2) -->
+    <arg name="modality"                    default="HITL"/>                    <!-- modality: HITL = LLM with Human-in-the-loop, AUTO = LLM autonomous, HUMAN = human experiment  -->
+    <arg name="print_rag_search"            default="false"/>                   <!-- print_rag_search: true = it prints the text obtained from RAG in the chainlit terminal, false = it doesn't print anything  -->
+    <arg name="teleport_robots"             default="true"/>                 
+    <arg name="teleport_actor"              default="true"/> 
+    <arg name="sensor_sequence"             default=""/>                        <!-- sensor_sequence: sequence of sensor to activate during the experiment and that is used to create the run information -->
+    <arg name="trial_id"                    default="1"/> 
+    <arg name="llm_model"                   default=""/> 
+    <arg name="experiment_type"             default=""/>
+    <arg name="actor_control_modality"      default="ps4"/>                     <!-- actor_control_modality: ps4 = control intruder with ps4 controller, keyboard = control intruder with keyboard -->
 
-    <param name="/world_id"         value="$(arg world_id)"/>
-    <param name="/llm_modality"     value="$(arg llm_modality)"/>
-    <param name="/print_rag_search" value="$(arg print_rag_search)"/>
-    <param name="/sensor_sequence"  value="$(arg sensor_sequence)"/>
-    <!-- <param name="/semantic_RAG"     value="$(arg semantic_RAG)"/> -->
-    <param name="/trial_id"         value="$(arg trial_id)"/>
-    <param name="/llm_model"        value="$(arg llm_model)"/>
-    <param name="/experiment_type"  value="$(arg experiment_type)"/>
+    <param name="/world_id"                 value="$(arg world_id)"/>
+    <param name="/modality"                 value="$(arg modality)"/>
+    <param name="/print_rag_search"         value="$(arg print_rag_search)"/>
+    <param name="/teleport_robots"          value="$(arg teleport_robots)"/>
+    <param name="/teleport_actor"           value="$(arg teleport_actor)"/>
+    <param name="/sensor_sequence"          value="$(arg sensor_sequence)"/>
+    <param name="/trial_id"                 value="$(arg trial_id)"/>
+    <param name="/llm_model"                value="$(arg llm_model)"/>
+    <param name="/experiment_type"          value="$(arg experiment_type)"/>
+    <param name="/actor_control_modality"   value="$(arg actor_control_modality)"/>
 
     <!-- Running the node for Rviz markers -->
     <node 
@@ -31,23 +34,18 @@
     <include file="$(find utilities)/launch/multi_turtlebots_nav.launch">
         <arg name="world_id" value="$(arg world_id)"/>
     </include>
-    <include file="$(find utilities)/launch/demo_teleop.launch" />
+
+    <include file="$(find utilities)/launch/actor_teleop.launch">
+        <arg name="actor_control_modality" value="$(arg actor_control_modality)"/>
+    </include>
 
     <!-- Running the node to initialize turtlebot positions -->
     <node 
-        name="initializationNode" 
+        name="sim_initialization_node" 
         pkg="utilities" 
-        type="turtlebotsInitialization.py" 
+        type="sim_initialization.py" 
         output="screen">
     </node>
-    
-    <!-- <node 
-        name="chatNode" 
-        pkg="OpenAI_interface" 
-        type="app_ros.py" 
-        output="screen">
-    </node> -->
-
 
     <node 
         name="dataMediatorNode" 
@@ -64,9 +62,9 @@
     </node>
 
     <node 
-        name="check_robot_goal_node" 
+        name="robot_node" 
         pkg="utilities" 
-        type="check_robot_goal.py" 
+        type="robot_node.py" 
         output="screen">
     </node>
 

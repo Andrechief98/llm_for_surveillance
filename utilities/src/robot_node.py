@@ -12,14 +12,14 @@ import re
 script_dir = os.path.dirname(__file__) 
 
 
-class checkRobotGoalNode():
+class robotNode():
     def __init__(self):
-        rospy.init_node("check_robot_goal_node", anonymous=True)
+        rospy.init_node("robot_node", anonymous=True)
 
         # Get the world_id parameter from ROS parameter server
-        self.mode = rospy.get_param('world_id', '1')
+        self.world_id = rospy.get_param('world_id', '1')
 
-        with open(f"{script_dir}/../../llm_interface/config/ROS/info_map{self.mode}.json", "r") as f:
+        with open(f"{script_dir}/../../llm_interface/config/ROS/info_map{self.world_id}.json", "r") as f:
             info = json.load(f)
 
         self.robots_dict = info["ros_publishers"]["robots"]
@@ -81,7 +81,7 @@ class checkRobotGoalNode():
                             actor_area = "unknown"
                 
                 else:
-                    rospy.logwarn(f"[{self.model_name}] State not obtained: {response.status_message}")
+                    rospy.logwarn(f"[{self.actor_model_name}] State not obtained: {response.status_message}")
 
             except rospy.ServiceException as e:
                 rospy.logerr(f"Error in the service call: {e}")
@@ -159,5 +159,5 @@ class checkRobotGoalNode():
 
 if __name__=="__main__":
 
-    check_robot_goal_node = checkRobotGoalNode()
+    check_robot_goal_node = robotNode()
     rospy.spin()

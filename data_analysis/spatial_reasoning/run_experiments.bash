@@ -90,7 +90,7 @@ for sequence_str in "${sequences[@]}"; do
         cd '$CHAINLIT_DIR' || exit 1
 
         # Avvia Chainlit
-        chainlit run prova_interfaccia_ros.py --headless &
+        chainlit run llm_ros_interface.py --headless &
         CHAINLIT_PID=\$!
         echo \$CHAINLIT_PID > '$CHAINLIT_PID_FILE'
 
