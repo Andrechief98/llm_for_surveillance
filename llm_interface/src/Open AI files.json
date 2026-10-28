@@ -1,3 +1,9 @@
 {
-  "files": []
+  "files": [
+    {
+      "file_name": "RAG_map1.json",
+      "file_ID": "file-FYaz8brxoYjE4nu6t1AVyn",
+      "vector_store_id": "vs_6ae244b6e5488191b745898443fd4abe"
+    }
+  ]
 }

@@ -1365,6 +1365,48 @@ async def start():
     asyncio.create_task(agent.async_process_queue(session_id))
     
 
+async def show_experiment_controls():
+    await cl.Message(
+        content="### 🎮 Experiment commands",
+        actions=[
+            cl.Action(
+                name="next_sequence",
+                label="⏭️ Next sensor sequence",
+                value="next_sequence",
+                payload={},
+            ),
+            cl.Action(
+                name="stop_experiment",
+                label="🛑 Stop experiment",
+                value="stop_experiment",
+                payload={},
+            ),
+        ],
+    ).send()
+
+@cl.action_callback("next_sequence")
+async def next_sequence(action: cl.Action):
+    try:
+        rospy.set_param("/next_sequence", True)
+        await cl.Message(
+            content="⏭️ Next sensor sequence request sent."
+        ).send()
+    except Exception as exc:
+        await cl.Message(content=f"ROS error: {exc}").send()
+
+
+@cl.action_callback("stop_experiment")
+async def stop_experiment(action: cl.Action):
+    try:
+        rospy.set_param("/stop_experiment", True)
+        await cl.Message(
+            content="🛑 Stop experiment request sent."
+        ).send()
+    except Exception as exc:
+        await cl.Message(content=f"ROS error: {exc}").send()
+
+
+
 # Setta comandi di test che si possono usare per inserire prompt di default
 @cl.set_starters
 async def set_starters():
@@ -1396,6 +1438,8 @@ async def main(message: cl.Message):
     
     agent = cl.user_session.get("agent")
     await agent.handle_message(msg=message.content, authority="user")
+    await show_experiment_controls()
+
 
 @cl.on_chat_end
 def on_chat_end():
