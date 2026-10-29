@@ -186,6 +186,7 @@ mapfile -t randomized_sequences < <(
 echo "Launching ROS simulation..."
 
 roslaunch utilities demo_multi_robot.launch \
+    experiment_type:="$experiment_type" \
     world_id:="$world_id" \
     modality:="$modality" \
     teleport_robots:="$teleport_robots" \
@@ -338,8 +339,16 @@ for record in "${randomized_sequences[@]}"; do
 
     # INTRUDER TELEPORT
     if [[ "$target_spec" != "-" ]]; then
-        echo "Teleporting intruder to target: $target_spec"
         rosservice call /teleport_actor "data: '$target_spec'"
+
+        # Setting the intruder_final_area to be registred in the save run mechanism
+        rosparam set /intruder_final_area "$target_spec"
+    else
+        # It teleport the intruder out of the environment so that it cannot be detected in case of only false positive sensors
+        rosservice call /teleport_actor "data: 'out'"
+
+        # Setting the intruder_final_area as a false positive case
+        rosparam set /intruder_final_area "FP"
     fi
 
     # WAIT FOR HUMAN DECISION

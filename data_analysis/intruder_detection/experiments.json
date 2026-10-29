@@ -5,156 +5,142 @@
         "gpt-6-luna": {
           "trial_1": {
             "run_1": {
+              "semantic_RAG": true,
+              "function_RAG": false,
+              "image_info": false,
               "sensor_sequence": [],
-              "conversation": []
+              "conversation": [],
+              "final_intruder_area": "",
+              "success": 0
             },
             "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
+              "semantic_RAG": true,
+              "function_RAG": false,
+              "image_info": false,
+              "sensor_sequence": [""],
+              "conversation": [
+                {"user": "show me camera 1"},
+                {
+                  "function_call": "name - show_camera_to_user \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}",
+                  "resp_time": 0.1
+                },
+                {"ROS_output": "Summary of cameras names correctness: {\"camera_1\": {\"correctness\": true, \"reason\": \"\"}}"},
+                {
+                  "assistant": "Camera 1 is now displayed.",
+                  "resp_time": 1.07,
+                  "gen_time": 0.15
+                },
+                {"user": "get camera 1 and tell me what you see"},
+                {
+                  "function_call": "name - get_camera_feed \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}",
+                  "resp_time": 0.13
+                },
+                {"ROS_output": "{\"camera_1\": {\"name\": {\"correctness\": true, \"reason\": \"\"}, \"image_conversion\": {\"success\": false, \"reason\": \"Image file saving failed\"}}}"},
+                {
+                  "assistant": "I couldn’t retrieve Camera 1’s image—the feed request failed because the image file could not be saved. I can’t tell what’s visible.",
+                  "resp_time": 1.89,
+                  "gen_time": 0.41
+                }
+              ],
+              "success": 0
             },
             "run_3": {
               "semantic_RAG": true,
               "function_RAG": false,
               "image_info": false,
               "sensor_sequence": ["Lidar_2"],
-              "conversation": []
+              "conversation": [
+                {"user": "get camera 1 feed and tell me what you see"},
+                {
+                  "file_search_call": {"number_of_chunks": 3,                    "retrieved_info": "{\n  \"sensors\":{\n    \"Camera_1\":{\n      \"areas\": [\"B\"]\n    },\n    \"Camera_2\":{\n      \"areas\": [\"F\"]\n    },\n    \"Lidar_1\":{\n      \"areas\": [\"A\", \"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_1\"\n      }\n    },\n    \"Lidar_2\":{\n      \"areas\":[\"A\", \"B\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_2\"\n      }\n    },\n    \"Lidar_3\":{\n      \"areas\":[\"B\",\"C\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_3\"\n      }\n    },\n    \"Lidar_4\":{\n      \"areas\":[\"C\",\"D\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_4\"\n      }\n    },\n    \"Lidar_5\":{\n      \"areas\":[\"D\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_5\"\n      }\n    },\n    \"Lidar_6\":{\n      \"areas\":[\"G\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_6\"\n      }\n    },\n    \"Lidar_7\":{\n      \"areas\":[\"G\",\"H\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_7\"\n      }\n    },\n    \"Lidar_8\":{\n      \"areas\":[\"L\",\"I\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_8\"\n      }\n    }\n  },\n  \"areas\": {\n    \"A\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_2\"],\n      \"actuators\": [\"door_1\", \"door_2\"],\n      \"connected_to_area\":{\n          \"B\":\"door_2\",\n          \"E\":\"door_1\"\n        }\n    },\n    \"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\",\"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\", \"Lidar_7\"],\n      \"actuators\": [\"door_6\", \"door_7\"],\n      \"connected_to_area\":{\n          \"E\":\"door_6\",\n          \"H\":\"door_7\"\n        }\n    },\n    \"H\": {\n      \"sensors\": [\"Lidar_7\"],\n      \"actuators\": [\"door_7\"],\n      \"connected_to_area\":{\n          \"G\":\"door_7\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"I\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\",\n          \"H\":\"open_passage\",\n          \"L\":\"door_8\"\n        }\n    },\n    \"L\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"I\":\"door_8\"\n        }\n    }\n  }\n}"},
+                  "resp_time": 1.63
+                },
+                {
+                  "function_call": "name - get_camera_feed \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}",
+                  "resp_time": 0.02
+                },
+                {"ROS_output": "{\"camera_1\": {\"name\": {\"correctness\": true, \"reason\": \"\"}, \"image_conversion\": {\"success\": true, \"reason\": \"\"}, \"image_path\": \"experiment_camera_frames/camera_1_1793300792441920312.jpg\"}}"},
+                {
+                  "function_call": "name - show_camera_to_user \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}",
+                  "resp_time": 0.01
+                },
+                {"ROS_output": "Summary of cameras names correctness: {\"camera_1\": {\"correctness\": true, \"reason\": \"\"}}"},
+                {
+                  "assistant": "Camera 1 shows a person standing at the far end of a hallway, wearing a green top and dark pants. I can’t determine from the image alone whether they’re an intruder.",
+                  "resp_time": 1.96,
+                  "gen_time": 0.38
+                }
+              ],
+              "success": 0
             }
           },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "AUTO": {
       "world_1": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "HUMAN": {
       "world_1": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
+        "trial_1": {
+          "run_1": {
+            "sensor_sequence": [],
+            "actions": [
+              {
+                "deploy": {"robot_1": "area",                  "robot_2": "area"}
+              },
+              {
+                "camera": ["camera_1", "robot_2"]
+              }
+            ],
+            "final_intruder_area": "",
+            "success": 0
           }
-        }
+        },
+        "trial_2": {}
       },
       "world_2": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
+        "trial_1": {},
+        "trial_2": {}
+      }
+    },
+    "ILP": {
+      "world_1": {
+        "trial_1": {
+          "run_1": {
+            "sensor_sequence": [],
+            "actions": [
+              {
+                "deploy": {"robot_1": "area",                  "robot_2": "area"}
+              }
+            ],
+            "final_intruder_area": "",
+            "success": 0
           }
-        }
+        },
+        "trial_2": {}
+      },
+      "world_2": {
+        "trial_1": {},
+        "trial_2": {}
       }
     }
   },
@@ -162,151 +148,49 @@
     "HITL": {
       "world_1": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "AUTO": {
       "world_1": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "HUMAN": {
       "world_1": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
-        }
+        "trial_1": {},
+        "trial_2": {}
       },
       "world_2": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
-        }
+        "trial_1": {},
+        "trial_2": {}
+      }
+    },
+    "ILP": {
+      "world_1": {
+        "trial_1": {},
+        "trial_2": {}
+      },
+      "world_2": {
+        "trial_1": {},
+        "trial_2": {}
       }
     }
   }
