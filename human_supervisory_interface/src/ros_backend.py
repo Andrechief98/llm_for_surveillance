@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import json
+import json, re
 import threading
 import subprocess
 from pathlib import Path
@@ -12,6 +12,9 @@ from std_srvs.srv import Empty
 from gazebo_msgs.srv import SetModelState
 from gazebo_msgs.msg import ModelState
 from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest
+import actionlib
+from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCheckerLLMFeedback
+
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -49,12 +52,20 @@ class SupervisorBackend:
         self.camera_process = None
         self.camera_topics = []
 
-        self.teleport_robots = teleport_robots
+        # Store the latest verification result for each robot.
+        self.robot_goal_events = {}
 
+        # Store the history of robot verification events.
+        self.robot_goal_history = []
+
+        self.teleport_robots = teleport_robots
         self.world_id = world_id
         self.config = None
 
         self.load_world_config()
+
+        # Start the action server after completing its initialization.
+        self.robotGoalCheckerServer.start()
 
     # ========================================================
     # CONFIGURAZIONE DEL MONDO
@@ -75,17 +86,9 @@ class SupervisorBackend:
         
         self.config = config
 
-        self.robots_dict = (
-            config.get("ros_publishers", {}).get("robots", {})
-        )
-
-        self.cameras_dict = (
-            config.get("ros_subscribers", {}).get("sensors", {})
-        )
-
-        self.actuators_dict = (
-            config.get("ros_services", {}).get("actuators", {})
-        )
+        self.robots_dict = (config.get("ros_publishers", {}).get("robots", {}))
+        self.cameras_dict = (config.get("ros_subscribers", {}).get("sensors", {}))
+        self.actuators_dict = (config.get("ros_services", {}).get("actuators", {}))
 
         self.areas_dict = config.get("areas", {})
 
@@ -95,13 +98,15 @@ class SupervisorBackend:
         self.areas_list = list(self.areas_dict.keys())
 
         self.robot_publishers = {
-            robot: rospy.Publisher(
-                entry["ros_topic"],
-                PoseStamped,
-                queue_size=10
-            )
-            for robot, entry in self.robots_dict.items()
+            robot: rospy.Publisher(entry["ros_topic"],PoseStamped,queue_size=10) for robot, entry in self.robots_dict.items()
         }
+
+        self.robotGoalCheckerServer = actionlib.SimpleActionServer(
+            "/robot_goal_checker",
+            goalCheckerLLMAction,
+            execute_cb=self.handleRobotGoalChecker,
+            auto_start=False,
+        )
 
     # ========================================================
     # REGISTRO DELLE OPERAZIONI
@@ -161,12 +166,13 @@ class SupervisorBackend:
 
     def deploy_robot(self, robot, area):
         if robot not in self.robots_dict:
-            raise ValueError(f"Robot sconosciuto: {robot}")
+            raise ValueError(f"Unknown robot: {robot}")
 
         if area not in self.areas_dict:
-            raise ValueError(f"Area sconosciuta: {area}")
+            raise ValueError(f"Unknown area: {area}")
 
-        coordinates = self.areas_dict[area]["coordinates"]
+        area_x = self.areas_dict[area]["coordinates"]["x"]
+        area_y = self.areas_dict[area]["coordinates"]["y"]
 
         if self.teleport_robots:
             proxy = rospy.ServiceProxy(
@@ -178,8 +184,8 @@ class SupervisorBackend:
             state.model_name = robot
             state.reference_frame = "map"
 
-            state.pose.position.x = float(coordinates["x"])
-            state.pose.position.y = float(coordinates["y"])
+            state.pose.position.x = area_x-0.3
+            state.pose.position.y = area_y-0.3
             state.pose.position.z = 0.0
             state.pose.orientation.w = 1.0
 
@@ -202,8 +208,8 @@ class SupervisorBackend:
         goal.header.stamp = rospy.Time.now()
         goal.header.frame_id = "map"
 
-        goal.pose.position.x = float(coordinates["x"])
-        goal.pose.position.y = float(coordinates["y"])
+        goal.pose.position.x = area_x
+        goal.pose.position.y = area_y
         goal.pose.position.z = 0.0
         goal.pose.orientation.w = 1.0
 
@@ -212,8 +218,8 @@ class SupervisorBackend:
         return {
             "robot": robot,
             "area": area,
-            "goal_x": coordinates["x"],
-            "goal_y": coordinates["y"],
+            "goal_x": area_x,
+            "goal_y": area_y,
             "status": "goal_published",
         }
 
@@ -235,6 +241,219 @@ class SupervisorBackend:
 
         return task_ids
 
+
+
+    def handleRobotGoalChecker(self, goal):
+        """Process a robot navigation result and its intruder detection report."""
+
+        result = goalCheckerLLMResult()
+
+        try:
+            # Validate the incoming action goal.
+            if goal is None:
+                raise ValueError("No action goal received")
+
+            message = goal.message_for_LLM.strip()
+
+            if not message:
+                raise ValueError("The received message is empty")
+
+            rospy.loginfo(
+                "Received robot verification message: %s",
+                message
+            )
+
+            # Extract the robot name and the report content.
+            if ":" in message:
+                robot, report = message.split(":", 1)
+                robot = robot.strip()
+                report = report.strip()
+            else:
+                robot = "unknown"
+                report = message
+
+            # Determine whether navigation succeeded.
+            report_lower = report.lower()
+
+            goal_reached = (
+                "intruder identified" in report_lower
+                or "no intruders identified" in report_lower
+                or "no intruder identified" in report_lower
+                or "goal reached" in report_lower
+                or "succeeded" in report_lower
+            )
+
+            goal_failed = (
+                "aborted" in report_lower
+                or "rejected" in report_lower
+                or "failed" in report_lower
+                or "preempted" in report_lower
+                or "recalled" in report_lower
+            )
+
+            # Extract the destination area from the report.
+            area = "unknown"
+            area_match = re.search(
+                r"Area\s+(.+?):",
+                report,
+                re.IGNORECASE
+            )
+
+            if area_match:
+                area = area_match.group(1).strip()
+            else:
+                clear_match = re.search(
+                    r"Area\s+(.+?)\s+clear",
+                    report,
+                    re.IGNORECASE
+                )
+
+                if clear_match:
+                    area = clear_match.group(1).strip()
+
+            # Determine the intruder detection result.
+            if "intruder identified" in report_lower:
+                intruder_detected = True
+                detection_status = "Intruder detected"
+
+            elif (
+                "no intruders identified" in report_lower
+                or "no intruder identified" in report_lower
+                or "area " in report_lower and " clear" in report_lower
+            ):
+                intruder_detected = False
+                detection_status = "No intruder detected"
+
+            else:
+                intruder_detected = None
+                detection_status = "Detection unavailable"
+
+            # Override the navigation status when failure is explicit.
+            if goal_failed:
+                goal_reached = False
+                intruder_detected = None
+                detection_status = "Detection not completed"
+
+            elif not goal_reached:
+                raise ValueError(
+                    f"Unable to determine navigation status from: {report}"
+                )
+
+            # Build the event for the supervisory interface.
+            event = {
+                "timestamp": datetime.now().isoformat(
+                    timespec="seconds"
+                ),
+                "robot": robot,
+                "area": area,
+                "goal_reached": goal_reached,
+                "intruder_detected": intruder_detected,
+                "goal_status": (
+                    "Goal reached"
+                    if goal_reached
+                    else "Goal not reached"
+                ),
+                "detection_status": detection_status,
+                "message": report,
+                "status": (
+                    "completed"
+                    if goal_reached
+                    else "failed"
+                ),
+            }
+
+            # Update the latest event and the event history.
+            with self.lock:
+                self.robot_goal_events[robot] = event.copy()
+
+                self.robot_goal_history.insert(
+                    0,
+                    event.copy()
+                )
+
+                self.robot_goal_history = (
+                    self.robot_goal_history[:100]
+                )
+
+            # Publish feedback about navigation completion.
+            feedback = goalCheckerLLMFeedback()
+            feedback.status_LLM = (
+                f"Robot {robot}, area {area}: "
+                f"{event['goal_status']}"
+            )
+            self.robotGoalCheckerServer.publish_feedback(feedback)
+
+            # Publish feedback about the intruder detection result.
+            feedback.status_LLM = (
+                f"Robot {robot}: {detection_status}"
+            )
+            self.robotGoalCheckerServer.publish_feedback(feedback)
+
+            # Set the final action result.
+            result.success = (
+                f"{event['goal_status']}; {detection_status}"
+            )
+
+            # Finish the action according to the navigation outcome.
+            if goal_reached:
+                self.robotGoalCheckerServer.set_succeeded(result)
+            else:
+                self.robotGoalCheckerServer.set_aborted(result)
+
+        except Exception as exc:
+            rospy.logerr(
+                "Error in handleRobotGoalChecker: %s",
+                exc
+            )
+
+            result.success = f"Verification failed: {exc}"
+
+            # Record the error so that it can be displayed in the frontend.
+            error_event = {
+                "timestamp": datetime.now().isoformat(
+                    timespec="seconds"
+                ),
+                "robot": "unknown",
+                "area": "unknown",
+                "goal_reached": None,
+                "intruder_detected": None,
+                "goal_status": "Verification error",
+                "detection_status": "Detection unavailable",
+                "message": str(exc),
+                "status": "failed",
+            }
+
+            with self.lock:
+                self.robot_goal_events["unknown"] = error_event.copy()
+
+                self.robot_goal_history.insert(
+                    0,
+                    error_event.copy()
+                )
+
+                self.robot_goal_history = (
+                    self.robot_goal_history[:100]
+                )
+
+            self.robotGoalCheckerServer.set_aborted(result)
+
+
+    def get_robot_goal_events(self):
+        """Return the latest verification event for each robot."""
+        with self.lock:
+            return {
+                robot: event.copy()
+                for robot, event in self.robot_goal_events.items()
+            }
+
+
+    def get_robot_goal_history(self):
+        """Return the most recent robot verification events."""
+        with self.lock:
+            return [
+                event.copy()
+                for event in self.robot_goal_history
+            ]
     # ========================================================
     # CONTROLLO PORTE
     # ========================================================
