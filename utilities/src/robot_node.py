@@ -135,7 +135,7 @@ class robotNode():
                 print(action_server_goal)
                 self.goalLLM_action_client.send_goal(action_server_goal)
 
-                rospy.loginfo(f"Goal and intrusion checker: call to LLM executed")
+                rospy.loginfo(f"Goal and intrusion check: call to LLM executed")
 
             except rospy.ROSException as e:
                 rospy.logerr(f"Error triggering the LLM by the Goal and intrusion checker node: {e}")
@@ -151,7 +151,7 @@ class robotNode():
                 print(action_server_goal)
                 self.goalLLM_action_client.send_goal(action_server_goal)
 
-                rospy.loginfo(f"Goal and intrusion checker: call to LLM executed")
+                rospy.loginfo(f"Goal and intrusion check: call to LLM executed")
 
             except rospy.ROSException as e:
                 rospy.logerr(f"Error triggering the LLM by the Goal and intrusion checker node: {e}")

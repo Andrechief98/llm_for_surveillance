@@ -1,7 +1,7 @@
 <launch>
 
     <arg name="world_id"                    default="1"/>                       <!-- world_id specifies the type of desidered environment for the simulation: 1 = first world (map1), 2 = second world (map2) -->
-    <arg name="modality"                    default="HITL"/>                    <!-- modality: HITL = LLM with Human-in-the-loop, AUTO = LLM autonomous, HUMAN = human experiment  -->
+    <arg name="modality"                    default=""/>                    <!-- modality: HITL = LLM with Human-in-the-loop, AUTO = LLM autonomous, HUMAN = human experiment  -->
     <arg name="print_rag_search"            default="false"/>                   <!-- print_rag_search: true = it prints the text obtained from RAG in the chainlit terminal, false = it doesn't print anything  -->
     <arg name="teleport_robots"             default="true"/>                 
     <arg name="teleport_actor"              default="true"/> 
