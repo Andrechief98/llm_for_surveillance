@@ -1302,9 +1302,32 @@ class LLM_cognitive_module:
                 response[camera_name_lower]["retrieved_image_base64"] = (
                     base64.b64encode(buffer.tobytes()).decode("utf-8")
                 )
+                
 
             except Exception as e:
                 response[camera_name_lower]["image_conversion"]["reason"] = str(e)
+
+
+            if llm_modality in intruder_detection_modalities:
+                # We save the image in the folder for subsequent evaluation
+
+                # Directory to save images
+                # Absolute directory (to actually save the image in the correct folder)
+                abs_image_dir = os.path.join(script_dir, "../../data_analysis/", experiment_folder, "experiment_camera_frames")
+                # Relative directory (it will be saved in the json file to make retrieval during evaluation easier)
+                rel_image_dir = "experiment_camera_frames"
+
+                # Unique name to avoid overwriting previous images
+                filename = (f"{camera_name_lower}_{time.time_ns()}.jpg")
+                abs_image_path = os.path.join(abs_image_dir, filename)
+                rel_image_path = os.path.join(rel_image_dir, filename)
+
+                # Saving images for subsequent evaluation process
+                if not cv2.imwrite(abs_image_path, cv_image):
+                    print("Image file saving failed")
+
+                response[camera_name_lower]["image_path"] = rel_image_path
+
 
         return f"{json.dumps(response)}"
         
