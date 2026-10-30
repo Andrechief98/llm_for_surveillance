@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import rospy
+from std_srvs.srv import Empty, EmptyResponse
+from tf.transformations import quaternion_from_euler
 from move_base_msgs.msg import MoveBaseActionResult
-from gazebo_msgs.srv import GetModelState, GetModelStateRequest
+from gazebo_msgs.srv import GetModelState, GetModelStateRequest, SetModelState, SetModelStateRequest
+from gazebo_msgs.msg import ModelState
 from llm_interface.srv import triggerGpt, triggerGptRequest
 from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMGoal
 import actionlib
@@ -25,10 +28,25 @@ class robotNode():
         self.robots_dict = info["ros_publishers"]["robots"]
         self.robots_list = self.robots_dict.keys()
 
+        # Retrieve initial poses of all robots from ROS Parameter Server
+        self.initial_poses = {}
+
+        for robot_name in self.robots_list:
+            param_name = f"/{robot_name}_initial_pose"
+            pose_str = rospy.get_param(param_name)
+            x, y, yaw = map(float, pose_str.split())
+            self.initial_poses[robot_name] = {
+                "x": x,
+                "y": y,
+                "yaw": yaw
+            }
+
+
         self.areas_dict = info["areas"]
 
-
-        self.gazebo_client = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+        self.reset_robot_pose = rospy.Service('/reset_robot_pose', Empty, self.reset_robot_pose)
+        self.gazebo_client_get_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
+        self.gazebo_client_set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
         self.actor_model_name = "actor"
 
         self.goalLLM_action_client = actionlib.SimpleActionClient('/robot_goal_checker', goalCheckerLLMAction)
@@ -38,6 +56,58 @@ class robotNode():
         for robot in self.robots_list:
             self.goal_results_subs_list.append(rospy.Subscriber(f'/{robot}/move_base/result', MoveBaseActionResult, self.result_callback))
 
+
+    def reset_robot_pose(self, req):
+
+        try:
+            for robot_name, pose in self.initial_poses.items():
+
+                # Create ModelState message
+                model_state = ModelState()
+
+                model_state.model_name = robot_name
+                model_state.reference_frame = "world"
+
+                # Set initial position
+                model_state.pose.position.x = pose["x"]
+                model_state.pose.position.y = pose["y"]
+                model_state.pose.position.z = 0.0
+
+                # Convert yaw to quaternion
+                q = quaternion_from_euler(0.0, 0.0, pose["yaw"])
+
+                model_state.pose.orientation.x = q[0]
+                model_state.pose.orientation.y = q[1]
+                model_state.pose.orientation.z = q[2]
+                model_state.pose.orientation.w = q[3]
+
+                # Reset linear and angular velocities
+                model_state.twist.linear.x = 0.0
+                model_state.twist.linear.y = 0.0
+                model_state.twist.linear.z = 0.0
+
+                model_state.twist.angular.x = 0.0
+                model_state.twist.angular.y = 0.0
+                model_state.twist.angular.z = 0.0
+
+                # Call Gazebo set_model_state service
+                response = self.gazebo_client_set_state(model_state)
+
+                if response.success:
+                    rospy.loginfo(
+                        f"[{robot_name}] Position successfully reset "
+                        f"to x={pose['x']}, y={pose['y']}, yaw={pose['yaw']}"
+                    )
+                else:
+                    rospy.logwarn(
+                        f"[{robot_name}] Reset failed: {response.status_message}"
+                    )
+
+        except rospy.ServiceException as e:
+            rospy.logerr(f"Error resetting robot positions: {e}")
+            return EmptyResponse()
+
+        return EmptyResponse()
 
     def result_callback(self, msg):   
         # Estrai il testo del risultato
@@ -63,7 +133,7 @@ class robotNode():
             gazebo_req.model_name = self.actor_model_name
 
             try:
-                response = self.gazebo_client(gazebo_req)
+                response = self.gazebo_client_get_state(gazebo_req)
 
                 if response.success:
                     actor_pose = response.pose
@@ -93,7 +163,7 @@ class robotNode():
             gazebo_req.model_name = robot_name
 
             try:
-                response = self.gazebo_client(gazebo_req)
+                response = self.gazebo_client_get_state(gazebo_req)
 
                 if response.success:
                     robot_pose = response.pose
