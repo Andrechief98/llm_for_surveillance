@@ -202,8 +202,8 @@ def render_event(event, index):
                         except json.JSONDecodeError:
                             arguments = arguments_str
 
-                st.markdown(f"**Funzione:** `{function_name}`")
-                st.markdown("**Parametri:**")
+                st.markdown(f"**Function:** `{function_name}`")
+                st.markdown("**Parameters:**")
 
                 if isinstance(arguments, dict):
                     if arguments:
@@ -212,7 +212,7 @@ def render_event(event, index):
                                 value = json.dumps(value, ensure_ascii=False)
                             st.markdown(f"- `{key}`: `{value}`")
                     else:
-                        st.caption("Nessun parametro")
+                        st.caption("No parameters")
                 else:
                     st.code(str(arguments), language="json")
 
@@ -220,11 +220,11 @@ def render_event(event, index):
         elif role_lower == "ros_output":
             with st.container(border=True):
                 st.markdown(
-                    f"⚙️ **ROS OUTPUT** · Evento {index + 1}"
+                    f"⚙️ **ROS OUTPUT** · Event {index + 1}"
                 )
 
                 # Mostra il risultato ROS originale
-                with st.expander("Visualizza risultato ROS"):
+                with st.expander("Show ROS output"):
                     st.code(pretty_content(content), language="json")
 
                 # Mostra eventuali immagini associate al risultato
@@ -236,15 +236,15 @@ def render_event(event, index):
         elif role_lower == "tool":
             with st.container(border=True):
                 st.markdown(
-                    f"🧰 **TOOL OUTPUT** · Evento {index + 1}"
+                    f"🧰 **TOOL OUTPUT** · Event {index + 1}"
                 )
-                with st.expander("Visualizza risultato"):
+                with st.expander("Show result"):
                     st.code(pretty_content(content))
 
 
         elif role_lower == "data_orchestrator":
             with st.container(border=True):
-                st.markdown(f"🚨 **DATA ORCHESTRATOR** · Evento {index + 1}")
+                st.markdown(f"🚨 **DATA ORCHESTRATOR** · Event {index + 1}")
 
                 # Estrae il JSON dello stato ambientale dal contenuto testuale
                 match = re.search(
@@ -262,7 +262,7 @@ def render_event(event, index):
                         robots = state.get("robots", {})
                         activated_sensors = state.get("activated_sensors", [])
 
-                        st.markdown("#### 📡 Sensori attivi")
+                        st.markdown("#### 📡 Active sensors")
 
                         if activated_sensors:
                             st.markdown(
@@ -271,7 +271,7 @@ def render_event(event, index):
                                 )
                             )
                         else:
-                            st.caption("Nessun sensore attivo.")
+                            st.caption("No active sensors.")
 
                         st.markdown("#### 🤖 Robot")
 
@@ -283,10 +283,10 @@ def render_event(event, index):
                                 st.markdown(
                                     f"- **{robot_name}** · "
                                     f"📍 Area: `{location}` · "
-                                    f"Stato: {status}"
+                                    f"Status: {status}"
                                 )
                         else:
-                            st.caption("Nessun robot presente.")
+                            st.caption("No robot available.")
 
 
                     except (json.JSONDecodeError, TypeError):
@@ -301,9 +301,9 @@ def render_event(event, index):
         else:
             with st.container(border=True):
                 st.markdown(
-                    f"📄 **{role.upper()}** · Evento {index + 1}"
+                    f"📄 **{role.upper()}** · Event {index + 1}"
                 )
-                with st.expander("Visualizza contenuto"):
+                with st.expander("Show content"):
                     st.code(pretty_content(content))
 
 
@@ -345,19 +345,19 @@ def render_camera_images_from_ros_output(content):
         relative_path = Path(image_path)
         resolved_path = (Path(script_dir) / relative_path).resolve()
 
-        st.markdown(f"**📷 Immagine acquisita — {camera_name}**")
+        st.markdown(f"**📷 Camera feed — {camera_name}**")
 
         if resolved_path.is_file():
             st.image(
                 str(resolved_path),
                 caption=f"{camera_name} · {relative_path.as_posix()}",
-                use_container_width=True,
+                width=400,
             )
         else:
             st.warning(
-                f"Immagine non trovata: {relative_path.as_posix()}"
+                f"Camera feed not found: {relative_path.as_posix()}"
             )
-            st.caption(f"Percorso cercato: {resolved_path}")
+            st.caption(f"Directory: {resolved_path}")
 
 
 def count_message_types(conversation):
@@ -438,45 +438,19 @@ def render_world_image(world_id):
             unsafe_allow_html=True,
         )
 
-        st.caption(f"Planimetria — {world_id}")
+        st.caption(f"Building plan — {world_id}")
 
     else:
         st.warning(
-            f"Immagine non trovata per {world_id}."
+            f"Building plan not found for {world_id}."
         )
-
-# ---------- Caricamento dataset tramite browsing delle cartelle ----------
-
-# st.title("LLM Conversation Reviewer")
-# st.caption(
-#     "Visualizzazione delle tracce e annotazione manuale degli errori"
-# )
-
-# uploaded = st.file_uploader(
-#     "Carica il dataset JSON",
-#     type=["json"],
-# )
-
-# if uploaded is None:
-#     st.info("Carica il file JSON contenente le modalità HITL e AUTO.")
-#     st.stop()
-
-# try:
-#     dataset = json.load(uploaded)
-# except (json.JSONDecodeError, UnicodeDecodeError):
-#     st.error("Il file caricato non è un JSON valido.")
-#     st.stop()
-
-# if not isinstance(dataset, dict) or not dataset:
-#     st.error("Il JSON deve contenere un oggetto con le modalità.")
-#     st.stop()
 
 
 # ---------- Caricamento automatico dataset ----------
 
 st.title("LLM Conversation Reviewer")
 st.caption(
-    "Visualizzazione delle tracce e annotazione manuale degli errori"
+    "Conversation viewer and error manual annotations"
 )
 
 if not DATASET_FILE.is_file():
@@ -552,14 +526,14 @@ available_conditions = [
 ]
 
 if not available_conditions:
-    st.error("Nessuna condizione deterministic/uncertain valida.")
+    st.error("No valid deterministic/uncertain condition.")
     st.stop()
 
 nav_selectors = st.columns([1.2, 1, 0.8, 1.2, 0.8], gap="small")
 
 with nav_selectors[0]:
     condition = st.selectbox(
-        "Condizione",
+        "Condition",
         available_conditions,
         key="selected_condition",
     )
@@ -574,12 +548,12 @@ available_modes = [
 ]
 
 if not available_modes:
-    st.error(f"Nessuna modalità HITL/AUTO in {condition}.")
+    st.error(f"No HITL/AUTO modality in {condition}.")
     st.stop()
 
 with nav_selectors[1]:
     mode = st.selectbox(
-        "Modalità",
+        "Modality",
         available_modes,
         key=f"selected_mode_{condition}",
     )
@@ -593,7 +567,7 @@ available_numbers = [
 ]
 
 if not available_numbers:
-    st.error(f"Nessun world disponibile per {condition}/{mode}.")
+    st.error(f"No world available for {condition}/{mode}.")
     st.stop()
 
 with nav_selectors[2]:
@@ -612,12 +586,12 @@ available_models = [
 ]
 
 if not available_models:
-    st.warning(f"Nessun modello per {condition}/{mode}/{world_id}.")
+    st.warning(f"No model for {condition}/{mode}/{world_id}.")
     st.stop()
 
 with nav_selectors[3]:
     model_id = st.selectbox(
-        "Modello",
+        "Model",
         available_models,
         key=f"selected_model_{condition}_{mode}_{world_id}",
     )
@@ -631,7 +605,7 @@ available_trials = [
 ]
 
 if not available_trials:
-    st.warning("Nessun trial disponibile.")
+    st.warning("No trial available.")
     st.stop()
 
 with nav_selectors[4]:
@@ -682,7 +656,7 @@ nav_left, nav_center, nav_right = st.columns([1, 2, 1])
 
 with nav_left:
     if st.button(
-        "← Precedente",
+        "← Previous",
         disabled=st.session_state[nav_key] == 0,
         use_container_width=True,
         key=f"prev_{mode}_{world_id}_{model_id}_{trial_id}",
@@ -692,7 +666,7 @@ with nav_left:
 
 with nav_right:
     if st.button(
-        "Successiva →",
+        "Next →",
         disabled=(
             st.session_state[nav_key] >= len(world_runs) - 1
         ),
@@ -735,12 +709,12 @@ with nav_center:
     )
 
     if is_evaluated:
-        st.success("🟢 Già valutata")
+        st.success("🟢 Evaluated")
     else:
-        st.warning("🟠 Da valutare")
+        st.warning("🟠 To be evaluated")
 
 st.caption(
-    f"Selezione corrente: "
+    f"Current selection: "
     f"{mode} / {world_id} / {model_id} / "
     f"{trial_id} / {run_id}"
 )
@@ -775,21 +749,21 @@ if not isinstance(old_notes, str):
 
 # ---------- Interfaccia affiancata ----------
 
-st.subheader("Immagine di riferimento")
+st.subheader("Reference building plan")
 left, right = st.columns([1.65, 1], gap="large")
 
 with left:
     # Immagine associata al world_id selezionato
     render_world_image(world_id)
 
-    st.subheader("Conversazione")
+    st.subheader("Conversation")
 
     st.caption(
-        f"Modalità: {mode} · "
+        f"Modality: {mode} · "
         f"Trial: {trial_id} · "
         f"World: {world_id} · "
         f"Run: {run_id} · "
-        f"Modello: {model_id}"
+        f"Model: {model_id}"
     )
 
     # with st.container(height=650, border=True):
@@ -805,7 +779,7 @@ with left:
     #         render_event(event, index)
     
     # Visualizza la sequenza sopra la conversazione
-    st.subheader(f"Sequenza: {run.get('sensor_sequence', [])}")
+    st.subheader(f"Sequence: {run.get('sensor_sequence', [])}")
 
     # Contenitore della conversazione
     with st.container(height=1250, border=True):
@@ -820,7 +794,7 @@ with right:
         run["conversation"]
     )
 
-    st.markdown("#### Statistiche messaggi")
+    st.markdown("#### Message statistics")
 
     sorted_counts = sorted(
         message_counts.items(),
@@ -864,10 +838,10 @@ with right:
             indent=4,
         )
 
-    st.markdown("#### Struttura delle categorie")
+    st.markdown("#### Error categories")
     st.caption(
-        "Modifica il JSON qui sotto. Puoi aggiungere, "
-        "rinominare o eliminare macrocategorie e sottocategorie."
+        "Edit the JSON below. You can add, "
+        "rename, or delete macro-categories and subcategories."
     )
 
     editor_content = st_ace(
@@ -884,7 +858,7 @@ with right:
     )
 
     if st.button(
-        "Applica struttura",
+        "Apply structure",
         key="apply_category_dictionary",
         use_container_width=True,
     ):
@@ -938,20 +912,20 @@ with right:
                 indent=4,
             )
 
-            st.success("Struttura delle categorie aggiornata.")
+            st.success("Errors structure updated.")
             st.rerun()
 
         except (json.JSONDecodeError, ValueError, TypeError) as exc:
-            st.error(f"JSON non valido: {exc}")
+            st.error(f"JSON not valid: {exc}")
 
 
     # ---------- Valutazione gerarchica ----------
 
-    st.subheader("Valutazione")
+    st.subheader("Evaluation")
 
     st.caption(
-        "Modifica il dizionario, applica la struttura e "
-        "usa + e − per annotare gli errori."
+        "Modify the dictionary, apply the structure, and"
+        "use + and − to mark errors."
     )
 
 
@@ -983,8 +957,8 @@ with right:
 
             if not subcategories:
                 st.caption(
-                    "Nessuna sottocategoria. "
-                    "Aggiungine una nel dizionario qui sopra."
+                    "No subcategories."
+                    "Add one to the dictionary above."
                 )
 
             for subcategory in subcategories:
@@ -1118,7 +1092,7 @@ with right:
                 font-weight: 600;
                 white-space: nowrap;
             ">
-                Totale complessivo degli errori
+                Total errors
             </span>
             <span style="
                 font-size: 28px;
@@ -1134,7 +1108,7 @@ with right:
     # ---------- Note ----------
 
     notes = st.text_area(
-        "Note / motivazione",
+        "Note / motivation",
         value=old_notes,
         height=120,
         key=(
@@ -1146,7 +1120,7 @@ with right:
     # ---------- Salvataggio ----------
 
     if st.button(
-        "Salva valutazione",
+        "Save evaluation",
         type="primary",
         use_container_width=True,
         key=(
@@ -1183,7 +1157,7 @@ with right:
         write_json(CATEGORIES_FILE, categories)
 
         st.success(
-            "Valutazione salvata per "
+            "Evaluation saved for "
             f"{mode} / {world_id} / {model_id} / "
             f"{trial_id} / {run_id}"
         )
