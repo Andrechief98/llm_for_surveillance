@@ -21,7 +21,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-REFRESH_SECONDS = 1.5
+REFRESH_SECONDS = 1
 MAX_CAMERAS = 6
 MAX_ACTIVITIES = 100
 
@@ -263,6 +263,122 @@ def render_metrics():
 
 
 render_metrics()
+
+# ============================================================
+# ROBOT GOAL VERIFICATION AND INTRUDER DETECTION
+# ============================================================
+
+@st.fragment(run_every=REFRESH_SECONDS)
+def render_robot_goal_events():
+    """Display the latest navigation and detection results."""
+
+    st.subheader("🎯 Goal Verification & Intruder Detection")
+
+    try:
+        events = backend.get_robot_goal_events() or {}
+    except Exception as exc:
+        st.error(
+            f"Unable to retrieve robot verification events: {exc}"
+        )
+        return
+
+    if not events:
+        st.info(
+            "No robot verification results received yet."
+        )
+        return
+
+    for robot, event in events.items():
+        goal_reached = event.get("goal_reached")
+        intruder_detected = event.get("intruder_detected")
+
+        with st.container(border=True):
+            st.markdown(
+                f"### 🤖 {event.get('robot', robot)}"
+            )
+
+            st.caption(
+                f"Destination: {event.get('area', 'unknown')} "
+                f"· Updated: {event.get('timestamp', 'unknown')}"
+            )
+
+            goal_col, detection_col = st.columns(2)
+
+            with goal_col:
+                st.markdown("**Navigation status**")
+
+                if goal_reached is True:
+                    st.success("✓ Goal reached")
+                elif goal_reached is False:
+                    st.error("✕ Goal not reached")
+                else:
+                    st.warning("Navigation status unavailable")
+
+            with detection_col:
+                st.markdown("**Intruder detection**")
+
+                if goal_reached is not True:
+                    st.info("Detection not completed")
+                elif intruder_detected is True:
+                    st.error("⚠ Intruder detected")
+                elif intruder_detected is False:
+                    st.success("✓ No intruder detected")
+                else:
+                    st.warning("Detection result unavailable")
+
+            message = event.get("message", "")
+
+            if message:
+                st.caption(f"Details: {message}")
+
+            if event.get("status") == "failed":
+                if event.get("goal_status") == "Verification error":
+                    st.error(
+                        f"Verification error: {message}"
+                    )
+
+
+render_robot_goal_events()
+# ============================================================
+# CONTROLLO ESPERIMENTO
+# ============================================================
+
+st.subheader("🧪 Experiment Control")
+st.caption(
+    "Advance the sensor sequence or stop the current experiment."
+)
+
+next_col, stop_col = st.columns(2, gap="large")
+
+with next_col:
+    if st.button(
+        "⏭️ Next sensor sequence",
+        type="primary",
+        use_container_width=True,
+        key="next_sensor_sequence_button",
+    ):
+        execute_command(
+            description="Advance to next sensor sequence",
+            callback=backend.next_sensor_sequence,
+            success_message=(
+                "Next sensor sequence requested."
+            ),
+        )
+
+with stop_col:
+    if st.button(
+        "🛑 Stop experiment",
+        type="secondary",
+        use_container_width=True,
+        key="stop_experiment_button",
+    ):
+        execute_command(
+            description="Stop experiment",
+            callback=backend.stop_experiment,
+            success_message=(
+                "Experiment stop requested."
+            ),
+        )
 
 st.divider()
 

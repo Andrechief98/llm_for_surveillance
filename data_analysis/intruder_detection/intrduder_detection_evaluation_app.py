@@ -2,11 +2,15 @@ import json
 from pathlib import Path
 
 import streamlit as st
+from streamlit_ace import st_ace
 import os
+import re
+import ast
 
 
 script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_data_analysis/intruder_detection
 images_path = os.path.join(script_dir, "../../llm_interface/config/uploads")
+camera_frames_path = os.path.join(script_dir, "experiment_camera_frames")
 
 WORLD_IMAGES = {
     "world_1": os.path.join(images_path, "building_plan_map1.png"),
@@ -99,15 +103,22 @@ st.markdown(
 )
 
 EVALUATIONS_FILE = Path("evaluations.json")
+DATASET_FILE = Path("experiments.json")
 CATEGORIES_FILE = Path("error_categories.json")
 
-DEFAULT_CATEGORIES = [
-    "Errore fattuale",
-    "Errore di pianificazione",
-    "Uso errato dei tool",
-    "Violazione dei vincoli di sicurezza",
-    "Errore di comunicazione",
-]
+DEFAULT_CATEGORIES = {
+  "Reasoning_errors": [
+    "Spatial reasoning errors"
+  ],
+  "Hallucinations": [
+    "get_areas_info with useless areas",
+    "get_sensors_info with useless sensors"
+  ],
+  "Wrong function calls": [
+    "Unapproved action execution",
+    "Wrong parameters generated"
+  ]
+}
 
 
 # ---------- Utility ----------
@@ -149,6 +160,8 @@ def render_event(event, index):
             st.code(pretty_content(event))
         return
 
+    event = filter_timing_fields(event)
+
     for role, content in event.items():
         role_lower = role.lower()
 
@@ -170,35 +183,182 @@ def render_event(event, index):
 
         elif role_lower == "function_call":
             with st.container(border=True):
-                st.markdown(
-                    f"🔧 **FUNCTION CALL** · Evento {index + 1}"
-                )
-                with st.expander("Visualizza dettagli"):
-                    st.code(pretty_content(content))
+                st.markdown(f"🔧 **FUNCTION CALL** · Evento {index + 1}")
+
+                function_name = "Funzione sconosciuta"
+                arguments = {}
+
+                for line in content.splitlines():
+                    line = line.strip()
+
+                    if line.startswith("name - "):
+                        function_name = line[len("name - "):].strip()
+
+                    elif line.startswith("arguments - "):
+                        arguments_str = line[len("arguments - "):].strip()
+
+                        try:
+                            arguments = json.loads(arguments_str)
+                        except json.JSONDecodeError:
+                            arguments = arguments_str
+
+                st.markdown(f"**Function:** `{function_name}`")
+                st.markdown("**Parameters:**")
+
+                if isinstance(arguments, dict):
+                    if arguments:
+                        for key, value in arguments.items():
+                            if isinstance(value, (dict, list)):
+                                value = json.dumps(value, ensure_ascii=False)
+                            st.markdown(f"- `{key}`: `{value}`")
+                    else:
+                        st.caption("No parameters")
+                else:
+                    st.code(str(arguments), language="json")
+
 
         elif role_lower == "ros_output":
             with st.container(border=True):
                 st.markdown(
-                    f"⚙️ **ROS OUTPUT** · Evento {index + 1}"
+                    f"⚙️ **ROS OUTPUT** · Event {index + 1}"
                 )
-                with st.expander("Visualizza risultato ROS"):
-                    st.code(pretty_content(content))
+
+                # Mostra il risultato ROS originale
+                with st.expander("Show ROS output"):
+                    st.code(pretty_content(content), language="json")
+
+                # Mostra eventuali immagini associate al risultato
+                render_camera_images_from_ros_output(content)
+
+
+                
 
         elif role_lower == "tool":
             with st.container(border=True):
                 st.markdown(
-                    f"🧰 **TOOL OUTPUT** · Evento {index + 1}"
+                    f"🧰 **TOOL OUTPUT** · Event {index + 1}"
                 )
-                with st.expander("Visualizza risultato"):
+                with st.expander("Show result"):
                     st.code(pretty_content(content))
+
+
+        elif role_lower == "data_orchestrator":
+            with st.container(border=True):
+                st.markdown(f"🚨 **DATA ORCHESTRATOR** · Event {index + 1}")
+
+                # Estrae il JSON dello stato ambientale dal contenuto testuale
+                match = re.search(
+                    r"Current environment state:\s*(\{.*?\})\.\s*Propose",
+                    content,
+                    re.DOTALL
+                )
+
+                if match:
+                    try:
+                        # Il JSON contiene oggetti annidati: usa raw_decode
+                        decoder = json.JSONDecoder()
+                        state, _ = decoder.raw_decode(match.group(1))
+
+                        robots = state.get("robots", {})
+                        activated_sensors = state.get("activated_sensors", [])
+
+                        st.markdown("#### 📡 Active sensors")
+
+                        if activated_sensors:
+                            st.markdown(
+                                " · ".join(
+                                    f"`{sensor}`" for sensor in activated_sensors
+                                )
+                            )
+                        else:
+                            st.caption("No active sensors.")
+
+                        st.markdown("#### 🤖 Robot")
+
+                        if robots:
+                            for robot_name, robot_info in robots.items():
+                                location = robot_info.get("current_area", "N/D")
+                                status = robot_info.get("status", "N/D")
+
+                                st.markdown(
+                                    f"- **{robot_name}** · "
+                                    f"📍 Area: `{location}` · "
+                                    f"Status: {status}"
+                                )
+                        else:
+                            st.caption("No robot available.")
+
+
+                    except (json.JSONDecodeError, TypeError):
+                        st.warning("Impossibile interpretare lo stato ambientale.")
+                else:
+                    st.warning("Stato ambientale non trovato nel messaggio.")
+
+                # Mostra anche il testo originale, senza menu a tendina
+                # st.markdown("#### 📝 Messaggio originale")
+                # st.write(content)
 
         else:
             with st.container(border=True):
                 st.markdown(
-                    f"📄 **{role.upper()}** · Evento {index + 1}"
+                    f"📄 **{role.upper()}** · Event {index + 1}"
                 )
-                with st.expander("Visualizza contenuto"):
+                with st.expander("Show content"):
                     st.code(pretty_content(content))
+
+
+def filter_timing_fields(event):
+    """Rimuove i campi temporali dagli eventi prima della visualizzazione."""
+    if not isinstance(event, dict):
+        return event
+
+    return {
+        key: value
+        for key, value in event.items()
+        if key not in ("resp_time", "gen_time")
+    }
+
+def render_camera_images_from_ros_output(content):
+    """Estrae gli image_path dal ROS_output e mostra i frame salvati."""
+
+    if not isinstance(content, str):
+        return
+
+    try:
+        data = json.loads(content)
+    except (json.JSONDecodeError, TypeError):
+        return
+
+    if not isinstance(data, dict):
+        return
+
+    for camera_name, camera_data in data.items():
+        if not isinstance(camera_data, dict):
+            continue
+
+        image_path = camera_data.get("image_path")
+
+        if not isinstance(image_path, str) or not image_path.strip():
+            continue
+
+        # Il path nel JSON è relativo alla directory dell'applicazione.
+        relative_path = Path(image_path)
+        resolved_path = (Path(script_dir) / relative_path).resolve()
+
+        st.markdown(f"**📷 Camera feed — {camera_name}**")
+
+        if resolved_path.is_file():
+            st.image(
+                str(resolved_path),
+                caption=f"{camera_name} · {relative_path.as_posix()}",
+                width=400,
+            )
+        else:
+            st.warning(
+                f"Camera feed not found: {relative_path.as_posix()}"
+            )
+            st.caption(f"Directory: {resolved_path}")
+
 
 def count_message_types(conversation):
     """Conta i messaggi totali e li raggruppa per tipologia di mittente."""
@@ -222,39 +382,19 @@ def count_message_types(conversation):
     return len(conversation), counts
 
 
-# def render_world_image(world_id):
-#     """Mostra l'immagine associata al world_id selezionato."""
+def update_counter(counter_key, delta):
+    """Aggiorna un contatore senza consentire valori negativi."""
+    current_value = st.session_state.get(counter_key, 0)
 
-#     reference_image = WORLD_IMAGES.get(str(world_id))
+    try:
+        current_value = int(current_value)
+    except (TypeError, ValueError):
+        current_value = 0
 
-#     if reference_image and os.path.isfile(reference_image):
-#         _, image_col, _ = st.columns([1, 2, 1])
-
-#         with image_col:
-#             st.image(
-#                 reference_image,
-#                 caption=f"Planimetria — World {world_id}",
-#                 width=700,
-#             )
-
-#             # Slider
-#             # image_width = st.slider(
-#             #     "Dimensione immagine",
-#             #     min_value=150,
-#             #     max_value=700,
-#             #     value=320,
-#             #     step=25,
-#             # )
-
-#             # st.image(
-#             #     reference_image,
-#             #     caption=f"Planimetria — World {world_id}",
-#             #     width=image_width,
-#             # )
-#     else:
-#         st.warning(
-#             f"Immagine non trovata per world_id {world_id}."
-#         )
+    st.session_state[counter_key] = max(
+        0,
+        current_value + delta,
+    )
 
 def render_world_image(world_id):
     """Mostra l'immagine centrata nella colonna."""
@@ -268,6 +408,11 @@ def render_world_image(world_id):
         image_bytes = Path(reference_image).read_bytes()
         image_base64 = base64.b64encode(image_bytes).decode("utf-8")
 
+        if world_id == "world_2":
+            width = 1500
+        else:
+            width = 700
+
         st.markdown(
             f"""
             <div style="
@@ -280,7 +425,7 @@ def render_world_image(world_id):
                 <img
                     src="data:image/png;base64,{image_base64}"
                     style="
-                        width: 700px;
+                        width: {width}px;
                         max-width: 100%;
                         height: auto;
                         object-fit: contain;
@@ -293,126 +438,165 @@ def render_world_image(world_id):
             unsafe_allow_html=True,
         )
 
-        st.caption(f"Planimetria — World {world_id}")
+        st.caption(f"Building plan — {world_id}")
 
     else:
         st.warning(
-            f"Immagine non trovata per world_id {world_id}."
+            f"Building plan not found for {world_id}."
         )
 
-# ---------- Caricamento dataset ----------
+
+# ---------- Caricamento automatico dataset ----------
 
 st.title("LLM Conversation Reviewer")
 st.caption(
-    "Visualizzazione delle tracce e annotazione manuale degli errori"
+    "Conversation viewer and error manual annotations"
 )
 
-uploaded = st.file_uploader(
-    "Carica il dataset JSON",
-    type=["json"],
-)
-
-if uploaded is None:
-    st.info("Carica il file JSON contenente le modalità HITL e AUTO.")
+if not DATASET_FILE.is_file():
+    st.error(
+        f"File degli esperimenti non trovato: {DATASET_FILE}"
+    )
     st.stop()
 
 try:
-    dataset = json.load(uploaded)
-except (json.JSONDecodeError, UnicodeDecodeError):
-    st.error("Il file caricato non è un JSON valido.")
+    with DATASET_FILE.open("r", encoding="utf-8") as f:
+        dataset = json.load(f)
+
+except (json.JSONDecodeError, OSError) as exc:
+    st.error(f"Impossibile caricare il dataset: {exc}")
     st.stop()
 
 if not isinstance(dataset, dict) or not dataset:
-    st.error("Il JSON deve contenere un oggetto con le modalità.")
+    st.error(
+        "Il JSON deve contenere un oggetto con le modalità."
+    )
     st.stop()
 
 
 # ---------- Caricamento valutazioni e categorie ----------
 
 evaluations = read_json(EVALUATIONS_FILE, {})
-categories = read_json(CATEGORIES_FILE, DEFAULT_CATEGORIES)
 
 if not isinstance(evaluations, dict):
     evaluations = {}
 
-if not isinstance(categories, list):
+categories = read_json(CATEGORIES_FILE, DEFAULT_CATEGORIES)
+
+# Compatibilità con il vecchio formato a lista.
+if isinstance(categories, list):
+    categories = {
+        str(category): []
+        for category in categories
+        if isinstance(category, str) and category.strip()
+    }
+
+if not isinstance(categories, dict):
     categories = DEFAULT_CATEGORIES.copy()
 
+# Normalizzazione del dizionario.
+normalized_categories = {}
 
-# ---------- Selezione modalità, world_id, modello, trial e run ----------
+for macro, subcategories in categories.items():
+    if not isinstance(macro, str) or not macro.strip():
+        continue
+
+    if not isinstance(subcategories, list):
+        continue
+
+    normalized_categories[macro.strip()] = list(dict.fromkeys(
+        sub.strip()
+        for sub in subcategories
+        if isinstance(sub, str) and sub.strip()
+    ))
+
+categories = normalized_categories
+
+
+
+# ---------- Selezione condizione, modalità, world, modello e trial ----------
 
 st.subheader("Navigazione")
 
-# Selezione modalità
+# Considera solo le condizioni sperimentali richieste
+available_conditions = [
+    condition
+    for condition in ("deterministic", "uncertain")
+    if isinstance(dataset.get(condition), dict)
+]
+
+if not available_conditions:
+    st.error("No valid deterministic/uncertain condition.")
+    st.stop()
+
+nav_selectors = st.columns([1.2, 1, 0.8, 1.2, 0.8], gap="small")
+
+with nav_selectors[0]:
+    condition = st.selectbox(
+        "Condition",
+        available_conditions,
+        key="selected_condition",
+    )
+
+condition_data = dataset[condition]
+
+# Considera esclusivamente HITL e AUTO
 available_modes = [
     mode_id
-    for mode_id, mode_data in dataset.items()
-    if isinstance(mode_data, dict)
+    for mode_id in ("HITL", "AUTO")
+    if isinstance(condition_data.get(mode_id), dict)
 ]
 
 if not available_modes:
-    st.error("Il dataset non contiene modalità valide.")
+    st.error(f"No HITL/AUTO modality in {condition}.")
     st.stop()
 
-# Quattro menu sulla stessa riga
-nav_selectors = st.columns([1.5, 0.6, 1, 0.8], gap="small")
-
-with nav_selectors[0]:
+with nav_selectors[1]:
     mode = st.selectbox(
-        "Modalità sperimentale",
+        "Modality",
         available_modes,
-        key="selected_mode",
+        key=f"selected_mode_{condition}",
     )
 
-mode_data = dataset[mode]
+mode_data = condition_data[mode]
 
 available_numbers = [
-    str(word_id)
-    for word_id, word_data in mode_data.items()
-    if isinstance(word_data, dict)
+    str(world_id)
+    for world_id, world_data in mode_data.items()
+    if isinstance(world_data, dict)
 ]
 
 if not available_numbers:
-    st.error(f"La modalità {mode} non contiene numeri validi.")
+    st.error(f"No world available for {condition}/{mode}.")
     st.stop()
 
-number_key = f"selected_number_{mode}"
-
-if st.session_state.get(number_key) not in available_numbers:
-    st.session_state[number_key] = available_numbers[0]
-
-with nav_selectors[1]:
-    word_id = st.selectbox(
-        "world_id",
+with nav_selectors[2]:
+    world_id = st.selectbox(
+        "World",
         available_numbers,
-        key=number_key,
+        key=f"selected_world_{condition}_{mode}",
     )
 
-word_data = mode_data[word_id]
+world_data = mode_data[world_id]
 
 available_models = [
     str(model_id)
-    for model_id, model_data in word_data.items()
+    for model_id, model_data in world_data.items()
     if isinstance(model_data, dict)
 ]
 
 if not available_models:
-    st.error(f"Nessun modello valido per {mode} / {word_id}.")
+    st.warning(f"No model for {condition}/{mode}/{world_id}.")
     st.stop()
 
-model_key = f"selected_model_{mode}_{word_id}"
-
-if st.session_state.get(model_key) not in available_models:
-    st.session_state[model_key] = available_models[0]
-
-with nav_selectors[2]:
+with nav_selectors[3]:
     model_id = st.selectbox(
-        "Modello",
+        "Model",
         available_models,
-        key=model_key,
+        key=f"selected_model_{condition}_{mode}_{world_id}",
     )
 
-model_data = word_data[model_id]
+model_data = world_data[model_id]
 
 available_trials = [
     str(trial_id)
@@ -421,24 +605,21 @@ available_trials = [
 ]
 
 if not available_trials:
-    st.warning(
-        f"Nessun trial valido per {mode} / {word_id} / {model_id}."
-    )
+    st.warning("No trial available.")
     st.stop()
 
-trial_key = f"selected_trial_{mode}_{word_id}_{model_id}"
-
-if st.session_state.get(trial_key) not in available_trials:
-    st.session_state[trial_key] = available_trials[0]
-
-with nav_selectors[3]:
+with nav_selectors[4]:
     trial_id = st.selectbox(
         "Trial",
         available_trials,
-        key=trial_key,
+        key=(
+            f"selected_trial_{condition}_{mode}_"
+            f"{world_id}_{model_id}"
+        ),
     )
 
 trial_data = model_data[trial_id]
+
 
 # 5. Selezione run
 valid_runs = {
@@ -460,7 +641,7 @@ world_runs = list(valid_runs.keys())
 # Indice indipendente per ogni combinazione
 # modalità / world_id / modello / trial.
 nav_key = (
-    f"run_index_{mode}_{word_id}_{model_id}_{trial_id}"
+    f"run_index_{mode}_{world_id}_{model_id}_{trial_id}"
 )
 
 if nav_key not in st.session_state:
@@ -475,28 +656,61 @@ nav_left, nav_center, nav_right = st.columns([1, 2, 1])
 
 with nav_left:
     if st.button(
-        "← Precedente",
+        "← Previous",
         disabled=st.session_state[nav_key] == 0,
         use_container_width=True,
-        key=f"prev_{mode}_{word_id}_{model_id}_{trial_id}",
+        key=f"prev_{mode}_{world_id}_{model_id}_{trial_id}",
     ):
         st.session_state[nav_key] -= 1
         st.rerun()
 
 with nav_right:
     if st.button(
-        "Successiva →",
+        "Next →",
         disabled=(
             st.session_state[nav_key] >= len(world_runs) - 1
         ),
         use_container_width=True,
-        key=f"next_{mode}_{word_id}_{model_id}_{trial_id}",
+        key=f"next_{mode}_{world_id}_{model_id}_{trial_id}",
     ):
         st.session_state[nav_key] += 1
         st.rerun()
 
 run_id = world_runs[st.session_state[nav_key]]
 run = valid_runs[run_id]
+
+
+# ---------- Informazioni sull'intruder ----------
+
+intruder_final_area = run.get("intruder_final_area", "N/D")
+
+# Valore iniziale di success letto dal dataset.
+dataset_success = run.get("success", 0)
+
+try:
+    dataset_success = int(dataset_success)
+    dataset_success = 1 if dataset_success == 1 else 0
+except (TypeError, ValueError):
+    dataset_success = 0
+
+# ---------- Stato della valutazione ----------
+
+current_evaluation = (
+    evaluations
+    .get(mode, {})
+    .get(world_id, {})
+    .get(model_id, {})
+    .get(trial_id, {})
+    .get(run_id)
+)
+
+is_evaluated = (
+    isinstance(current_evaluation, dict)
+    and "error_counts" in current_evaluation
+)
+
+if st.session_state.get("evaluation_saved_message"):
+    st.success(st.session_state.pop("evaluation_saved_message"))
 
 with nav_center:
     st.markdown(
@@ -508,9 +722,14 @@ with nav_center:
         unsafe_allow_html=True,
     )
 
+    if is_evaluated:
+        st.success("🟢 Evaluated")
+    else:
+        st.warning("🟠 To be evaluated")
+
 st.caption(
-    f"Selezione corrente: "
-    f"{mode} / {word_id} / {model_id} / "
+    f"Current selection: "
+    f"{mode} / {world_id} / {model_id} / "
     f"{trial_id} / {run_id}"
 )
 
@@ -520,19 +739,12 @@ st.caption(
 # Ogni combinazione modalità / world_id / modello / trial / run
 # ha una valutazione indipendente.
 
-mode_evaluations = evaluations.setdefault(mode, {})
+condition_evaluations = evaluations.setdefault(condition, {})
+mode_evaluations = condition_evaluations.setdefault(mode, {})
 
-number_evaluations = mode_evaluations.setdefault(
-    word_id, {}
-)
-
-model_evaluations = number_evaluations.setdefault(
-    model_id, {}
-)
-
-trial_evaluations = model_evaluations.setdefault(
-    trial_id, {}
-)
+number_evaluations = mode_evaluations.setdefault(world_id, {})
+model_evaluations = number_evaluations.setdefault(model_id, {})
+trial_evaluations = model_evaluations.setdefault(trial_id, {})
 
 old_evaluation = trial_evaluations.get(run_id, {})
 
@@ -541,6 +753,15 @@ if not isinstance(old_evaluation, dict):
 
 old_counts = old_evaluation.get("error_counts", {})
 old_notes = old_evaluation.get("notes", "")
+
+# Valore success precedentemente salvato.
+old_success = old_evaluation.get("success", dataset_success)
+
+try:
+    old_success = int(old_success)
+    old_success = 1 if old_success == 1 else 0
+except (TypeError, ValueError):
+    old_success = dataset_success
 
 if not isinstance(old_counts, dict):
     old_counts = {}
@@ -551,32 +772,40 @@ if not isinstance(old_notes, str):
 
 # ---------- Interfaccia affiancata ----------
 
-st.subheader("Immagine di riferimento")
+st.subheader("Reference building plan")
 left, right = st.columns([1.65, 1], gap="large")
 
 with left:
     # Immagine associata al world_id selezionato
-    render_world_image(word_id)
+    render_world_image(world_id)
 
-    st.subheader("Conversazione")
+    st.subheader("Conversation")
 
     st.caption(
-        f"Modalità: {mode} · "
+        f"Modality: {mode} · "
         f"Trial: {trial_id} · "
-        f"World: {run.get('world_id', 'N/D')} · "
+        f"World: {world_id} · "
         f"Run: {run_id} · "
-        f"Modello: {run.get('model', 'N/D')}"
+        f"Model: {model_id}"
     )
 
-    with st.container(height=650, border=True):
-        with st.expander("Metadati della run"):
-            metadata = {
-                key: value
-                for key, value in run.items()
-                if key != "conversation"
-            }
-            st.json(metadata)
+    # with st.container(height=650, border=True):
+    #     with st.expander("Metadati della run"):
+    #         metadata = {
+    #             key: value
+    #             for key, value in run.items()
+    #             if key != "conversation"
+    #         }
+    #         st.json(metadata)
 
+    #     for index, event in enumerate(run["conversation"]):
+    #         render_event(event, index)
+    
+    # Visualizza la sequenza sopra la conversazione
+    st.subheader(f"Sequence: {run.get('sensor_sequence', [])}")
+
+    # Contenitore della conversazione
+    with st.container(height=1250, border=True):
         for index, event in enumerate(run["conversation"]):
             render_event(event, index)
 
@@ -588,94 +817,372 @@ with right:
         run["conversation"]
     )
 
-    st.markdown("#### Statistiche messaggi")
-    st.caption(f"Totale: {total_messages}")
+    st.markdown("#### Message statistics")
 
     sorted_counts = sorted(
         message_counts.items(),
         key=lambda item: item[0].lower(),
     )
 
-    columns_per_row = 3
+    # Totale e statistiche sulla stessa riga.
+    stats_columns = st.columns(
+        len(sorted_counts) + 1,
+        gap="small",
+    )
 
-    for start in range(0, len(sorted_counts), columns_per_row):
-        row_counts = sorted_counts[start:start + columns_per_row]
-        stats_columns = st.columns(columns_per_row, gap="small")
+    with stats_columns[0]:
+        st.metric(
+            label="Totale",
+            value=total_messages,
+        )
 
-        for column, (role, count) in zip(stats_columns, row_counts):
-            with column:
-                st.metric(
-                    label=role,
-                    value=count,
-                    label_visibility="visible",
-                )
+    for column, (role, count) in zip(
+        stats_columns[1:],
+        sorted_counts,
+    ):
+        with column:
+            st.metric(
+                label=role,
+                value=count,
+            )
 
     st.divider()
 
-    st.subheader("Valutazione")
+    # ---------- Intruder information & Mission success ----------
+
+    info_col, success_col = st.columns([1, 1], gap="large")
+
+    with info_col:
+        st.markdown("#### Intruder information")
+
+        st.metric(
+            label="Intruder final area",
+            value=str(intruder_final_area),
+        )
+
+    with success_col:
+        st.markdown("#### Mission success")
+
+        success_key = (
+            f"success_{mode}_{world_id}_{model_id}_"
+            f"{trial_id}_{run_id}"
+        )
+
+        if success_key not in st.session_state:
+            st.session_state[success_key] = old_success
+
+        success_value = st.radio(
+            "Was the mission successful?",
+            options=[0, 1],
+            format_func=lambda x: "No (0)" if x == 0 else "Yes (1)",
+            horizontal=True,
+            key=success_key,
+        )
+
+    st.divider()
+
+    # ---------- Editor JSON delle categorie ----------
+
+    editor_key = "category_dictionary_editor"
+
+    # Converte il dizionario Python in JSON formattato.
+    if editor_key not in st.session_state:
+        st.session_state[editor_key] = json.dumps(
+            categories,
+            ensure_ascii=False,
+            indent=4,
+        )
+
+    st.markdown("#### Error categories")
+    st.caption(
+        "Edit the JSON below. You can add, "
+        "rename, or delete macro-categories and subcategories."
+    )
+
+    editor_content = st_ace(
+        value=st.session_state[editor_key],
+        language="json",
+        theme="github",
+        key="category_json_editor",
+        height=240,
+        tab_size=4,
+        wrap=True,
+        show_gutter=True,
+        auto_update=True,
+        font_size=18,
+    )
+
+    if st.button(
+        "Apply structure",
+        key="apply_category_dictionary",
+        use_container_width=True,
+    ):
+        try:
+            if not editor_content or not editor_content.strip():
+                raise ValueError("Il JSON non può essere vuoto.")
+
+            parsed_categories = json.loads(editor_content)
+
+            if not isinstance(parsed_categories, dict):
+                raise ValueError(
+                    "La struttura principale deve essere un oggetto JSON."
+                )
+
+            validated_categories = {}
+
+            for macro, subcategories in parsed_categories.items():
+                if not isinstance(macro, str) or not macro.strip():
+                    raise ValueError(
+                        "Ogni macrocategoria deve essere una stringa non vuota."
+                    )
+
+                if not isinstance(subcategories, list):
+                    raise ValueError(
+                        f'Le sottocategorie di "{macro}" devono essere una lista.'
+                    )
+
+                if not all(
+                    isinstance(sub, str) and sub.strip()
+                    for sub in subcategories
+                ):
+                    raise ValueError(
+                        f'Le sottocategorie di "{macro}" '
+                        "devono essere stringhe non vuote."
+                    )
+
+                validated_categories[macro.strip()] = list(
+                    dict.fromkeys(
+                        sub.strip() for sub in subcategories
+                    )
+                )
+
+            categories = validated_categories
+
+            write_json(CATEGORIES_FILE, categories)
+
+            # Aggiorna il testo dell'editor con il JSON normalizzato.
+            st.session_state[editor_key] = json.dumps(
+                categories,
+                ensure_ascii=False,
+                indent=4,
+            )
+
+            st.success("Errors structure updated.")
+            st.rerun()
+
+        except (json.JSONDecodeError, ValueError, TypeError) as exc:
+            st.error(f"JSON not valid: {exc}")
+
+
+    # ---------- Valutazione gerarchica ----------
+
+    st.subheader("Evaluation")
 
     st.caption(
-        "Registra il numero di errori per ciascuna categoria. "
-        "Usa le note per motivare il giudizio."
+        "Modify the dictionary, apply the structure, and"
+        "use + and − to mark errors."
     )
 
-    # Editor delle categorie personalizzabili.
-    categories_text = st.text_area(
-        "Tipologie di errore (una per riga)",
-        value="\n".join(str(c) for c in categories),
-        height=130,
-        key="category_editor",
+
+    # ---------- Contatori per sottocategoria ----------
+
+    macro_totals = {}
+    error_counts = {}
+
+    for macro, subcategories in categories.items():
+
+        # old_counts è già definita nella sezione
+        # Identificazione della valutazione.
+        saved_macro = old_counts.get(macro, {})
+
+        if isinstance(saved_macro, dict):
+            saved_subcounts = saved_macro.get(
+                "subcategories", {}
+            )
+
+            if not isinstance(saved_subcounts, dict):
+                saved_subcounts = {}
+        else:
+            # Compatibilità con vecchie valutazioni non gerarchiche.
+            saved_subcounts = {}
+
+        with st.expander(f"**{macro}**", expanded=True):
+
+            subcounts = {}
+
+            if not subcategories:
+                st.caption(
+                    "No subcategories."
+                    "Add one to the dictionary above."
+                )
+
+            for subcategory in subcategories:
+
+                # La chiave distingue ogni run e ogni sottocategoria.
+                counter_key = (
+                    f"counter_{mode}_{world_id}_{model_id}_"
+                    f"{trial_id}_{run_id}_{macro}_{subcategory}"
+                )
+
+                # Inizializza solo se il contatore non è già presente.
+                if counter_key not in st.session_state:
+                    try:
+                        initial_value = int(
+                            saved_subcounts.get(subcategory, 0)
+                        )
+                    except (TypeError, ValueError):
+                        initial_value = 0
+
+                    st.session_state[counter_key] = max(
+                        0, initial_value
+                    )
+
+                # Colonne più larghe per rendere visibili i pulsanti.
+                label_col, minus_col, value_col, plus_col = (
+                    st.columns(
+                        [3.5, 1, 1.2, 1],
+                        gap="small",
+                        vertical_alignment="center",
+                    )
+                )
+
+                with label_col:
+                    st.markdown(subcategory)
+
+                with minus_col:
+                    st.button(
+                        "−",
+                        key=f"{counter_key}_minus",
+                        help="Rimuovi un errore",
+                        use_container_width=True,
+                        on_click=update_counter,
+                        args=(counter_key, -1),
+                    )
+
+                with plus_col:
+                    st.button(
+                        "＋",
+                        key=f"{counter_key}_plus",
+                        help="Aggiungi un errore",
+                        use_container_width=True,
+                        on_click=update_counter,
+                        args=(counter_key, 1),
+                    )
+
+                with value_col:
+                    st.markdown(
+                        f"""
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 100%;
+                            height: 38px;
+                            box-sizing: border-box;
+                            text-align: center;
+                            font-size: 30px;
+                            font-weight: 600;
+                            line-height: 1;
+                            margin: 0;
+                            padding: 0;
+                        ">
+                            {st.session_state[counter_key]}
+                        </div>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+                # Legge il valore aggiornato dallo stato Streamlit.
+                subcounts[subcategory] = int(
+                    st.session_state[counter_key]
+                )
+
+            # Totale automatico della macrocategoria.
+            macro_total = sum(subcounts.values())
+
+            macro_totals[macro] = macro_total
+
+            error_counts[macro] = {
+                "subcategories": subcounts,
+                "total": int(macro_total),
+            }
+
+            st.divider()
+
+            st.markdown(
+                f"""
+                <div style="
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    gap: 8px;
+                    padding: 4px 0;
+                    font-size: 15px;
+                ">
+                    <span>Totale categoria:</span>
+                    <span style="
+                        font-weight: 700;
+                        font-size: 16px;
+                    ">{macro_total}</span>
+                </div>
+                """,
+                unsafe_allow_html=True,
+            )
+
+    # ---------- Totale complessivo ----------
+
+    total_errors = sum(macro_totals.values())
+
+    st.markdown(
+        f"""
+        <div style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            width: 100%;
+            padding: 8px 0;
+        ">
+            <span style="
+                font-size: 18px;
+                font-weight: 600;
+                white-space: nowrap;
+            ">
+                Total errors
+            </span>
+            <span style="
+                font-size: 28px;
+                font-weight: 700;
+                line-height: 1;
+            ">
+                {total_errors}
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
-
-    current_categories = list(dict.fromkeys(
-        line.strip()
-        for line in categories_text.splitlines()
-        if line.strip()
-    ))
-
-    counts = {}
-
-    for category in current_categories:
-        widget_key = (
-            f"error_{mode}_{word_id}_{model_id}_"
-            f"{trial_id}_{run_id}_{category}"
-        )
-
-        try:
-            previous_value = int(old_counts.get(category, 0))
-        except (TypeError, ValueError):
-            previous_value = 0
-
-        previous_value = max(0, previous_value)
-
-        counts[category] = st.number_input(
-            category,
-            min_value=0,
-            step=1,
-            value=previous_value,
-            key=widget_key,
-        )
-
-    total_errors = sum(counts.values())
-
-    st.metric("Totale errori", total_errors)
+    # ---------- Note ----------
 
     notes = st.text_area(
-        "Note / motivazione",
+        "Note / motivation",
         value=old_notes,
         height=120,
         key=(
-            f"notes_{mode}_{word_id}_{model_id}_"
+            f"notes_{mode}_{world_id}_{model_id}_"
             f"{trial_id}_{run_id}"
         ),
     )
 
+    # ---------- Salvataggio ----------
+
     if st.button(
-        "Salva valutazione",
+        "Save evaluation",
         type="primary",
         use_container_width=True,
+        key=(
+            f"save_{mode}_{world_id}_{model_id}_"
+            f"{trial_id}_{run_id}"
+        ),
     ):
-        # Calcola le statistiche della conversazione
         total_messages, message_counts = count_message_types(
             run["conversation"]
         )
@@ -683,27 +1190,35 @@ with right:
         trial_evaluations[run_id] = {
             "sensor_sequence": run.get("sensor_sequence", []),
 
-            # Statistiche della conversazione
+            # Informazioni sull'intruder
+            "intruder_final_area": intruder_final_area,
+            "success": int(st.session_state[success_key]),
+
             "total_messages": int(total_messages),
+
             "message_counts": {
-                authority: int(count)
-                for authority, count in message_counts.items()
+                role: int(count)
+                for role, count in message_counts.items()
             },
 
-            # Valutazione degli errori
-            "error_counts": {
-                category: int(count)
-                for category, count in counts.items()
+            "error_counts": error_counts,
+
+            "macro_totals": {
+                macro: int(total)
+                for macro, total in macro_totals.items()
             },
+
             "total_errors": int(total_errors),
             "notes": notes,
         }
 
         write_json(EVALUATIONS_FILE, evaluations)
-        write_json(CATEGORIES_FILE, current_categories)
+        write_json(CATEGORIES_FILE, categories)
 
         st.success(
-            "Valutazione salvata per "
-            f"{mode} / {word_id} / {model_id} / "
+            "Evaluation saved for "
+            f"{mode} / {world_id} / {model_id} / "
             f"{trial_id} / {run_id}"
         )
+
+        st.rerun()

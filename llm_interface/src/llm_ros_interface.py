@@ -39,7 +39,7 @@ script_dir = os.path.dirname(__file__) #/home/[...]/llm_for_surveillance/llm_int
 # Retrieve ROS parameters
 experiment_type=rospy.get_param("experiment_type", "")
 world_id = str(rospy.get_param("world_id", 1))
-llm_modality = rospy.get_param("llm_modality", "HITL")
+llm_modality = rospy.get_param("modality", "")
 print_rag_search = rospy.get_param("print_rag_search", False)
 teleport_robots = rospy.get_param("teleport_robots",True)
 sensor_sequence = rospy.get_param("sensor_sequence", "").split(",")
@@ -171,6 +171,9 @@ class LLM_cognitive_module:
             "conversation":[]
         }
 
+        if llm_modality in intruder_detection_modalities:
+            self.data_experiment_run["success"] = 0
+
         
         # ROS network information from file
         with open(file_ROS_path, "r") as f:
@@ -247,51 +250,6 @@ class LLM_cognitive_module:
 
         self.available_tools = [
                     # {
-                    #     "type":"file_search",
-                    #     "vector_store_ids": [self.required_vector_store_id],
-                    #      "max_num_results": 10,
-                    # },
-                    # {
-                    #     "type": "function", 
-                    #     "name": "get_sensors_info",  
-                    #     "description": "Use this function to retrieve the information related to a given sequence of sensors. It returns the area covered by cameras and associated to lidars.",
-                    #     "parameters": {
-                    #         "type": "object",
-                    #         "properties": {
-                    #             "sensor_names_list": {
-                    #                 "type": "array", 
-                    #                 "description": "List of all the sensor names for which you want to retrieve information.",
-                    #                 "items" : {
-                    #                     "type" : "string",
-                    #                     "description": "Name of a single sensor.",
-                    #                     "enum": self.sensors_list
-                    #                 }
-                    #                 },
-                    #             },
-                    #         "required": ["cameras_names_list"]
-                    #     }
-                    # },
-                    # {
-                    #     "type": "function", 
-                    #     "name": "get_areas_info",  
-                    #     "description": "Use this function to retrieve the information related to a given sequence of areas. It returns information about all the sensors, actuators and other areas connection for a given area.",
-                    #     "parameters": {
-                    #         "type": "object",
-                    #         "properties": {
-                    #             "area_names_list": {
-                    #                 "type": "array", 
-                    #                 "description": "List of all the area names for which you want to retrieve information.",
-                    #                 "items" : {
-                    #                     "type" : "string",
-                    #                     "description": "Name of a single area.",
-                    #                     "enum": self.areas_list
-                    #                 }
-                    #                 },
-                    #             },
-                    #         "required": ["cameras_names_list"]
-                    #     }
-                    # },
-                    # {
                     #     "type": "function", 
                     #     "name": "retrieve_system_state",  
                     #     "description": "Use this function to request the current state of the system from the data mediator. It returns information robot locations, sensors and door actuator states.",
@@ -303,30 +261,10 @@ class LLM_cognitive_module:
                     #     "description": "Use this function to deactivate all sensors in the environment after the user explicit request.",
                     #     "parameters": {} 
                     # },
-                    {
-                        "type": "function", 
-                        "name": "show_camera_to_user",
-                        "description": "It opens a window to allow the user to visualize each camera. Must be used if the plan include allowing user visualization of a camera feed.",
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "cameras_names_list": {
-                                    "type": "array", 
-                                    "description": "List of all the cameras names to considered for visualization.",
-                                    "items" : {
-                                        "type" : "string",
-                                        "description": "Name of a single camera.",
-                                        "enum": self.cameras_list
-                                    }
-                                    },
-                                },
-                            "required": ["cameras_names_list"]
-                            }
-                    },
                     # {
                     #     "type": "function", 
-                    #     "name": "get_camera_feed",
-                    #     "description": "It returns the image representing the current feed of the sequence of specified cameras. The function must be used to analyze the area related to the considered camera.",
+                    #     "name": "show_camera_to_user",
+                    #     "description": "It opens a window to allow the user to visualize each camera. Must be used if the plan include allowing user visualization of a camera feed.",
                     #     "parameters": {
                     #         "type": "object",
                     #         "properties": {
@@ -343,6 +281,26 @@ class LLM_cognitive_module:
                     #         "required": ["cameras_names_list"]
                     #         }
                     # },
+                    {
+                        "type": "function", 
+                        "name": "get_camera_feed",
+                        "description": "It returns the image representing the current feed of the sequence of specified cameras. The function must be used to analyze the area related to the considered camera.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "cameras_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the cameras names to considered for visualization.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single camera.",
+                                        "enum": self.cameras_list
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                            }
+                    },
                     {
                         "type": "function",
                         "name": "control_actuators",
@@ -428,6 +386,30 @@ class LLM_cognitive_module:
                     }
                 ]
         
+        if llm_modality == "HITL":
+            camera_functions = [
+                    {
+                        "type": "function", 
+                        "name": "show_camera_to_user",
+                        "description": "It opens a window to allow the user to visualize each camera. Must be used if the plan include allowing user visualization of a camera feed.",
+                        "parameters": {
+                            "type": "object",
+                            "properties": {
+                                "cameras_names_list": {
+                                    "type": "array", 
+                                    "description": "List of all the cameras names to considered for visualization.",
+                                    "items" : {
+                                        "type" : "string",
+                                        "description": "Name of a single camera.",
+                                        "enum": self.cameras_list
+                                    }
+                                    },
+                                },
+                            "required": ["cameras_names_list"]
+                            }
+                    },
+            ]
+
         if semantic_RAG:
             RAG_functions = [
                 {
@@ -484,9 +466,21 @@ class LLM_cognitive_module:
 
         for function in RAG_functions:
             self.available_tools.append(function)
-    
-    def log_conversation_message(self, log, authority):
-        self.data_experiment_run["conversation"].append({authority:log})
+
+        for function in camera_functions:
+            self.available_tools.append(function)
+            
+    def log_conversation_message(self, log, authority, resp_time=None, gen_time=None):
+        data = {authority:log}
+
+        if resp_time is not None:
+            data["resp_time"] = round(resp_time,2)
+
+        if gen_time is not None:
+            data["gen_time"] = round(gen_time,2)
+
+        self.data_experiment_run["conversation"].append(data)
+
         return
 
     def save_experiment_run(self):
@@ -499,7 +493,7 @@ class LLM_cognitive_module:
         else:
             root_data = self.experiments_data
 
-        print(root_data)
+        
         # Check dictionary keys
         if llm_modality not in root_data:
             rospy.logerr(f"Key '{llm_modality}' not present in {file_experiments}")
@@ -575,14 +569,22 @@ class LLM_cognitive_module:
 
             requires_action = True
 
+            rag_start_times = {}
+            tool_start_times = {}
+
             while requires_action:
+                llm_request_start = time.perf_counter()
+                first_text_time = None
+                llm_response_time = None
+                llm_generation_time = None
+
                 requires_action = False # Di default pensiamo di finire. Se esegue un tool è necessario continuare
 
                 full_ai_response = ""
                 final_tool_calls = {}
                 active_steps = {} # Teniamo traccia degli step attivi per indice
                 tool_outputs = []
-                
+
                 try:
                     response_stream = await self.client.responses.create(
                         model=self.llm_model,
@@ -595,7 +597,7 @@ class LLM_cognitive_module:
                         async for event in stream:
                             # 1. GESTIONE TESTO
                             if event.type == "response.created":
-                                pass # Ottimo per loggare l'ID della risposta
+                                pass
                             
                             elif event.type == "response.failed":
                                 # Per avvisare direttamente in chat che c'è stato un errore
@@ -604,6 +606,9 @@ class LLM_cognitive_module:
 
                             # --- CASI DEL TESTO (OUTPUT) ---
                             elif event.type == "response.output_text.delta":
+                                if first_text_time is None:
+                                    first_text_time = time.perf_counter()
+
                                 if not msg.id: 
                                     await msg.send()
                                 full_ai_response += event.delta
@@ -613,24 +618,34 @@ class LLM_cognitive_module:
                                 # Testo terminato, possiamo aggiornare lo stato finale
                                 await msg.update()
 
-                            # CASI DEI TOOL (FUNZIONI ROS)
+                            # TOOLS
                             elif event.type == "response.output_item.added":
                                 # Viene aggiunto un nuovo item (testo o funzione)
                                 if event.item.type == "function_call":
                                     idx = event.output_index
                                     tool_name = event.item.name 
+
+                                    tool_start_times[idx] = time.perf_counter()
                                     
-                                    # Creiamo uno step per la visualizzazione
+                                    # Step for chainlit visualization 
                                     step = cl.Step(name=tool_name, type="tool")
                                     step.language = "json" # Se vuoi mostrare i parametri
                                     await step.send()
 
                                     final_tool_calls[idx] = event.item # passiamo l'intero item 
                                     active_steps[idx] = step
+
+                                elif event.item.type == "file_search_call":
+                                    rag_start_times[event.item.id] = time.perf_counter()
                             
                             elif event.type == "response.output_item.done":
                                 
                                 if event.item.type == "file_search_call":
+                                    rag_end = time.perf_counter()
+                                    rag_start = rag_start_times.pop(event.item.id, None)
+
+                                    if rag_start is not None:
+                                        rag_elapsed = rag_end - rag_start
 
                                     results = event.item.results or [] 
                                     complete_file_search_call = ""
@@ -638,18 +653,16 @@ class LLM_cognitive_module:
 
                                     for i, result in enumerate(results, start=1):
                                         complete_file_search_call =  complete_file_search_call + result.text 
-                                        # print(f"\nFile: {result.filename}")
-                                        # print(f"File ID: {result.file_id}")
-                                        # print(f"Retrived text:\n{result.text}")
-                                        # print(f"Score: {result.score}")
-                                        # print(f"Attributes: {result.attributes}")
 
                                     rag_log = {
                                         "number_of_chunks":number_of_chunks,
                                         "retrieved_info":complete_file_search_call
                                     }
 
-                                    self.log_conversation_message(log=rag_log, authority="file_search_call")
+                                    if llm_modality in intruder_detection_modalities:
+                                        self.log_conversation_message(log=rag_log, authority="file_search_call", resp_time=rag_elapsed)
+                                    else:
+                                        self.log_conversation_message(log=rag_log, authority="file_search_call")
 
                                     # To visualize the obtained text from RAG
                                     if print_rag_search:  
@@ -679,6 +692,11 @@ class LLM_cognitive_module:
                             elif event.type == "response.function_call_arguments.done":
                                 # Parametri pronti!
                                 idx = event.output_index
+
+                                start_time = tool_start_times.pop(idx, None)
+                                if start_time is not None:
+                                    tool_call_time = time.perf_counter() - start_time
+
                                 tool_call = final_tool_calls[idx]
                                 step = active_steps[idx] # Recuperiamo lo step creato in .added
                                 args = event.arguments # event.arguments è la stringa completa
@@ -695,10 +713,13 @@ class LLM_cognitive_module:
                                 })
 
                                 log = f"name - {tool_name} \n\targuments - {args}"
-                                self.log_conversation_message(log=log, authority="function_call")
+                                if llm_modality in intruder_detection_modalities:
+                                    self.log_conversation_message(log=log, authority="function_call", resp_time=tool_call_time)
+                                else:
+                                    self.log_conversation_message(log=log, authority="function_call")
 
                                 
-                                # Aggiungi l'output di ROS
+                                # Add ROS output
                                 if tool_call.name == "get_camera_feed": 
                                     # We must manage the dictionary received by the function containing both the image and the feedback
                                     camera_data = json.loads(result)
@@ -769,6 +790,16 @@ class LLM_cognitive_module:
                                 pass
 
                             elif event.type == "response.completed":
+                                response_end_time = time.perf_counter()
+
+                                # Tempo totale: invio richiesta -> completamento risposta
+                                llm_response_time = response_end_time - llm_request_start
+
+                                # Tempo generazione testo: primo token -> completamento risposta
+                                if first_text_time is not None:
+                                    llm_generation_time = response_end_time - first_text_time
+
+
                                 if msg.id:
                                     await msg.update()
                                 break # Esci dal ciclo per sicurezza
@@ -779,7 +810,11 @@ class LLM_cognitive_module:
 
                 if full_ai_response:
                         history.append({"role": "assistant", "content": full_ai_response})
-                        self.log_conversation_message(log=full_ai_response, authority="assistant")
+
+                        if llm_modality in intruder_detection_modalities:
+                            self.log_conversation_message(log=full_ai_response, authority="assistant", resp_time=llm_response_time, gen_time=llm_generation_time)
+                        else:
+                            self.log_conversation_message(log=full_ai_response, authority="assistant")
             
             
             cl.user_session.set("history", history)
@@ -919,13 +954,10 @@ class LLM_cognitive_module:
                             # Messaggio da inviare al'LLM
                             message = goal.message_for_LLM
 
-
                         # Chiamata al modello per rispondere
-                        start_response_time = time.time()
+                        
                         await self.handle_message(msg=message, authority="user")
-                        end_response_time = time.time()
-
-                        response_time = round(end_response_time - start_response_time, 4)
+                        await show_experiment_controls()
                         
                     except Exception as e:
                         rospy.logerr(f"Error in handling the queue: \n {e}")
@@ -1017,8 +1049,8 @@ class LLM_cognitive_module:
                         model_state = ModelState()
                         model_state.model_name = robot  # name of robot model in Gazebo
     
-                        model_state.pose.position.x = area_x
-                        model_state.pose.position.y = area_y
+                        model_state.pose.position.x = area_x-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
+                        model_state.pose.position.y = area_y-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
                         model_state.pose.position.z = 0.0
     
                         # Orientation 
@@ -1213,6 +1245,10 @@ class LLM_cognitive_module:
     def get_camera_feed(self, cameras_names_list):
         """Acquire one frame from each provided camera in the list and convert it in a suitable format for the LLM."""
 
+
+        if llm_modality == "HITL":
+            self.show_camera_to_user(cameras_names_list)
+
         response = {}
         bridge = CvBridge()
 
@@ -1266,9 +1302,32 @@ class LLM_cognitive_module:
                 response[camera_name_lower]["retrieved_image_base64"] = (
                     base64.b64encode(buffer.tobytes()).decode("utf-8")
                 )
+                
 
             except Exception as e:
                 response[camera_name_lower]["image_conversion"]["reason"] = str(e)
+
+
+            if llm_modality in intruder_detection_modalities:
+                # We save the image in the folder for subsequent evaluation
+
+                # Directory to save images
+                # Absolute directory (to actually save the image in the correct folder)
+                abs_image_dir = os.path.join(script_dir, "../../data_analysis/", experiment_folder, "experiment_camera_frames")
+                # Relative directory (it will be saved in the json file to make retrieval during evaluation easier)
+                rel_image_dir = "experiment_camera_frames"
+
+                # Unique name to avoid overwriting previous images
+                filename = (f"{camera_name_lower}_{time.time_ns()}.jpg")
+                abs_image_path = os.path.join(abs_image_dir, filename)
+                rel_image_path = os.path.join(rel_image_dir, filename)
+
+                # Saving images for subsequent evaluation process
+                if not cv2.imwrite(abs_image_path, cv_image):
+                    print("Image file saving failed")
+
+                response[camera_name_lower]["image_path"] = rel_image_path
+
 
         return f"{json.dumps(response)}"
         
@@ -1365,6 +1424,92 @@ async def start():
     asyncio.create_task(agent.async_process_queue(session_id))
     
 
+async def show_experiment_controls():
+    await cl.Message(
+        content="### 🎮 Experiment commands",
+        actions=[
+            cl.Action(
+                name="next_sequence",
+                label="⏭️ Next sensor sequence",
+                value="next_sequence",
+                payload={},
+            ),
+            cl.Action(
+                name="stop_experiment",
+                label="🛑 Stop experiment",
+                value="stop_experiment",
+                payload={},
+            ),
+            cl.Action(
+                name="false_positive",
+                label="⚠️ False positive experiment",
+                value="false_positive",
+                payload={},
+            ),
+            cl.Action(
+                name="intruder_detected",
+                label="✅ Intruder detected",
+                value="intruder_detected",
+                payload={},
+            ),
+        ],
+    ).send()
+
+@cl.action_callback("next_sequence")
+async def next_sequence(action: cl.Action):
+    try:
+        rospy.set_param("/next_sequence", True)
+        await cl.Message(
+            content="⏭️ Next sensor sequence request sent."
+        ).send()
+    except Exception as exc:
+        await cl.Message(content=f"ROS error: {exc}").send()
+
+
+@cl.action_callback("stop_experiment")
+async def stop_experiment(action: cl.Action):
+    try:
+        rospy.set_param("/stop_experiment", True)
+        await cl.Message(
+            content="🛑 Stop experiment request sent."
+        ).send()
+    except Exception as exc:
+        await cl.Message(content=f"ROS error: {exc}").send()
+
+@cl.action_callback("intruder_detected")
+async def intruder_detected(action: cl.Action):
+    try:
+        rospy.set_param("/intruder_detected", True)
+        await cl.Message(
+            content="✅ Detection success set."
+        ).send()
+
+        intruder_final_area = rospy.get_param("/intruder_final_area")
+        agent.data_experiment_run["intruder_final_area"] = intruder_final_area
+        agent.data_experiment_run["success"] = 1
+
+    except Exception as exc:
+        await cl.Message(content=f"ROS error: {exc}").send()
+
+@cl.action_callback("false_positive")
+async def false_positive(action: cl.Action):
+    try:
+        await cl.Message(
+            content="⚠️ Experiment considered as false positive."
+        ).send()
+
+        intruder_final_area = rospy.get_param("/intruder_final_area", "")
+        agent.data_experiment_run["intruder_final_area"] = intruder_final_area
+
+        if intruder_final_area == "FP":
+            agent.data_experiment_run["success"] = 1
+        else:
+            agent.data_experiment_run["success"] = 0
+
+    except Exception as exc:
+        await cl.Message(content=f"ROS error: {exc}").send()
+        
+
 # Setta comandi di test che si possono usare per inserire prompt di default
 @cl.set_starters
 async def set_starters():
@@ -1396,6 +1541,8 @@ async def main(message: cl.Message):
     
     agent = cl.user_session.get("agent")
     await agent.handle_message(msg=message.content, authority="user")
+    await show_experiment_controls()
+
 
 @cl.on_chat_end
 def on_chat_end():

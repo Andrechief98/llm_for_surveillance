@@ -5,156 +5,129 @@
         "gpt-6-luna": {
           "trial_1": {
             "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_3": {
               "semantic_RAG": true,
               "function_RAG": false,
               "image_info": false,
-              "sensor_sequence": ["Lidar_2"],
-              "conversation": []
+              "sensor_sequence": ["Camera_1"],
+              "conversation": [
+                {"data_orchestrator": "Environmental alert detected. Current environment state: {\"robots\": {\"turtlebot3_1\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}, \"turtlebot3_2\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": [\"Camera_1\"]}. Propose a strategy to inspect the environment."},
+                {
+                  "file_search_call": {"number_of_chunks": 3,                    "retrieved_info": "\"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\", \"Lidar_7\"],\n      \"actuators\": [\"door_6\", \"door_7\"],\n      \"connected_to_area\":{\n          \"E\":\"door_6\",\n          \"H\":\"door_7\"\n        }\n    },\n    \"H\": {\n      \"sensors\": [\"Lidar_7\"],\n      \"actuators\": [\"door_7\"],\n      \"connected_to_area\":{\n          \"G\":\"door_7\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"I\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\",\n          \"H\":\"open_passage\",\n          \"L\":\"door_8\"\n        }\n    },\n    \"L\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"I\":\"door_8\"\n        }\n    }\n  }\n}{\n  \"sensors\":{\n    \"Camera_1\":{\n      \"areas\": [\"B\"]\n    },\n    \"Camera_2\":{\n      \"areas\": [\"F\"]\n    },\n    \"Lidar_1\":{\n      \"areas\": [\"A\", \"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_1\"\n      }\n    },\n    \"Lidar_2\":{\n      \"areas\":[\"A\", \"B\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_2\"\n      }\n    },\n    \"Lidar_3\":{\n      \"areas\":[\"B\",\"C\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_3\"\n      }\n    },\n    \"Lidar_4\":{\n      \"areas\":[\"C\",\"D\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_4\"\n      }\n    },\n    \"Lidar_5\":{\n      \"areas\":[\"D\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_5\"\n      }\n    },\n    \"Lidar_6\":{\n      \"areas\":[\"G\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_6\"\n      }\n    },\n    \"Lidar_7\":{\n      \"areas\":[\"G\",\"H\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_7\"\n      }\n    },\n    \"Lidar_8\":{\n      \"areas\":[\"L\",\"I\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_8\"\n      }\n    }\n  },\n  \"areas\": {\n    \"A\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_2\"],\n      \"actuators\": [\"door_1\", \"door_2\"],\n      \"connected_to_area\":{\n          \"B\":\"door_2\",\n          \"E\":\"door_1\"\n        }\n    },\n    \"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\","},
+                  "resp_time": 1.85
+                },
+                {
+                  "assistant": "**Status**\n- **Activated sensor:** Camera_1, which is associated with **area B** only. \n- **Related areas and connections:** B connects to A through door_2, to C through door_3, and to E through an open passage. \n- **Robots:** turtlebot3_1 and turtlebot3_2 are available in E. The relevant doors, door_2 and door_3, are open; B also has an open connection to E.\n\n**Plan**\n1. After your approval, show the Camera_1 feed to assess area B.\n2. Deploy one robot from E to inspect B; the open passage means no door change is needed to reach it.\n3. B cannot be fully isolated because of its open passage to E. If the robot reports no intrusion, propose inspecting connected areas A, C, and E before concluding the alert was a false positive.",
+                  "resp_time": 17.28,
+                  "gen_time": 1.78
+                },
+                {"user": "ok do it"},
+                {
+                  "file_search_call": {"number_of_chunks": 3,                    "retrieved_info": "{\n  \"sensors\":{\n    \"Camera_1\":{\n      \"areas\": [\"B\"]\n    },\n    \"Camera_2\":{\n      \"areas\": [\"F\"]\n    },\n    \"Lidar_1\":{\n      \"areas\": [\"A\", \"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_1\"\n      }\n    },\n    \"Lidar_2\":{\n      \"areas\":[\"A\", \"B\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_2\"\n      }\n    },\n    \"Lidar_3\":{\n      \"areas\":[\"B\",\"C\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_3\"\n      }\n    },\n    \"Lidar_4\":{\n      \"areas\":[\"C\",\"D\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_4\"\n      }\n    },\n    \"Lidar_5\":{\n      \"areas\":[\"D\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_5\"\n      }\n    },\n    \"Lidar_6\":{\n      \"areas\":[\"G\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_6\"\n      }\n    },\n    \"Lidar_7\":{\n      \"areas\":[\"G\",\"H\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_7\"\n      }\n    },\n    \"Lidar_8\":{\n      \"areas\":[\"L\",\"I\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_8\"\n      }\n    }\n  },\n  \"areas\": {\n    \"A\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_2\"],\n      \"actuators\": [\"door_1\", \"door_2\"],\n      \"connected_to_area\":{\n          \"B\":\"door_2\",\n          \"E\":\"door_1\"\n        }\n    },\n    \"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\",\"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\", \"Lidar_7\"],\n      \"actuators\": [\"door_6\", \"door_7\"],\n      \"connected_to_area\":{\n          \"E\":\"door_6\",\n          \"H\":\"door_7\"\n        }\n    },\n    \"H\": {\n      \"sensors\": [\"Lidar_7\"],\n      \"actuators\": [\"door_7\"],\n      \"connected_to_area\":{\n          \"G\":\"door_7\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"I\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\",\n          \"H\":\"open_passage\",\n          \"L\":\"door_8\"\n        }\n    },\n    \"L\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"I\":\"door_8\"\n        }\n    }\n  }\n}"},
+                  "resp_time": 1.73
+                },
+                {
+                  "function_call": "name - get_camera_feed \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}",
+                  "resp_time": 0.02
+                },
+                {"ROS_output": "{\"camera_1\": {\"name\": {\"correctness\": true, \"reason\": \"\"}, \"image_conversion\": {\"success\": true, \"reason\": \"\"}, \"image_path\": \"experiment_camera_frames/camera_1_1793359100047107162.jpg\"}}"},
+                {
+                  "function_call": "name - show_camera_to_user \n\targuments - {\"cameras_names_list\":[\"camera_1\"]}",
+                  "resp_time": 0.01
+                },
+                {"ROS_output": "Summary of cameras names correctness: {\"camera_1\": {\"correctness\": true, \"reason\": \"\"}}"},
+                {
+                  "function_call": "name - compute_robot_area_distance \n\targuments - {\"areas_to_inspect\":[\"B\"]}",
+                  "resp_time": 0.01
+                },
+                {"ROS_output": "{\"B\": {\"turtlebot3_1\": 5.51, \"turtlebot3_2\": 6.44}}"},
+                {
+                  "function_call": "name - send_robots_to_area \n\targuments - {\"robots_sequence\":[{\"robot_to_send\":\"turtlebot3_1\",\"area_to_reach\":\"B\"}]}",
+                  "resp_time": 0.23
+                },
+                {"ROS_output": "Summary of robots deployments correctness: {\"turtlebot3_1\": {\"deployment_success\": true, \"additional_info\": null}}"},
+                {
+                  "assistant": "Camera_1 feed displayed. turtlebot3_1 was successfully deployed to area B. Awaiting its inspection report.",
+                  "resp_time": 6.08,
+                  "gen_time": 0.76
+                },
+                {"user": "turtlebot3_1: Goal reached. Area B: Intruder identified"},
+                {
+                  "assistant": "**Analyzed area:** B  \n**Robot report:** turtlebot3_1 reached B and identified an intruder.  \n**Decision:** Treat this as a confirmed intrusion. Notify security and avoid sending personnel into B until it is safe. Keep Camera_1 monitoring B. Doors 2 and 3 are currently open; closing them could restrict movement from B into A and C, but B cannot be fully isolated because it has an open passage to E. I have not changed any doors or deployed another robot.",
+                  "resp_time": 6.02,
+                  "gen_time": 1.3
+                }
+              ],
+              "success": 1,
+              "intruder_final_area": "B"
             }
           },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "AUTO": {
       "world_1": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "HUMAN": {
       "world_1": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
+        "trial_1": {
+          "run_1": {
+            "sensor_sequence": [],
+            "actions": [
+              {
+                "deploy": {"robot_1": "area",                  "robot_2": "area"}
+              },
+              {
+                "camera": ["camera_1", "robot_2"]
+              }
+            ],
+            "final_intruder_area": "",
+            "success": 0
           }
-        }
+        },
+        "trial_2": {}
       },
       "world_2": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
+        "trial_1": {},
+        "trial_2": {}
+      }
+    },
+    "ILP": {
+      "world_1": {
+        "trial_1": {
+          "run_1": {
+            "sensor_sequence": [],
+            "actions": [
+              {
+                "deploy": {"robot_1": "area",                  "robot_2": "area"}
+              }
+            ],
+            "final_intruder_area": "",
+            "success": 0
           }
-        }
+        },
+        "trial_2": {}
+      },
+      "world_2": {
+        "trial_1": {},
+        "trial_2": {}
       }
     }
   },
@@ -164,149 +137,68 @@
         "gpt-6-luna": {
           "trial_1": {
             "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
+              "semantic_RAG": true,
+              "function_RAG": false,
+              "image_info": false,
+              "sensor_sequence": ["Camera_2"],
+              "conversation": [
+                {"data_orchestrator": "Environmental alert detected. Current environment state: {\"robots\": {\"turtlebot3_1\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}, \"turtlebot3_2\": {\"status\": \"Available for deployment.\", \"current_area\": \"E\"}}, \"actuators\": {\"door_1\": {\"state\": \"open\"}, \"door_2\": {\"state\": \"open\"}, \"door_3\": {\"state\": \"open\"}, \"door_4\": {\"state\": \"open\"}, \"door_5\": {\"state\": \"open\"}, \"door_6\": {\"state\": \"open\"}, \"door_7\": {\"state\": \"open\"}, \"door_8\": {\"state\": \"open\"}}, \"activated_sensors\": [\"Camera_2\"]}. Propose a strategy to inspect the environment."},
+                {
+                  "file_search_call": {"number_of_chunks": 3,                    "retrieved_info": "\"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\", \"Lidar_7\"],\n      \"actuators\": [\"door_6\", \"door_7\"],\n      \"connected_to_area\":{\n          \"E\":\"door_6\",\n          \"H\":\"door_7\"\n        }\n    },\n    \"H\": {\n      \"sensors\": [\"Lidar_7\"],\n      \"actuators\": [\"door_7\"],\n      \"connected_to_area\":{\n          \"G\":\"door_7\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"I\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\",\n          \"H\":\"open_passage\",\n          \"L\":\"door_8\"\n        }\n    },\n    \"L\": {\n      \"sensors\": [\"Lidar_8\"],\n      \"actuators\": [\"door_8\"],\n      \"connected_to_area\":{\n          \"I\":\"door_8\"\n        }\n    }\n  }\n}{\n  \"sensors\":{\n    \"Camera_1\":{\n      \"areas\": [\"B\"]\n    },\n    \"Camera_2\":{\n      \"areas\": [\"F\"]\n    },\n    \"Lidar_1\":{\n      \"areas\": [\"A\", \"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_1\"\n      }\n    },\n    \"Lidar_2\":{\n      \"areas\":[\"A\", \"B\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_2\"\n      }\n    },\n    \"Lidar_3\":{\n      \"areas\":[\"B\",\"C\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_3\"\n      }\n    },\n    \"Lidar_4\":{\n      \"areas\":[\"C\",\"D\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_4\"\n      }\n    },\n    \"Lidar_5\":{\n      \"areas\":[\"D\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_5\"\n      }\n    },\n    \"Lidar_6\":{\n      \"areas\":[\"G\",\"E\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_6\"\n      }\n    },\n    \"Lidar_7\":{\n      \"areas\":[\"G\",\"H\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_7\"\n      }\n    },\n    \"Lidar_8\":{\n      \"areas\":[\"L\",\"I\"],\n      \"areas_connection_type\":{\n        \"door\": \"door_8\"\n      }\n    }\n  },\n  \"areas\": {\n    \"A\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_2\"],\n      \"actuators\": [\"door_1\", \"door_2\"],\n      \"connected_to_area\":{\n          \"B\":\"door_2\",\n          \"E\":\"door_1\"\n        }\n    },\n    \"B\": {\n      \"sensors\": [\"Lidar_2\", \"Lidar_3\", \"Camera_1\"],\n      \"actuators\": [\"door_2\",\"door_3\"],\n      \"connected_to_area\":{\n          \"A\":\"door_2\",\n          \"C\":\"door_3\",\n          \"E\":\"open_passage\"\n        }\n    },\n    \"C\": {\n      \"sensors\": [\"Lidar_3\", \"Lidar_4\"],\n      \"actuators\": [\"door_3\", \"door_4\"],\n      \"connected_to_area\":{\n          \"B\":\"door_3\",\n          \"D\":\"door_4\"\n        }\n    },\n    \"D\": {\n      \"sensors\": [\"Lidar_4\", \"Lidar_5\"],\n      \"actuators\": [\"door_4\", \"door_5\"],\n      \"connected_to_area\":{\n          \"C\":\"door_4\",\n          \"E\":\"door_5\"\n        }\n    },\n    \"E\": {\n      \"sensors\": [\"Lidar_1\", \"Lidar_5, Lidar_6\"],\n      \"actuators\": [\"door_1\", \"door_5\", \"door_6\"],\n      \"connected_to_area\":{\n          \"A\":\"door_1\",\n          \"B\":\"open_passage\",\n          \"D\":\"door_5\",\n          \"F\":\"open_passsage\",\n          \"G\":\"door_6\",\n          \"I\":\"open_passage\"\n        }\n    },\n    \"F\": {\n      \"sensors\": [\"Camera_2\"],\n      \"actuators\": [],\n      \"connected_to_area\":{\n          \"E\":\"open_passage\"\n        }\n    },\n    \"G\": {\n      \"sensors\": [\"Lidar_6\","},
+                  "resp_time": 2.13
+                },
+                {
+                  "assistant": "**Status**\n- **Activated sensor:** Camera_2.\n- **Involved area:** F only; Camera_2 is associated with F, not the adjacent area E. \n- **Area connection:** F connects to E through an open passage, with no door actuator on that connection. \n- **Robots:** turtlebot3_1 and turtlebot3_2 are available in E. All listed doors are open.\n\n**Plan**\n1. Show the Camera_2 feed to assess area F.\n2. Deploy one available robot from E to inspect F; leave the other available.\n3. If the robot finds no intrusion, inspect connected area E as a follow-up to rule out a false alert or someone hiding. F cannot be fully isolated because its connection to E is an open passage.\n4. No door changes are needed for access. I have not opened the camera window or dispatched a robot; please confirm if you want me to proceed.",
+                  "resp_time": 11.16,
+                  "gen_time": 2.04
+                }
+              ],
+              "success": 1,
+              "intruder_final_area": "FP"
             }
           },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "AUTO": {
       "world_1": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
+          "trial_1": {},
+          "trial_2": {}
         }
       }
     },
     "HUMAN": {
       "world_1": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
-        }
+        "trial_1": {},
+        "trial_2": {}
       },
       "world_2": {
-        "gpt-6-luna": {
-          "trial_1": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          },
-          "trial_2": {
-            "run_1": {
-              "sensor_sequence": [],
-              "conversation": []
-            },
-            "run_2": {
-              "sensor_sequence": [],
-              "conversation": []
-            }
-          }
-        }
+        "trial_1": {},
+        "trial_2": {}
+      }
+    },
+    "ILP": {
+      "world_1": {
+        "trial_1": {},
+        "trial_2": {}
+      },
+      "world_2": {
+        "trial_1": {},
+        "trial_2": {}
       }
     }
   }

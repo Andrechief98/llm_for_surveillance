@@ -1,49 +1,178 @@
 #!/bin/bash
 
 # PARAMETERS
-experiment="deterministic"
-world_id="2"
-trial_id="3"
+world_id="1"
+trial_id="1"
 
-llm_modality="HITL"
+modality="HITL"
 teleport_robots="true"
 print_rag_search="false"
 llm_model="gpt-6-luna"
-
-SENSOR_PARAM="sensor_sequence"
-
-CHAINLIT_DIR="$HOME/ros_packages_aggiuntivi/src/llm_for_surveillance/llm_interface/src"
 
 robot_list=(
     "turtlebot3_1"
     "turtlebot3_2"
 )
 
-TERMINAL_PIDS=()
+SENSOR_PARAM="sensor_sequence"
 
-# SENSORS SEQUENCE FOR EACH WORLD
+# PATHS
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-declare -A world_sequences
+CHAINLIT_DIR="$SCRIPT_DIR/../../llm_interface/src"
+HUMAN_DIR="$SCRIPT_DIR/../../human_supervisory_interface/src"
 
-world_sequences["1"]="Lidar_3;Lidar_5,Camera_2;Lidar_3,Camera_1,Lidar_2;Camera_2,Lidar_6,Lidar_7,Lidar_8" 
-world_sequences["2"]="Camera_9;Lidar_14,Lidar_9;Camera_10,Lidar_2,Lidar_3;Lidar_10,Lidar_2,Lidar_1,Camera_5"
+# PYTHON SCRIPTS
+# - for HITL e AUTO
+LLM_SCRIPT="llm_ros_interface.py"
 
-# SELECT WORLD
+# - for HUMAN
+HUMAN_SCRIPT="supervisory_ros_interface.py"
 
-if [[ ! -v world_sequences["$world_id"] ]]; then
-    echo "Errore: nessuna sequenza definita per world_id=$world_id"
+# Verify that the application directories exist.
+if [[ ! -d "$CHAINLIT_DIR" ]]; then
+    echo "ERROR: Chainlit directory not found: $CHAINLIT_DIR"
     exit 1
 fi
 
-IFS=';' read -r -a sequences <<< "${world_sequences[$world_id]}"
+if [[ ! -d "$HUMAN_DIR" ]]; then
+    echo "ERROR: Human interface directory not found: $HUMAN_DIR"
+    exit 1
+fi
+
+case "$modality" in
+    HITL|AUTO)
+        PYTHON_DIR="$CHAINLIT_DIR"
+        PYTHON_SCRIPT="$LLM_SCRIPT"
+        USE_CHAINLIT=true
+        USE_CHROME=true
+        ;;
+
+    HUMAN)
+        PYTHON_DIR="$HUMAN_DIR"
+        PYTHON_SCRIPT="$HUMAN_SCRIPT"
+        USE_CHAINLIT=false
+        USE_CHROME=false
+        ;;
+
+    *)
+        echo "Error: modality not valid: $modality"
+        exit 1
+        ;;
+esac
+
+if [[ ! -f "$PYTHON_DIR/$PYTHON_SCRIPT" ]]; then
+    echo "Error: file not found: $PYTHON_DIR/$PYTHON_SCRIPT"
+    exit 1
+fi
+
+
+
+# SENSORS SEQUENCE FOR EACH WORLD AND MODALITY
+# Each configuration is identified by world ID.
+#
+# Record format:
+# experiment | sensor1,sensor2,...|target
+#
+# Multiple sensors are separated by commas.
+# The target represents the expected final intruder position.
+# RAND(A,B,C) indicates that the target must be randomly selected
+# from the specified set of possible positions.
+
+declare -A experiment_sequences
+
+# ==================================================
+# WORLD 1
+# ==================================================
+
+# Format: experiment type | sensor sequence | target area
+experiment_sequences["1"]=$(cat <<'EOF'
+deterministic|Camera_1|B
+# deterministic|Lidar_3|C
+# deterministic|Lidar_6|G
+# deterministic|Lidar_2|A
+# deterministic|Lidar_5,Camera_2|F
+# deterministic|Lidar_6,Lidar_1|A
+# deterministic|Lidar_5,Lidar_4|C
+# deterministic|Lidar_7,Lidar_6|E
+# deterministic|Lidar_3,Camera_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_5,Lidar_4|C
+# deterministic|Camera_2,Lidar_6,Lidar_7|G
+# deterministic|Lidar_6,Lidar_7,Lidar_8|I
+# deterministic|Camera_2,Lidar_6,Lidar_7,Lidar_8|L
+# deterministic|Lidar_7,Lidar_6,Lidar_5,Lidar_4|C
+# deterministic|Lidar_5,Lidar_6,Lidar_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_8,Lidar_7,Lidar_6|E
+
+uncertain|Camera_2|-
+# uncertain|Lidar_8|RAND(L,A,I)
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|RAND(F,C,D)
+# uncertain|Camera_1,Lidar_3|RAND(E,A,C)
+# uncertain|Lidar_1,Lidar_8|RAND(H,G,B)
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|RAND(B,I,F)
+# uncertain|Lidar_2,Lidar_1,Lidar_8|RAND(G,E,B)
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|RAND(E,I,A)
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|RAND(L,E,I)
+EOF
+)
+
+# ==================================================
+# WORLD 2
+# ==================================================
+
+experiment_sequences["2"]=$(cat <<'EOF'
+deterministic|Camera_9|B
+deterministic|Lidar_14,Lidar_9|C
+deterministic|Camera_10,Lidar_2,Lidar_3|A
+
+uncertain|Camera_9|B
+uncertain|Lidar_14,Lidar_9|C
+uncertain|Camera_10,Lidar_2,Lidar_3|A
+EOF
+)
+
+
+
+# SELECT WORLD AND SEQUENCE
+# Retrieve the configuration matching the experiment type and world ID.
+# Stop execution if the requested configuration does not exist.
+
+config_key="${world_id}"
+
+if [[ ! -v experiment_sequences["$config_key"] ]]; then
+    echo "Error: no sequence defined for:"
+    echo "  world_id=$world_id"
+    exit 1
+fi
+
+# Load all configured sequences into a Bash array.
+mapfile -t sequences < <(
+    printf '%s\n' "${experiment_sequences[$config_key]}" |
+    grep -vE '^[[:space:]]*#|^[[:space:]]*$'
+)
+
+# Randomize the order of the complete records.
+# Each record is shuffled as a whole, preserving the association
+# between its sensor list and its target.
+mapfile -t randomized_sequences < <(
+    printf '%s\n' "${sequences[@]}" | shuf
+)
+
 
 # START ROS ONCE
 
-echo "Avvio simulazione ROS..."
+echo "Launching ROS simulation..."
 
 roslaunch utilities demo_multi_robot.launch \
     world_id:="$world_id" \
-    llm_modality:="$llm_modality" \
+    modality:="$modality" \
     teleport_robots:="$teleport_robots" \
     print_rag_search:="$print_rag_search" \
     trial_id:="$trial_id" \
@@ -54,64 +183,100 @@ ROS_PID=$!
 # Wait 20 seconds for ROS
 sleep 20
 
-# LOOP ON SEQUENCES
+# EXECUTE THE RANDOMIZED SENSOR SEQUENCES
+# Each configured record is processed exactly once per trial.
 
 sequence_number=0
 
-for sequence_str in "${sequences[@]}"; do
+# Setting ros param and corresponding flag to false in order to continue the experiment
+rosparam set /stop_experiment false
+stop_experiment=false
 
-    [[ -z "$sequence_str" ]] && continue
+for record in "${randomized_sequences[@]}"; do
+
+    # Skip empty records.
+    [[ -z "$record" ]] && continue
 
     sequence_number=$((sequence_number + 1))
 
-    IFS=',' read -r -a sensor_sequence <<< "$sequence_str"
-    sensor_sequence_str=$(IFS=,; echo "${sensor_sequence[*]}")
+    # Split the record into the sensor list and the target specification.
+    IFS='|' read -r experiment_type sensors_str target_spec <<< "$record"
 
-    echo
+    # Convert the comma-separated sensor list into a Bash array.
+    IFS=',' read -r -a sensor_sequence <<< "$sensors_str"
+
+    # Update ROS experiment type for the current run.
+    rosparam set /experiment_type "$experiment_type"
+
+    # RESOLVE THE TARGET POSITION
+    # If the target uses RAND(...), randomly select one of the
+    # available target positions.
+    # Otherwise, retain the predefined target.
+
+    if [[ "$target_spec" == RAND\(*\) ]]; then
+
+        # Extract the list of candidate targets from RAND(...).
+        choices="${target_spec#RAND(}"
+        choices="${choices%)}"
+
+        # Convert the candidate targets into a Bash array.
+        IFS=',' read -r -a target_options <<< "$choices"
+
+        # Select one candidate target at random.
+        target_spec="${target_options[RANDOM % ${#target_options[@]}]}"
+
+    fi
+
     echo "========================================"
-    echo "World: $world_id"
-    echo "Trial: $trial_id"
+    echo "World ID: $world_id"
+    echo "Trial ID: $trial_id"
     echo "Sequence: $sequence_number"
-    echo "Sensors: $sensor_sequence_str"
     echo "========================================"
 
-    # UPDATE ROS PARAMETER
-
-    rosparam set "$SENSOR_PARAM" "$sensor_sequence_str"
-
+    # Update the ROS parameter with the current sensor sequence.
+    rosparam set "$SENSOR_PARAM" "$sensors_str"
+    
     sleep 2
 
     CHAINLIT_PID_FILE="/tmp/chainlit_${USER}_$$.pid"
     CHROME_PID_FILE="/tmp/chrome_${USER}_$$.pid"
 
-    # --- START CHAINLIT & CHROME ---
 
-    gnome-terminal --title="LLM Chainlit" -- bash -c "
-        cd '$CHAINLIT_DIR' || exit 1
+    # --- START CHAINLIT/STREAMLIT & CHROME ---
 
-        # Avvia Chainlit
-        chainlit run prova_interfaccia_ros.py --headless &
-        CHAINLIT_PID=\$!
-        echo \$CHAINLIT_PID > '$CHAINLIT_PID_FILE'
+    gnome-terminal --title="$modality Interface" -- bash -c "
+        cd '$PYTHON_DIR' || exit 1
 
-        # Aspetta che l'interfaccia sia pronta
-        sleep 2
+        if [[ '$USE_CHAINLIT' == 'true' ]]; then
+            chainlit run '$PYTHON_SCRIPT' --headless &
+        else
+            streamlit run '$PYTHON_SCRIPT' &
+        fi
 
-        # Avvia Chrome in una nuova finestra dedicata e salva il suo PID
-        google-chrome --new-window http://localhost:8000 &
-        CHROME_PID=\$!
-        echo \$CHROME_PID > '$CHROME_PID_FILE'
+        PYTHON_PID=\$!
+        echo \$PYTHON_PID > '$PYTHON_PID_FILE'
 
-        # Rimane in ascolto del processo Chainlit
-        wait \$CHAINLIT_PID
+        if [[ '$USE_CHROME' == 'true' ]]; then
+            sleep 2
+            google-chrome --new-window http://localhost:8000 &
+            CHROME_PID=\$!
+            echo \$CHROME_PID > '$CHROME_PID_FILE'
+        fi
+
+        wait \$PYTHON_PID
     " &
 
-    # Wait 10 seconds for Chainlit
+    # Wait 10 seconds for Chainlit/Streamlit
+    echo "Waiting for interface startup..."
     sleep 10
 
-    # ACTIVATE SENSORS / DEACTIVATE ROBOTS
+    
     rosparam set /valid_run true
     
+    # Reset authorization before starting the next sequence.
+    rosparam set /next_sequence false
+    
+    # ACTIVATE SENSORS / DEACTIVATE ROBOTS
     for i in "${!sensor_sequence[@]}"; do
 
         rosparam set /chainlit_done false
@@ -158,6 +323,49 @@ for sequence_str in "${sequences[@]}"; do
         done
         
     done
+
+    # INTRUDER TELEPORT
+    if [[ "$target_spec" != "-" ]]; then
+        rosservice call /teleport_actor "data: '$target_spec'"
+
+        # Setting the intruder_final_area to be registred in the save run mechanism
+        rosparam set /intruder_final_area "$target_spec"
+    else
+        # It teleport the intruder out of the environment so that it cannot be detected in case of only false positive sensors
+        rosservice call /teleport_actor "data: 'out'"
+
+        # Setting the intruder_final_area as a false positive case
+        rosparam set /intruder_final_area "FP"
+    fi
+
+    # WAIT FOR HUMAN DECISION
+    echo "Waiting for human supervisor..."
+    echo "Set ros param /next_sequence=true to proceed to the next sequence."
+    echo "Set ros param /stop_experiment=true to terminate the experiment."
+
+    while true; do
+
+        # Check whether the entire experiment must stop.
+        stop_experiment_param=$(rosparam get /stop_experiment 2>/dev/null || echo "false")
+
+        if [[ "$stop_experiment_param" == "true" ]]; then
+            echo "Experiment termination requested."
+            stop_experiment=true
+            break
+        fi
+
+        # Check whether the human authorizes the next sequence.
+        next_sequence_param=$(rosparam get /next_sequence 2>/dev/null || echo "false")
+
+        if [[ "$next_sequence_param" == "true" ]]; then
+            echo "Next sequence authorized."
+            break
+        fi
+
+        # Poll ROS parameters every 2 seconds.
+        sleep 2
+    done
+
 
     # --- CHROME ---
     echo "Shutting down Chrome..."
@@ -214,7 +422,16 @@ for sequence_str in "${sequences[@]}"; do
     echo "Sensors reset ..."
     rosservice call /resetSensorActivation "{}"
 
+    # RESET ROBOT INITIAL POSITIONS
+    echo "Robot reset ..."
+    rosservice call /reset_robot_pose "{}"
+
     echo "Sequence $sequence_number completed."
+
+    if [[ "$stop_experiment" == true ]]; then
+        echo "Stopping experiment after cleanup."
+        break
+    fi
 
     sleep 5
 
@@ -227,4 +444,4 @@ if kill -0 "$ROS_PID" 2>/dev/null; then
     wait "$ROS_PID" 2>/dev/null
 fi
 
-echo "Tutte le sequenze sono state completate."
+echo "All sequences completed."

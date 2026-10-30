@@ -1,0 +1,49 @@
+
+<launch>
+    <!-- Control modality: ps4 or keyboard -->
+    <arg name="actor_control_modality" default="ps4"/>
+
+    <!--  KEYBOARD -->
+    <group if="$(eval arg('actor_control_modality') == 'keyboard')">
+
+        <node pkg="turtlebot3_teleop" type="turtlebot3_teleop_key" name="teleop">
+            <param name="BURGER_MAX_LIN_VEL" value="1"/>
+            <remap from="cmd_vel" to="/cmd_vel"/> 
+        </node> 
+
+    </group>
+
+    <!-- PS4 -->
+    <group if="$(eval arg('actor_control_modality') == 'ps4')">
+
+        <!-- PS4 controller driver -->
+        <node pkg="joy" type="joy_node" name="joy_node" output="screen">
+            <param name="dev" value="/dev/input/js0"/>
+            <param name="deadzone" value="0.1"/>
+            <remap from="joy" to="/joy"/>
+        </node>
+
+    </group>
+
+    <!-- actor node-->
+    <node pkg="utilities"
+        type="actor_node.py"
+        name="actor_node"
+        output="screen">
+
+        <!-- Axis mapping -->
+        <param name="axis_linear" value="1"/>
+        <param name="axis_l2" value="2"/>
+        <param name="axis_r2" value="5"/>
+
+        <!-- Behaviour parameters -->
+        <param name="deadzone" value="0.1"/>
+        <param name="max_linear_vel" value="1.0"/>
+        <param name="max_angular_vel" value="2.5"/>
+        <param name="invert_linear" value="false"/>
+        <param name="invert_angular" value="false"/>
+        <param name="soft_scale" value="true"/>
+
+    </node>
+
+</launch>
