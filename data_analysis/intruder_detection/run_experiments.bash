@@ -1,9 +1,8 @@
 #!/bin/bash
 
 # PARAMETERS
-experiment="deterministic"
-world_id="2"
-trial_id="3"
+world_id="1"
+trial_id="1"
 
 modality="HITL"
 teleport_robots="true"
@@ -19,10 +18,9 @@ SENSOR_PARAM="sensor_sequence"
 
 # PATHS
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
-CHAINLIT_DIR="$PROJECT_DIR/../../llm_interface/src"
-HUMAN_DIR="$PROJECT_DIR/../../human_supervisory_interface/src"
+CHAINLIT_DIR="$SCRIPT_DIR/../../llm_interface/src"
+HUMAN_DIR="$SCRIPT_DIR/../../human_supervisory_interface/src"
 
 # PYTHON SCRIPTS
 # - for HITL e AUTO
@@ -71,10 +69,10 @@ fi
 
 
 # SENSORS SEQUENCE FOR EACH WORLD AND MODALITY
-# Each configuration is identified by experiment type and world ID.
+# Each configuration is identified by world ID.
 #
 # Record format:
-# sensor1,sensor2,...|target
+# experiment | sensor1,sensor2,...|target
 #
 # Multiple sensors are separated by commas.
 # The target represents the expected final intruder position.
@@ -87,47 +85,41 @@ declare -A experiment_sequences
 # WORLD 1
 # ==================================================
 
-# DETERMINISTIC - 
-# Format: sensor sequence | target area
-experiment_sequences["deterministic,1"]=$(cat <<'EOF'
-Camera_1|B
-Lidar_3|C
-Lidar_6|G
-Lidar_2|A
-Lidar_5,Camera_2|F
-Lidar_6,Lidar_1|A
-Lidar_5,Lidar_4|C
-Lidar_7,Lidar_6|E
-Lidar_3,Camera_1,Lidar_2|A
-Lidar_1,Lidar_5,Lidar_4|C
-Camera_2,Lidar_6,Lidar_7|G
-Lidar_6,Lidar_7,Lidar_8|I
-Camera_2,Lidar_6,Lidar_7,Lidar_8|L
-Lidar_7,Lidar_6,Lidar_5,Lidar_4|C
-Lidar_5,Lidar_6,Lidar_1,Lidar_2|A
-Lidar_1,Lidar_8,Lidar_7,Lidar_6|E
-EOF
-)
+# Format: experiment type | sensor sequence | target area
+experiment_sequences["1"]=$(cat <<'EOF'
+deterministic|Camera_1|B
+# deterministic|Lidar_3|C
+# deterministic|Lidar_6|G
+# deterministic|Lidar_2|A
+# deterministic|Lidar_5,Camera_2|F
+# deterministic|Lidar_6,Lidar_1|A
+# deterministic|Lidar_5,Lidar_4|C
+# deterministic|Lidar_7,Lidar_6|E
+# deterministic|Lidar_3,Camera_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_5,Lidar_4|C
+# deterministic|Camera_2,Lidar_6,Lidar_7|G
+# deterministic|Lidar_6,Lidar_7,Lidar_8|I
+# deterministic|Camera_2,Lidar_6,Lidar_7,Lidar_8|L
+# deterministic|Lidar_7,Lidar_6,Lidar_5,Lidar_4|C
+# deterministic|Lidar_5,Lidar_6,Lidar_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_8,Lidar_7,Lidar_6|E
 
-# UNCERTAIN 
-# Random target with RAND(...)
-experiment_sequences["uncertain,1"]=$(cat <<'EOF'
-Camera_2|-
-Lidar_8|RAND(L,A,I)
-Lidar_1|-
-Lidar_5|RAND(F,C,D)
-Camera_1,Lidar_3|RAND(E,A,C)
-Lidar_1,Lidar_8|RAND(H,G,B)
-Lidar_3,Lidar_7|C
-Lidar_4,Lidar_1|E
-Camera_1,Lidar_6,Lidar_5|G
-Lidar_8,Lidar_1,Camera_2|A
-Lidar_4,Lidar_5,Lidar_6|RAND(B,I,F)
-Lidar_2,Lidar_1,Lidar_8|RAND(G,E,B)
-Camera_1,Lidar_2,Lidar_1,Lidar_7|A
-Lidar_8,Lidar_1,Camera_1,Lidar_3|C
-Lidar_5,Lidar_4,Lidar_3,Camera_1|RAND(E,I,A)
-Lidar_3,Camera_1,Lidar_6,Lidar_7|RAND(L,E,I)
+uncertain|Camera_2|-
+# uncertain|Lidar_8|RAND(L,A,I)
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|RAND(F,C,D)
+# uncertain|Camera_1,Lidar_3|RAND(E,A,C)
+# uncertain|Lidar_1,Lidar_8|RAND(H,G,B)
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|RAND(B,I,F)
+# uncertain|Lidar_2,Lidar_1,Lidar_8|RAND(G,E,B)
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|RAND(E,I,A)
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|RAND(L,E,I)
 EOF
 )
 
@@ -135,42 +127,35 @@ EOF
 # WORLD 2
 # ==================================================
 
-# DETERMINISTIC - 
-# Format: sensor sequence | target area
-experiment_sequences["deterministic,2"]=$(cat <<'EOF'
-Camera_9|B
-Lidar_14,Lidar_9|C
-Camera_10,Lidar_2,Lidar_3|A
-EOF
-)
+experiment_sequences["2"]=$(cat <<'EOF'
+deterministic|Camera_9|B
+deterministic|Lidar_14,Lidar_9|C
+deterministic|Camera_10,Lidar_2,Lidar_3|A
 
-# UNCERTAIN 
-# Random target with RAND(...)
-experiment_sequences["uncertain,2"]=$(cat <<'EOF'
-Camera_9|B
-Lidar_14,Lidar_9|C
-Camera_10,Lidar_2,Lidar_3|A
+uncertain|Camera_9|B
+uncertain|Lidar_14,Lidar_9|C
+uncertain|Camera_10,Lidar_2,Lidar_3|A
 EOF
 )
 
 
 
-# SELECT WORLD, EXPERIMENT AND SEQUENCE
+# SELECT WORLD AND SEQUENCE
 # Retrieve the configuration matching the experiment type and world ID.
 # Stop execution if the requested configuration does not exist.
 
-config_key="${experiment},${world_id}"
+config_key="${world_id}"
 
 if [[ ! -v experiment_sequences["$config_key"] ]]; then
     echo "Error: no sequence defined for:"
-    echo "  experiment=$experiment"
     echo "  world_id=$world_id"
     exit 1
 fi
 
 # Load all configured sequences into a Bash array.
 mapfile -t sequences < <(
-    printf '%s\n' "${experiment_sequences[$config_key]}"
+    printf '%s\n' "${experiment_sequences[$config_key]}" |
+    grep -vE '^[[:space:]]*#|^[[:space:]]*$'
 )
 
 # Randomize the order of the complete records.
@@ -186,7 +171,6 @@ mapfile -t randomized_sequences < <(
 echo "Launching ROS simulation..."
 
 roslaunch utilities demo_multi_robot.launch \
-    experiment_type:="$experiment_type" \
     world_id:="$world_id" \
     modality:="$modality" \
     teleport_robots:="$teleport_robots" \
@@ -216,10 +200,13 @@ for record in "${randomized_sequences[@]}"; do
     sequence_number=$((sequence_number + 1))
 
     # Split the record into the sensor list and the target specification.
-    IFS='|' read -r sensors_str target_spec <<< "$record"
+    IFS='|' read -r experiment_type sensors_str target_spec <<< "$record"
 
     # Convert the comma-separated sensor list into a Bash array.
     IFS=',' read -r -a sensor_sequence <<< "$sensors_str"
+
+    # Update ROS experiment type for the current run.
+    rosparam set /experiment_type "$experiment_type"
 
     # RESOLVE THE TARGET POSITION
     # If the target uses RAND(...), randomly select one of the
@@ -241,7 +228,6 @@ for record in "${randomized_sequences[@]}"; do
     fi
 
     echo "========================================"
-    echo "Experiment: $experiment"
     echo "World ID: $world_id"
     echo "Trial ID: $trial_id"
     echo "Sequence: $sequence_number"
@@ -284,12 +270,13 @@ for record in "${randomized_sequences[@]}"; do
     echo "Waiting for interface startup..."
     sleep 10
 
-    # ACTIVATE SENSORS / DEACTIVATE ROBOTS
+    
     rosparam set /valid_run true
     
     # Reset authorization before starting the next sequence.
     rosparam set /next_sequence false
     
+    # ACTIVATE SENSORS / DEACTIVATE ROBOTS
     for i in "${!sensor_sequence[@]}"; do
 
         rosparam set /chainlit_done false
@@ -434,6 +421,10 @@ for record in "${randomized_sequences[@]}"; do
 
     echo "Sensors reset ..."
     rosservice call /resetSensorActivation "{}"
+
+    # RESET ROBOT INITIAL POSITIONS
+    echo "Robot reset ..."
+    rosservice call /reset_robot_pose "{}"
 
     echo "Sequence $sequence_number completed."
 
