@@ -679,6 +679,20 @@ with nav_right:
 run_id = world_runs[st.session_state[nav_key]]
 run = valid_runs[run_id]
 
+
+# ---------- Informazioni sull'intruder ----------
+
+intruder_final_area = run.get("intruder_final_area", "N/D")
+
+# Valore iniziale di success letto dal dataset.
+dataset_success = run.get("success", 0)
+
+try:
+    dataset_success = int(dataset_success)
+    dataset_success = 1 if dataset_success == 1 else 0
+except (TypeError, ValueError):
+    dataset_success = 0
+
 # ---------- Stato della valutazione ----------
 
 current_evaluation = (
@@ -739,6 +753,15 @@ if not isinstance(old_evaluation, dict):
 
 old_counts = old_evaluation.get("error_counts", {})
 old_notes = old_evaluation.get("notes", "")
+
+# Valore success precedentemente salvato.
+old_success = old_evaluation.get("success", dataset_success)
+
+try:
+    old_success = int(old_success)
+    old_success = 1 if old_success == 1 else 0
+except (TypeError, ValueError):
+    old_success = dataset_success
 
 if not isinstance(old_counts, dict):
     old_counts = {}
@@ -825,6 +848,38 @@ with right:
 
     st.divider()
 
+    # ---------- Intruder information & Mission success ----------
+
+    info_col, success_col = st.columns([1, 1], gap="large")
+
+    with info_col:
+        st.markdown("#### Intruder information")
+
+        st.metric(
+            label="Intruder final area",
+            value=str(intruder_final_area),
+        )
+
+    with success_col:
+        st.markdown("#### Mission success")
+
+        success_key = (
+            f"success_{mode}_{world_id}_{model_id}_"
+            f"{trial_id}_{run_id}"
+        )
+
+        if success_key not in st.session_state:
+            st.session_state[success_key] = old_success
+
+        success_value = st.radio(
+            "Was the mission successful?",
+            options=[0, 1],
+            format_func=lambda x: "No (0)" if x == 0 else "Yes (1)",
+            horizontal=True,
+            key=success_key,
+        )
+
+    st.divider()
 
     # ---------- Editor JSON delle categorie ----------
 
@@ -1134,6 +1189,10 @@ with right:
 
         trial_evaluations[run_id] = {
             "sensor_sequence": run.get("sensor_sequence", []),
+
+            # Informazioni sull'intruder
+            "intruder_final_area": intruder_final_area,
+            "success": int(st.session_state[success_key]),
 
             "total_messages": int(total_messages),
 
