@@ -1,0 +1,176 @@
+{
+    "original":{
+        "Spatial and Environment Understanding":{
+            "Comprensione dell'ambiente e del contesto spaziale":[
+                "wrong intruder movement hypothesis",
+                "wrong spatial information for area connections",
+                "wrong spatial information for sensors coverage"
+            ]
+        },
+        "Resource Selection and Task Assignment":{
+            "Scelta delle risorse e assegnazione delle ispezioni":[
+                "wrong area proposed",
+                "unproposed area to inspect",
+                "wrong robot camera inspections assignment",
+                "wrong robot deployed",
+                "wrong sensor considered",
+                "unproposed camera usage",
+                "useless proposed camera inspection",
+                "unoptimal robot deployment"
+            ]
+        },
+        "Information Retrieval and Context Selection":{
+            "Reperimento delle informazioni necessarie":[
+                "called get_areas_info with missing areas",
+                "called get_areas_info with wrong area",
+                "get_areas_info with useless areas",
+                "get_sensors_info with useless sensors"
+            ]
+        },
+        "Distance Computation and Decision Integration":{
+            "Calcolo delle distanze e impiego dei risultati nel ragionamento":[
+                "compute_distance for robot assignment not used",
+                "computed_distance_to_area_covered_by_camera",
+                "computed_distance_to_wrong_area",
+                "compute_distance used but not included for optimal robot deployment"
+            ]
+        },    
+        "Function Calling and Parameter Validity":{
+            "Correttezza delle chiamate alle funzioni":[
+                "called_again_the_same_function",
+                "Synthatically wrong parameters generated"
+            ]
+        },   
+        "Operational Constraint Violations":{
+            "Rispetto dei vincoli e delle autorizzazioni":[
+                "Unapproved action execution"
+            ]
+        }
+    },
+
+    "revised":{
+        "Information Retrieval and Spatial Understanding":{
+            "Reperimento delle informazioni necessarie, comprensione dell'ambiente e del contesto spaziale":[
+                "wrong intruder movement hypothesis",
+                "wrong spatial information for area connections",
+                "wrong spatial information for sensors coverage",
+                "called get_areas_info with missing areas",
+                "called get_areas_info with wrong area"
+
+            ]
+        },
+        "Resource Selection and Task Assignment":{
+            "Scelta delle risorse e assegnazione delle ispezioni":[
+                "wrong area proposed",
+                "unproposed area to inspect",
+                "wrong robot camera inspections assignment",
+                "wrong robot deployed",
+                "wrong sensor considered",
+                "unproposed camera usage",
+                "useless proposed camera inspection",
+                "unoptimal robot deployment"
+            ]
+        },
+        "Function Calling correctness":{
+            "Correttezza delle chiamate alle funzioni":[
+                "computed_distance_to_wrong_area",
+                "called_again_the_same_function",
+                "Synthatically wrong parameters generated",
+                "get_areas_info with useless areas",
+                "get_sensors_info with useless sensors"
+            ]
+        },
+        "Operational constraints":{
+            "rispetto delle regole per utilizzo delle funzioni":[
+                "Unapproved action execution",
+                "compute_distance for robot assignment not used",
+                "computed_distance_to_area_covered_by_camera",
+                "compute_distance used but not included for optimal robot deployment"
+
+            ]
+        }
+    },
+
+    "test_1" : {
+            "Information_Retrieval_and_Spatial_Understanding": [
+                "wrong intruder movement hypothesis",
+                "wrong spatial information for area connections",
+                "wrong spatial information for sensors coverage",
+                "called get_areas_info with missing areas",
+                "called get_areas_info with wrong area"
+            ],
+
+            "Resource_Selection_and_Task_Assignment": [
+                "wrong area proposed",
+                "unproposed area to inspect",
+                "wrong robot camera inspections assignment",
+                "wrong robot deployed",
+                "wrong sensor considered",
+                "unproposed camera usage",
+                "useless proposed camera inspection",
+                "unoptimal robot deployment"
+            ],
+
+            "Function_Usage_Inefficiency": [
+                "get_areas_info with useless areas",
+                "get_sensors_info with useless sensors",
+                "called_again_the_same_function",
+                "Synthatically wrong parameters generated"
+
+            ],
+
+            "Operational_Constraint_Violations": [
+                "Unapproved action execution",
+                "compute_distance for robot assignment not used",
+                "computed_distance_to_area_covered_by_camera",
+                "compute_distance used but not included for optimal robot deployment"
+            ]
+        },
+
+    "test2":{
+        "High impact errors": { 
+            "Erros regarding aresa" : [
+                "wrong area proposed",
+                "unproposed area to inspect"
+            ], 
+            "Erros regarding robots" : [
+                "wrong robot deployed",
+                "wrong robot camera inspections assignment"
+            ],
+            "Erros regarding sensors" : [
+                "wrong sensor considered",
+                "unproposed camera usage"
+            ],
+            "Erros regarding function calls": [
+                "called get_areas_info with missing areas",
+                "compute_distance for robot assignment not used",
+                "called get_areas_info with wrong area",
+                "Unapproved action execution",
+                "Synthatically wrong parameters generated"
+            ],
+            "Erros regarding intruder position": [
+                "wrong intruder movement hypothesis",
+                "unoptimal robot deployment"
+            ]
+        },
+        "Low impact errors": {
+            "Areas": [
+                "get_areas_info with useless areas",
+                "computed_distance_to_wrong_area", 
+                "wrong spatial information for area connections"
+            ],
+            "Sensors":[
+                "get_sensors_info with useless sensors",
+                "computed_distance_to_area_covered_by_camera",
+                "wrong spatial information for sensors coverage",
+                "useless proposed camera inspection"
+            ],
+            "Robot":[
+                "compute_distance used but not included for optimal robot deployment"
+            ],
+            "Function calls":[
+                "called_again_the_same_function"
+            ]
+        }
+    }
+}
