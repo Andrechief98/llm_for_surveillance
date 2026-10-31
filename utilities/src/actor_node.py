@@ -157,9 +157,10 @@ class actorNode:
                     )
                 )
 
-            message = "Actor teleported to area {} (x={}, y={})".format(
-                area, x, y
-            )
+            # message = "Actor teleported to area {} (x={}, y={})".format(
+            #     area, x, y
+            # )
+            message = ""
 
             return SetStringResponse(
                 success=True,
@@ -168,7 +169,7 @@ class actorNode:
 
         except (rospy.ROSException, rospy.ServiceException) as exc:
             message = "Failed to teleport actor: {}".format(exc)
-            rospy.logerr(message)
+            # rospy.logerr(message)
 
             return SetStringResponse(
                 success=False,

@@ -919,13 +919,13 @@ with right:
     ):
         try:
             if not editor_content or not editor_content.strip():
-                raise ValueError("Il JSON non può essere vuoto.")
+                raise ValueError("JSON structure cannot be empty.")
 
             parsed_categories = json.loads(editor_content)
 
             if not isinstance(parsed_categories, dict):
                 raise ValueError(
-                    "La struttura principale deve essere un oggetto JSON."
+                    "Main structure must be a JSON."
                 )
 
             validated_categories = {}
