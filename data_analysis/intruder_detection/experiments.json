@@ -3,14 +3,182 @@
     "HITL": {
       "world_1": {
         "gpt-6-luna": {
-          "trial_1": {},
-          "trial_2": {}
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": ["Lidar_1"],
+              "success":1
+            },
+            "run_2": {
+              "sensor_sequence": ["Lidar_2"],
+              "success":1
+            },
+            "run_3": {
+              "sensor_sequence": ["Lidar_3"],
+              "success":0
+            },
+            "run_4": {
+              "sensor_sequence": ["Lidar_4"],
+              "success":0
+            },
+            "run_5": {
+              "sensor_sequence": ["Lidar_5"],
+              "success":1
+            },
+
+            "run_6": {
+              "sensor_sequence": ["Lidar_1", "Lidar_2"],
+              "success":1
+            },
+            "run_7": {
+              "sensor_sequence": ["Lidar_3", "Lidar_4"],
+              "success":0
+            },
+            "run_8": {
+              "sensor_sequence": ["Lidar_5", "Lidar_6"],
+              "success":0
+            },
+            "run_9": {
+              "sensor_sequence": ["Lidar_7", "Lidar_8"],
+              "success":0
+            },
+            "run_10": {
+              "sensor_sequence": ["Lidar_9", "Lidar_10"],
+              "success":0
+            }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": ["Lidar_1"],
+              "success":1
+            },
+            "run_2": {
+              "sensor_sequence": ["Lidar_2"],
+              "success":1
+            },
+            "run_3": {
+              "sensor_sequence": ["Lidar_3"],
+              "success":1
+            },
+            "run_4": {
+              "sensor_sequence": ["Lidar_4"],
+              "success":1
+            },
+            "run_5": {
+              "sensor_sequence": ["Lidar_5"],
+              "success":1
+            },
+
+            "run_6": {
+              "sensor_sequence": ["Lidar_1", "Lidar_2"],
+              "success":0
+            },
+            "run_7": {
+              "sensor_sequence": ["Lidar_3", "Lidar_4"],
+              "success":0
+            },
+            "run_8": {
+              "sensor_sequence": ["Lidar_5", "Lidar_6"],
+              "success":0
+            },
+            "run_9": {
+              "sensor_sequence": ["Lidar_7", "Lidar_8"],
+              "success":0
+            },
+            "run_10": {
+              "sensor_sequence": ["Lidar_9", "Lidar_10"],
+              "success":0
+            }
+          }
         }
       },
       "world_2": {
         "gpt-6-luna": {
-          "trial_1": {},
-          "trial_2": {}
+          "trial_1": {
+            "run_1": {
+              "sensor_sequence": ["Lidar_1"],
+              "success":0
+            },
+            "run_2": {
+              "sensor_sequence": ["Lidar_2"],
+              "success":0
+            },
+            "run_3": {
+              "sensor_sequence": ["Lidar_3"],
+              "success":0
+            },
+            "run_4": {
+              "sensor_sequence": ["Lidar_4"],
+              "success":0
+            },
+            "run_5": {
+              "sensor_sequence": ["Lidar_5"],
+              "success":1
+            },
+
+            "run_6": {
+              "sensor_sequence": ["Lidar_1", "Lidar_2"],
+              "success":1
+            },
+            "run_7": {
+              "sensor_sequence": ["Lidar_3", "Lidar_4"],
+              "success":0
+            },
+            "run_8": {
+              "sensor_sequence": ["Lidar_5", "Lidar_6"],
+              "success":0
+            },
+            "run_9": {
+              "sensor_sequence": ["Lidar_7", "Lidar_8"],
+              "success":0
+            },
+            "run_10": {
+              "sensor_sequence": ["Lidar_9", "Lidar_10"],
+              "success":0
+            }
+          },
+          "trial_2": {
+            "run_1": {
+              "sensor_sequence": ["Lidar_1"],
+              "success":1
+            },
+            "run_2": {
+              "sensor_sequence": ["Lidar_2"],
+              "success":1
+            },
+            "run_3": {
+              "sensor_sequence": ["Lidar_3"],
+              "success":0
+            },
+            "run_4": {
+              "sensor_sequence": ["Lidar_4"],
+              "success":0
+            },
+            "run_5": {
+              "sensor_sequence": ["Lidar_5"],
+              "success":1
+            },
+
+            "run_6": {
+              "sensor_sequence": ["Lidar_1", "Lidar_2"],
+              "success":1
+            },
+            "run_7": {
+              "sensor_sequence": ["Lidar_3", "Lidar_4"],
+              "success":0
+            },
+            "run_8": {
+              "sensor_sequence": ["Lidar_5", "Lidar_6"],
+              "success":0
+            },
+            "run_9": {
+              "sensor_sequence": ["Lidar_7", "Lidar_8"],
+              "success":0
+            },
+            "run_10": {
+              "sensor_sequence": ["Lidar_9", "Lidar_10"],
+              "success":0
+            }
+          }
         }
       }
     },

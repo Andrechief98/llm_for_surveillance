@@ -601,6 +601,16 @@ def extract_experiment_records(data):
 
     df = pd.DataFrame(records)
 
+# The final dataFrame will be a table where
+# each row represents one experimental run.
+#
+#   experiment_type     methodology     world       model       trial           run         sensor_sequence       n_sensors  success
+#   deterministic       HITL            world_1     GPT-6       trial_1         run_1           [1, 2]                 2          1
+#   deterministic       HITL            world_1     GPT-6       trial_1         run_2           [1, 2]                 2          0
+#   deterministic       HITL            world_1     GPT-6       trial_2         run_1           [1, 2]                 2          1
+#   deterministic       AUTO            world_1     GPT-6       trial_1         run_1           [1, 2]                 2          1
+#   uncertain           HITL            world_2     GPT-6       trial_1         run_1           [1, 2, 3]              3          1
+
     if not df.empty:
         df["n_sensors"] = df["n_sensors"].astype(int)
         df["success"] = df["success"].astype(int)
@@ -649,27 +659,31 @@ def discover_worlds(data):
 # SUCCESS RATE CALCULATION
 # ============================================================
 
+
 def calculate_success_rates(df, aggregate_worlds=False):
     """
-    Calculate trial-level success rates and summary statistics.
+    Calculate success statistics directly from individual runs.
 
-    Step 1:
-        Calculate the success rate for each trial, methodology,
-        world and sensor count.
+    trial_stats:
+        One row per trial, world and sensor configuration.
+        Used for inspecting individual trial results.
 
-    Step 2:
-        Calculate mean and sample standard deviation across trials.
+    summary:
+        Statistics calculated directly from ALL individual runs
+        sharing the same experimental configuration.
 
-    Different sensor counts are always treated as separate groups.
-
-    In Overview, world and trial are both preserved as independent
-    experimental observations.
+    If aggregate_worlds=True:
+        All worlds are combined, while trial_stats still
+        preserves the original world information.
     """
 
     if df.empty:
         return pd.DataFrame(), pd.DataFrame()
 
-    # Every trial is identified by its complete hierarchical path.
+    # ========================================================
+    # STEP 1 - TRIAL-LEVEL STATISTICS (DIAGNOSTICS)
+    # ========================================================
+
     trial_columns = [
         "experiment_type",
         "methodology",
@@ -691,9 +705,10 @@ def calculate_success_rates(df, aggregate_worlds=False):
         / trial_stats["total_runs"]
     )
 
-    # In the overview, world is removed only at the final aggregation.
-    # This means world_1/trial_1 and world_2/trial_1 remain distinct
-    # experimental observations.
+    # ========================================================
+    # STEP 2 - DEFINE SUMMARY GROUPING
+    # ========================================================
+
     summary_columns = [
         "experiment_type",
         "methodology",
@@ -703,18 +718,50 @@ def calculate_success_rates(df, aggregate_worlds=False):
     if not aggregate_worlds:
         summary_columns.append("world")
 
+    # ========================================================
+    # STEP 3 - CALCULATE STATISTICS FROM INDIVIDUAL RUNS
+    # ========================================================
+
     summary = (
-        trial_stats.groupby(summary_columns, as_index=False)
+        df.groupby(summary_columns, as_index=False)
         .agg(
-            mean_success_rate=("success_rate", "mean"),
+            # Mean of all binary run outcomes (0 or 1).
+            mean_success_rate=("success", "mean"),
+
+            # Sample standard deviation across all individual runs.
             std_dev=(
-                "success_rate",
+                "success",
                 lambda values: values.std(ddof=VARIANCE_DDOF)
             ),
-            n_trials=("success_rate", "count"),
-            total_runs=("total_runs", "sum"),
-            successful_runs=("successful_runs", "sum")
+
+            # Number of individual runs.
+            total_runs=("success", "count"),
+
+            # Number of successful individual runs.
+            successful_runs=("success", "sum")
         )
+    )
+
+    # ========================================================
+    # STEP 4 - COUNT DISTINCT TRIAL OBSERVATIONS
+    # ========================================================
+
+    # Count trial/configuration combinations.
+    # In the Overview, trials belonging to different worlds
+    # remain distinct observations.
+    trial_counts = (
+        trial_stats.groupby(
+            summary_columns,
+            as_index=False
+        )
+        .size()
+        .rename(columns={"size": "n_trials"})
+    )
+
+    summary = summary.merge(
+        trial_counts,
+        on=summary_columns,
+        how="left"
     )
 
     return trial_stats, summary
@@ -1292,40 +1339,37 @@ world_tabs = st.tabs(
 )
 
 
-# ============================================================
+
+# ========================================================
 # OVERVIEW
-# ============================================================
+# ========================================================
 
 with world_tabs[0]:
 
     st.header("Overview — All selected worlds")
 
+    # Preserve trial-level data for individual trial inspection.
     overview_trials = trial_stats_overview.copy()
 
+    # Apply the selected worlds to trial-level data.
     if selected_worlds:
         overview_trials = overview_trials[
             overview_trials["world"].isin(selected_worlds)
         ]
 
-    overview_data = (
-        overview_trials.groupby(
-            [
-                "experiment_type",
-                "methodology",
-                "n_sensors"
-            ],
-            as_index=False
-        )
-        .agg(
-            mean_success_rate=("success_rate", "mean"),
-            std_dev=(
-                "success_rate",
-                lambda x: x.std(ddof=VARIANCE_DDOF)
-            ),
-            n_trials=("success_rate", "count"),
-            total_runs=("total_runs", "sum"),
-            successful_runs=("successful_runs", "sum")
-        )
+    # Select the original individual runs belonging to
+    # the selected worlds.
+    overview_experiments = experiments_df.copy()
+
+    if selected_worlds:
+        overview_experiments = overview_experiments[
+            overview_experiments["world"].isin(selected_worlds)
+        ]
+
+    # Recalculate statistics directly from ALL individual runs.
+    _, overview_data = calculate_success_rates(
+        overview_experiments,
+        aggregate_worlds=True
     )
 
     overview_data["world"] = "Overview"
