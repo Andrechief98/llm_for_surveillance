@@ -141,14 +141,17 @@ class robotNode():
                     y_actor = actor_pose.position.y
 
                     for area_name, area_info in self.areas_dict.items():
-                        x_range = area_info["coordinate_ranges"]["x"]
-                        y_range = area_info["coordinate_ranges"]["y"]
-
-                        if x_range["min"] <= x_actor <= x_range["max"] and y_range["min"] <= y_actor <= y_range["max"]:
-                            actor_area = area_name
-                            break
+                        if area_name == "OUT":
+                            actor_area = "OUT"
                         else:
-                            actor_area = "unknown"
+                            x_range = area_info["coordinate_ranges"]["x"]
+                            y_range = area_info["coordinate_ranges"]["y"]
+
+                            if x_range["min"] <= x_actor <= x_range["max"] and y_range["min"] <= y_actor <= y_range["max"]:
+                                actor_area = area_name
+                                break
+                            else:
+                                actor_area = "unknown"
                 
                 else:
                     rospy.logwarn(f"[{self.actor_model_name}] State not obtained: {response.status_message}")
@@ -171,14 +174,17 @@ class robotNode():
                     y_robot = robot_pose.position.y
 
                     for area_name, area_info in self.areas_dict.items():
-                        x_range = area_info["coordinate_ranges"]["x"]
-                        y_range = area_info["coordinate_ranges"]["y"]
-
-                        if x_range["min"] <= x_robot <= x_range["max"] and y_range["min"] <= y_robot <= y_range["max"]:
-                            robot_area = area_name
-                            break
+                        if area_name == "OUT":
+                            continue
                         else:
-                            robot_area = "uknown"
+                            x_range = area_info["coordinate_ranges"]["x"]
+                            y_range = area_info["coordinate_ranges"]["y"]
+
+                            if x_range["min"] <= x_robot <= x_range["max"] and y_range["min"] <= y_robot <= y_range["max"]:
+                                robot_area = area_name
+                                break
+                            else:
+                                robot_area = "uknown"
                 
                 else:
                     rospy.logwarn(f"[{robot_name}] State not obtained: {response.status_message}")
