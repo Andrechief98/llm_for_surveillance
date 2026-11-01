@@ -88,10 +88,10 @@ declare -A experiment_sequences
 # Format: experiment type | sensor sequence | target area
 experiment_sequences["1"]=$(cat <<'EOF'
 deterministic|Camera_1|B
-# deterministic|Lidar_3|C
-# deterministic|Lidar_6|G
-# deterministic|Lidar_2|A
-# deterministic|Camera_2|F
+deterministic|Lidar_3|C
+deterministic|Lidar_6|G
+deterministic|Lidar_2|A
+deterministic|Camera_2|F
 
 # deterministic|Lidar_5,Camera_2|F
 # deterministic|Lidar_6,Lidar_1|A
@@ -112,9 +112,9 @@ deterministic|Camera_1|B
 # deterministic|Camera_1,Lidar_3,Lidar_4,Lidar_5|D
 
 uncertain|Camera_2|-
-# uncertain|Lidar_8|RAND(L,A,I)
-# uncertain|Lidar_1|-
-# uncertain|Lidar_5|RAND(F,C,D)
+uncertain|Lidar_8|RAND(L,A,I)
+uncertain|Lidar_1|-
+uncertain|Lidar_5|RAND(F,C,D)
 # uncertain|Camera_1|RAND(B,C,E)
 
 # uncertain|Camera_1,Lidar_3|RAND(E,A,C)
@@ -479,6 +479,10 @@ for record in "${randomized_sequences[@]}"; do
     # RESET ROBOT INITIAL POSITIONS
     echo "Robot reset ..."
     rosservice call /reset_robot_pose "{}"
+
+    # RESET DOORS 
+    echo "Doors reset ..."
+    rosservice call /reset_actuators '{}'"
 
     echo "Sequence $sequence_number completed."
 
