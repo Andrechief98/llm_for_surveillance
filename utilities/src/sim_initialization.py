@@ -21,10 +21,14 @@ class Node():
         with open(f"{script_dir}/../../llm_interface/config/ROS/info_map{self.world_id}.json", "r") as f:
             info = json.load(f)
 
-        # Retrieve robot, area and intruder information
+        # Retrieve robot information
         self.robots_dict = info["ros_publishers"]["robots"]
         self.robots_list = self.robots_dict.keys()
 
+        # Retrieve actuators information
+        self.actuators_dict = info["ros_services"]["actuators"]
+        self.actuators_list = self.actuators_dict.keys()
+        
         # Initialize robot-specific publishers and clients in corresponding dictionaries
         self.initialPose_pubs_dict = {}
         self.clear_costmap_clients_dict = {}
@@ -37,6 +41,9 @@ class Node():
         # Client to get gazebo model information
         self.client_initialPose = rospy.ServiceProxy("/gazebo/get_model_state", GetModelState)
 
+        # Service for resetting all doors
+        self.server_reset_actuators = rospy.Service("/reset_actuators", Empty, self.reset_actuators)
+        
         self.rate = rospy.Rate(10) #10 Hz
 
 
@@ -95,23 +102,78 @@ class Node():
 
 
         ### OPEN ALL DOORS
-        rospy.sleep(1)   
-        active_services = rosservice.get_service_list()
-        pattern = re.compile(r"^/door_(\d+)_control_service$")
+        # rospy.sleep(1)   
+        # active_services = rosservice.get_service_list()
+        # pattern = re.compile(r"^/door_(\d+)_control_service$")
 
-        for service_name in active_services:
-            if pattern.match(service_name):
-                try:
-                    rospy.wait_for_service(service_name)
-                    door_control = rospy.ServiceProxy(service_name, doorStringCommand)
-                    response = door_control("open")
+        # for service_name in active_services:
+        #     if pattern.match(service_name):
+        #         try:
+        #             rospy.wait_for_service(service_name)
+        #             door_control = rospy.ServiceProxy(service_name, doorStringCommand)
+        #             response = door_control("open")
 
-                    rospy.loginfo("Service %s called successfully", service_name)
+        #             rospy.loginfo("Service %s called successfully", service_name)
 
-                except rospy.ServiceException as e:
-                    rospy.logerr("Service call failed on %s: %s", service_name, e)
+        #         except rospy.ServiceException as e:
+        #             rospy.logerr("Service call failed on %s: %s", service_name, e)
+
+        ### OPEN ALL DOORS THROUGH RESET_ACTUATORS SERVICE
+        rospy.sleep(1)
+
+        try:
+            rospy.wait_for_service("/reset_actuators")
+            self.server_reset_actuators_proxy = rospy.ServiceProxy(
+                "/reset_actuators",
+                Empty
+            )
+            self.server_reset_actuators_proxy()
+
+            rospy.loginfo("All actuators have been reset successfully")
+
+        except rospy.ServiceException as e:
+            rospy.logerr("Failed to reset actuators: %s", e)
 
 
+    def reset_actuators(self, req):
+
+        rospy.loginfo("Resetting all actuators...")
+
+        for actuator_name, actuator_info in self.actuators_dict.items():
+
+            service_name = actuator_info["ros_service_name"]
+
+            try:
+                rospy.wait_for_service(service_name, timeout=10)
+
+                actuator_client = rospy.ServiceProxy(
+                    service_name,
+                    doorStringCommand
+                )
+
+                actuator_client("open")
+
+                rospy.loginfo(
+                    "Actuator %s opened successfully through %s",
+                    actuator_name,
+                    service_name
+                )
+
+            except rospy.ROSException as e:
+                rospy.logerr(
+                    "Service %s is not available: %s",
+                    service_name,
+                    e
+                )
+
+            except rospy.ServiceException as e:
+                rospy.logerr(
+                    "Failed to open actuator %s: %s",
+                    actuator_name,
+                    e
+                )
+
+        return []
 
 if __name__=="__main__":
 
