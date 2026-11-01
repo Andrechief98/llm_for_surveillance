@@ -1,0 +1,5 @@
+string robot_name
+string area
+---
+bool success
+string message

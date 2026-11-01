@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 import rospy
 from std_srvs.srv import Empty, EmptyResponse
+from geometry_msgs.msg import PoseWithCovarianceStamped
 from tf.transformations import quaternion_from_euler
 from move_base_msgs.msg import MoveBaseActionResult
 from gazebo_msgs.srv import GetModelState, GetModelStateRequest, SetModelState, SetModelStateRequest
 from gazebo_msgs.msg import ModelState
 from llm_interface.srv import triggerGpt, triggerGptRequest
 from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMGoal
+from utilities.srv import TeleportRobot, TeleportRobotResponse
 import actionlib
 import json
 import os
 import re
+
 
 script_dir = os.path.dirname(__file__) 
 
@@ -28,6 +31,8 @@ class robotNode():
         self.robots_dict = info["ros_publishers"]["robots"]
         self.robots_list = self.robots_dict.keys()
 
+        self.initial_pose_publishers = {}
+
         # Retrieve initial poses of all robots from ROS Parameter Server
         self.initial_poses = {}
 
@@ -44,7 +49,9 @@ class robotNode():
 
         self.areas_dict = info["areas"]
 
-        self.reset_robot_pose = rospy.Service('/reset_robot_pose', Empty, self.reset_robot_pose)
+        self.reset_robot_pose_server = rospy.Service('/reset_robot_pose', Empty, self.reset_robot_pose)
+        self.teleport_robot_server = rospy.Service('/teleport_robot', TeleportRobot, self.teleport_callback)
+
         self.gazebo_client_get_state = rospy.ServiceProxy('/gazebo/get_model_state', GetModelState)
         self.gazebo_client_set_state = rospy.ServiceProxy('/gazebo/set_model_state', SetModelState)
         self.actor_model_name = "actor"
@@ -109,6 +116,109 @@ class robotNode():
 
         return EmptyResponse()
 
+    def teleport_callback(self, req):
+
+        try:
+            robot_name = req.robot_name
+            area = req.area
+
+            # Recupera coordinate dell'area
+            area_x = self.areas_dict[area]["coordinates"]["x"]-0.3  # small offset to allow the robot to actually reach the goal triggering the move_base
+            area_y = self.areas_dict[area]["coordinates"]["y"]-0.3  # small offset to allow the robot to actually reach the goal triggering the move_base
+
+            # Prepara stato del modello Gazebo
+            model_state = ModelState()
+            model_state.model_name = robot_name
+
+            model_state.pose.position.x = area_x 
+            model_state.pose.position.y = area_y
+            model_state.pose.position.z = 0.0
+
+            # Orientation 
+            model_state.pose.orientation.x = 0.0
+            model_state.pose.orientation.y = 0.0
+            model_state.pose.orientation.z = 0.0
+            model_state.pose.orientation.w = 1.0
+
+            # Null linear and angular velocity
+            model_state.twist.linear.x = 0.0
+            model_state.twist.linear.y = 0.0
+            model_state.twist.linear.z = 0.0
+            model_state.twist.angular.x = 0.0
+            model_state.twist.angular.y = 0.0
+            model_state.twist.angular.z = 0.0
+
+            model_state.reference_frame = "map"
+
+            result = self.gazebo_client_set_state(model_state)
+
+            if not result.success:
+                raise RuntimeError(result.status_message)
+
+            # 2. Pubblica nuova initialpose
+            initial_pose = PoseWithCovarianceStamped()
+
+            initial_pose.header.stamp = rospy.Time.now()
+            initial_pose.header.frame_id = "map"
+
+            initial_pose.pose.pose.position.x = area_x
+            initial_pose.pose.pose.position.y = area_y
+            initial_pose.pose.pose.position.z = 0.0
+
+            initial_pose.pose.pose.orientation.x = 0.0
+            initial_pose.pose.pose.orientation.y = 0.0
+            initial_pose.pose.pose.orientation.z = 0.0
+            initial_pose.pose.pose.orientation.w = 1.0
+
+            # Covarianza iniziale
+            initial_pose.pose.covariance[0] = 0.25
+            initial_pose.pose.covariance[7] = 0.25
+            initial_pose.pose.covariance[35] = 0.0685
+
+            # Publisher specifico del robot
+            initial_pose_topic = f"/{robot_name}/initialpose"
+
+            if robot_name not in self.initial_pose_publishers:
+
+                self.initial_pose_publishers[robot_name] = rospy.Publisher(
+                    initial_pose_topic,
+                    PoseWithCovarianceStamped,
+                    queue_size=1
+                )
+
+            publisher = self.initial_pose_publishers[robot_name]
+            publisher.publish(initial_pose)
+
+            rospy.loginfo(
+                f"Robot {robot_name} teleported to {area} "
+                f"({area_x}, {area_y})"
+            )
+
+
+            clear_costmaps_service = f"/{robot_name}/move_base/clear_costmaps"
+
+            rospy.wait_for_service(clear_costmaps_service)
+
+            clear_costmaps = rospy.ServiceProxy(
+                clear_costmaps_service,
+                Empty
+            )
+
+            clear_costmaps()
+
+            return TeleportRobotResponse(
+                success=True,
+                message=f"{robot_name} teleported to {area}"
+            )
+
+        except Exception as e:
+            rospy.logerr(f"Teleport error: {e}")
+
+            return TeleportRobotResponse(
+                success=False,
+                message=str(e)
+            )
+    
     def result_callback(self, msg):   
         # Estrai il testo del risultato
         # print(msg)

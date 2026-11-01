@@ -4,6 +4,11 @@
       "file_name": "RAG_map1.json",
       "file_ID": "file-FYaz8brxoYjE4nu6t1AVyn",
       "vector_store_id": "vs_6ae244b6e5488191b745898443fd4abe"
+    },
+    {
+      "file_name": "RAG_map2.json",
+      "file_ID": "file-MoQwmZcqoiJ5rFnCwPSqXT",
+      "vector_store_id": "vs_6ae7b08559fc8191a4e129f412c9eee5"
     }
   ]
 }

@@ -15,6 +15,7 @@ from gazebo_msgs.msg import ModelState
 from llm_interface.srv import triggerGpt, triggerGptResponse, retrieveSystemState
 from llm_interface.msg import goalCheckerLLMAction, goalCheckerLLMResult, goalCheckerLLMFeedback
 from gazebo_plugins.srv import doorStringCommand, doorStringCommandRequest 
+from utilities.srv import TeleportRobot, TeleportRobotRequest
 import actionlib
 import subprocess
 import yaml
@@ -409,6 +410,8 @@ class LLM_cognitive_module:
                             }
                     },
             ]
+        else:
+            camera_functions = []
 
         if semantic_RAG:
             RAG_functions = [
@@ -1091,33 +1094,42 @@ class LLM_cognitive_module:
 
 
                     if teleport_robots:
-                        # Create a temporary client to call the gazebo service to teleport a given model
-                        set_model_state = rospy.ServiceProxy("/gazebo/set_model_state",SetModelState)
+                        # # Create a temporary client to call the gazebo service to teleport a given model
+                        # set_model_state = rospy.ServiceProxy("/gazebo/set_model_state",SetModelState)
+                    
+                        # model_state = ModelState()
+                        # model_state.model_name = robot  # name of robot model in Gazebo
+    
+                        # model_state.pose.position.x = area_x-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
+                        # model_state.pose.position.y = area_y-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
+                        # model_state.pose.position.z = 0.0
+    
+                        # # Orientation 
+                        # model_state.pose.orientation.x = 0.0
+                        # model_state.pose.orientation.y = 0.0
+                        # model_state.pose.orientation.z = 0.0
+                        # model_state.pose.orientation.w = 1.0
+    
+                        # # Null linear and angular velocity
+                        # model_state.twist.linear.x = 0.0
+                        # model_state.twist.linear.y = 0.0
+                        # model_state.twist.linear.z = 0.0
+                        # model_state.twist.angular.x = 0.0
+                        # model_state.twist.angular.y = 0.0
+                        # model_state.twist.angular.z = 0.0
+    
+                        # model_state.reference_frame = "map"
+    
+                        # response = set_model_state(model_state)
 
-                        model_state = ModelState()
-                        model_state.model_name = robot  # name of robot model in Gazebo
-    
-                        model_state.pose.position.x = area_x-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
-                        model_state.pose.position.y = area_y-0.3 # small offset to allow the robot to actually reach the goal triggering the move_base
-                        model_state.pose.position.z = 0.0
-    
-                        # Orientation 
-                        model_state.pose.orientation.x = 0.0
-                        model_state.pose.orientation.y = 0.0
-                        model_state.pose.orientation.z = 0.0
-                        model_state.pose.orientation.w = 1.0
-    
-                        # Null linear and angular velocity
-                        model_state.twist.linear.x = 0.0
-                        model_state.twist.linear.y = 0.0
-                        model_state.twist.linear.z = 0.0
-                        model_state.twist.angular.x = 0.0
-                        model_state.twist.angular.y = 0.0
-                        model_state.twist.angular.z = 0.0
-    
-                        model_state.reference_frame = "map"
-    
-                        response = set_model_state(model_state)
+                        # Create a temporary client to teleport robot
+                        teleport_robot = rospy.ServiceProxy("/teleport_robot", TeleportRobot)
+
+                        req = TeleportRobotRequest()
+                        req.robot_name = robot
+                        req.area = area
+
+                        teleport_robot(req)
 
 
                     # We publish the final goal to reach for each robot in order to trigger the check robot goal
