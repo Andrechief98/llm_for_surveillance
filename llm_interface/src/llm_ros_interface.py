@@ -470,14 +470,26 @@ class LLM_cognitive_module:
         for function in camera_functions:
             self.available_tools.append(function)
             
-    def log_conversation_message(self, log, authority, resp_time=None, gen_time=None):
+    # def log_conversation_message(self, log, authority, resp_time=None, gen_time=None):
+    #     data = {authority:log}
+
+    #     if resp_time is not None:
+    #         data["resp_time"] = round(resp_time,2)
+
+    #     if gen_time is not None:
+    #         data["gen_time"] = round(gen_time,2)
+
+    #     self.data_experiment_run["conversation"].append(data)
+
+    #     return
+
+    def log_conversation_message(self, log, authority, times:dict = None):
         data = {authority:log}
 
-        if resp_time is not None:
-            data["resp_time"] = round(resp_time,2)
-
-        if gen_time is not None:
-            data["gen_time"] = round(gen_time,2)
+        if times is not None:
+            for key, value in times.items():
+                if value is not None:
+                    data[key] = round(value,2)
 
         self.data_experiment_run["conversation"].append(data)
 
@@ -568,9 +580,9 @@ class LLM_cognitive_module:
             msg = cl.Message(content="")
 
             requires_action = True
-
             rag_start_times = {}
             tool_start_times = {}
+            reasoning_start_times = {}
 
             while requires_action:
                 llm_request_start = time.perf_counter()
@@ -592,7 +604,8 @@ class LLM_cognitive_module:
                         tools = self.available_tools,
                         include=["file_search_call.results"],
                         stream=True
-                    )                
+                    )    
+
                     async with response_stream as stream:
                         async for event in stream:
                             # 1. GESTIONE TESTO
@@ -614,13 +627,13 @@ class LLM_cognitive_module:
                                 full_ai_response += event.delta
                                 await msg.stream_token(event.delta)
 
-                            elif event.type == "response.text.done":
+                            elif event.type == "response.output_text.done":
                                 # Testo terminato, possiamo aggiornare lo stato finale
                                 await msg.update()
 
                             # TOOLS
                             elif event.type == "response.output_item.added":
-                                # Viene aggiunto un nuovo item (testo o funzione)
+                                # Viene aggiunto un nuovo item (testo, funzione o ragionamento)
                                 if event.item.type == "function_call":
                                     idx = event.output_index
                                     tool_name = event.item.name 
@@ -637,6 +650,20 @@ class LLM_cognitive_module:
 
                                 elif event.item.type == "file_search_call":
                                     rag_start_times[event.item.id] = time.perf_counter()
+
+                                elif event.item.type == "reasoning":
+                                    idx = event.output_index
+
+                                    reasoning_start_times[event.item.id] = time.perf_counter()
+
+                                    reasoning_step = cl.Step(
+                                        name="LLM Reasoning",
+                                        type="llm"
+                                    )
+
+                                    await reasoning_step.send()
+
+                                    active_steps[idx] = reasoning_step
                             
                             elif event.type == "response.output_item.done":
                                 
@@ -660,7 +687,7 @@ class LLM_cognitive_module:
                                     }
 
                                     if llm_modality in intruder_detection_modalities:
-                                        self.log_conversation_message(log=rag_log, authority="file_search_call", resp_time=rag_elapsed)
+                                        self.log_conversation_message(log=rag_log, authority="file_search_call", times={"rag_time":rag_elapsed})
                                     else:
                                         self.log_conversation_message(log=rag_log, authority="file_search_call")
 
@@ -674,6 +701,25 @@ class LLM_cognitive_module:
                                             print(f"Retrieved text:\n{result.text}")
                                             print(f"Score: {result.score}")
                                             print(f"Attributes: {result.attributes}")
+
+                                elif event.item.type == "reasoning":
+                                    reasoning_end = time.perf_counter()
+                                    reasoning_start = reasoning_start_times.pop(
+                                        event.item.id, None
+                                    )
+                                    if reasoning_start is not None:
+                                        reasoning_duration = reasoning_end - reasoning_start
+
+                                        print(f"Reasoning time: {reasoning_duration:.3f} s")
+
+                                    if llm_modality in intruder_detection_modalities:
+                                        self.log_conversation_message(log="Reasoning completed", authority="reasoning", times={"reasoning_time":reasoning_duration})
+
+                                    idx = event.output_index
+                                    reasoning_step = active_steps.pop(idx, None)
+
+                                    if reasoning_step:
+                                        await reasoning_step.update()
 
                             elif event.type == "response.function_call_arguments.delta":
                                 idx = event.output_index
@@ -695,7 +741,7 @@ class LLM_cognitive_module:
 
                                 start_time = tool_start_times.pop(idx, None)
                                 if start_time is not None:
-                                    tool_call_time = time.perf_counter() - start_time
+                                    tool_params_generation_time = time.perf_counter() - start_time
 
                                 tool_call = final_tool_calls[idx]
                                 step = active_steps[idx] # Recuperiamo lo step creato in .added
@@ -714,7 +760,7 @@ class LLM_cognitive_module:
 
                                 log = f"name - {tool_name} \n\targuments - {args}"
                                 if llm_modality in intruder_detection_modalities:
-                                    self.log_conversation_message(log=log, authority="function_call", resp_time=tool_call_time)
+                                    self.log_conversation_message(log=log, authority="function_call", times={"tool_params_generation_time":tool_params_generation_time})
                                 else:
                                     self.log_conversation_message(log=log, authority="function_call")
 
@@ -782,13 +828,6 @@ class LLM_cognitive_module:
                                 requires_action = True
 
                                 
-
-                            # CASI DI RAGIONAMENTO (REASONING)
-                            elif event.type == "response.reasoning.delta":
-                                # Se usi modelli o1/o3, qui arriva il "pensiero" del modello.
-                                # Puoi scegliere se mostrarlo o ignorarlo.
-                                pass
-
                             elif event.type == "response.completed":
                                 response_end_time = time.perf_counter()
 
@@ -806,13 +845,22 @@ class LLM_cognitive_module:
                     
                 except Exception as e:
                     rospy.logerr(f"Error in the LLM response generation: \n {e}")
-                
+
+                    import traceback
+
+                    rospy.logerr("========== LLM ERROR ==========")
+                    rospy.logerr(f"TYPE: {type(e).__name__}")
+                    rospy.logerr(f"ARGS: {e.args}")
+                    rospy.logerr(f"REPR: {repr(e)}")
+                    rospy.logerr(f"TRACEBACK:\n{traceback.format_exc()}")
+                    rospy.logerr("===============================")
+                                                
 
                 if full_ai_response:
                         history.append({"role": "assistant", "content": full_ai_response})
 
                         if llm_modality in intruder_detection_modalities:
-                            self.log_conversation_message(log=full_ai_response, authority="assistant", resp_time=llm_response_time, gen_time=llm_generation_time)
+                            self.log_conversation_message(log=full_ai_response, authority="assistant", times={"llm_response_time":llm_response_time, "llm_generation_time":llm_generation_time})
                         else:
                             self.log_conversation_message(log=full_ai_response, authority="assistant")
             
