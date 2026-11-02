@@ -1122,13 +1122,18 @@ class LLM_cognitive_module:
     
                         # response = set_model_state(model_state)
 
-                        # Create a temporary client to teleport robot
+                        # Create a temporary client to teleport robot 
                         teleport_robot = rospy.ServiceProxy("/teleport_robot", TeleportRobot)
 
                         req = TeleportRobotRequest()
                         req.robot_name = robot
                         req.area = area
 
+                        # First call
+                        teleport_robot(req)
+                        rospy.sleep(1.0)
+
+                        # Second call to ensure better odometry allignment
                         teleport_robot(req)
 
 

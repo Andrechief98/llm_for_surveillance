@@ -91,8 +91,9 @@
       <param name="odom_alpha4" value="0.02"/>
 
       <param name="resample_interval" value="1"/>
-      <param name="update_min_d" value="0.2"/>
-      <param name="update_min_a" value="0.2"/>
+      <param name="update_min_d" value="0.05"/> <!-- Ridotto da 0.2 a 5cm -->
+      <param name="update_min_a" value="0.05"/> <!-- Ridotto da 0.2 a ~3 gradi -->
+      <param name="transform_tolerance" value="0.3"/> <!-- Dà più tempo al TF per sincronizzarsi senza scatti -->
 
       <param name="base_frame_id" value="$(arg namespace_robot_1)/base_link"/>
       <param name="odom_frame_id" value="$(arg namespace_robot_1)/odom"/>
@@ -168,8 +169,9 @@
       <param name="odom_alpha4" value="0.02"/>
 
       <param name="resample_interval" value="1"/>
-      <param name="update_min_d" value="0.2"/>
-      <param name="update_min_a" value="0.2"/>
+      <param name="update_min_d" value="0.05"/> <!-- Ridotto da 0.2 a 5cm -->
+      <param name="update_min_a" value="0.05"/> <!-- Ridotto da 0.2 rad (11 gradi) a ~3 gradi -->
+      <param name="transform_tolerance" value="0.3"/> <!-- Dà più tempo al TF per sincronizzarsi senza scatti -->
 
       <param name="base_frame_id" value="$(arg namespace_robot_2)/base_link"/>
       <param name="odom_frame_id" value="$(arg namespace_robot_2)/odom"/>

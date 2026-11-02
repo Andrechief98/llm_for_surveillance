@@ -170,10 +170,10 @@ class robotNode():
             initial_pose.pose.pose.orientation.z = 0.0
             initial_pose.pose.pose.orientation.w = 1.0
 
-            # Covarianza iniziale
-            initial_pose.pose.covariance[0] = 0.25
-            initial_pose.pose.covariance[7] = 0.25
-            initial_pose.pose.covariance[35] = 0.0685
+            initial_pose.pose.covariance[0] = 0.01
+            initial_pose.pose.covariance[7] = 0.01
+            initial_pose.pose.covariance[35] = 0.01
+
 
             # Publisher specifico del robot
             initial_pose_topic = f"/{robot_name}/initialpose"
@@ -194,16 +194,13 @@ class robotNode():
                 f"({area_x}, {area_y})"
             )
 
+            rospy.sleep(1)
 
             clear_costmaps_service = f"/{robot_name}/move_base/clear_costmaps"
 
             rospy.wait_for_service(clear_costmaps_service)
 
-            clear_costmaps = rospy.ServiceProxy(
-                clear_costmaps_service,
-                Empty
-            )
-
+            clear_costmaps = rospy.ServiceProxy(clear_costmaps_service,Empty)
             clear_costmaps()
 
             return TeleportRobotResponse(

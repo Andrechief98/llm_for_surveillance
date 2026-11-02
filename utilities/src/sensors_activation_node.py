@@ -10,6 +10,8 @@ from gazebo_msgs.msg import ModelStates
 import numpy as np
 
 
+sensor_sequence = rospy.get_param("sensor_sequence", "").split(",")
+
 class Node():
     def __init__(self):
 
@@ -58,9 +60,13 @@ class Node():
                         if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 1.2) and (actor_position_from_sensor[1]>= -0.15 and actor_position_from_sensor[1]<= 0.15):
                             self.activated_sensors.append(sensor_name)
                     elif "Camera" in sensor_name:
-                        # We check if the actor is in an area of [0, 5]m along the x axis and [-1, 1]m along the y axis
-                        if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 5) and (actor_position_from_sensor[1]>= -1 and actor_position_from_sensor[1]<= 1):
-                            self.activated_sensors.append(sensor_name)
+                        if sensor_sequence != [""] and sensor_name not in sensor_sequence:
+                            print(sensor_sequence)
+                            continue
+                        else:
+                            # We check if the actor is in an area of [0, 5]m along the x axis and [-1, 1]m along the y axis
+                            if (actor_position_from_sensor[0]>= 0 and actor_position_from_sensor[0]<= 5) and (actor_position_from_sensor[1]>= -1 and actor_position_from_sensor[1]<= 1):
+                                self.activated_sensors.append(sensor_name)
                     else:
                         continue
                 else:
