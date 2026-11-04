@@ -21952,7 +21952,7 @@
                   "llm_generation_time": 0.91
                 }
               ],
-              "success": 0
+              "success": 1
             },
             "run_19": {
               "semantic_RAG": true,
