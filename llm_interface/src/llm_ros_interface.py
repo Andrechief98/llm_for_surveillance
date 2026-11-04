@@ -1611,7 +1611,12 @@ async def main(message: cl.Message):
 
 @cl.on_chat_end
 def on_chat_end():
-    print("Shutting down Chainlit: saving conversation ...")
-    valid_run = rospy.get_param("valid_run", False)
-    if valid_run:
-        agent.save_experiment_run()
+    print("Shutting down Chainlit:")
+
+    try:
+        valid_run = rospy.get_param("valid_run", False)
+        if valid_run:
+            agent.save_experiment_run()
+            print("Experiment saved")
+    except Exception as e:
+        print(f"Experiment not saved: {e}")
