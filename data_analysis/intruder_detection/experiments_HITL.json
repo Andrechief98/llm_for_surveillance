@@ -13572,40 +13572,6 @@
           }
         }
       }
-    },
-    "AUTO": {
-      "world_1": {
-        "gpt-6-luna": {
-          "trial_1": {},
-          "trial_2": {}
-        }
-      },
-      "world_2": {
-        "gpt-6-luna": {
-          "trial_1": {},
-          "trial_2": {}
-        }
-      }
-    },
-    "HUMAN": {
-      "world_1": {
-        "trial_1": {},
-        "trial_2": {}
-      },
-      "world_2": {
-        "trial_1": {},
-        "trial_2": {}
-      }
-    },
-    "ILP": {
-      "world_1": {
-        "trial_1": {},
-        "trial_2": {}
-      },
-      "world_2": {
-        "trial_1": {},
-        "trial_2": {}
-      }
     }
   },
   "uncertain": {
@@ -30780,40 +30746,6 @@
             }
           }
         }
-      }
-    },
-    "AUTO": {
-      "world_1": {
-        "gpt-6-luna": {
-          "trial_1": {},
-          "trial_2": {}
-        }
-      },
-      "world_2": {
-        "gpt-6-luna": {
-          "trial_1": {},
-          "trial_2": {}
-        }
-      }
-    },
-    "HUMAN": {
-      "world_1": {
-        "trial_1": {},
-        "trial_2": {}
-      },
-      "world_2": {
-        "trial_1": {},
-        "trial_2": {}
-      }
-    },
-    "ILP": {
-      "world_1": {
-        "trial_1": {},
-        "trial_2": {}
-      },
-      "world_2": {
-        "trial_1": {},
-        "trial_2": {}
       }
     }
   }
