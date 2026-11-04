@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # PARAMETERS
-world_id="2"
-trial_id="2"
+world_id="1"
+trial_id="1"
 
-modality="HITL"
+modality="AUTO"
 teleport_robots="true"
 print_rag_search="false"
 llm_model="gpt-6-luna"
@@ -88,9 +88,9 @@ declare -A experiment_sequences
 # Format: experiment type | sensor sequence | target area
 experiment_sequences["1"]=$(cat <<'EOF'
 # deterministic|Camera_1|B
-# deterministic|Lidar_3|C
-# deterministic|Lidar_6|G
-# deterministic|Lidar_2|A
+deterministic|Lidar_3|C
+deterministic|Lidar_6|G
+deterministic|Lidar_2|A
 # deterministic|Camera_2|F
 
 # deterministic|Lidar_5,Camera_2|F
@@ -99,11 +99,11 @@ experiment_sequences["1"]=$(cat <<'EOF'
 # deterministic|Lidar_7,Lidar_6|E
 # deterministic|Camera_1,Lidar_6|G
 
-deterministic|Lidar_3,Camera_1,Lidar_2|A
-deterministic|Lidar_1,Lidar_5,Lidar_4|C
-deterministic|Camera_2,Lidar_6,Lidar_7|G
-deterministic|Lidar_6,Lidar_7,Lidar_8|I
-deterministic|Lidar_8,Camera_2,Lidar_5|D
+# deterministic|Lidar_3,Camera_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_5,Lidar_4|C
+# deterministic|Camera_2,Lidar_6,Lidar_7|G
+# deterministic|Lidar_6,Lidar_7,Lidar_8|I
+# deterministic|Lidar_8,Camera_2,Lidar_5|D
 
 # deterministic|Camera_2,Lidar_6,Lidar_7,Lidar_8|L
 # deterministic|Lidar_7,Lidar_6,Lidar_5,Lidar_4|C
@@ -111,6 +111,61 @@ deterministic|Lidar_8,Camera_2,Lidar_5|D
 # deterministic|Lidar_1,Lidar_8,Lidar_7,Lidar_6|E
 # deterministic|Camera_1,Lidar_3,Lidar_4,Lidar_5|D
 
+# TRIAL 1
+# uncertain|Camera_2|-
+# uncertain|Lidar_8|L
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|D
+# uncertain|Camera_1|C
+
+# uncertain|Camera_1,Lidar_3|E
+# uncertain|Lidar_1,Lidar_8|G
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Lidar_7,Lidar_8|A
+
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|I
+# uncertain|Lidar_2,Lidar_1,Lidar_8|E
+# uncertain|Camera_2,Lidar_2,Lidar_5|D
+
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|A
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|I
+# uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E     
+
+
+
+# TRIAL 2
+# uncertain|Camera_2|-
+# uncertain|Lidar_8|L
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|C
+# uncertain|Camera_1|E
+
+# uncertain|Camera_1,Lidar_3|E
+# uncertain|Lidar_1,Lidar_8|B
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Lidar_7,Lidar_8|A
+
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|I
+# uncertain|Lidar_2,Lidar_1,Lidar_8|E
+# uncertain|Camera_2,Lidar_2,Lidar_5|D
+
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|E
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|L
+# uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E     
+EOF
+)
+
+# Original sequences
 # uncertain|Camera_2|-
 # uncertain|Lidar_8|RAND(L,A,I)
 # uncertain|Lidar_1|-
@@ -121,21 +176,19 @@ deterministic|Lidar_8,Camera_2,Lidar_5|D
 # uncertain|Lidar_1,Lidar_8|RAND(H,G,B)
 # uncertain|Lidar_3,Lidar_7|C
 # uncertain|Lidar_4,Lidar_1|E
-# uncertain|Lidar_7,Lidar_8|RAND(E,A,C) 
+# uncertain|Lidar_7,Lidar_8|RAND(E,A,C)
 
-uncertain|Camera_1,Lidar_6,Lidar_5|G
-uncertain|Lidar_8,Lidar_1,Camera_2|A
-uncertain|Lidar_4,Lidar_5,Lidar_6|RAND(B,I,F)
-uncertain|Lidar_2,Lidar_1,Lidar_8|RAND(G,E,B)
-uncertain|Camera_2,Lidar_2,Lidar_5|D
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|RAND(B,I,F)
+# uncertain|Lidar_2,Lidar_1,Lidar_8|RAND(G,E,B)
+# uncertain|Camera_2,Lidar_2,Lidar_5|D
 
 # uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
 # uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
 # uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|RAND(E,I,A)
 # uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|RAND(L,E,I)
-# uncertain|Lidar_7,Camera_8,Camera_2,Lidar_1|E             sequenza da verificare di nuovo
-EOF
-)
+# uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E      
 
 # ==================================================
 # WORLD 2
@@ -154,7 +207,7 @@ experiment_sequences["2"]=$(cat <<'EOF'
 # deterministic|Lidar_13,Lidar_12|R
 # deterministic|Camera_7,Lidar_6|I
 
-deterministic|Camera_10,Lidar_2,Lidar_8|M
+# deterministic|Camera_10,Lidar_2,Lidar_8|M
 # deterministic|Lidar_1,Camera_10,Lidar_2|S
 # deterministic|Camera_6,Lidar_11,Lidar_12|P
 # deterministic|Lidar_5,Lidar_2,Lidar_1|F
@@ -166,6 +219,59 @@ deterministic|Camera_10,Lidar_2,Lidar_8|M
 # deterministic|Lidar_11,Lidar_10,Lidar_8,Lidar_7|L
 # deterministic|Lidar_5,Lidar_4,Lidar_2,Lidar_3|G
 
+# TRIAL_1
+# uncertain|Camera_5|-
+# uncertain|Lidar_3|T
+# uncertain|Lidar_6|-
+# uncertain|Lidar_14|R
+# uncertain|Camera_9|C
+
+# uncertain|Lidar_4,Lidar_2|C
+# uncertain|Lidar_1,Camera_10|D
+# uncertain|Camera_10,Lidar_8|A
+# uncertain|Lidar_5,Camera_1|B
+# uncertain|Camera_6,Lidar_11|P
+
+# uncertain|Camera_6,Lidar_11,Lidar_4|R
+# uncertain|Lidar_14,Camera_2,Lidar_10|N
+# uncertain|Lidar_6,Lidar_8,Lidar_12|R
+# uncertain|Lidar_5,Lidar_2,Lidar_1|D
+# uncertain|Camera_4,Lidar_13,Lidar_12|R
+
+# uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
+# uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R
+# uncertain|Camera_4,Lidar_13,Lidar_2,Lidar_1|D
+# uncertain|Lidar_12,Lidar_10,Lidar_9,Lidar_8|L
+# uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
+
+# TRIAL_2
+# uncertain|Camera_5|-
+# uncertain|Lidar_3|A
+# uncertain|Lidar_6|-
+# uncertain|Lidar_14|Z
+# uncertain|Camera_9|E
+
+# uncertain|Lidar_4,Lidar_2|C
+# uncertain|Lidar_1,Camera_10|C
+# uncertain|Camera_10,Lidar_8|A
+# uncertain|Lidar_5,Camera_1|B
+# uncertain|Camera_6,Lidar_11|S
+
+# uncertain|Camera_6,Lidar_11,Lidar_4|R
+# uncertain|Lidar_14,Camera_2,Lidar_10|N
+# uncertain|Lidar_6,Lidar_8,Lidar_12|R
+# uncertain|Lidar_5,Lidar_2,Lidar_1|E
+# uncertain|Camera_4,Lidar_13,Lidar_12|R
+
+# uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
+# uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R
+# uncertain|Camera_4,Lidar_13,Lidar_2,Lidar_1|E
+# uncertain|Lidar_12,Lidar_10,Lidar_9,Lidar_8|R
+# uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
+EOF
+)
+
+# Original sequences
 # uncertain|Camera_5|-
 # uncertain|Lidar_3|RAND(A,T,S)
 # uncertain|Lidar_6|-
@@ -179,9 +285,9 @@ deterministic|Camera_10,Lidar_2,Lidar_8|M
 # uncertain|Camera_6,Lidar_11|RAND(S,N,P)
 
 # uncertain|Camera_6,Lidar_11,Lidar_4|R
-uncertain|Lidar_14,Camera_2,Lidar_10|N
+# uncertain|Lidar_14,Camera_2,Lidar_10|N
 # uncertain|Lidar_6,Lidar_8,Lidar_12|RAND(R,T,Z)
-uncertain|Lidar_5,Lidar_2,Lidar_1|RAND(D,E,C)
+# uncertain|Lidar_5,Lidar_2,Lidar_1|RAND(D,E,C)
 # uncertain|Camera_4,Lidar_13,Lidar_12|RAND(Q,R,N)
 
 # uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
@@ -189,10 +295,6 @@ uncertain|Lidar_5,Lidar_2,Lidar_1|RAND(D,E,C)
 # uncertain|Camera_4,Lidar_13,Lidar_2,Lidar_1|RAND(C,E,D)
 # uncertain|Lidar_12,Lidar_10,Lidar_9,Lidar_8|RAND(T,L,R)
 # uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
-EOF
-)
-
-
 
 # SELECT WORLD AND SEQUENCE
 # Retrieve the configuration matching the experiment type and world ID.

@@ -5,7 +5,7 @@ from pprint import pprint
 
 # Directory dello script
 SCRIPT_DIR = Path(__file__).resolve().parent
-INPUT_FILE = SCRIPT_DIR / "experiments.json"
+INPUT_FILE = SCRIPT_DIR / "experiments_HITL.json"
 
 
 def extract_data():

@@ -17,7 +17,7 @@ from plotly.subplots import make_subplots
 
 BASE_DIR = Path(__file__).resolve().parent
 
-EXPERIMENTS_PATH = BASE_DIR / "experiments.json"
+EXPERIMENTS_PATH = BASE_DIR / "experiments_HITL.json"
 EVALUATIONS_PATH = BASE_DIR / "evaluations.json"
 
 EXPERIMENT_TYPES = ["deterministic", "uncertain"]

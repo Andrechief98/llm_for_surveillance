@@ -32,7 +32,7 @@ MODES_TO_PRINT = [
 # [1]       -> only experiments with 1 sensor
 # [1, 2]    -> experiments with 1 or 2 sensors
 # [1, 2, 3] -> experiments with 1, 2 or 3 sensors
-SENSOR_COUNTS = [3]
+SENSOR_COUNTS = [4]
 
 
 # ============================================================
@@ -89,7 +89,7 @@ EXPECTED_RAW = {
  uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
  uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|RAND(E,I,A)
  uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|RAND(L,E,I)
- uncertain|Lidar_7,Camera_8,Camera_2,Lidar_1|E
+ uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E
 """,
 
 "2": """
