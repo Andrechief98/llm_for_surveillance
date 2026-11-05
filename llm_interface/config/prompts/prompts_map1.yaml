@@ -271,7 +271,8 @@ AUTO : |
             - Prefer camera verification when a relevant camera can adequately inspect the target area over redundant robot deployment.
             - Avoid deploying a robot solely to inspect an area that can be adequately investigated remotely through an available camera.
             - If camera coverage or availability cannot be established, explicitly identify the limitation.
-
+            - If a person is visible in the camera, it is an intruder
+            
     ## STEP 5 — Construct the Investigation Plan
         Generate a complete plan containing all the actions required to investigate the relevant areas and eventually detect an intruder.
         The plan may include:
@@ -314,7 +315,7 @@ AUTO : |
           - the intruder activated the sensor, left the area before inspection and hid to avoid being identified. In this case it could be hidden in other close areas without activating other sensors
           Evaluate the remaining evidence and unresolved candidate areas before deciding whether to continue or terminate the investigation.   
           Do not automatically classify an activation as a false positive solely because an inspection returned a negative result.
-          If further inspection is necessary, generate a new plan and request user approval before executing additional physical actions.
+          If further inspection is necessary, generate a new plan and request user approval before executing additional physical actions. No further inspections is necessary if you identify the intruder.
 
 
     # RULES:

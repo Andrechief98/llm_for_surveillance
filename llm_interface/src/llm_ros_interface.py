@@ -1311,7 +1311,7 @@ class LLM_cognitive_module:
         """Acquire one frame from each provided camera in the list and convert it in a suitable format for the LLM."""
 
 
-        if llm_modality == "HITL":
+        if llm_modality in ["HITL","AUTO"]:
             self.show_camera_to_user(cameras_names_list)
 
         response = {}
@@ -1527,6 +1527,10 @@ async def next_sequence(action: cl.Action):
         await cl.Message(
             content="⏭️ Next sensor sequence request sent."
         ).send()
+
+        intruder_final_area = rospy.get_param("/intruder_final_area")
+        agent.data_experiment_run["intruder_final_area"] = intruder_final_area
+
     except Exception as exc:
         await cl.Message(content=f"ROS error: {exc}").send()
 
@@ -1538,6 +1542,10 @@ async def stop_experiment(action: cl.Action):
         await cl.Message(
             content="🛑 Stop experiment request sent."
         ).send()
+
+        intruder_final_area = rospy.get_param("/intruder_final_area")
+        agent.data_experiment_run["intruder_final_area"] = intruder_final_area
+        
     except Exception as exc:
         await cl.Message(content=f"ROS error: {exc}").send()
 
