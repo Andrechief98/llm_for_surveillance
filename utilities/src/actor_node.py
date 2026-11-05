@@ -117,13 +117,22 @@ class actorNode:
                 )
             )
 
+        print(type(world_id))
+        print(type(area))
+        if world_id==1 and area=="E":
+            offset = 0.5 
+        elif world_id==1 and area=="D":
+            offset = -0.5 
+        else:
+            offset = 0
+            print(offset)
         # Prepare Gazebo model state
         model_state = ModelState()
         model_state.model_name = 'actor'
         model_state.reference_frame = 'world'
 
         model_state.pose.position.x = x
-        model_state.pose.position.y = y
+        model_state.pose.position.y = y + offset
         model_state.pose.position.z = 0.7
 
         # Neutral orientation
