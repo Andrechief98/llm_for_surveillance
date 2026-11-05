@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # PARAMETERS
-world_id="1"
+world_id="2"
 trial_id="1"
 
 modality="AUTO"
@@ -88,9 +88,9 @@ declare -A experiment_sequences
 # Format: experiment type | sensor sequence | target area
 experiment_sequences["1"]=$(cat <<'EOF'
 # deterministic|Camera_1|B
-deterministic|Lidar_3|C
-deterministic|Lidar_6|G
-deterministic|Lidar_2|A
+# deterministic|Lidar_3|C
+# deterministic|Lidar_6|G
+# deterministic|Lidar_2|A
 # deterministic|Camera_2|F
 
 # deterministic|Lidar_5,Camera_2|F
@@ -426,6 +426,19 @@ for record in "${randomized_sequences[@]}"; do
     echo "Waiting for interface startup..."
     sleep 10
 
+    # INTRUDER TELEPORT
+    if [[ "$target_spec" != "-" ]]; then
+        rosservice call /teleport_actor "data: '$target_spec'"
+
+        # Setting the intruder_final_area to be registred in the save run mechanism
+        rosparam set /intruder_final_area "$target_spec"
+    else
+        # It teleport the intruder out of the environment so that it cannot be detected in case of only false positive sensors
+        rosservice call /teleport_actor "data: 'out'"
+
+        # Setting the intruder_final_area as a false positive case
+        rosparam set /intruder_final_area "FP"
+    fi
     
     rosparam set /valid_run true
     
@@ -479,20 +492,6 @@ for record in "${randomized_sequences[@]}"; do
         done
         
     done
-
-    # INTRUDER TELEPORT
-    if [[ "$target_spec" != "-" ]]; then
-        rosservice call /teleport_actor "data: '$target_spec'"
-
-        # Setting the intruder_final_area to be registred in the save run mechanism
-        rosparam set /intruder_final_area "$target_spec"
-    else
-        # It teleport the intruder out of the environment so that it cannot be detected in case of only false positive sensors
-        rosservice call /teleport_actor "data: 'out'"
-
-        # Setting the intruder_final_area as a false positive case
-        rosparam set /intruder_final_area "FP"
-    fi
 
     # WAIT FOR HUMAN DECISION
     echo "Waiting for human supervisor..."
