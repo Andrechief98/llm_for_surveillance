@@ -7,17 +7,13 @@ catch e
     rosinit;
 end
 
-rng(42);  % seed per riproducibilità
 
 
 %% DATA SETUP
 Scenario = 2; % Choose scenario 1 or 2 
 Modality = 0; %Choose 0 for unlimited iterations, 1 for limit depending on the number of active sensor
 C = 80;
-% 3 seeds (equals to the number of trials). It allows diversity among
-% trials but reproducibility among runs
-%seeds = [44, 55, 66];
-seeds = [44, 55];
+n_trials = 2;
 timestampText = char(datetime('now', 'Format', 'yyyy-MM-dd_HH-mm'));
 
 if Scenario == 1
@@ -35,14 +31,13 @@ end
 fprintf('\n========== Simulation in environment %d, mode %d, B = %d ==========\n', Scenario, Modality, C);
 areaNames = fieldnames(areaCoordinates);
 sensorNames = fieldnames(sensorToAreas);
-n_trials = numel(seeds);
-n_test = size(testFcn(seeds(1)), 1); %discarded, it is just to count the amount of sequences present
+n_test = size(testFcn(1), 1); %discarded, it is just to count the amount of sequences present
 success = zeros(n_test, n_trials);  % Matrix to save successes or failures
 
 client_robot1 = rossvcclient("turtlebot3_1/move_base/make_plan","DataFormat","struct");
 client_robot2 = rossvcclient("turtlebot3_2/move_base/make_plan","DataFormat","struct");
 for trial=1:n_trials
-    tests = testFcn(seeds(trial));                                                % fix the new seed for each trial
+    tests = testFcn(trial);                                                
     
     fprintf("\n========== TRIAL %d / %d ==========\n", trial, n_trials)
 
