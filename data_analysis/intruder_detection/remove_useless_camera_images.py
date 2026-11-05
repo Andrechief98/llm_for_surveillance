@@ -9,8 +9,8 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 
-JSON_FILE = SCRIPT_DIR / "experiments copy.json"
-IMAGE_FOLDER = SCRIPT_DIR / "experiment_camera_frames"
+JSON_FILE = SCRIPT_DIR / "experiments.json"
+IMAGE_FOLDER = SCRIPT_DIR / "experiment_camera_frames/HITL"
 
 # False = simulation
 # True = actual deletion
@@ -198,3 +198,17 @@ def clean_image_folder():
 
 if __name__ == "__main__":
     clean_image_folder()
+
+
+# from pathlib import Path
+
+# IMAGE_FOLDER = Path(__file__).resolve().parent / "experiment_camera_frames"
+
+# files = [p for p in IMAGE_FOLDER.rglob("*") if p.is_file()]
+
+# print(f"Numero totale di file: {len(files)}")
+
+# for subfolder in ["HITL", "AUTO"]:
+#     folder = IMAGE_FOLDER / subfolder
+#     count = sum(1 for p in folder.rglob("*") if p.is_file()) if folder.exists() else 0
+#     print(f"{subfolder}: {count} file")

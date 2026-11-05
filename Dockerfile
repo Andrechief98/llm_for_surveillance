@@ -42,7 +42,7 @@ RUN git clone -b noetic-classic https://github.com/blackcoffeerobotics/gazebo-ro
 # Adding folders from current repository
 COPY llm_interface ./llm_for_surveillance/llm_interface
 COPY utilities ./llm_for_surveillance/utilities
-COPY llm_data_analysis ./llm_for_surveillance/llm_data_analysis
+COPY data_analysis ./llm_for_surveillance/data_analysis
 COPY requirements.txt ./llm_for_surveillance/requirements.txt
 
 # Include the additional plugins required by sensors and actuators in the simulation
