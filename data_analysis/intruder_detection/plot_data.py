@@ -314,6 +314,7 @@ def load_all_experiments(experiment_paths):
     )
 
     return combined_data
+
 def render_success_plot(
     summary,
     experiment_type,

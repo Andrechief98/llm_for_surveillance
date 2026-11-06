@@ -122,7 +122,7 @@ class actorNode:
         if world_id==1 and area=="E":
             offset = 0.5 
         elif world_id==1 and area=="D":
-            offset = -0.5 
+            offset = -0.6 
         else:
             offset = 0
             print(offset)
