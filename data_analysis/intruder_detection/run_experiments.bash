@@ -2,7 +2,7 @@
 
 # PARAMETERS
 world_id="2"
-trial_id="1"
+trial_id="2"
 
 modality="AUTO"
 teleport_robots="true"
@@ -140,21 +140,21 @@ experiment_sequences["1"]=$(cat <<'EOF'
 
 # TRIAL 2
 # uncertain|Camera_2|-
-# uncertain|Lidar_8|L
+# uncertain|Lidar_8|A
 # uncertain|Lidar_1|-
 # uncertain|Lidar_5|C
 # uncertain|Camera_1|E
 
-# uncertain|Camera_1,Lidar_3|E
+# uncertain|Camera_1,Lidar_3|C
 # uncertain|Lidar_1,Lidar_8|B
 # uncertain|Lidar_3,Lidar_7|C
 # uncertain|Lidar_4,Lidar_1|E
-# uncertain|Lidar_7,Lidar_8|A
+# uncertain|Lidar_7,Lidar_8|E
 
 # uncertain|Camera_1,Lidar_6,Lidar_5|G
 # uncertain|Lidar_8,Lidar_1,Camera_2|A
-# uncertain|Lidar_4,Lidar_5,Lidar_6|I
-# uncertain|Lidar_2,Lidar_1,Lidar_8|E
+# uncertain|Lidar_4,Lidar_5,Lidar_6|F
+# uncertain|Lidar_2,Lidar_1,Lidar_8|G
 # uncertain|Camera_2,Lidar_2,Lidar_5|D
 
 # uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
@@ -245,13 +245,13 @@ experiment_sequences["2"]=$(cat <<'EOF'
 # uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
 
 # TRIAL_2
-# uncertain|Camera_5|-
-# uncertain|Lidar_3|A
-# uncertain|Lidar_6|-
-# uncertain|Lidar_14|Z
-# uncertain|Camera_9|E
+uncertain|Camera_5|-
+uncertain|Lidar_3|A
+uncertain|Lidar_6|-
+uncertain|Lidar_14|Z
+uncertain|Camera_9|E
 
-# uncertain|Lidar_4,Lidar_2|C
+# uncertain|Lidar_4,Lidar_2|B
 # uncertain|Lidar_1,Camera_10|C
 # uncertain|Camera_10,Lidar_8|A
 # uncertain|Lidar_5,Camera_1|B
@@ -259,9 +259,9 @@ experiment_sequences["2"]=$(cat <<'EOF'
 
 # uncertain|Camera_6,Lidar_11,Lidar_4|R
 # uncertain|Lidar_14,Camera_2,Lidar_10|N
-# uncertain|Lidar_6,Lidar_8,Lidar_12|R
+# uncertain|Lidar_6,Lidar_8,Lidar_12|Z
 # uncertain|Lidar_5,Lidar_2,Lidar_1|E
-# uncertain|Camera_4,Lidar_13,Lidar_12|R
+# uncertain|Camera_4,Lidar_13,Lidar_12|Q
 
 # uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
 # uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R
