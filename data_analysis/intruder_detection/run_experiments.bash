@@ -245,11 +245,11 @@ experiment_sequences["2"]=$(cat <<'EOF'
 # uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
 
 # TRIAL_2
-uncertain|Camera_5|-
-uncertain|Lidar_3|A
-uncertain|Lidar_6|-
-uncertain|Lidar_14|Z
-uncertain|Camera_9|E
+# uncertain|Camera_5|-
+# uncertain|Lidar_3|A
+# uncertain|Lidar_6|-
+# uncertain|Lidar_14|Z
+# uncertain|Camera_9|E
 
 # uncertain|Lidar_4,Lidar_2|B
 # uncertain|Lidar_1,Camera_10|C

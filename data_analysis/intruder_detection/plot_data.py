@@ -17,7 +17,11 @@ from plotly.subplots import make_subplots
 
 BASE_DIR = Path(__file__).resolve().parent
 
-EXPERIMENTS_PATH = BASE_DIR / "experiments.json"
+EXPERIMENTS_PATHS = {
+    methodology: BASE_DIR / f"experiments_{methodology}.json"
+    for methodology in ["HITL", "AUTO", "ILP", "HUMAN"]
+}
+
 EVALUATIONS_PATH = BASE_DIR / "evaluations.json"
 
 EXPERIMENT_TYPES = ["deterministic", "uncertain"]
@@ -236,6 +240,80 @@ def load_json(filepath, file_mtime):
     with open(filepath, "r", encoding="utf-8") as file:
         return json.load(file)
 
+def load_all_experiments(experiment_paths):
+    """
+    Load and merge available methodology-specific experiment files.
+
+    Missing files are skipped.
+    """
+
+    combined_data = {
+        experiment_type: {}
+        for experiment_type in EXPERIMENT_TYPES
+    }
+
+    loaded_methodologies = []
+
+    for methodology, filepath in experiment_paths.items():
+
+        # Skip missing files.
+        if not filepath.exists():
+            print(f"Warning: {filepath.name} not found. Skipping.")
+            continue
+
+        try:
+            raw_data = load_json(
+                str(filepath),
+                filepath.stat().st_mtime
+            )
+
+        except (json.JSONDecodeError, OSError) as exc:
+            print(f"Warning: Unable to load {filepath.name}: {exc}")
+            continue
+
+        if not isinstance(raw_data, dict):
+            continue
+
+        loaded = False
+
+        for experiment_type in EXPERIMENT_TYPES:
+
+            experiment_data = raw_data.get(
+                experiment_type,
+                {}
+            )
+
+            if not isinstance(experiment_data, dict):
+                continue
+
+            methodology_data = experiment_data.get(
+                methodology
+            )
+
+            if methodology_data is None:
+                methodology_data = experiment_data
+
+            if isinstance(methodology_data, dict) and methodology_data:
+
+                combined_data[experiment_type][methodology] = (
+                    methodology_data
+                )
+
+                loaded = True
+
+        if loaded:
+            loaded_methodologies.append(methodology)
+
+    if not loaded_methodologies:
+        raise ValueError(
+            "No valid experiment files were found."
+        )
+
+    print(
+        f"Loaded methodologies: {loaded_methodologies}"
+    )
+
+    return combined_data
 def render_success_plot(
     summary,
     experiment_type,
@@ -1088,19 +1166,15 @@ st.caption(
 # LOAD INPUT FILES
 # ============================================================
 
-if not EXPERIMENTS_PATH.exists():
-    st.error(f"File not found: {EXPERIMENTS_PATH}")
-    st.stop()
-
 if not EVALUATIONS_PATH.exists():
     st.error(f"File not found: {EVALUATIONS_PATH}")
     st.stop()
 
 try:
 
-    experiments_data = load_json(
-        str(EXPERIMENTS_PATH),
-        EXPERIMENTS_PATH.stat().st_mtime
+    # Load all available methodology files.
+    experiments_data = load_all_experiments(
+        EXPERIMENTS_PATHS
     )
 
     evaluations_data = load_json(
@@ -1108,7 +1182,7 @@ try:
         EVALUATIONS_PATH.stat().st_mtime
     )
 
-except (json.JSONDecodeError, OSError) as exc:
+except (json.JSONDecodeError, OSError, ValueError) as exc:
 
     st.error(f"Unable to load JSON files: {exc}")
     st.stop()
