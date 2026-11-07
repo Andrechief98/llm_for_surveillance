@@ -4,7 +4,7 @@
 world_id="2"
 trial_id="2"
 
-modality="AUTO"
+modality="HITL"
 teleport_robots="true"
 print_rag_search="false"
 llm_model="gpt-6-luna"
@@ -251,7 +251,7 @@ experiment_sequences["2"]=$(cat <<'EOF'
 # uncertain|Lidar_14|Z
 # uncertain|Camera_9|E
 
-# uncertain|Lidar_4,Lidar_2|B
+uncertain|Lidar_4,Lidar_2|B
 # uncertain|Lidar_1,Camera_10|C
 # uncertain|Camera_10,Lidar_8|A
 # uncertain|Lidar_5,Camera_1|B
@@ -259,9 +259,9 @@ experiment_sequences["2"]=$(cat <<'EOF'
 
 # uncertain|Camera_6,Lidar_11,Lidar_4|R
 # uncertain|Lidar_14,Camera_2,Lidar_10|N
-# uncertain|Lidar_6,Lidar_8,Lidar_12|Z
+uncertain|Lidar_6,Lidar_8,Lidar_12|Z
 # uncertain|Lidar_5,Lidar_2,Lidar_1|E
-# uncertain|Camera_4,Lidar_13,Lidar_12|Q
+uncertain|Camera_4,Lidar_13,Lidar_12|Q
 
 # uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
 # uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R

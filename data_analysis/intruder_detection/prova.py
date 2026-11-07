@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 FILES = [
     BASE_DIR / "experiments_HITL.json",
-    BASE_DIR / "experiments_AUTO.json"
+    # BASE_DIR / "experiments_AUTO.json"
 ]
 
 
