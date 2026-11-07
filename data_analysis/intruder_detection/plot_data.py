@@ -26,7 +26,15 @@ EVALUATIONS_PATH = BASE_DIR / "evaluations.json"
 
 EXPERIMENT_TYPES = ["deterministic", "uncertain"]
 
-METHODOLOGIES = ["HITL", "AUTO", "HUMAN", "ILP"]
+
+METHODOLOGIES = [
+    "HITL",
+    "AUTO",
+    "HUMAN",
+    "ILP-30",
+    "ILP-60",
+    "ILP-120"
+]
 
 LLM_METHODOLOGIES = ["HITL", "AUTO"]
 
@@ -170,12 +178,29 @@ def render_success_plot(
     summary,
     experiment_type,
     world,
-    key_suffix
+    key_suffix,
+    selected_methods=None,
+    selected_sensors=None
 ):
     """Render and export a success rate comparison plot."""
 
+    filtered_summary = summary[
+        (summary["experiment_type"] == experiment_type)
+        & (summary["world"] == world)
+    ].copy()
+
+    if selected_methods is not None:
+        filtered_summary = filtered_summary[
+            filtered_summary["methodology"].isin(selected_methods)
+        ]
+
+    if selected_sensors is not None:
+        filtered_summary = filtered_summary[
+            filtered_summary["n_sensors"].isin(selected_sensors)
+        ]
+
     fig = create_success_figure(
-        summary,
+        filtered_summary,
         experiment_type,
         world
     )
@@ -192,12 +217,7 @@ def render_success_plot(
             key=f"success_plot_{key_suffix}"
         )
 
-        # ----------------------------------------------------
-        # JPEG EXPORT
-        # ----------------------------------------------------
-
         try:
-
             jpeg_image = fig.to_image(
                 format="jpeg",
                 width=1600,
@@ -214,15 +234,14 @@ def render_success_plot(
             )
 
         except Exception as exc:
-
             st.warning(
                 f"Unable to generate JPEG image: {exc}"
             )
 
     else:
-        st.info(f"No data available for {experiment_type}.")
-
-
+        st.info(
+            f"No data available for {experiment_type}."
+        )
 
 def natural_key(value):
     """Sort strings while treating numeric portions as integers."""
@@ -315,47 +334,6 @@ def load_all_experiments(experiment_paths):
 
     return combined_data
 
-def render_success_plot(
-    summary,
-    experiment_type,
-    world,
-    key_suffix
-):
-    """Render a compact success rate comparison plot."""
-
-    fig = create_success_figure(
-        summary,
-        experiment_type,
-        world
-    )
-
-    if fig is not None:
-        st.plotly_chart(
-            fig,
-            use_container_width=True,
-            config={
-                "displaylogo": False,
-                "responsive": True
-            },
-            key=f"success_plot_{key_suffix}"
-        )
-
-        jpeg_image = fig.to_image(
-            format="jpeg",
-            width=1600,
-            height=500,
-            scale=2
-        )
-
-        st.download_button(
-            label="Download plot (JPEG)",
-            data=jpeg_image,
-            file_name=f"success_rate_{key_suffix}.jpg",
-            mime="image/jpeg",
-            key=f"download_jpeg_{key_suffix}"
-        )
-    else:
-        st.info(f"No data available for {experiment_type}.")
 
 
 def render_success_tables(
@@ -491,7 +469,7 @@ def render_success_tables(
             mime="text/csv",
             key=f"download_trials_{key_suffix}"
         )
-
+        
 def render_world_dashboard(
     summary,
     trial_stats,
@@ -523,7 +501,9 @@ def render_world_dashboard(
             summary=summary,
             experiment_type="deterministic",
             world=world,
-            key_suffix=f"{key_suffix}_det"
+            key_suffix=f"{key_suffix}_det",
+            selected_methods=selected_methods,
+            selected_sensors=selected_sensors
         )
 
     with col_unc:
@@ -534,7 +514,9 @@ def render_world_dashboard(
             summary=summary,
             experiment_type="uncertain",
             world=world,
-            key_suffix=f"{key_suffix}_unc"
+            key_suffix=f"{key_suffix}_unc",
+            selected_methods=selected_methods,
+            selected_sensors=selected_sensors
         )
 
     st.divider()
@@ -575,18 +557,81 @@ def render_world_dashboard(
 # ============================================================
 # EXPERIMENT PARSING
 # ============================================================
+def extract_world_runs(
+    records,
+    world_data,
+    experiment_type,
+    methodology,
+    world
+):
+
+    def recursive_extract(node, path=()):
+
+        if not isinstance(node, dict):
+            return
+
+        if (
+            "success" in node
+            and "sensor_sequence" in node
+        ):
+
+            success = node.get("success")
+            sensors = node.get("sensor_sequence")
+
+            if (
+                success not in (0, 1, 0.0, 1.0)
+                or not isinstance(sensors, list)
+            ):
+                return
+
+            trial_parts = [
+                part for part in path
+                if str(part).startswith("trial_")
+            ]
+
+            trial_id = (
+                "/".join(
+                    path[:path.index(trial_parts[-1]) + 1]
+                )
+                if trial_parts
+                else "/".join(path[:-1])
+            )
+
+            run_id = path[-1] if path else "run_1"
+
+            model = (
+                path[0]
+                if path and not str(path[0]).startswith("trial_")
+                else "default"
+            )
+
+            records.append({
+                "experiment_type": experiment_type,
+                "methodology": methodology,
+                "world": world,
+                "model": model,
+                "trial": trial_id or "trial_1",
+                "run": run_id,
+                "sensor_sequence": sensors,
+                "n_sensors": len(sensors),
+                "success": int(success)
+            })
+
+            return
+
+        for key, value in node.items():
+
+            if isinstance(value, dict):
+                recursive_extract(
+                    value,
+                    path + (key,)
+                )
+
+    recursive_extract(world_data)
+
+
 
 def extract_experiment_records(data):
-    """
-    Flatten experiments.json into one row per valid run.
-
-    The parser supports optional intermediate hierarchy levels,
-    such as LLM model names between worlds and trials.
-
-    A run is identified by the presence of both:
-        - sensor_sequence
-        - success
-    """
 
     records = []
 
@@ -600,114 +645,77 @@ def extract_experiment_records(data):
         if not isinstance(methodologies, dict):
             continue
 
-        for methodology, worlds in methodologies.items():
+        for methodology, methodology_data in methodologies.items():
 
-            if not isinstance(worlds, dict):
+            if not isinstance(methodology_data, dict):
                 continue
 
-            for world, world_data in worlds.items():
+            # ====================================================
+            # ILP
+            # ====================================================
 
-                if not isinstance(world_data, dict):
-                    continue
+            if methodology == "ILP":
 
-                def recursive_extract(node, path=()):
-                    """Recursively search for valid run records."""
+                for variant, variant_data in methodology_data.items():
 
-                    if not isinstance(node, dict):
-                        return
+                    match = re.fullmatch(r"B(\d+)", str(variant))
 
-                    # A valid run must contain both required fields.
-                    if (
-                        "success" in node
-                        and "sensor_sequence" in node
-                    ):
+                    if not match:
+                        continue
 
-                        success = node.get("success")
-                        sensors = node.get("sensor_sequence")
+                    if not isinstance(variant_data, dict):
+                        continue
 
-                        if (
-                            success not in (0, 1, 0.0, 1.0)
-                            or not isinstance(sensors, list)
-                        ):
-                            return
+                    method_label = f"ILP-{match.group(1)}"
 
-                        # Preserve the complete trial hierarchy.
-                        # This prevents identically named trials belonging
-                        # to different models from being confused.
-                        trial_parts = [
-                            part for part in path
-                            if str(part).startswith("trial_")
-                        ]
+                    for world, world_data in variant_data.items():
 
-                        trial_id = (
-                            "/".join(path[:path.index(trial_parts[-1]) + 1])
-                            if trial_parts
-                            else "/".join(path[:-1])
+                        if not str(world).startswith("world_"):
+                            continue
+
+                        if not isinstance(world_data, dict):
+                            continue
+
+                        extract_world_runs(
+                            records,
+                            world_data,
+                            experiment_type,
+                            method_label,
+                            world
                         )
 
-                        run_id = path[-1] if path else "run_1"
+            # ====================================================
+            # HITL, AUTO, HUMAN
+            # ORIGINAL PARSING
+            # ====================================================
 
-                        model = (
-                            path[0]
-                            if path and not str(path[0]).startswith("trial_")
-                            else "default"
-                        )
+            else:
 
-                        records.append({
-                            "experiment_type": experiment_type,
-                            "methodology": methodology,
-                            "world": world,
-                            "model": model,
-                            "trial": trial_id or "trial_1",
-                            "run": run_id,
-                            "sensor_sequence": sensors,
-                            "n_sensors": len(sensors),
-                            "success": int(success)
-                        })
+                for world, world_data in methodology_data.items():
 
-                        return
+                    if not isinstance(world_data, dict):
+                        continue
 
-                    # Continue searching through nested dictionaries.
-                    for key, value in node.items():
-
-                        if isinstance(value, dict):
-                            recursive_extract(
-                                value,
-                                path + (key,)
-                            )
-
-                recursive_extract(world_data)
+                    extract_world_runs(
+                        records,
+                        world_data,
+                        experiment_type,
+                        methodology,
+                        world
+                    )
 
     df = pd.DataFrame(records)
-
-# The final dataFrame will be a table where
-# each row represents one experimental run.
-#
-#   experiment_type     methodology     world       model       trial           run         sensor_sequence       n_sensors  success
-#   deterministic       HITL            world_1     GPT-6       trial_1         run_1           [1, 2]                 2          1
-#   deterministic       HITL            world_1     GPT-6       trial_1         run_2           [1, 2]                 2          0
-#   deterministic       HITL            world_1     GPT-6       trial_2         run_1           [1, 2]                 2          1
-#   deterministic       AUTO            world_1     GPT-6       trial_1         run_1           [1, 2]                 2          1
-#   uncertain           HITL            world_2     GPT-6       trial_1         run_1           [1, 2, 3]              3          1
 
     if not df.empty:
         df["n_sensors"] = df["n_sensors"].astype(int)
         df["success"] = df["success"].astype(int)
 
     return df
-
-
 # ============================================================
 # WORLD DISCOVERY
 # ============================================================
 
 def discover_worlds(data):
-    """
-    Discover worlds across all experiment types and methodologies.
-
-    This function does not depend on whether a world contains
-    valid runs or whether every methodology has data for it.
-    """
 
     worlds = set()
 
@@ -721,18 +729,31 @@ def discover_worlds(data):
         if not isinstance(methodologies, dict):
             continue
 
-        for methodology_data in methodologies.values():
+        for methodology, methodology_data in methodologies.items():
 
             if not isinstance(methodology_data, dict):
                 continue
 
-            for world in methodology_data:
+            if methodology == "ILP":
 
-                if str(world).startswith("world_"):
-                    worlds.add(world)
+                for variant_data in methodology_data.values():
+
+                    if not isinstance(variant_data, dict):
+                        continue
+
+                    for world in variant_data:
+
+                        if str(world).startswith("world_"):
+                            worlds.add(world)
+
+            else:
+
+                for world in methodology_data:
+
+                    if str(world).startswith("world_"):
+                        worlds.add(world)
 
     return sorted(worlds, key=natural_key)
-
 
 # ============================================================
 # SUCCESS RATE CALCULATION
@@ -887,7 +908,9 @@ def create_success_figure(summary, experiment_type, world):
         "HITL": "#1f77b4",
         "AUTO": "#ff7f0e",
         "HUMAN": "#2ca02c",
-        "ILP": "#9467bd"
+        "ILP-30": "#9467bd",
+        "ILP-60": "#d62728",
+        "ILP-120": "#17becf"
     }
 
     fig = go.Figure()
