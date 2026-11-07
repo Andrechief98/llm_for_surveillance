@@ -61,7 +61,7 @@ function [tests] = testEnvironment1(index)
         ["Lidar_8", "Lidar_1", "Camera_1", "Lidar_3"],   "C"                    % [-, FP, -, -]
         ["Lidar_5", "Lidar_4", "Lidar_3", "Camera_1"],   choiceOfAreas(9, index)    % [-, -, -, HI]
         ["Lidar_3", "Camera_1", "Lidar_6", "Lidar_7"],   choiceOfAreas(10, index)   % [-, -, -, HI]
-        ["Lidar_7", "Camera_8", "Camera_2", "Lidar_1"],  "E"                    % [-, -, FP, -]
+        ["Lidar_7", "Lidar_8", "Camera_2", "Lidar_1"],  "E"                    % [-, -, FP, -]
 
       };
 end

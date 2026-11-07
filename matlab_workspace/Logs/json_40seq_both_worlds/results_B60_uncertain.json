@@ -1,0 +1,2092 @@
+{
+  "ILP": {
+    "world_1": {
+      "trial_1": {
+        "run_1": {
+          "sensor_sequence": [
+            "Camera_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "F"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_2": {
+          "sensor_sequence": [
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "L",
+          "success": 1
+        },
+        "run_3": {
+          "sensor_sequence": [
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "H"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "D",
+                "robot_2": "I"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_4": {
+          "sensor_sequence": [
+            "Lidar_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "D",
+          "success": 1
+        },
+        "run_5": {
+          "sensor_sequence": [
+            "Camera_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_6": {
+          "sensor_sequence": [
+            "Camera_1",
+            "Lidar_3"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_7": {
+          "sensor_sequence": [
+            "Lidar_1",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "G",
+          "success": 1
+        },
+        "run_8": {
+          "sensor_sequence": [
+            "Lidar_3",
+            "Lidar_7"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_9": {
+          "sensor_sequence": [
+            "Lidar_4",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_10": {
+          "sensor_sequence": [
+            "Lidar_7",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 0
+        },
+        "run_11": {
+          "sensor_sequence": [
+            "Camera_1",
+            "Lidar_6",
+            "Lidar_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "G",
+          "success": 1
+        },
+        "run_12": {
+          "sensor_sequence": [
+            "Lidar_8",
+            "Lidar_1",
+            "Camera_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "F"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_13": {
+          "sensor_sequence": [
+            "Lidar_4",
+            "Lidar_5",
+            "Lidar_6"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "I",
+          "success": 1
+        },
+        "run_14": {
+          "sensor_sequence": [
+            "Lidar_2",
+            "Lidar_1",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_15": {
+          "sensor_sequence": [
+            "Camera_2",
+            "Lidar_2",
+            "Lidar_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "F"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "D",
+          "success": 1
+        },
+        "run_16": {
+          "sensor_sequence": [
+            "Camera_1",
+            "Lidar_2",
+            "Lidar_1",
+            "Lidar_7"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_17": {
+          "sensor_sequence": [
+            "Lidar_8",
+            "Lidar_1",
+            "Camera_1",
+            "Lidar_3"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_18": {
+          "sensor_sequence": [
+            "Lidar_5",
+            "Lidar_4",
+            "Lidar_3",
+            "Camera_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_19": {
+          "sensor_sequence": [
+            "Lidar_3",
+            "Camera_1",
+            "Lidar_6",
+            "Lidar_7"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "D",
+                "robot_2": "H"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "F",
+                "robot_2": "I"
+              }
+            }
+          ],
+          "final_intruder_area": "I",
+          "success": 1
+        },
+        "run_20": {
+          "sensor_sequence": [
+            "Lidar_7",
+            "Lidar_8",
+            "Camera_2",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        }
+      },
+      "trial_2": {
+        "run_1": {
+          "sensor_sequence": [
+            "Camera_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "F"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_2": {
+          "sensor_sequence": [
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 0
+        },
+        "run_3": {
+          "sensor_sequence": [
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "H"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "D",
+                "robot_2": "I"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_4": {
+          "sensor_sequence": [
+            "Lidar_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_5": {
+          "sensor_sequence": [
+            "Camera_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_6": {
+          "sensor_sequence": [
+            "Camera_1",
+            "Lidar_3"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_7": {
+          "sensor_sequence": [
+            "Lidar_1",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "B",
+          "success": 1
+        },
+        "run_8": {
+          "sensor_sequence": [
+            "Lidar_3",
+            "Lidar_7"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_9": {
+          "sensor_sequence": [
+            "Lidar_4",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_10": {
+          "sensor_sequence": [
+            "Lidar_7",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 0
+        },
+        "run_11": {
+          "sensor_sequence": [
+            "Camera_1",
+            "Lidar_6",
+            "Lidar_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "G",
+          "success": 1
+        },
+        "run_12": {
+          "sensor_sequence": [
+            "Lidar_8",
+            "Lidar_1",
+            "Camera_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "F"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_13": {
+          "sensor_sequence": [
+            "Lidar_4",
+            "Lidar_5",
+            "Lidar_6"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "F",
+          "success": 0
+        },
+        "run_14": {
+          "sensor_sequence": [
+            "Lidar_2",
+            "Lidar_1",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "I"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "L"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "D",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "G",
+          "success": 0
+        },
+        "run_15": {
+          "sensor_sequence": [
+            "Camera_2",
+            "Lidar_2",
+            "Lidar_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "F"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "D",
+          "success": 1
+        },
+        "run_16": {
+          "sensor_sequence": [
+            "Camera_1",
+            "Lidar_2",
+            "Lidar_1",
+            "Lidar_7"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "A",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_17": {
+          "sensor_sequence": [
+            "Lidar_8",
+            "Lidar_1",
+            "Camera_1",
+            "Lidar_3"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "B"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "L",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_18": {
+          "sensor_sequence": [
+            "Lidar_5",
+            "Lidar_4",
+            "Lidar_3",
+            "Camera_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "D"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_19": {
+          "sensor_sequence": [
+            "Lidar_3",
+            "Camera_1",
+            "Lidar_6",
+            "Lidar_7"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "B",
+                "robot_2": "G"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "C",
+                "robot_2": "E"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "D",
+                "robot_2": "H"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "F",
+                "robot_2": "I"
+              }
+            }
+          ],
+          "final_intruder_area": "L",
+          "success": 0
+        },
+        "run_20": {
+          "sensor_sequence": [
+            "Lidar_7",
+            "Lidar_8",
+            "Camera_2",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "E"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        }
+      }
+    },
+    "world_2": {
+      "trial_1": {
+        "run_1": {
+          "sensor_sequence": [
+            "Camera_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "F",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_2": {
+          "sensor_sequence": [
+            "Lidar_3"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "T"
+              }
+            }
+          ],
+          "final_intruder_area": "T",
+          "success": 1
+        },
+        "run_3": {
+          "sensor_sequence": [
+            "Lidar_6"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_4": {
+          "sensor_sequence": [
+            "Lidar_14"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "R",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 1
+        },
+        "run_5": {
+          "sensor_sequence": [
+            "Camera_9"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_6": {
+          "sensor_sequence": [
+            "Lidar_4",
+            "Lidar_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_7": {
+          "sensor_sequence": [
+            "Lidar_1",
+            "Camera_10"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "F",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "D",
+          "success": 0
+        },
+        "run_8": {
+          "sensor_sequence": [
+            "Camera_10",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_9": {
+          "sensor_sequence": [
+            "Lidar_5",
+            "Camera_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "B",
+          "success": 1
+        },
+        "run_10": {
+          "sensor_sequence": [
+            "Camera_6",
+            "Lidar_11"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "O",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "P",
+          "success": 0
+        },
+        "run_11": {
+          "sensor_sequence": [
+            "Camera_6",
+            "Lidar_11",
+            "Lidar_4"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "U",
+                "robot_2": "O"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "S"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "M"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 0
+        },
+        "run_12": {
+          "sensor_sequence": [
+            "Lidar_14",
+            "Camera_2",
+            "Lidar_10"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "N",
+                "robot_2": "R"
+              }
+            }
+          ],
+          "final_intruder_area": "N",
+          "success": 1
+        },
+        "run_13": {
+          "sensor_sequence": [
+            "Lidar_6",
+            "Lidar_8",
+            "Lidar_12"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "I"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "M",
+                "robot_2": "R"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 1
+        },
+        "run_14": {
+          "sensor_sequence": [
+            "Lidar_5",
+            "Lidar_2",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "F"
+              }
+            }
+          ],
+          "final_intruder_area": "D",
+          "success": 0
+        },
+        "run_15": {
+          "sensor_sequence": [
+            "Camera_4",
+            "Lidar_13",
+            "Lidar_12"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "Q",
+                "robot_2": "R"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 1
+        },
+        "run_16": {
+          "sensor_sequence": [
+            "Camera_8",
+            "Camera_10",
+            "Lidar_2",
+            "Lidar_13"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "T",
+          "success": 1
+        },
+        "run_17": {
+          "sensor_sequence": [
+            "Lidar_7",
+            "Lidar_2",
+            "Lidar_10",
+            "Lidar_11"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "N",
+                "robot_2": "T"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "O",
+                "robot_2": "L"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 0
+        },
+        "run_18": {
+          "sensor_sequence": [
+            "Camera_4",
+            "Lidar_13",
+            "Lidar_2",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "F",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "Q",
+                "robot_2": "T"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "R",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "D",
+          "success": 0
+        },
+        "run_19": {
+          "sensor_sequence": [
+            "Lidar_12",
+            "Lidar_10",
+            "Lidar_9",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "M",
+                "robot_2": "Z"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "N",
+                "robot_2": "R"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "P",
+                "robot_2": "V"
+              }
+            }
+          ],
+          "final_intruder_area": "L",
+          "success": 0
+        },
+        "run_20": {
+          "sensor_sequence": [
+            "Lidar_2",
+            "Camera_10",
+            "Lidar_1",
+            "Camera_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        }
+      },
+      "trial_2": {
+        "run_1": {
+          "sensor_sequence": [
+            "Camera_5"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "F",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_2": {
+          "sensor_sequence": [
+            "Lidar_3"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "G",
+                "robot_2": "T"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "U",
+                "robot_2": "H"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 0
+        },
+        "run_3": {
+          "sensor_sequence": [
+            "Lidar_6"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "I",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "-",
+          "success": 1
+        },
+        "run_4": {
+          "sensor_sequence": [
+            "Lidar_14"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "R",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "V",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "Z",
+          "success": 0
+        },
+        "run_5": {
+          "sensor_sequence": [
+            "Camera_9"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_6": {
+          "sensor_sequence": [
+            "Lidar_4",
+            "Lidar_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "U"
+              }
+            }
+          ],
+          "final_intruder_area": "B",
+          "success": 0
+        },
+        "run_7": {
+          "sensor_sequence": [
+            "Lidar_1",
+            "Camera_10"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "C",
+          "success": 1
+        },
+        "run_8": {
+          "sensor_sequence": [
+            "Camera_10",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "A",
+          "success": 1
+        },
+        "run_9": {
+          "sensor_sequence": [
+            "Lidar_5",
+            "Camera_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "B"
+              }
+            }
+          ],
+          "final_intruder_area": "B",
+          "success": 1
+        },
+        "run_10": {
+          "sensor_sequence": [
+            "Camera_6",
+            "Lidar_11"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "O",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "D"
+              }
+            }
+          ],
+          "final_intruder_area": "S",
+          "success": 1
+        },
+        "run_11": {
+          "sensor_sequence": [
+            "Camera_6",
+            "Lidar_11",
+            "Lidar_4"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "U",
+                "robot_2": "O"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "S"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "H",
+                "robot_2": "M"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 0
+        },
+        "run_12": {
+          "sensor_sequence": [
+            "Lidar_14",
+            "Camera_2",
+            "Lidar_10"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "N",
+                "robot_2": "R"
+              }
+            }
+          ],
+          "final_intruder_area": "N",
+          "success": 1
+        },
+        "run_13": {
+          "sensor_sequence": [
+            "Lidar_6",
+            "Lidar_8",
+            "Lidar_12"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "I"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "M",
+                "robot_2": "R"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "P",
+                "robot_2": "V"
+              }
+            }
+          ],
+          "final_intruder_area": "Z",
+          "success": 0
+        },
+        "run_14": {
+          "sensor_sequence": [
+            "Lidar_5",
+            "Lidar_2",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_15": {
+          "sensor_sequence": [
+            "Camera_4",
+            "Lidar_13",
+            "Lidar_12"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "Q",
+                "robot_2": "R"
+              }
+            }
+          ],
+          "final_intruder_area": "Q",
+          "success": 1
+        },
+        "run_16": {
+          "sensor_sequence": [
+            "Camera_8",
+            "Camera_10",
+            "Lidar_2",
+            "Lidar_13"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "T",
+                "robot_2": "A"
+              }
+            }
+          ],
+          "final_intruder_area": "T",
+          "success": 1
+        },
+        "run_17": {
+          "sensor_sequence": [
+            "Lidar_7",
+            "Lidar_2",
+            "Lidar_10",
+            "Lidar_11"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "N",
+                "robot_2": "T"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "O",
+                "robot_2": "L"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 0
+        },
+        "run_18": {
+          "sensor_sequence": [
+            "Camera_4",
+            "Lidar_13",
+            "Lidar_2",
+            "Lidar_1"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        },
+        "run_19": {
+          "sensor_sequence": [
+            "Lidar_12",
+            "Lidar_10",
+            "Lidar_9",
+            "Lidar_8"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "S",
+                "robot_2": "A"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "M",
+                "robot_2": "Z"
+              }
+            },
+            {
+              "deploy": {
+                "robot_1": "N",
+                "robot_2": "R"
+              }
+            }
+          ],
+          "final_intruder_area": "R",
+          "success": 1
+        },
+        "run_20": {
+          "sensor_sequence": [
+            "Lidar_2",
+            "Camera_10",
+            "Lidar_1",
+            "Camera_2"
+          ],
+          "actions": [
+            {
+              "deploy": {
+                "robot_1": "E",
+                "robot_2": "C"
+              }
+            }
+          ],
+          "final_intruder_area": "E",
+          "success": 1
+        }
+      }
+    }
+  }
+}

@@ -12,14 +12,14 @@ end
 %% DATA SETUP
 Scenario = 2; % Choose scenario 1 or 2 
 Modality = 0; %Choose 0 for unlimited iterations, 1 for limit depending on the number of active sensor
-C = 80;
+C = 120;
 n_trials = 2;
 timestampText = char(datetime('now', 'Format', 'yyyy-MM-dd_HH-mm'));
 
 if Scenario == 1
     [areaCoordinates, sensorToAreas, robotInitialPositions] = environment1();
     testFcn = @testEnvironment1;
-    logFileName   = ['matlab_log_env_1' timestampText '.txt'];
+    logFileName   = ['matlab_log_env1_' timestampText '.txt'];
     diary(logFileName)
 else
     [areaCoordinates, sensorToAreas, robotInitialPositions] = environment2();
@@ -32,6 +32,16 @@ fprintf('\n========== Simulation in environment %d, mode %d, B = %d ==========\n
 areaNames = fieldnames(areaCoordinates);
 sensorNames = fieldnames(sensorToAreas);
 n_test = size(testFcn(1), 1); %discarded, it is just to count the amount of sequences present
+n_sequences_per_group = 5;   % sequences with the same type and the same number of active sensors
+n_groups = 8;                % 2 types (logical, FP & HI) x 4 lengths (1-4 active sensors)
+n_expected_tests = n_sequences_per_group * n_groups;
+
+if n_test ~= n_expected_tests
+    fprintf("Test count mismatch: expected %d tests, found %d\n", n_expected_tests, n_test)
+    diary off
+    error("Expected %d tests, found %d", n_expected_tests, n_test)
+end
+
 success = zeros(n_test, n_trials);  % Matrix to save successes or failures
 
 client_robot1 = rossvcclient("turtlebot3_1/move_base/make_plan","DataFormat","struct");
@@ -239,7 +249,6 @@ for trial=1:n_trials
             %         end
             %     end
             % end
-            
             % 1) It assigns at most 1 area for each robot (in case of deployment)
             %    sum_a x_{r,a} - z ≤ 0
             A_one_area_per_robot = zeros(numRobots, nvars);
@@ -350,11 +359,11 @@ for trial=1:n_trials
                         % disp(['Total cost (weighted distance): ', num2str(fval)]);
                 
                 
-                        %% Update date for next iteration
+                        %% Update for next iteration
                         
                         deployed_robots = length(assignments(:,1));
                         assigned_area_idx = zeros(1,deployed_robots);
-                        assigned_area_letter = char(1, deployed_robots);
+                        assigned_area_letter = blanks(deployed_robots);
                 
                         for r =1:deployed_robots
                             assigned_area_letter(r) = assignments{r,2};
@@ -365,7 +374,7 @@ for trial=1:n_trials
                         areas_to_monitor(assigned_area_idx) = 0;
                 
                        
-                        if ismember(intruder_pos, assigned_area_letter)
+                        if ismember(intruder_pos, assignments(:,2))
                             success(test,trial) = 1;
                             fprintf("Success: Intruder identified \n")
                             fprintf("Intruder position: %s \n", intruder_pos)
@@ -410,33 +419,23 @@ for trial=1:n_trials
 end
 
 %% Computing results
-assert(n_test == 32, "Expected 32 tests, got %d", n_test)
-
-n_success = sum(success, 2);                                                % successes per sequence, summed over trials
+n_success = sum(success, 2);         % successful trials per sequence (sum over columns)
 
 results = table((1:n_test)', repmat(n_trials, n_test, 1), n_success, ...
     'VariableNames', {'Task', 'Trials', 'Successes'});
 disp(results)
 
-success_mean = mean(success,2);  % mean per sequence, summed over trials
+success_mean = mean(success, 2);     % per sequence: n_success / n_trials
 
-success_rate_1sens_logical = mean(success_mean(1:4))
-success_rate_2sens_logical = mean(success_mean(5:8))
-success_rate_3sens_logical = mean(success_mean(9:12))
-success_rate_4sens_logical = mean(success_mean(13:16))
+success_rate_per_group = mean(reshape(success_mean, n_sequences_per_group, n_groups), 1);
 
-success_rate_1sens_fp_hi = mean(success_mean(17:20))
-success_rate_2sens_fp_hi = mean(success_mean(21:24))
-success_rate_3sens_fp_hi = mean(success_mean(25:28))
-success_rate_4sens_fp_hi = mean(success_mean(29:32))
+sequence_type    = [repmat("logical", 4, 1); repmat("FP & HI", 4, 1)];
+n_active_sensors = [1; 2; 3; 4; 1; 2; 3; 4];
 
-% success_rate_1sens_logical = sum(success_mean(1:4))/length(success_mean(1:4))
-% success_rate_2sens_logical = sum(success_mean(5:8))/length(success_mean(5:8))
-% success_rate_3sens_logical = sum(success_mean(9:12))/length(success_mean(9:12))
-% 
-% success_rate_1sens_fp_hi = sum(success_mean(13:16))/length(success_mean(13:16))
-% success_rate_2sens_fp_hi = sum(success_mean(17:20))/length(success_mean(17:20))
-% success_rate_3sens_fp_hi = sum(success_mean(21:24))/length(success_mean(21:24))
+group_results = table(sequence_type, n_active_sensors, success_rate_per_group', ...
+    'VariableNames', {'SequenceType', 'ActiveSensors', 'SuccessRate'});
+disp(group_results)
+
 diary off
 
 %%
