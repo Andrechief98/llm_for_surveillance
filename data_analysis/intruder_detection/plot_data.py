@@ -26,6 +26,8 @@ EVALUATIONS_PATH = BASE_DIR / "evaluations.json"
 
 EXPERIMENT_TYPES = ["deterministic", "uncertain"]
 
+INSPECTION_MATRICES_PATH = BASE_DIR / "inspection_matrices.json"
+
 
 METHODOLOGIES = [
     "HITL",
@@ -172,7 +174,135 @@ def create_success_latex_table(
 
     return "\n".join(latex)
 
+def create_efficiency_latex_table(
+    summary,
+    experiment_type,
+    world,
+    selected_methods=None,
+    caption=None,
+    label=None
+):
+    """
+    Generate a LaTeX table for inspection efficiency statistics.
 
+    Expected input structure:
+        One row per experiment_type, world, methodology
+        and number of sensors.
+
+    Columns:
+        methodology
+        n_sensors
+        mean_efficiency
+        std_dev
+        total_runs
+
+    Rows represent sensor counts.
+    Columns represent methodologies.
+    Values are mean efficiency +/- standard deviation.
+    """
+
+    filtered = summary[
+        (summary["experiment_type"] == experiment_type)
+        & (summary["world"] == world)
+    ].copy()
+
+    if selected_methods is not None:
+        filtered = filtered[
+            filtered["methodology"].isin(selected_methods)
+        ]
+
+    if filtered.empty:
+        return None
+
+    methods = [
+        method for method in METHODOLOGIES
+        if method in filtered["methodology"].unique()
+    ]
+
+    sensors = sorted(filtered["n_sensors"].unique())
+
+    columns = "c " + " ".join(["c"] * len(methods))
+
+    latex = [
+        r"\begin{table*}[h!]",
+        r"\centering",
+        r"\scriptsize",
+        r"\setlength{\tabcolsep}{4pt}",
+        ""
+    ]
+
+    if caption:
+        latex.append(rf"\caption{{{caption}}}")
+
+    if label:
+        latex.append(rf"\label{{{label}}}")
+
+    latex.extend([
+        rf"\begin{{tabular}}{{{columns}}}",
+        r"\toprule"
+    ])
+
+    header = [r"\textbf{$\boldsymbol{N_s}$}"]
+
+    header.extend([
+        rf"\textbf{{{method}}}"
+        for method in methods
+    ])
+
+    latex.append(" & ".join(header) + r" \\")
+    latex.append(r"\midrule")
+
+    pivot = filtered.pivot(
+        index="n_sensors",
+        columns="methodology",
+        values=["mean_efficiency", "std_dev"]
+    )
+
+    for sensor in sensors:
+
+        row = [str(sensor)]
+
+        for method in methods:
+
+            try:
+                mean = pivot.loc[
+                    sensor,
+                    ("mean_efficiency", method)
+                ]
+
+                std = pivot.loc[
+                    sensor,
+                    ("std_dev", method)
+                ]
+
+                if pd.isna(mean):
+                    value = "--"
+
+                elif pd.isna(std):
+                    value = (
+                        f"{mean:.3f} $\\pm$ N/A"
+                    )
+
+                else:
+                    value = (
+                        f"{mean:.3f} "
+                        f"$\\pm$ {std:.3f}"
+                    )
+
+            except KeyError:
+                value = "--"
+
+            row.append(value)
+
+        latex.append(" & ".join(row) + r" \\")
+
+    latex.extend([
+        r"\bottomrule",
+        r"\end{tabular}",
+        r"\end{table*}"
+    ])
+
+    return "\n".join(latex)
 
 def render_success_plot(
     summary,
@@ -476,7 +606,8 @@ def render_world_dashboard(
     world,
     selected_methods,
     selected_sensors,
-    key_suffix
+    key_suffix,
+    efficiency_summary
 ):
     """
     Render deterministic and uncertain analyses side by side.
@@ -495,7 +626,7 @@ def render_world_dashboard(
 
     with col_det:
 
-        st.subheader("Deterministic")
+        st.subheader("Deterministic - Success Rate")
 
         render_success_plot(
             summary=summary,
@@ -508,7 +639,7 @@ def render_world_dashboard(
 
     with col_unc:
 
-        st.subheader("Uncertain")
+        st.subheader("Uncertain - Success Rate")
 
         render_success_plot(
             summary=summary,
@@ -554,6 +685,42 @@ def render_world_dashboard(
             selected_sensors=selected_sensors,
             key_suffix=f"{key_suffix}_unc"
         )
+
+        st.divider()
+
+    # ========================================================
+    # ROW 3 — INSPECTION EFFICIENCY PLOTS
+    # ========================================================
+
+    col_det, col_unc = st.columns(2, gap="large")
+
+    with col_det:
+
+        st.subheader("Deterministic — Inspection Efficiency")
+
+        render_efficiency_analysis(
+            summary=efficiency_summary,
+            experiment_type="deterministic",
+            world=world,
+            selected_methods=selected_methods,
+            selected_sensors=selected_sensors,
+            key_suffix=f"{key_suffix}_det"
+        )
+
+    with col_unc:
+
+        st.subheader("Uncertain — Inspection Efficiency")
+
+        render_efficiency_analysis(
+            summary=efficiency_summary,
+            experiment_type="uncertain",
+            world=world,
+            selected_methods=selected_methods,
+            selected_sensors=selected_sensors,
+            key_suffix=f"{key_suffix}_unc"
+        )
+
+
 # ============================================================
 # EXPERIMENT PARSING
 # ============================================================
@@ -711,6 +878,9 @@ def extract_experiment_records(data):
         df["success"] = df["success"].astype(int)
 
     return df
+
+
+
 # ============================================================
 # WORLD DISCOVERY
 # ============================================================
@@ -1078,6 +1248,53 @@ def create_success_table(summary, experiment_type, world):
     ).sort_index()
 
 
+def create_efficiency_table(summary, experiment_type, world):
+    """
+    Create a methodology comparison table for inspection efficiency.
+
+    Expected input:
+        A DataFrame containing one row per methodology,
+        experiment type, world and number of sensors.
+
+    Output:
+        A pivot DataFrame where:
+            - Rows represent the number of sensors.
+            - Columns represent methodologies.
+            - Values represent mean efficiency +/- standard deviation.
+    """
+
+    filtered = summary[
+        (summary["experiment_type"] == experiment_type)
+        & (summary["world"] == world)
+    ].copy()
+
+    if filtered.empty:
+        return pd.DataFrame()
+
+    filtered["mean ± std_dev"] = filtered.apply(
+        lambda row: (
+            f"{row['mean_efficiency']:.2f} ± "
+            f"{row['std_dev']:.2f}"
+            if pd.notna(row["std_dev"])
+            else f"{row['mean_efficiency']:.2f} ± N/A"
+        ),
+        axis=1
+    )
+
+    pivot = filtered.pivot(
+        index="n_sensors",
+        columns="methodology",
+        values="mean ± std_dev"
+    )
+
+    return pivot.reindex(
+        columns=[
+            method for method in METHODOLOGIES
+            if method in pivot.columns
+        ]
+    ).sort_index()
+
+
 # ============================================================
 # SUMMARY STATISTICS TABLE
 # ============================================================
@@ -1148,6 +1365,628 @@ def show_success_statistics(summary, experiment_type, world):
     )
 
 
+# ============================================================
+# INSPECTION EFFICIENCY — DATA EXTRACTION
+# ============================================================
+
+def extract_efficiency_records(data):
+    """
+    Extract individual run results from inspection_matrices.json.
+
+    Expected input hierarchy:
+        experiment_type
+            -> methodology
+                -> world
+                    -> model
+                        -> trial
+                            -> run
+                                -> run_result
+
+    ILP models are converted into methodology labels:
+        ILP / B30  -> ILP-30
+        ILP / B60  -> ILP-60
+        ILP / B120 -> ILP-120
+
+    Output:
+        A pandas DataFrame containing one row per run.
+
+    Each row contains:
+        experiment_type
+        methodology
+        world
+        model
+        trial
+        run
+        sensor_sequence
+        n_sensors
+        n_inspected_areas
+        min_inspected_areas
+        n_total_areas
+        success_rate
+        efficiency
+
+    The original matrix is not expanded into columns because
+    it is not needed for the efficiency aggregation.
+    """
+
+    records = []
+
+    if not isinstance(data, dict):
+        return pd.DataFrame()
+
+    for experiment_type, methodologies in data.items():
+
+        if not isinstance(methodologies, dict):
+            continue
+
+        for methodology, worlds in methodologies.items():
+
+            if not isinstance(worlds, dict):
+                continue
+
+            for world, models in worlds.items():
+
+                if not isinstance(models, dict):
+                    continue
+
+                for model, trials in models.items():
+
+                    if not isinstance(trials, dict):
+                        continue
+
+                    # ----------------------------------------
+                    # Reconstruct methodology label
+                    # ----------------------------------------
+
+                    if methodology == "ILP":
+
+                        match = re.fullmatch(
+                            r"B(\d+)",
+                            str(model)
+                        )
+
+                        if not match:
+                            continue
+
+                        method_label = f"ILP-{match.group(1)}"
+
+                    else:
+                        method_label = methodology
+
+                    # ----------------------------------------
+                    # Extract trials and runs
+                    # ----------------------------------------
+
+                    for trial, runs in trials.items():
+
+                        if not isinstance(runs, dict):
+                            continue
+
+                        for run, run_data in runs.items():
+
+                            if not isinstance(run_data, dict):
+                                continue
+
+                            sensor_sequence = run_data.get(
+                                "sensor_sequence"
+                            )
+
+                            efficiency = run_data.get(
+                                "efficiency"
+                            )
+
+                            if not isinstance(sensor_sequence, list):
+                                continue
+
+                            if efficiency is None:
+                                continue
+
+                            records.append({
+
+                                "experiment_type": experiment_type,
+
+                                "methodology": method_label,
+
+                                "world": world,
+
+                                "model": model,
+
+                                "trial": trial,
+
+                                "run": run,
+
+                                "sensor_sequence": sensor_sequence,
+
+                                "n_sensors": len(sensor_sequence),
+
+                                "n_inspected_areas": run_data.get(
+                                    "n_inspected_areas"
+                                ),
+
+                                "min_inspected_areas": run_data.get(
+                                    "min_inspected_areas"
+                                ),
+
+                                "n_total_areas": run_data.get(
+                                    "n_total_areas"
+                                ),
+
+                                "success_rate": run_data.get(
+                                    "success_rate"
+                                ),
+
+                                "efficiency": float(efficiency)
+
+                            })
+
+    df = pd.DataFrame(records)
+
+    if not df.empty:
+
+        df["n_sensors"] = df["n_sensors"].astype(int)
+
+        df["efficiency"] = pd.to_numeric(
+            df["efficiency"],
+            errors="coerce"
+        )
+
+        df = df.dropna(
+            subset=["efficiency", "n_sensors"]
+        )
+
+    return df
+
+
+# ============================================================
+# INSPECTION EFFICIENCY — AGGREGATION
+# ============================================================
+
+def calculate_efficiency_statistics(
+    df,
+    aggregate_worlds=False
+):
+    """
+    Calculate inspection efficiency statistics.
+
+    Aggregation criteria:
+        - experiment_type
+        - methodology
+        - number of sensors
+        - world (unless aggregate_worlds=True)
+
+    Every individual run contributes equally to the mean.
+
+    Output:
+        summary:
+            One row per experimental configuration.
+
+            Columns:
+                experiment_type
+                methodology
+                n_sensors
+                world (when aggregate_worlds=False)
+                mean_efficiency
+                std_dev
+                total_runs
+
+        When aggregate_worlds=True, runs from different worlds
+        are combined into the same group.
+
+    Standard deviation is calculated across individual runs
+    using VARIANCE_DDOF.
+    """
+
+    if df.empty:
+        return pd.DataFrame()
+
+    grouping_columns = [
+        "experiment_type",
+        "methodology",
+        "n_sensors"
+    ]
+
+    if not aggregate_worlds:
+        grouping_columns.append("world")
+
+    summary = (
+        df.groupby(
+            grouping_columns,
+            as_index=False
+        )
+        .agg(
+            mean_efficiency=("efficiency", "mean"),
+
+            std_dev=(
+                "efficiency",
+                lambda values: values.std(
+                    ddof=VARIANCE_DDOF
+                )
+            ),
+
+            total_runs=("efficiency", "count")
+        )
+    )
+
+    return summary
+
+
+# ============================================================
+# INSPECTION EFFICIENCY — FIGURE
+# ============================================================
+
+def create_efficiency_figure(
+    summary,
+    experiment_type,
+    world
+):
+    """
+    Create an inspection efficiency comparison plot.
+
+    X-axis:
+        Number of sensors.
+
+    Y-axis:
+        Mean inspection efficiency.
+
+    Each methodology has a separate curve.
+
+    Error bars:
+        Standard deviation across individual runs.
+
+    The input summary must already be filtered by world
+    and experiment type.
+    """
+
+    filtered = summary[
+        (summary["experiment_type"] == experiment_type)
+        & (summary["world"] == world)
+    ].copy()
+
+    if filtered.empty:
+        return None
+
+    available_methods = [
+        method for method in METHODOLOGIES
+        if method in filtered["methodology"].unique()
+    ]
+
+    if not available_methods:
+        return None
+
+    palette = {
+        "HITL": "#1f77b4",
+        "AUTO": "#ff7f0e",
+        "HUMAN": "#2ca02c",
+        "ILP-30": "#9467bd",
+        "ILP-60": "#d62728",
+        "ILP-120": "#17becf"
+    }
+
+    fig = go.Figure()
+
+    for method in available_methods:
+
+        method_data = (
+            filtered[
+                filtered["methodology"] == method
+            ]
+            .sort_values("n_sensors")
+        )
+
+        if method_data.empty:
+            continue
+
+        std_values = method_data["std_dev"].fillna(0)
+
+        fig.add_trace(
+            go.Scatter(
+
+                x=method_data["n_sensors"],
+
+                y=method_data["mean_efficiency"],
+
+                error_y=dict(
+                    type="data",
+                    array=std_values,
+                    visible=True,
+                    thickness=1.5,
+                    width=5
+                ),
+
+                mode="lines+markers",
+
+                name=method,
+
+                line=dict(
+                    color=palette.get(
+                        method,
+                        "#7f7f7f"
+                    ),
+                    width=2.5
+                ),
+
+                marker=dict(size=8),
+
+                customdata=method_data[
+                    ["std_dev", "total_runs"]
+                ].fillna(0).values,
+
+                hovertemplate=(
+                    "Methodology: " + method +
+                    "<br>Number of sensors: %{x}" +
+                    "<br>Mean efficiency: %{y:.3f}" +
+                    "<br>Std deviation: %{customdata[0]:.3f}" +
+                    "<br>Number of runs: %{customdata[1]}" +
+                    "<extra></extra>"
+                )
+            )
+        )
+
+    fig.update_layout(
+
+        title=dict(
+            text=(
+                f"{experiment_type.capitalize()} "
+                f"— Inspection Efficiency ({world})"
+            ),
+            font=dict(size=18),
+            x=0.5,
+            xanchor="center"
+        ),
+
+        xaxis=dict(
+            title="Number of sensors",
+            showgrid=True,
+            gridcolor="rgba(128,128,128,0.2)",
+            dtick=1
+        ),
+
+        yaxis=dict(
+            title="Mean inspection efficiency",
+            range=[0, 1.05],
+            showgrid=True,
+            gridcolor="rgba(128,128,128,0.2)"
+        ),
+
+        template="plotly_white",
+
+        height=550,
+
+        hovermode="x unified",
+
+        legend=dict(
+            orientation="h",
+            yanchor="top",
+            y=-0.25,
+            xanchor="center",
+            x=0.5,
+            font=dict(size=11),
+            bgcolor="rgba(255,255,255,0.8)",
+            itemsizing="constant",
+            itemwidth=70
+        ),
+
+        margin=dict(
+            l=70,
+            r=40,
+            t=100,
+            b=65
+        )
+    )
+
+    return fig
+
+
+# ============================================================
+# INSPECTION EFFICIENCY — DASHBOARD RENDERING
+# ============================================================
+
+def render_efficiency_analysis(
+    summary,
+    experiment_type,
+    world,
+    selected_methods,
+    selected_sensors,
+    key_suffix
+):
+    """
+    Render inspection efficiency analysis.
+
+    Input DataFrame structure:
+        experiment_type
+        methodology
+        world
+        n_sensors
+        mean_efficiency
+        std_dev
+        total_runs
+
+    The function:
+        1. Filters methodologies and sensor counts.
+        2. Generates the efficiency comparison plot.
+        3. Provides JPEG and HTML plot downloads.
+        4. Displays summary statistics.
+        5. Provides CSV and LaTeX table downloads.
+        6. Displays a LaTeX preview.
+    """
+
+    filtered_summary = summary[
+        (summary["experiment_type"] == experiment_type)
+        & summary["methodology"].isin(selected_methods)
+        & summary["n_sensors"].isin(selected_sensors)
+    ].copy()
+
+    if filtered_summary.empty:
+
+        st.info(
+            f"No efficiency data available for "
+            f"{experiment_type} — {world}."
+        )
+
+        return
+
+    # --------------------------------------------------------
+    # EFFICIENCY PLOT
+    # --------------------------------------------------------
+
+    fig = create_efficiency_figure(
+        filtered_summary,
+        experiment_type,
+        world
+    )
+
+    if fig is not None:
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={
+                "scrollZoom": True,
+                "displaylogo": False,
+                "responsive": True
+            },
+            key=f"efficiency_plot_{key_suffix}"
+        )
+
+        col1, col2 = st.columns(2)
+
+        # ----------------------------------------------------
+        # JPEG EXPORT
+        # ----------------------------------------------------
+
+        with col1:
+
+            try:
+
+                jpeg_image = fig.to_image(
+                    format="jpeg",
+                    width=1600,
+                    height=600,
+                    scale=2
+                )
+
+                st.download_button(
+                    label="Download plot (JPEG)",
+                    data=jpeg_image,
+                    file_name=(
+                        f"inspection_efficiency_"
+                        f"{key_suffix}.jpg"
+                    ),
+                    mime="image/jpeg",
+                    key=f"download_efficiency_jpeg_{key_suffix}"
+                )
+
+            except Exception as exc:
+
+                st.warning(
+                    f"Unable to generate JPEG image: {exc}"
+                )
+
+
+    # --------------------------------------------------------
+    # SUMMARY STATISTICS
+    # --------------------------------------------------------
+
+    st.subheader("Efficiency statistics")
+
+    display = filtered_summary[
+        [
+            "methodology",
+            "n_sensors",
+            "mean_efficiency",
+            "std_dev",
+            "total_runs"
+        ]
+    ].copy()
+
+    display.columns = [
+        "Methodology",
+        "Number of sensors",
+        "Mean efficiency",
+        "Std deviation",
+        "Total runs"
+    ]
+
+    st.dataframe(
+        display.style.format({
+            "Mean efficiency": "{:.3f}",
+            "Std deviation": "{:.3f}"
+        }, na_rep="N/A"),
+        use_container_width=True,
+        hide_index=True
+    )
+
+    # --------------------------------------------------------
+    # CSV EXPORT
+    # --------------------------------------------------------
+
+    st.download_button(
+        label="Download statistics (CSV)",
+        data=filtered_summary.to_csv(
+            index=False
+        ).encode("utf-8"),
+        file_name=(
+            f"inspection_efficiency_statistics_"
+            f"{key_suffix}.csv"
+        ),
+        mime="text/csv",
+        key=f"download_efficiency_csv_{key_suffix}"
+    )
+
+    # --------------------------------------------------------
+    # METHODOLOGY COMPARISON
+    # --------------------------------------------------------
+
+    pivot = create_efficiency_table(
+        filtered_summary,
+        experiment_type,
+        world
+    )
+
+    if not pivot.empty:
+        st.markdown("**Methodology comparison**")
+        st.dataframe(
+            pivot,
+            use_container_width=True
+        )
+
+    # --------------------------------------------------------
+    # LATEX TABLE EXPORT
+    # --------------------------------------------------------
+
+    latex_table = create_efficiency_latex_table(
+        summary=filtered_summary,
+        experiment_type=experiment_type,
+        world=world,
+        selected_methods=selected_methods,
+        caption=(
+            f"Inspection efficiency comparison: "
+            f"{experiment_type}, {world}."
+        ),
+        label=(
+            f"tab:efficiency_{experiment_type}_{world}"
+        )
+    )
+
+    if latex_table is not None:
+
+        st.download_button(
+            label="Download LaTeX table",
+            data=latex_table,
+            file_name=(
+                f"inspection_efficiency_"
+                f"{experiment_type}_{world}.tex"
+            ),
+            mime="text/plain",
+            key=f"download_efficiency_latex_{key_suffix}"
+        )
+
+        with st.expander("Preview LaTeX table"):
+
+            st.code(
+                latex_table,
+                language="latex"
+            )
 
 # ============================================================
 # STREAMLIT CONFIGURATION
@@ -1212,6 +2051,19 @@ except (json.JSONDecodeError, OSError, ValueError) as exc:
     st.stop()
 
 
+# Load inspection matrices and individual run efficiencies.
+
+if not INSPECTION_MATRICES_PATH.exists():
+    st.error(
+        f"File not found: {INSPECTION_MATRICES_PATH}"
+    )
+    st.stop()
+
+inspection_data = load_json(
+    str(INSPECTION_MATRICES_PATH),
+    INSPECTION_MATRICES_PATH.stat().st_mtime
+)
+
 # ============================================================
 # DATA PREPARATION
 # ============================================================
@@ -1242,6 +2094,44 @@ trial_stats_overview, summary_overview = calculate_success_rates(
 # Explicitly identify the overview in the summary DataFrame.
 summary_overview["world"] = "Overview"
 
+
+# ============================================================
+# INSPECTION EFFICIENCY DATA PREPARATION
+# ============================================================
+
+efficiency_df = extract_efficiency_records(
+    inspection_data
+)
+
+if efficiency_df.empty:
+
+    st.warning(
+        "No valid inspection efficiency records found."
+    )
+
+    st.stop()
+
+
+# --------------------------------------------
+# Statistics per world
+# --------------------------------------------
+
+efficiency_summary_world = calculate_efficiency_statistics(
+    efficiency_df,
+    aggregate_worlds=False
+)
+
+
+# --------------------------------------------
+# Statistics across all worlds
+# --------------------------------------------
+
+efficiency_summary_overview = calculate_efficiency_statistics(
+    efficiency_df,
+    aggregate_worlds=True
+)
+
+efficiency_summary_overview["world"] = "Overview"
 
 # ============================================================
 # WORLD DISCOVERY
@@ -1275,7 +2165,8 @@ selected_worlds = st.sidebar.multiselect(
 )
 
 available_methods = sorted(
-    experiments_df["methodology"].unique(),
+    set(experiments_df["methodology"].unique())
+    | set(efficiency_df["methodology"].unique()),
     key=natural_key
 )
 
@@ -1285,8 +2176,10 @@ selected_methods = st.sidebar.multiselect(
     default=available_methods
 )
 
+
 available_sensors = sorted(
-    experiments_df["n_sensors"].unique()
+    set(experiments_df["n_sensors"].unique())
+    | set(efficiency_df["n_sensors"].unique())
 )
 
 selected_sensors = st.sidebar.multiselect(
@@ -1383,13 +2276,6 @@ def render_success_analysis(
             key=f"success_plot_{key_suffix}"
         )
 
-        st.download_button(
-            "Download plot (HTML)",
-            data=fig.to_html(include_plotlyjs=True),
-            file_name=f"success_rate_{key_suffix}.html",
-            mime="text/html",
-            key=f"download_plot_{key_suffix}"
-        )
 
     # --------------------------------------------------------
     # SUMMARY STATISTICS
@@ -1430,7 +2316,7 @@ def render_success_analysis(
 # MAIN SUCCESS RATE DASHBOARD
 # ============================================================
 
-st.header("Success Rate Analysis")
+st.header("Intruder Detection Analysis")
 
 world_tabs = st.tabs(
     ["Overview"] + selected_worlds
@@ -1472,13 +2358,35 @@ with world_tabs[0]:
 
     overview_data["world"] = "Overview"
 
+    # Select efficiency records belonging to selected worlds.
+
+    overview_efficiency_records = efficiency_df.copy()
+
+    if selected_worlds:
+
+        overview_efficiency_records = overview_efficiency_records[
+            overview_efficiency_records["world"].isin(
+                selected_worlds
+            )
+        ]
+
+    # Recalculate efficiency statistics across selected worlds.
+
+    overview_efficiency_summary = calculate_efficiency_statistics(
+        overview_efficiency_records,
+        aggregate_worlds=True
+    )
+
+    overview_efficiency_summary["world"] = "Overview"
+
     render_world_dashboard(
         summary=overview_data,
         trial_stats=overview_trials,
         world="Overview",
         selected_methods=selected_methods,
         selected_sensors=selected_sensors,
-        key_suffix="overview"
+        key_suffix="overview",
+        efficiency_summary=overview_efficiency_summary
     )
 
 
@@ -1506,5 +2414,8 @@ for world_index, world in enumerate(selected_worlds, start=1):
             world=world,
             selected_methods=selected_methods,
             selected_sensors=selected_sensors,
-            key_suffix=world
+            key_suffix=world,
+            efficiency_summary=efficiency_summary_world[
+                efficiency_summary_world["world"] == world
+            ].copy()
         )

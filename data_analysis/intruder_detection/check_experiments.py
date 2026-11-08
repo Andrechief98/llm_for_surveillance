@@ -9,14 +9,14 @@ from collections import defaultdict
 # ============================================================
 
 script_dir = os.path.dirname(__file__)
-JSON_FILE = os.path.join(script_dir, "experiments.json")
+JSON_FILE = os.path.join(script_dir, "experiments_HITL.json")
 
 # Modes available in the JSON
 ALL_MODES = [
     "HITL",
-    "AUTO",
-    "HUMAN",
-    "ILP",
+    # "AUTO",
+    # "HUMAN",
+    # "ILP",
 ]
 
 # Select which modes to print
