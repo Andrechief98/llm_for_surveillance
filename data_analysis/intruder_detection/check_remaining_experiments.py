@@ -13,17 +13,17 @@ JSON_FILE = os.path.join(script_dir, "experiments_HITL.json")
 
 # Modes available in the JSON
 ALL_MODES = [
-    "HITL",
+    # "HITL",
     # "AUTO",
-    # "HUMAN",
+    "HUMAN",
     # "ILP",
 ]
 
 # Select which modes to print
 MODES_TO_PRINT = [
-    "HITL",
+    # "HITL",
     # "AUTO",
-    # "HUMAN",
+    "HUMAN",
     # "ILP",
 ]
 
@@ -32,7 +32,7 @@ MODES_TO_PRINT = [
 # [1]       -> only experiments with 1 sensor
 # [1, 2]    -> experiments with 1 or 2 sensors
 # [1, 2, 3] -> experiments with 1, 2 or 3 sensors
-SENSOR_COUNTS = [4]
+SENSOR_COUNTS = [1,2,3,4]
 
 
 # ============================================================

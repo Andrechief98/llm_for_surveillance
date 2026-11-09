@@ -152,11 +152,11 @@ def create_success_latex_table(
                 if pd.isna(mean):
                     value = "--"
                 elif pd.isna(std):
-                    value = f"{mean * 100:.2f}\\% $\\pm$ N/A"
+                    value = f"{mean :.2f}\\ $\\pm$ N/A"
                 else:
                     value = (
-                        f"{mean * 100:.2f}\\% "
-                        f"$\\pm$ {std * 100:.2f}\\%"
+                        f"{mean :.2f}\\ "
+                        f"$\\pm$ {std :.2f}\\"
                     )
 
             except KeyError:
@@ -280,13 +280,13 @@ def create_efficiency_latex_table(
 
                 elif pd.isna(std):
                     value = (
-                        f"{mean:.3f} $\\pm$ N/A"
+                        f"{mean:.2f} $\\pm$ N/A"
                     )
 
                 else:
                     value = (
-                        f"{mean:.3f} "
-                        f"$\\pm$ {std:.3f}"
+                        f"{mean:.2f} "
+                        f"$\\pm$ {std:.2f}"
                     )
 
             except KeyError:
@@ -509,8 +509,8 @@ def render_success_tables(
     display.columns = [
         "Methodology",
         "Sensors",
-        "Mean success (%)",
-        "Std dev (%)",
+        "Mean success",
+        "Std dev",
         "Trials",
         "Successful",
         "Total"
@@ -518,8 +518,8 @@ def render_success_tables(
 
     st.dataframe(
         display.style.format({
-            "Mean success (%)": "{:.2f}",
-            "Std dev (%)": "{:.2f}"
+            "Mean success": "{:.2f}",
+            "Std dev": "{:.2f}"
         }, na_rep="N/A"),
         use_container_width=True,
         hide_index=True
@@ -1147,20 +1147,21 @@ def create_success_figure(summary, experiment_type, world):
         )
 
     fig.update_layout(
-        title=dict(
-            text=(
-                f"{experiment_type.capitalize()} "
-                f"— Success Rate ({world})"
-            ),
-            font=dict(size=18),
-            x=0.5,
-            xanchor="center",
-            y=0.95,
-            yanchor="top"
-        ),
+        # title=dict(
+        #     text=(
+        #         f"{experiment_type.capitalize()} "
+        #         f"— Success Rate ({world})"
+        #     ),
+        #     font=dict(size=18),
+        #     x=0.5,
+        #     xanchor="center",
+        #     y=0.95,
+        #     yanchor="top"
+        # ),
+        title = None,
 
         xaxis=dict(
-            title="Number of sensors",
+            title=r"$N_s$",
             range=[0, 5],
             dtick=1,
             showgrid=True,
@@ -1168,7 +1169,7 @@ def create_success_figure(summary, experiment_type, world):
         ),
 
         yaxis=dict(
-            title="Mean success rate",
+            title=r"$SR$",
             range=[-0.25, 1.25],
             ticksuffix="",
             showgrid=True,
@@ -1226,10 +1227,10 @@ def create_success_table(summary, experiment_type, world):
 
     filtered["mean ± std_dev"] = filtered.apply(
         lambda row: (
-            f"{row['mean_success_rate']:.2f}% ± "
-            f"{row['std_dev']:.2f}%"
+            f"{row['mean_success_rate']:.2f} ± "
+            f"{row['std_dev']:.2f}"
             if pd.notna(row["std_dev"])
-            else f"{row['mean_success_rate']:.2f}% ± N/A"
+            else f"{row['mean_success_rate']:.2f} ± N/A"
         ),
         axis=1
     )
@@ -1327,8 +1328,8 @@ def show_success_statistics(summary, experiment_type, world):
     display.columns = [
         "Methodology",
         "Number of sensors",
-        "Mean success rate (%)",
-        "Std deviation (%)",
+        "Mean success rate",
+        "Std deviation",
         "Number of trials",
         "Successful runs",
         "Total runs"
@@ -1336,8 +1337,8 @@ def show_success_statistics(summary, experiment_type, world):
 
     st.dataframe(
         display.style.format({
-            "Mean success rate (%)": "{:.2f}",
-            "Std deviation (%)": "{:.2f}"
+            "Mean success rate": "{:.2f}",
+            "Std deviation": "{:.2f}"
         }, na_rep="N/A"),
         use_container_width=True
     )
@@ -1714,8 +1715,8 @@ def create_efficiency_figure(
                 hovertemplate=(
                     "Methodology: " + method +
                     "<br>Number of sensors: %{x}" +
-                    "<br>Mean efficiency: %{y:.3f}" +
-                    "<br>Std deviation: %{customdata[0]:.3f}" +
+                    "<br>Mean efficiency: %{y:.2f}" +
+                    "<br>Std deviation: %{customdata[0]:.2f}" +
                     "<br>Number of runs: %{customdata[1]}" +
                     "<extra></extra>"
                 )
@@ -1724,26 +1725,29 @@ def create_efficiency_figure(
 
     fig.update_layout(
 
-        title=dict(
-            text=(
-                f"{experiment_type.capitalize()} "
-                f"— Inspection Efficiency ({world})"
-            ),
-            font=dict(size=18),
-            x=0.5,
-            xanchor="center"
-        ),
+        # title=dict(
+        #     text=(
+        #         f"{experiment_type.capitalize()} "
+        #         f"— Inspection Efficiency ({world})"
+        #     ),
+        #     font=dict(size=18),
+        #     x=0.5,
+        #     xanchor="center"
+        # ),
+        title = None,
 
         xaxis=dict(
-            title="Number of sensors",
+            title=r"$N_s$",
+            range=[0, 5],
+            dtick=1,
             showgrid=True,
-            gridcolor="rgba(128,128,128,0.2)",
-            dtick=1
+            gridcolor="rgba(128,128,128,0.2)"
         ),
 
         yaxis=dict(
-            title="Mean inspection efficiency",
-            range=[0, 1.05],
+            title=r"$\eta$",
+            range=[-0.25, 1.25],
+            ticksuffix="",
             showgrid=True,
             gridcolor="rgba(128,128,128,0.2)"
         ),
@@ -1861,7 +1865,7 @@ def render_efficiency_analysis(
                 jpeg_image = fig.to_image(
                     format="jpeg",
                     width=1600,
-                    height=600,
+                    height=500,
                     scale=2
                 )
 

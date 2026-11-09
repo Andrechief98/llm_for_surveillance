@@ -117,15 +117,14 @@ class actorNode:
                 )
             )
 
-        print(type(world_id))
-        print(type(area))
+
         if world_id==1 and area=="E":
             offset = 0.5 
         elif world_id==1 and area=="D":
             offset = -0.6 
         else:
             offset = 0
-            print(offset)
+
         # Prepare Gazebo model state
         model_state = ModelState()
         model_state.model_name = 'actor'

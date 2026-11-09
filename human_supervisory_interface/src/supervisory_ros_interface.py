@@ -2,6 +2,8 @@
 #!/usr/bin/env python3
 
 import uuid
+import logging
+
 from datetime import datetime
 
 import streamlit as st
@@ -11,7 +13,7 @@ from ros_backend import SupervisorBackend
 
 
 # ============================================================
-# CONFIGURAZIONE
+# CONFIGURATION
 # ============================================================
 
 st.set_page_config(
@@ -21,12 +23,21 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-REFRESH_SECONDS = 1
 MAX_CAMERAS = 6
 MAX_ACTIVITIES = 100
 
+GOAL_REFRESH = 2.0
+SENSOR_REFRESH = 5.0
+TASK_REFRESH = 3.0
 
+logging.basicConfig(level=logging.INFO)
+
+logger = logging.getLogger(__name__)
+
+
+# ============================================================
 # STYLE
+# ============================================================
 
 st.markdown(
     """
@@ -41,7 +52,7 @@ st.markdown(
             background: var(--secondary-background-color);
             padding: 12px 16px;
             border-radius: 10px;
-            border: 1px solid rgba(128, 128, 128, 0.18);
+            border: 1px solid rgba(128,128,128,0.18);
         }
 
         div.stButton > button {
@@ -54,12 +65,15 @@ st.markdown(
 )
 
 
-
-# BACKEND ROS
+# ============================================================
+# BACKEND INITIALIZATION
+# ============================================================
 
 @st.cache_resource
 def get_backend():
+
     if not rospy.core.is_initialized():
+
         rospy.init_node(
             "supervisory_interface",
             anonymous=True,
@@ -70,22 +84,33 @@ def get_backend():
 
 
 try:
+
     backend = get_backend()
+
 except Exception as exc:
-    st.error(f"ROS initialization impossible: {exc}")
+
+    logger.exception("Backend initialization failed")
+
+    st.error(
+        f"Unable to initialize ROS backend: {exc}"
+    )
+
     st.stop()
 
 
+# ============================================================
 # SESSION STATE
+# ============================================================
 
 DEFAULT_STATE = {
     "notice": None,
     "activities": [],
-    "camera_topics": [],
 }
 
 for key, value in DEFAULT_STATE.items():
+
     if key not in st.session_state:
+
         st.session_state[key] = (
             value.copy()
             if isinstance(value, (list, dict))
@@ -93,10 +118,12 @@ for key, value in DEFAULT_STATE.items():
         )
 
 
+# ============================================================
 # COMMON FUNCTIONS
+# ============================================================
 
 def notify(level, message):
-    """Save the notification banner until next command."""
+
     st.session_state.notice = {
         "level": level,
         "message": message,
@@ -104,14 +131,8 @@ def notify(level, message):
     }
 
 
-def log_activity(
-    description,
-    status,
-    result=None,
-    error=None,
-    task_ids=None,
-):
-    """Save each command."""
+def log_activity(description, status, result=None, error=None):
+
     activity = {
         "id": str(uuid.uuid4()),
         "timestamp": datetime.now().strftime("%H:%M:%S"),
@@ -119,68 +140,59 @@ def log_activity(
         "status": status,
         "result": result,
         "error": error,
-        "task_ids": list(task_ids or []),
     }
 
-    st.session_state.activities.insert(0, activity)
+    activities = st.session_state.activities
+
+    activities.insert(0, activity)
+
     st.session_state.activities = (
-        st.session_state.activities[:MAX_ACTIVITIES]
+        activities[:MAX_ACTIVITIES]
     )
 
 
 def execute_command(description, callback, success_message):
-    """
-    Execute the command and save the result.
 
-    'accepted' means the call hasn't generated exception.
-    """
     try:
-        result = callback()
 
-        task_ids = (
-            list(result or [])
-            if isinstance(result, (list, tuple))
-            else []
-        )
+        result = callback()
 
         log_activity(
             description=description,
             status="accepted",
             result=result,
-            task_ids=task_ids,
         )
 
-        notify("success", success_message)
+        notify(
+            "success",
+            success_message,
+        )
+
         return result
 
     except Exception as exc:
+
+        logger.exception(
+            "Command failed: %s",
+            description,
+        )
+
         log_activity(
             description=description,
             status="failed",
             error=str(exc),
         )
 
-        notify("error", f"{description}: {exc}")
+        notify(
+            "error",
+            f"{description}: {exc}",
+        )
+
         return None
 
 
-def get_task_status(task):
-    return str(task.get("status", "unknown")).lower()
-
-
-
-# HEADER
-
-st.title("🤖 Robot Supervisor")
-st.caption(
-    f"World: {backend.world_id}"
-)
-
-
-# DYNAMIC BANNER
-
-@st.fragment(run_every=REFRESH_SECONDS)
 def render_notice():
+
     notice = st.session_state.notice
 
     if not notice:
@@ -191,108 +203,78 @@ def render_notice():
     )
 
     if notice["level"] == "success":
+
         st.success(f"✓ {message}")
+
     elif notice["level"] == "error":
+
         st.error(f"✕ {message}")
+
     elif notice["level"] == "warning":
+
         st.warning(f"⚠ {message}")
+
     else:
+
         st.info(message)
 
+
+# ============================================================
+# HEADER
+# ============================================================
+
+st.title("🤖 Robot Supervisor")
+
+st.caption(
+    f"World: {backend.world_id}"
+)
 
 render_notice()
 
 
-# DYNAMIC METRICS 
 
-@st.fragment(run_every=REFRESH_SECONDS)
-def render_metrics():
-    try:
-        tasks = backend.get_tasks() or {}
-    except Exception as exc:
-        st.warning(
-            f"Updating metrics impossible: {exc}"
-        )
-        tasks = None
-
-    if tasks is None:
-        return
-
-    statuses = [
-        get_task_status(task)
-        for task in tasks.values()
-    ]
-
-    active = sum(
-        status in {
-            "running", "pending", "queued",
-            "in_progress", "accepted",
-        }
-        for status in statuses
-    )
-
-    completed = sum(
-        status in {
-            "completed", "complete", "success",
-            "succeeded", "done",
-        }
-        for status in statuses
-    )
-
-    failed = sum(
-        status in {"failed", "error", "aborted"}
-        for status in statuses
-    )
-
-    cols = st.columns(5)
-
-    cols[0].metric(
-        "Robot configured",
-        len(backend.robots_list),
-    )
-    cols[1].metric(
-        "Cameras configured",
-        len(backend.cameras_list),
-    )
-    cols[2].metric(
-        "Doors / actuators",
-        len(backend.actuators_list),
-    )
-    cols[3].metric("Active tasks", active)
-    cols[4].metric("Failed tasks", failed)
-
-
-render_metrics()
 
 # ============================================================
-# ROBOT GOAL VERIFICATION AND INTRUDER DETECTION
+# ROBOT GOAL VERIFICATION
 # ============================================================
 
-@st.fragment(run_every=REFRESH_SECONDS)
+@st.fragment(run_every=1.0)
 def render_robot_goal_events():
-    """Display the latest navigation and detection results."""
 
-    st.subheader("🎯 Goal Verification & Intruder Detection")
+    st.subheader(
+        "🎯 Goal Verification & Intruder Detection"
+    )
 
     try:
+
         events = backend.get_robot_goal_events() or {}
+
     except Exception as exc:
+
         st.error(
-            f"Unable to retrieve robot verification events: {exc}"
+            f"Unable to retrieve robot events: {exc}"
         )
+
         return
 
     if not events:
+
         st.info(
             "No robot verification results received yet."
         )
+
         return
 
     for robot, event in events.items():
+
         goal_reached = event.get("goal_reached")
-        intruder_detected = event.get("intruder_detected")
+
+        intruder_detected = event.get(
+            "intruder_detected"
+        )
 
         with st.container(border=True):
+
             st.markdown(
                 f"### 🤖 {event.get('robot', robot)}"
             )
@@ -305,85 +287,196 @@ def render_robot_goal_events():
             goal_col, detection_col = st.columns(2)
 
             with goal_col:
+
                 st.markdown("**Navigation status**")
 
                 if goal_reached is True:
+
                     st.success("✓ Goal reached")
+
                 elif goal_reached is False:
+
                     st.error("✕ Goal not reached")
+
                 else:
-                    st.warning("Navigation status unavailable")
+
+                    st.warning(
+                        "Navigation status unavailable"
+                    )
 
             with detection_col:
+
                 st.markdown("**Intruder detection**")
 
                 if goal_reached is not True:
-                    st.info("Detection not completed")
+
+                    st.info(
+                        "Detection not completed"
+                    )
+
                 elif intruder_detected is True:
+
                     st.error("⚠ Intruder detected")
+
                 elif intruder_detected is False:
+
                     st.success("✓ No intruder detected")
+
                 else:
-                    st.warning("Detection result unavailable")
+
+                    st.warning(
+                        "Detection unavailable"
+                    )
 
             message = event.get("message", "")
 
             if message:
-                st.caption(f"Details: {message}")
+
+                st.caption(
+                    f"Details: {message}"
+                )
 
             if event.get("status") == "failed":
+
                 if event.get("goal_status") == "Verification error":
+
                     st.error(
                         f"Verification error: {message}"
                     )
 
 
 render_robot_goal_events()
+
+
+
 # ============================================================
-# CONTROLLO ESPERIMENTO
+# ACTIVE SENSORS
 # ============================================================
 
-st.subheader("🧪 Experiment Control")
-st.caption(
-    "Advance the sensor sequence or stop the current experiment."
-)
+@st.fragment(run_every=1.0)
+def render_active_sensors():
 
-next_col, stop_col = st.columns(2, gap="large")
+    try:
+        data = backend.get_active_sensors()
+        sensors = data.get("sensors", [])
 
-with next_col:
-    if st.button(
-        "⏭️ Next sensor sequence",
-        type="primary",
-        use_container_width=True,
-        key="next_sensor_sequence_button",
-    ):
-        execute_command(
-            description="Advance to next sensor sequence",
-            callback=backend.next_sensor_sequence,
-            success_message=(
-                "Next sensor sequence requested."
-            ),
+    except Exception:
+        st.caption("📡 Sensors unavailable")
+        return
+
+    if sensors:
+        st.success(
+            "📡 Active sensors: " + ", ".join(map(str, sensors))
         )
+    else:
+        st.caption("📡 No active sensors")
 
-with stop_col:
-    if st.button(
-        "🛑 Stop experiment",
-        type="secondary",
-        use_container_width=True,
-        key="stop_experiment_button",
-    ):
-        execute_command(
-            description="Stop experiment",
-            callback=backend.stop_experiment,
-            success_message=(
-                "Experiment stop requested."
-            ),
-        )
+
+render_active_sensors()
 
 st.divider()
 
 
-# DASHBOARD
+
+# ============================================================
+# EXPERIMENT CONTROL
+# ============================================================
+
+st.subheader("🧪 Experiment Control")
+
+st.caption(
+    "Control the experiment and report inspection results."
+)
+
+col1, col2, col3, col4 = st.columns(4, gap="medium")
+
+
+# ------------------------------------------------------------
+# NEXT SENSOR SEQUENCE
+# ------------------------------------------------------------
+
+with col1:
+
+    if st.button(
+        "⏭️ Next sensor sequence",
+        type="primary",
+        use_container_width=True,
+        key="next_sequence",
+    ):
+
+        execute_command(
+            "Advance sensor sequence",
+            backend.next_sensor_sequence,
+            "Next sensor sequence requested.",
+        )
+
+
+# ------------------------------------------------------------
+# STOP EXPERIMENT
+# ------------------------------------------------------------
+
+with col2:
+
+    if st.button(
+        "🛑 Stop experiment",
+        type="secondary",
+        use_container_width=True,
+        key="stop_experiment",
+    ):
+
+        execute_command(
+            "Stop experiment",
+            backend.stop_experiment,
+            "Experiment stop requested.",
+        )
+
+
+# ------------------------------------------------------------
+# INTRUDER DETECTED
+# ------------------------------------------------------------
+
+with col3:
+
+    if st.button(
+        "🚨 Intruder detected",
+        type="primary",
+        use_container_width=True,
+        key="intruder_detected",
+    ):
+
+        execute_command(
+            "Intruder detected",
+            backend.report_intruder_detected,
+            "Intruder detection reported.",
+        )
+
+
+# ------------------------------------------------------------
+# FALSE POSITIVE
+# ------------------------------------------------------------
+
+with col4:
+
+    if st.button(
+        "✓ False positive",
+        type="secondary",
+        use_container_width=True,
+        key="false_positive",
+    ):
+
+        execute_command(
+            "False positive",
+            backend.report_false_positive,
+            "False positive reported.",
+        )
+
+
+st.divider()
+
+
+# ============================================================
+# MAIN DASHBOARD
+# ============================================================
 
 robot_col, camera_col, operations_col = st.columns(
     [1.05, 1.65, 1.05],
@@ -391,344 +484,525 @@ robot_col, camera_col, operations_col = st.columns(
 )
 
 
-# ROBOT
+# ============================================================
+# ROBOT CONTROLS
+# ============================================================
 
-@st.fragment
-def render_robots():
+with robot_col:
+
     st.subheader("🤖 Robot")
+
     st.caption(
-        "Choose robot to deploy and the final area to reach."
+        "Choose robots and their destination areas."
     )
 
     robots = backend.robots_list
     areas = backend.areas_list
 
     if not robots:
+
         st.info("No available robots.")
-        return
 
-    if not areas:
+    elif not areas:
+
         st.warning("No available areas.")
-        return
 
-    # Il reset viene applicato prima di creare i widget.
-    if st.session_state.pop(
-        "reset_robot_selection", False
-    ):
-        st.session_state["select_all_robots"] = False
+    else:
 
-        for robot in robots:
-            st.session_state.pop(f"deploy_{robot}", None)
+        def update_all_robots():
 
-    select_all = st.checkbox(
-        "Select all robots",
-        key="select_all_robots",
-    )
+            selected = st.session_state.select_all_robots
 
-    deployments = []
+            for robot in backend.robots_list:
 
-    for robot in robots:
-        with st.container(border=True):
-            selected = st.checkbox(
-                robot,
-                value=select_all,
-                key=f"deploy_{robot}",
-            )
+                st.session_state[f"deploy_{robot}"] = selected
 
-            area = st.selectbox(
-                "Destination",
-                options=areas,
-                key=f"area_{robot}",
-                label_visibility="collapsed",
-            )
 
-            if selected:
-                deployments.append({
-                    "robot_to_send": robot,
-                    "area_to_reach": area,
-                })
-
-    st.caption(
-        f"{len(deployments)} robot selected"
-    )
-
-    if st.button(
-        "🚀 Execute deployment",
-        type="primary",
-        use_container_width=True,
-        disabled=not deployments,
-        key="deploy_batch_button",
-    ):
-        batch = [
-            deployment.copy()
-            for deployment in deployments
-        ]
-
-        result = execute_command(
-            description=(
-                "Deployment: "
-                + ", ".join(
-                    f"{item['robot_to_send']} → "
-                    f"{item['area_to_reach']}"
-                    for item in batch
-                )
-            ),
-            callback=lambda: backend.deploy_batch(batch),
-            success_message=(
-                f"Deployment request sent for "
-                f"{len(batch)} robot."
-            ),
+        st.checkbox(
+            "Select all robots",
+            key="select_all_robots",
+            on_change=update_all_robots,
         )
 
-        if result is not None:
-            st.session_state.reset_robot_selection = True
+        deployments = []
 
+        for robot in robots:
 
-with robot_col:
-    render_robots()
+            with st.container(border=True):
 
+                selected = st.checkbox(
+                    robot,
+                    key=f"deploy_{robot}",
+                )
+
+                area = st.selectbox(
+                    f"Destination: {robot}",
+                    options=areas,
+                    key=f"area_{robot}",
+                )
+
+                if selected:
+
+                    deployments.append({
+                        "robot_to_send": robot,
+                        "area_to_reach": area,
+                    })
+
+        st.caption(
+            f"{len(deployments)} robots selected"
+        )
+
+        if st.button(
+            "🚀 Execute deployment",
+            type="primary",
+            use_container_width=True,
+            disabled=not deployments,
+            key="deploy_batch",
+        ):
+
+            batch = [
+                item.copy()
+                for item in deployments
+            ]
+
+            result = execute_command(
+                "Robot deployment",
+                lambda: backend.deploy_batch(batch),
+                f"Deployment submitted for {len(batch)} robots.",
+            )
+
+            if result is not None:
+
+                st.session_state.select_all_robots = False
+
+                for robot in robots:
+
+                    st.session_state[f"deploy_{robot}"] = False
 
 
 # ============================================================
-# TELECAMERE
+# CAMERA CONTROLS
 # ============================================================
 
-@st.fragment
-def render_cameras():
+with camera_col:
+
     st.subheader("📹 Cameras")
-    st.caption("Handle camera feeds.")
+
+    st.caption(
+        "Manage camera feeds."
+    )
 
     cameras = backend.cameras_list
 
     if not cameras:
+
         st.info("No cameras available.")
-        return
 
-    selected = st.multiselect(
-        "Available cameras",
-        options=cameras,
-        max_selections=MAX_CAMERAS,
-        key="camera_selection_widget",
-        placeholder="Choose cameras",
-    )
+    else:
 
-    open_col, close_col = st.columns(2)
+        selected_cameras = st.multiselect(
+            "Available cameras",
+            options=cameras,
+            max_selections=MAX_CAMERAS,
+            key="camera_selection",
+            placeholder="Choose cameras",
+        )
 
-    with open_col:
-        if st.button(
-            "▶ Open camera feed",
-            type="primary",
-            use_container_width=True,
-            disabled=not selected,
-            key="open_cameras_button",
-        ):
-            requested = list(selected)
+        open_col, close_col = st.columns(2)
 
-            result = execute_command(
-                description=(
-                    "Opening camera: "
-                    + ", ".join(requested)
-                ),
-                callback=lambda: backend.open_cameras(requested),
-                success_message=(
-                    f"Opening camera request sent for "
-                    f"{len(requested)} telecamere."
-                ),
-            )
+        with open_col:
 
-            if result is not None:
-                if not isinstance(result, dict):
-                    notify(
-                        "error",
-                        "Response not valid for open_cameras().",
-                    )
+            if st.button(
+                "▶ Open camera feed",
+                type="primary",
+                use_container_width=True,
+                disabled=not selected_cameras,
+                key="open_camera",
+            ):
 
-                    log_activity(
-                        description="Validation camera response",
-                        status="failed",
-                        error=(
-                            "open_cameras() is not "
-                            "a dictionary."
-                        ),
-                    )
-                else:
-                    topics = result.get("opened_topics", [])
+                requested = list(selected_cameras)
 
-                    st.session_state.camera_topics = list(
-                        dict.fromkeys(
-                            st.session_state.camera_topics
-                            + topics
-                        )
-                    )
+                result = execute_command(
+                    "Open camera feeds",
+                    lambda: backend.submit_task(
+                        "Open cameras",
+                        backend.open_cameras,
+                        requested,
+                    ),
+                    f"Camera opening submitted for {len(requested)} cameras.",
+                )
 
-                    # Reset della selezione nel rerun successivo
-                    # del fragment, prima di ricreare il widget.
-                    st.session_state.reset_camera_selection = True
+                if result is not None:
 
-    with close_col:
-        if st.button(
-            "■ Close camera feed",
-            use_container_width=True,
-            disabled=not st.session_state.camera_topics,
-            key="close_cameras_button",
-        ):
-            result = execute_command(
-                description="Closing all camera feeds ",
-                callback=backend.close_cameras,
-                success_message=(
-                    "Closing camera feed request sent."
-                ),
-            )
+                    st.session_state.camera_selection = []
 
-            if result is not None:
-                st.session_state.camera_topics = []
-                st.session_state.reset_camera_selection = True
 
-    # Il reset deve precedere la creazione del multiselect.
-    # Il flag viene quindi applicato al rerun successivo.
-    if st.session_state.pop("reset_camera_selection", False):
-        st.session_state.pop("camera_selection_widget", None)
-        st.rerun(scope="fragment")
+        with close_col:
+
+            if st.button(
+                "■ Close camera feed",
+                use_container_width=True,
+                key="close_camera",
+            ):
+
+                execute_command(
+                    "Close camera feeds",
+                    lambda: backend.submit_task(
+                        "Close cameras",
+                        backend.close_cameras,
+                    ),
+                    "Camera closing submitted.",
+                )
 
     st.divider()
-    st.markdown("**Current feed required**")
 
-    topics = st.session_state.camera_topics
+    st.markdown("**Current active feeds**")
+
+    topics = backend.get_camera_topics()
 
     if topics:
+
         for topic in topics:
-            st.code(str(topic), language=None)
+
+            st.code(
+                str(topic),
+                language=None,
+            )
+
     else:
-        st.caption("No topics registred.")
 
-
-with camera_col:
-    render_cameras()
+        st.caption(
+            "No active camera feeds."
+        )
 
 
 # ============================================================
-# PORTE E ATTUATORI
+# DOOR AND ACTUATOR CONTROLS
 # ============================================================
 
-@st.fragment
-def render_doors():
+with operations_col:
+
     st.subheader("🚪 Doors and actuators")
-    st.caption("Send command to actuators.")
+
+    st.caption(
+        "Send commands to actuators."
+    )
 
     actuators = backend.actuators_list
 
     if not actuators:
+
         st.info("No available actuators.")
-        return
 
-    selected_doors = st.multiselect(
-        "Choose doors",
-        options=actuators,
-        key="selected_doors",
-        placeholder="Choose one or more doors",
-    )
+    else:
 
-    command = st.radio(
-        "Command",
-        options=["open", "close"],
-        format_func=lambda value: (
-            "Open" if value == "open" else "Close"
-        ),
-        horizontal=True,
-        key="door_command",
-    )
-
-    if st.button(
-        "Execute command",
-        type="primary",
-        use_container_width=True,
-        disabled=not selected_doors,
-        key="door_command_button",
-    ):
-        doors = list(selected_doors)
-
-        commands = [
-            {
-                "actuator_name": door,
-                "command": command,
-            }
-            for door in doors
-        ]
-
-        result = execute_command(
-            description=(
-                f"{'Opening' if command == 'open' else 'Closing'} "
-                f"doors: {', '.join(doors)}"
-            ),
-            callback=lambda: backend.control_doors_batch(commands),
-            success_message=(
-                f"Sent commands "
-                f"{'opening' if command == 'open' else 'closing'} "
-                f"to {len(doors)} actuators."
-            ),
+        selected_doors = st.multiselect(
+            "Choose doors",
+            options=actuators,
+            key="selected_doors",
+            placeholder="Choose one or more doors",
         )
 
-        if result is not None:
-            st.session_state.reset_door_selection = True
-
-    # Reset prima di ricreare i widget nel rerun successivo.
-    if st.session_state.pop("reset_door_selection", False):
-        st.session_state.pop("selected_doors", None)
-        st.rerun(scope="fragment")
-
-
-with operations_col:
-    render_doors()
-
-
-# RECENT ACTIVITIES
-
-
-@st.fragment(run_every=2.0)
-def render_recent_activities():
-    st.subheader("📋 Recent Activities")
-
-    try:
-        tasks = backend.get_tasks() or {}
-    except Exception as exc:
-        st.error(f"Error retrieving tasks: {exc}")
-        return
-
-    if not tasks:
-        st.caption("No activities available.")
-        return
-
-    # Display the 20 most recent tasks
-    recent_tasks = list(tasks.items())[::-1][:20]
-
-    for task_id, task in recent_tasks:
-        description = task.get(
-            "description",
-            "Operation without description",
+        door_command = st.radio(
+            "Command",
+            options=["open", "close"],
+            format_func=lambda value: (
+                "Open" if value == "open" else "Close"
+            ),
+            horizontal=True,
+            key="door_command",
         )
-        status = str(task.get("status", "unknown")).lower()
 
-        with st.expander(
-            f"{description} — {status}",
-            expanded=False,
+        if st.button(
+            "Execute command",
+            type="primary",
+            use_container_width=True,
+            disabled=not selected_doors,
+            key="execute_doors",
         ):
-            st.caption(f"Task ID: {task_id}")
-            st.write(f"Status: {status}")
 
-            if task.get("result") is not None:
-                st.write("Result")
-                st.json(task["result"])
+            commands = [
+                {
+                    "actuator_name": door,
+                    "command": door_command,
+                }
+                for door in selected_doors
+            ]
 
-            if task.get("error"):
-                st.error(str(task["error"]))
+            result = execute_command(
+                "Door control",
+                lambda: backend.control_doors_batch(commands),
+                f"Commands submitted to {len(commands)} actuators.",
+            )
+
+            if result is not None:
+
+                st.session_state.selected_doors = []
 
 
-with operations_col:
-    render_recent_activities()
+
+# ============================================================
+# GLOBAL EXECUTION
+# ============================================================
+
+st.divider()
+
+# st.subheader("🚀 Global Execution")
+
+# st.caption(
+#     "Execute all selected robot, camera and door operations."
+# )
 
 
+# ------------------------------------------------------------
+# COLLECT ROBOT DEPLOYMENTS
+# ------------------------------------------------------------
 
+deployments = []
+
+for robot in backend.robots_list:
+
+    if st.session_state.get(
+        f"deploy_{robot}",
+        False,
+    ):
+
+        area = st.session_state.get(
+            f"area_{robot}",
+        )
+
+        if area:
+
+            deployments.append({
+                "robot_to_send": robot,
+                "area_to_reach": area,
+            })
+
+
+# ------------------------------------------------------------
+# COLLECT CAMERAS
+# ------------------------------------------------------------
+
+selected_cameras = st.session_state.get(
+    "camera_selection",
+    [],
+)
+
+
+# ------------------------------------------------------------
+# COLLECT DOORS
+# ------------------------------------------------------------
+
+selected_doors = st.session_state.get(
+    "selected_doors",
+    [],
+)
+
+door_command = st.session_state.get(
+    "door_command",
+    "open",
+)
+
+door_commands = [
+    {
+        "actuator_name": door,
+        "command": door_command,
+    }
+    for door in selected_doors
+]
+
+
+# ------------------------------------------------------------
+# SUMMARY
+# ------------------------------------------------------------
+
+total_operations = (
+    len(deployments)
+    + (1 if selected_cameras else 0)
+    + len(door_commands)
+)
+
+# summary_col1, summary_col2, summary_col3 = st.columns(3)
+
+# with summary_col1:
+
+#     st.metric(
+#         "Robot deployments",
+#         len(deployments),
+#     )
+
+# with summary_col2:
+
+#     st.metric(
+#         "Camera groups",
+#         1 if selected_cameras else 0,
+#     )
+
+# with summary_col3:
+
+#     st.metric(
+#         "Door operations",
+#         len(door_commands),
+#     )
+
+
+# ------------------------------------------------------------
+# EXECUTE ALL
+# ------------------------------------------------------------
+
+if st.button(
+    "🚀 EXECUTE ALL SELECTED ACTIONS",
+    type="primary",
+    use_container_width=True,
+    disabled=(total_operations == 0),
+    key="execute_all",
+):
+
+    result = execute_command(
+        description="Global execution",
+
+        callback=lambda: backend.execute_all_batch(
+            deployments=[
+                item.copy()
+                for item in deployments
+            ],
+
+            camera_names=list(selected_cameras),
+
+            door_commands=[
+                item.copy()
+                for item in door_commands
+            ],
+        ),
+
+        success_message=(
+            f"Global execution submitted: "
+            f"{total_operations} operations."
+        ),
+    )
+
+
+# ============================================================
+# RECENT ACTIVITIES
+# ============================================================
+
+# st.divider()
+
+
+# @st.fragment(run_every=TASK_REFRESH)
+# def render_recent_activities():
+
+#     st.subheader("📋 Recent Activities")
+
+#     try:
+
+#         tasks = backend.get_recent_tasks(limit=20)
+
+#     except Exception as exc:
+
+#         st.error(
+#             f"Unable to retrieve activities: {exc}"
+#         )
+
+#         return
+
+#     if not tasks:
+
+#         st.caption(
+#             "No activities available."
+#         )
+
+#         return
+
+#     for task_id, task in tasks:
+
+#         description = task.get(
+#             "description",
+#             "Operation without description",
+#         )
+
+#         status = str(
+#             task.get("status", "unknown")
+#         ).lower()
+
+#         with st.expander(
+#             f"{description} — {status}",
+#             expanded=False,
+#         ):
+
+#             st.caption(
+#                 f"Task ID: {task_id}"
+#             )
+
+#             st.write(
+#                 f"Status: {status}"
+#             )
+
+#             if task.get("queue_time") is not None:
+
+#                 st.caption(
+#                     f"Queue time: {task['queue_time']:.3f} s"
+#                 )
+
+#             if task.get("execution_time") is not None:
+
+#                 st.caption(
+#                     f"Execution time: {task['execution_time']:.3f} s"
+#                 )
+
+#             if task.get("result") is not None:
+
+#                 st.write("Result")
+
+#                 st.json(
+#                     task["result"]
+#                 )
+
+#             if task.get("error"):
+
+#                 st.error(
+#                     str(task["error"])
+#                 )
+
+
+# render_recent_activities()
+
+
+# ============================================================
+# FRONTEND ACTIVITY HISTORY
+# ============================================================
+
+with st.expander(
+    "Frontend command history",
+    expanded=False,
+):
+
+    activities = st.session_state.activities
+
+    if not activities:
+
+        st.caption("No commands submitted.")
+
+    else:
+
+        for activity in activities[:20]:
+
+            st.write(
+                f"**{activity['timestamp']}** — "
+                f"{activity['description']} "
+                f"({activity['status']})"
+            )
+
+            if activity["error"]:
+
+                st.error(
+                    activity["error"]
+                )
+
+
+# ============================================================
 # FOOTER
+# ============================================================
 
 st.divider()
 
