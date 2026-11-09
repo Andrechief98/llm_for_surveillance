@@ -27,7 +27,7 @@ HUMAN_DIR="$SCRIPT_DIR/../../human_supervisory_interface/src"
 LLM_SCRIPT="llm_ros_interface.py"
 
 # - for HUMAN
-HUMAN_SCRIPT="supervisory_ros_interface2.py"
+HUMAN_SCRIPT="supervisory_ros_interface.py"
 
 # Verify that the application directories exist.
 if [[ ! -d "$CHAINLIT_DIR" ]]; then
@@ -394,13 +394,22 @@ for record in "${randomized_sequences[@]}"; do
     
     sleep 2
 
-    CHAINLIT_PID_FILE="/tmp/chainlit_${USER}_$$.pid"
-    CHROME_PID_FILE="/tmp/chrome_${USER}_$$.pid"
+    # PID FILES
+    EXPERIMENT_PID_DIR="$HOME/experiment_pids"
+
+    mkdir -p "$EXPERIMENT_PID_DIR"
+
+    CHAINLIT_PID_FILE="$EXPERIMENT_PID_DIR/chainlit.pid"
+    CHROME_PID_FILE="$EXPERIMENT_PID_DIR/chrome.pid"
+    PYTHON_PID_FILE="$EXPERIMENT_PID_DIR/python.pid"
+    TERMINAL_PID_FILE="$EXPERIMENT_PID_DIR/terminal.pid"
 
 
     # --- START CHAINLIT/STREAMLIT & CHROME ---
 
-    gnome-terminal --title="$modality Interface" -- bash -c "
+    gnome-terminal --wait --title="$modality Interface" -- bash -c "
+        echo \$\$ > '$TERMINAL_PID_FILE'
+
         cd '$PYTHON_DIR' || exit 1
 
         if [[ '$USE_CHAINLIT' == 'true' ]]; then
@@ -468,7 +477,7 @@ for record in "${randomized_sequences[@]}"; do
             rosservice call /activateSensor "data: '$stringa'"
         fi
 
-         if [[ "$modality" == "HITL" || "$modality" == "AUTO" ]]; then
+        if [[ "$modality" == "HITL" || "$modality" == "AUTO" ]]; then
             # Wait untile the LLM finishes to generate the response (or wait 60 seconds)
             echo "Waiting response generation completion ..."
 
@@ -575,6 +584,24 @@ for record in "${randomized_sequences[@]}"; do
         fi
         rm -f "$CHAINLIT_PID_FILE"
     fi
+
+    # --- GNOME TERMINAL ---
+
+    echo "Shutting down interface terminal..."
+
+    if [[ -f "$TERMINAL_PID_FILE" ]]; then
+
+        TERMINAL_PID=$(cat "$TERMINAL_PID_FILE")
+
+        if kill -0 "$TERMINAL_PID" 2>/dev/null; then
+            kill -TERM "$TERMINAL_PID" 2>/dev/null
+        fi
+
+        rm -f "$TERMINAL_PID_FILE"
+    fi
+
+    # Remove PID directory
+    rm -rf "$EXPERIMENT_PID_DIR"
 
     # RESET SENSORS
 

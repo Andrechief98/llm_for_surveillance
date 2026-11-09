@@ -5,8 +5,8 @@ import re
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-input_file = os.path.join(BASE_DIR, "prova.json")
-output_file = os.path.join(BASE_DIR, "prova_clear_output.json")
+input_file = os.path.join(BASE_DIR, "copy_HITL_data.json")
+output_file = os.path.join(BASE_DIR, "cleared_conversations.json")
 
 # Chiavi che determinano l'eliminazione dell'intero dizionario
 keys_to_remove = {
@@ -17,7 +17,7 @@ keys_to_remove = {
 
 # Function call da mantenere
 allowed_function_calls = {
-    "send_robots_to_areas",
+    "send_robots_to_area",
     "get_camera_feed"
 }
 

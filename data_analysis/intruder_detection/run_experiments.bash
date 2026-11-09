@@ -4,7 +4,7 @@
 world_id="2"
 trial_id="2"
 
-modality="HITL"
+modality="HUMAN"
 teleport_robots="true"
 print_rag_search="false"
 llm_model="gpt-6-luna"
@@ -468,28 +468,32 @@ for record in "${randomized_sequences[@]}"; do
             rosservice call /activateSensor "data: '$stringa'"
         fi
 
-        # Wait untile the LLM finishes to generate the response (or wait 60 seconds)
-        echo "Waiting response generation completion ..."
+        if [[ "$modality" == "HITL" || "$modality" == "AUTO" ]]; then
+            # Wait untile the LLM finishes to generate the response (or wait 60 seconds)
+            echo "Waiting response generation completion ..."
 
-        timeout_seconds=180
-        elapsed=0
-        while true; do
-            done_status=$(rosparam get /chainlit_done 2>/dev/null || echo "false")
+            timeout_seconds=180
+            elapsed=0
+            while true; do
+                done_status=$(rosparam get /chainlit_done 2>/dev/null || echo "false")
 
-            if [[ "$done_status" == "true" ]]; then
-                echo "Generation completed."
-                break
-            fi
+                if [[ "$done_status" == "true" ]]; then
+                    echo "Generation completed."
+                    break
+                fi
 
-            if (( elapsed >= timeout_seconds )); then
-                echo "ERRORE: reached Chainlit timeout."
-                rosparam set /valid_run false
-                break
-            fi
+                if (( elapsed >= timeout_seconds )); then
+                    echo "ERRORE: reached Chainlit timeout."
+                    rosparam set /valid_run false
+                    break
+                fi
 
-            sleep 1
-            elapsed=$((elapsed + 1))
-        done
+                sleep 1
+                elapsed=$((elapsed + 1))
+            done
+        else
+            echo "HUMAN modality"
+        fi
         
     done
 
