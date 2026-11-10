@@ -3,30 +3,33 @@ import json
 import os
 import re
 
+# It eliminates the useless keys in the HITL conversations to simplify the subsequent manual extraction of the inspection matrices
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-input_file = os.path.join(BASE_DIR, "copy_HITL_data.json")
-output_file = os.path.join(BASE_DIR, "cleared_conversations.json")
+input_file = os.path.join(BASE_DIR, "../raw_data/experiments_HITL.json")
+output_file = os.path.join(BASE_DIR, "experiments_HITL_cleared.json")
 
-# Chiavi che determinano l'eliminazione dell'intero dizionario
+# Keys that determine deletion of the entire dictionary
 keys_to_remove = {
     "reasoning",
     "file_search_call",
     "ROS_output"
 }
 
-# Function call da mantenere
-allowed_function_calls = {
-    "send_robots_to_area",
-    "get_camera_feed"
-}
-
-# Chiavi da eliminare a livello del dizionario che contiene conversation
+# Keys to delete in "conversation"
 keys_to_delete = {
     "semantic_RAG",
     "function_RAG",
     "image_info"
 }
+
+# Function call to keep
+allowed_function_calls = {
+    "send_robots_to_area",
+    "get_camera_feed"
+}
+
 
 
 def clean_data_orchestrator(text):
@@ -146,9 +149,6 @@ def clean_conversation(data):
     return data
 
 
-# Serializzazione personalizzata:
-# ogni dizionario contenuto in conversation
-# viene scritto su una singola riga.
 
 def format_json(data, indent=4, level=0, parent_key=None):
 
@@ -251,22 +251,19 @@ def keep_last_data_orchestrator(data):
     return data
 
 
+if __name__ == "__main__":
 
-# Lettura JSON
-with open(input_file, "r", encoding="utf-8") as f:
-    data = json.load(f)
+    # Reading input JSON file
+    with open(input_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-# Mantiene soltanto l'ultimo data_orchestrator per ogni run
-data = keep_last_data_orchestrator(data)
+    data = keep_last_data_orchestrator(data)
+    data = clean_conversation(data)
 
-# Pulizia generale
-data = clean_conversation(data)
+    formatted_json = format_json(data)
 
-# Formattazione personalizzata
-formatted_json = format_json(data)
+    # Saving the result in the output file
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(formatted_json)
 
-# Salvataggio
-with open(output_file, "w", encoding="utf-8") as f:
-    f.write(formatted_json)
-
-print(f"File pulito salvato in: {output_file}")
+    print(f"File saved in: {output_file}")

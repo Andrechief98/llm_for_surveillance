@@ -22,8 +22,8 @@ WORLD_IMAGES = {
     "world_2": IMAGES_PATH / "building_plan_map2.png",
 }
 
-DATASET_FILE = Path("cleared_conversations.json")
-ANNOTATIONS_FILE = Path("plan_annotations.json")
+DATASET_FILE = Path("experiments_HITL_cleared.json")
+ANNOTATIONS_FILE = Path("raw_inspection_matrices.json")
 
 RAG_MAP_FILES = {
     "world_1": SCRIPT_DIR / "../../../llm_interface/config/RAG/RAG_map1.json",

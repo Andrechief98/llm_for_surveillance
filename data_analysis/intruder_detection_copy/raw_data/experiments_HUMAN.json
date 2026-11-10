@@ -1,0 +1,56 @@
+{
+    "deterministic": {
+        "HUMAN": {
+            "world_1": {
+                "trial_1": {
+                },
+                "trial_2": {}
+            },
+            "world_2": {
+                "trial_1": {},
+                "trial_2": {}
+            }
+        }
+    },
+    "uncertain": {
+        "HUMAN": {
+            "world_1": {
+                "trial_1": {},
+                "trial_2": {}
+            },
+            "world_2": {
+                "trial_1": {},
+                "trial_2": {
+                    "run_1": {
+                        "sensor_sequence": [
+                            "Camera_4",
+                            "Lidar_13",
+                            "Lidar_12"
+                        ],
+                        "actions": [
+                            {
+                                "deploy": {
+                                    "turtlebot3_1": "R",
+                                    "turtlebot3_2": "P"
+                                },
+                                "cameras": {
+                                    "camera_4": "open"
+                                },
+                                "doors": {}
+                            },
+                            {
+                                "deploy": {},
+                                "cameras": {
+                                    "camera_4": "open"
+                                },
+                                "doors": {}
+                            }
+                        ],
+                        "intruder_final_area": "Q",
+                        "success": 1
+                    }
+                }
+            }
+        }
+    }
+}

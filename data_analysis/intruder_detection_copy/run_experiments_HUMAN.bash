@@ -1,0 +1,637 @@
+#!/bin/bash
+
+# PARAMETERS
+world_id="1"
+trial_id="1"
+
+modality="HUMAN"
+teleport_robots="true"
+print_rag_search="false"
+llm_model="gpt-6-luna"
+
+robot_list=(
+    "turtlebot3_1"
+    "turtlebot3_2"
+)
+
+SENSOR_PARAM="sensor_sequence"
+
+# PATHS
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+CHAINLIT_DIR="$SCRIPT_DIR/../../llm_interface/src"
+HUMAN_DIR="$SCRIPT_DIR/../../human_supervisory_interface/src"
+
+# PYTHON SCRIPTS
+# - for HITL e AUTO
+LLM_SCRIPT="llm_ros_interface.py"
+
+# - for HUMAN
+HUMAN_SCRIPT="supervisory_ros_interface.py"
+
+# Verify that the application directories exist.
+if [[ ! -d "$CHAINLIT_DIR" ]]; then
+    echo "ERROR: Chainlit directory not found: $CHAINLIT_DIR"
+    exit 1
+fi
+
+if [[ ! -d "$HUMAN_DIR" ]]; then
+    echo "ERROR: Human interface directory not found: $HUMAN_DIR"
+    exit 1
+fi
+
+case "$modality" in
+    HITL|AUTO)
+        PYTHON_DIR="$CHAINLIT_DIR"
+        PYTHON_SCRIPT="$LLM_SCRIPT"
+        USE_CHAINLIT=true
+        USE_CHROME=true
+        ;;
+
+    HUMAN)
+        PYTHON_DIR="$HUMAN_DIR"
+        PYTHON_SCRIPT="$HUMAN_SCRIPT"
+        USE_CHAINLIT=false
+        USE_CHROME=false
+        ;;
+
+    *)
+        echo "Error: modality not valid: $modality"
+        exit 1
+        ;;
+esac
+
+if [[ ! -f "$PYTHON_DIR/$PYTHON_SCRIPT" ]]; then
+    echo "Error: file not found: $PYTHON_DIR/$PYTHON_SCRIPT"
+    exit 1
+fi
+
+
+
+# SENSORS SEQUENCE FOR EACH WORLD AND MODALITY
+# Each configuration is identified by world ID.
+#
+# Record format:
+# experiment | sensor1,sensor2,...|target
+#
+# Multiple sensors are separated by commas.
+# The target represents the expected final intruder position.
+# RAND(A,B,C) indicates that the target must be randomly selected
+# from the specified set of possible positions.
+
+declare -A experiment_sequences
+
+# ==================================================
+# WORLD 1
+# ==================================================
+
+# Format: experiment type | sensor sequence | target area
+experiment_sequences["1"]=$(cat <<'EOF'
+# deterministic|Camera_1|B
+# deterministic|Lidar_3|C
+# deterministic|Lidar_6|G
+# deterministic|Lidar_2|A
+# deterministic|Camera_2|F
+
+deterministic|Lidar_5,Camera_2|F
+deterministic|Lidar_6,Lidar_1|A
+# deterministic|Lidar_5,Lidar_4|C
+# deterministic|Lidar_7,Lidar_6|E
+# deterministic|Camera_1,Lidar_6|G
+
+# deterministic|Lidar_3,Camera_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_5,Lidar_4|C
+# deterministic|Camera_2,Lidar_6,Lidar_7|G
+# deterministic|Lidar_6,Lidar_7,Lidar_8|I
+# deterministic|Lidar_8,Camera_2,Lidar_5|D
+
+# deterministic|Camera_2,Lidar_6,Lidar_7,Lidar_8|L
+# deterministic|Lidar_7,Lidar_6,Lidar_5,Lidar_4|C
+# deterministic|Lidar_5,Lidar_6,Lidar_1,Lidar_2|A
+# deterministic|Lidar_1,Lidar_8,Lidar_7,Lidar_6|E
+# deterministic|Camera_1,Lidar_3,Lidar_4,Lidar_5|D
+
+# TRIAL 1
+# uncertain|Camera_2|-
+# uncertain|Lidar_8|L
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|D
+# uncertain|Camera_1|C
+
+# uncertain|Camera_1,Lidar_3|E
+# uncertain|Lidar_1,Lidar_8|G
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Lidar_7,Lidar_8|A
+
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|I
+# uncertain|Lidar_2,Lidar_1,Lidar_8|E
+# uncertain|Camera_2,Lidar_2,Lidar_5|D
+
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|A
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|I
+# uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E     
+
+
+
+# TRIAL 2
+# uncertain|Camera_2|-
+# uncertain|Lidar_8|A
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|C
+# uncertain|Camera_1|E
+
+# uncertain|Camera_1,Lidar_3|C
+# uncertain|Lidar_1,Lidar_8|B
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Lidar_7,Lidar_8|E
+
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|F
+# uncertain|Lidar_2,Lidar_1,Lidar_8|G
+# uncertain|Camera_2,Lidar_2,Lidar_5|D
+
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|E
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|L
+# uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E     
+EOF
+)
+
+# Original sequences
+# uncertain|Camera_2|-
+# uncertain|Lidar_8|RAND(L,A,I)
+# uncertain|Lidar_1|-
+# uncertain|Lidar_5|RAND(F,C,D)
+# uncertain|Camera_1|RAND(B,C,E)
+
+# uncertain|Camera_1,Lidar_3|RAND(E,A,C)
+# uncertain|Lidar_1,Lidar_8|RAND(H,G,B)
+# uncertain|Lidar_3,Lidar_7|C
+# uncertain|Lidar_4,Lidar_1|E
+# uncertain|Lidar_7,Lidar_8|RAND(E,A,C)
+
+# uncertain|Camera_1,Lidar_6,Lidar_5|G
+# uncertain|Lidar_8,Lidar_1,Camera_2|A
+# uncertain|Lidar_4,Lidar_5,Lidar_6|RAND(B,I,F)
+# uncertain|Lidar_2,Lidar_1,Lidar_8|RAND(G,E,B)
+# uncertain|Camera_2,Lidar_2,Lidar_5|D
+
+# uncertain|Camera_1,Lidar_2,Lidar_1,Lidar_7|A
+# uncertain|Lidar_8,Lidar_1,Camera_1,Lidar_3|C
+# uncertain|Lidar_5,Lidar_4,Lidar_3,Camera_1|RAND(E,I,A)
+# uncertain|Lidar_3,Camera_1,Lidar_6,Lidar_7|RAND(L,E,I)
+# uncertain|Lidar_7,Lidar_8,Camera_2,Lidar_1|E      
+
+# ==================================================
+# WORLD 2
+# ==================================================
+
+experiment_sequences["2"]=$(cat <<'EOF'
+# deterministic|Camera_9|D
+# deterministic|Camera_2|E
+# deterministic|Lidar_7|L
+# deterministic|Lidar_11|S
+# deterministic|Lidar_2|T
+
+# deterministic|Camera_5,Lidar_1|A
+# deterministic|Lidar_2,Lidar_8|M
+# deterministic|Lidar_8,Lidar_14|V
+# deterministic|Lidar_13,Lidar_12|R
+# deterministic|Camera_7,Lidar_6|I
+
+# deterministic|Camera_10,Lidar_2,Lidar_8|M
+# deterministic|Lidar_1,Camera_10,Lidar_2|S
+# deterministic|Camera_6,Lidar_11,Lidar_12|P
+# deterministic|Lidar_5,Lidar_2,Lidar_1|F
+# deterministic|Lidar_10,Lidar_9,Lidar_12|R
+
+# deterministic|Camera_9,Camera_10,Lidar_1,Camera_5|F
+# deterministic|Lidar_3,Lidar_4,Lidar_5,Lidar_6|S
+# deterministic|Camera_6,Lidar_11,Lidar_2,Camera_10|A
+# deterministic|Lidar_11,Lidar_10,Lidar_8,Lidar_7|L
+# deterministic|Lidar_5,Lidar_4,Lidar_2,Lidar_3|G
+
+# TRIAL_1
+# uncertain|Camera_5|-
+# uncertain|Lidar_3|T
+# uncertain|Lidar_6|-
+# uncertain|Lidar_14|R
+# uncertain|Camera_9|C
+
+# uncertain|Lidar_4,Lidar_2|C
+# uncertain|Lidar_1,Camera_10|D
+# uncertain|Camera_10,Lidar_8|A
+# uncertain|Lidar_5,Camera_1|B
+# uncertain|Camera_6,Lidar_11|P
+
+# uncertain|Camera_6,Lidar_11,Lidar_4|R
+# uncertain|Lidar_14,Camera_2,Lidar_10|N
+# uncertain|Lidar_6,Lidar_8,Lidar_12|R
+# uncertain|Lidar_5,Lidar_2,Lidar_1|D
+# uncertain|Camera_4,Lidar_13,Lidar_12|R
+
+# uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
+# uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R
+# uncertain|Camera_4,Lidar_13,Lidar_2,Lidar_1|D
+# uncertain|Lidar_12,Lidar_10,Lidar_9,Lidar_8|L
+# uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
+
+# TRIAL_2
+# uncertain|Camera_5|-
+# uncertain|Lidar_3|A
+# uncertain|Lidar_6|-
+# uncertain|Lidar_14|Z
+# uncertain|Camera_9|E
+
+uncertain|Lidar_4,Lidar_2|B
+# uncertain|Lidar_1,Camera_10|C
+# uncertain|Camera_10,Lidar_8|A
+# uncertain|Lidar_5,Camera_1|B
+# uncertain|Camera_6,Lidar_11|S
+
+# uncertain|Camera_6,Lidar_11,Lidar_4|R
+# uncertain|Lidar_14,Camera_2,Lidar_10|N
+uncertain|Lidar_6,Lidar_8,Lidar_12|Z
+# uncertain|Lidar_5,Lidar_2,Lidar_1|E
+uncertain|Camera_4,Lidar_13,Lidar_12|Q
+
+# uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
+# uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R
+# uncertain|Camera_4,Lidar_13,Lidar_2,Lidar_1|E
+# uncertain|Lidar_12,Lidar_10,Lidar_9,Lidar_8|R
+# uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
+EOF
+)
+
+# Original sequences
+# uncertain|Camera_5|-
+# uncertain|Lidar_3|RAND(A,T,S)
+# uncertain|Lidar_6|-
+# uncertain|Lidar_14|RAND(Z,R,P)
+# uncertain|Camera_9|RAND(A,C,E)
+
+# uncertain|Lidar_4,Lidar_2|RAND(C,B,S)
+# uncertain|Lidar_1,Camera_10|RAND(E,D,C)
+# uncertain|Camera_10,Lidar_8|A
+# uncertain|Lidar_5,Camera_1|B
+# uncertain|Camera_6,Lidar_11|RAND(S,N,P)
+
+# uncertain|Camera_6,Lidar_11,Lidar_4|R
+# uncertain|Lidar_14,Camera_2,Lidar_10|N
+# uncertain|Lidar_6,Lidar_8,Lidar_12|RAND(R,T,Z)
+# uncertain|Lidar_5,Lidar_2,Lidar_1|RAND(D,E,C)
+# uncertain|Camera_4,Lidar_13,Lidar_12|RAND(Q,R,N)
+
+# uncertain|Camera_8,Camera_10,Lidar_2,Lidar_13|T
+# uncertain|Lidar_7,Lidar_2,Lidar_10,Lidar_11|R
+# uncertain|Camera_4,Lidar_13,Lidar_2,Lidar_1|RAND(C,E,D)
+# uncertain|Lidar_12,Lidar_10,Lidar_9,Lidar_8|RAND(T,L,R)
+# uncertain|Lidar_2,Camera_10,Lidar_1,Camera_2|E
+
+# SELECT WORLD AND SEQUENCE
+# Retrieve the configuration matching the experiment type and world ID.
+# Stop execution if the requested configuration does not exist.
+
+config_key="${world_id}"
+
+if [[ ! -v experiment_sequences["$config_key"] ]]; then
+    echo "Error: no sequence defined for:"
+    echo "  world_id=$world_id"
+    exit 1
+fi
+
+# Load all configured sequences into a Bash array.
+mapfile -t sequences < <(
+    printf '%s\n' "${experiment_sequences[$config_key]}" |
+    grep -vE '^[[:space:]]*#|^[[:space:]]*$'
+)
+
+# Randomize the order of the complete records.
+# Each record is shuffled as a whole, preserving the association
+# between its sensor list and its target.
+mapfile -t randomized_sequences < <(
+    printf '%s\n' "${sequences[@]}" | shuf
+)
+
+
+# START ROS ONCE
+
+echo "Launching ROS simulation..."
+
+roslaunch utilities demo_multi_robot.launch \
+    world_id:="$world_id" \
+    modality:="$modality" \
+    teleport_robots:="$teleport_robots" \
+    print_rag_search:="$print_rag_search" \
+    trial_id:="$trial_id" \
+    llm_model:="$llm_model" &
+
+ROS_PID=$!
+
+# Wait 20 seconds for ROS
+sleep 20
+
+# EXECUTE THE RANDOMIZED SENSOR SEQUENCES
+# Each configured record is processed exactly once per trial.
+
+sequence_number=0
+
+# Setting ros param and corresponding flag to false in order to continue the experiment
+rosparam set /stop_experiment false
+stop_experiment=false
+
+for record in "${randomized_sequences[@]}"; do
+
+    # Skip empty records.
+    [[ -z "$record" ]] && continue
+
+    sequence_number=$((sequence_number + 1))
+
+    # Split the record into the sensor list and the target specification.
+    IFS='|' read -r experiment_type sensors_str target_spec <<< "$record"
+
+    # Convert the comma-separated sensor list into a Bash array.
+    IFS=',' read -r -a sensor_sequence <<< "$sensors_str"
+
+    # Update ROS experiment type for the current run.
+    rosparam set /experiment_type "$experiment_type"
+
+    # RESOLVE THE TARGET POSITION
+    # If the target uses RAND(...), randomly select one of the
+    # available target positions.
+    # Otherwise, retain the predefined target.
+
+    if [[ "$target_spec" == RAND\(*\) ]]; then
+
+        # Extract the list of candidate targets from RAND(...).
+        choices="${target_spec#RAND(}"
+        choices="${choices%)}"
+
+        # Convert the candidate targets into a Bash array.
+        IFS=',' read -r -a target_options <<< "$choices"
+
+        # Select one candidate target at random.
+        target_spec="${target_options[RANDOM % ${#target_options[@]}]}"
+
+    fi
+
+    echo "========================================"
+    echo "World ID: $world_id"
+    echo "Trial ID: $trial_id"
+    echo "Sequence: $sequence_number"
+    echo "========================================"
+
+    # Update the ROS parameter with the current sensor sequence.
+    rosparam set "$SENSOR_PARAM" "$sensors_str"
+    
+    sleep 2
+
+    # PID FILES
+    EXPERIMENT_PID_DIR="$HOME/experiment_pids"
+
+    mkdir -p "$EXPERIMENT_PID_DIR"
+
+    CHAINLIT_PID_FILE="$EXPERIMENT_PID_DIR/chainlit.pid"
+    CHROME_PID_FILE="$EXPERIMENT_PID_DIR/chrome.pid"
+    PYTHON_PID_FILE="$EXPERIMENT_PID_DIR/python.pid"
+    TERMINAL_PID_FILE="$EXPERIMENT_PID_DIR/terminal.pid"
+
+
+    # --- START CHAINLIT/STREAMLIT & CHROME ---
+
+    gnome-terminal --wait --title="$modality Interface" -- bash -c "
+        echo \$\$ > '$TERMINAL_PID_FILE'
+
+        cd '$PYTHON_DIR' || exit 1
+
+        if [[ '$USE_CHAINLIT' == 'true' ]]; then
+            chainlit run '$PYTHON_SCRIPT' --headless &
+        else
+            streamlit run '$PYTHON_SCRIPT' &
+        fi
+
+        PYTHON_PID=\$!
+        echo \$PYTHON_PID > '$PYTHON_PID_FILE'
+
+        if [[ '$USE_CHROME' == 'true' ]]; then
+            sleep 2
+            google-chrome --new-window http://localhost:8000 &
+            CHROME_PID=\$!
+            echo \$CHROME_PID > '$CHROME_PID_FILE'
+        fi
+
+        wait \$PYTHON_PID
+    " &
+
+    # Wait 10 seconds for Chainlit/Streamlit
+    echo "Waiting for interface startup..."
+    sleep 10
+
+    # INTRUDER TELEPORT
+    if [[ "$target_spec" != "-" ]]; then
+        rosservice call /teleport_actor "data: '$target_spec'"
+
+        # Setting the intruder_final_area to be registred in the save run mechanism
+        rosparam set /intruder_final_area "$target_spec"
+    else
+        # It teleport the intruder out of the environment so that it cannot be detected in case of only false positive sensors
+        rosservice call /teleport_actor "data: 'out'"
+
+        # Setting the intruder_final_area as a false positive case
+        rosparam set /intruder_final_area "FP"
+    fi
+    
+    rosparam set /valid_run true
+    
+    # Reset authorization before starting the next sequence.
+    rosparam set /next_sequence false
+    
+    # ACTIVATE SENSORS / DEACTIVATE ROBOTS
+    for i in "${!sensor_sequence[@]}"; do
+
+        rosparam set /chainlit_done false
+
+        stringa="${sensor_sequence[$i]}"
+        found=false
+
+        for robot in "${robot_list[@]}"; do
+            if [[ "$stringa" == "$robot" ]]; then
+                found=true
+                break
+            fi
+        done
+
+        if [[ "$found" == true ]]; then
+            echo "$stringa deactivated"
+            rosservice call /deactivate_robot "data: '$stringa'"
+        else
+            echo "$stringa activated"
+            rosservice call /activateSensor "data: '$stringa'"
+        fi
+
+        if [[ "$modality" == "HITL" || "$modality" == "AUTO" ]]; then
+            # Wait untile the LLM finishes to generate the response (or wait 60 seconds)
+            echo "Waiting response generation completion ..."
+
+            timeout_seconds=180
+            elapsed=0
+            while true; do
+                done_status=$(rosparam get /chainlit_done 2>/dev/null || echo "false")
+
+                if [[ "$done_status" == "true" ]]; then
+                    echo "Generation completed."
+                    break
+                fi
+
+                if (( elapsed >= timeout_seconds )); then
+                    echo "ERRORE: reached Chainlit timeout."
+                    rosparam set /valid_run false
+                    break
+                fi
+
+                sleep 1
+                elapsed=$((elapsed + 1))
+            done
+        else
+            echo "HUMAN modality"
+        fi
+            
+    done
+
+    # WAIT FOR HUMAN DECISION
+    echo "Waiting for human supervisor..."
+    echo "Set ros param /next_sequence=true to proceed to the next sequence."
+    echo "Set ros param /stop_experiment=true to terminate the experiment."
+
+    while true; do
+
+        # Check whether the entire experiment must stop.
+        stop_experiment_param=$(rosparam get /stop_experiment 2>/dev/null || echo "false")
+
+        if [[ "$stop_experiment_param" == "true" ]]; then
+            echo "Experiment termination requested."
+            stop_experiment=true
+            break
+        fi
+
+        # Check whether the human authorizes the next sequence.
+        next_sequence_param=$(rosparam get /next_sequence 2>/dev/null || echo "false")
+
+        if [[ "$next_sequence_param" == "true" ]]; then
+            echo "Next sequence authorized."
+            break
+        fi
+
+        # Poll ROS parameters every 2 seconds.
+        sleep 2
+    done
+
+
+    # --- CHROME ---
+    echo "Shutting down Chrome..."
+
+    if [[ -f "$CHROME_PID_FILE" ]]; then
+        CHROME_PID=$(cat "$CHROME_PID_FILE")
+
+        if kill -0 "$CHROME_PID" 2>/dev/null; then
+            # Tenta una chiusura soft (invia il segnale di chiusura alla finestra)
+            kill -TERM "$CHROME_PID" 2>/dev/null
+
+            # Attende che si chiuda (max 5 secondi)
+            for ((i=0; i<5; i++)); do
+                if ! kill -0 "$CHROME_PID" 2>/dev/null; then
+                    break
+                fi
+                sleep 1
+            done
+
+            # Forza la chiusura se la finestra è bloccata
+            if kill -0 "$CHROME_PID" 2>/dev/null; then
+                kill -KILL "$CHROME_PID" 2>/dev/null
+            fi
+        fi
+        rm -f "$CHROME_PID_FILE"
+    fi
+
+
+    # --- CHAINLIT ---
+    echo "Shutting down Chainlit..."
+
+    if [[ -f "$CHAINLIT_PID_FILE" ]]; then
+        CHAINLIT_PID=$(cat "$CHAINLIT_PID_FILE")
+
+        if kill -0 "$CHAINLIT_PID" 2>/dev/null; then
+            kill -TERM "$CHAINLIT_PID" 2>/dev/null
+
+            for ((i=0; i<10; i++)); do
+                if ! kill -0 "$CHAINLIT_PID" 2>/dev/null; then
+                    break
+                fi
+                sleep 1
+            done
+
+            if kill -0 "$CHAINLIT_PID" 2>/dev/null; then
+                kill -KILL "$CHAINLIT_PID" 2>/dev/null
+            fi
+        fi
+        rm -f "$CHAINLIT_PID_FILE"
+    fi
+
+    # --- GNOME TERMINAL ---
+
+    echo "Shutting down interface terminal..."
+
+    if [[ -f "$TERMINAL_PID_FILE" ]]; then
+
+        TERMINAL_PID=$(cat "$TERMINAL_PID_FILE")
+
+        if kill -0 "$TERMINAL_PID" 2>/dev/null; then
+            kill -TERM "$TERMINAL_PID" 2>/dev/null
+        fi
+
+        rm -f "$TERMINAL_PID_FILE"
+    fi
+
+    # Remove PID directory
+    rm -rf "$EXPERIMENT_PID_DIR"
+
+    # RESET SENSORS
+
+    echo "Sensors reset ..."
+    rosservice call /resetSensorActivation "{}"
+
+    # RESET ROBOT INITIAL POSITIONS
+    echo "Robot reset ..."
+    rosservice call /reset_robot_pose "{}"
+
+    # RESET DOORS 
+    echo "Doors reset ..."
+    rosservice call /reset_actuators "{}"
+
+    echo "Sequence $sequence_number completed."
+
+    if [[ "$stop_experiment" == true ]]; then
+        echo "Stopping experiment after cleanup."
+        break
+    fi
+
+    sleep 5
+
+done
+
+# CLOSE ROS
+
+if kill -0 "$ROS_PID" 2>/dev/null; then
+    kill -INT "$ROS_PID" 2>/dev/null
+    wait "$ROS_PID" 2>/dev/null
+fi
+
+echo "All sequences completed."
