@@ -144,7 +144,7 @@ for experiment_type, methods in data.items():
                                         for area in cameras.get(camera.lower(), []):
 
                                             if area in areas:
-                                                add_inspection(matrix, area, 0.5)
+                                                add_inspection(matrix, area, 1.0)
 
                                 # Robot deployment
                                 elif function_name == "send_robots_to_area":
@@ -154,7 +154,7 @@ for experiment_type, methods in data.items():
                                         area = robot.get("area_to_reach")
 
                                         if area in areas:
-                                            add_inspection(matrix, area, 1.0)
+                                            add_inspection(matrix, area, 10.0)
 
                         # Count distinct inspected areas
                         n_inspected = sum(

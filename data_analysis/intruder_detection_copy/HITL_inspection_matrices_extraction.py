@@ -32,10 +32,10 @@ with open(INPUT_FILE, "r", encoding="utf-8") as file:
 def inspection_value(value):
 
     if value.startswith("robot"):
-        return 1.0
+        return 10.0
 
     if value.lower().startswith("camera"):
-        return 0.5
+        return 1.0
 
     return 0.0
 

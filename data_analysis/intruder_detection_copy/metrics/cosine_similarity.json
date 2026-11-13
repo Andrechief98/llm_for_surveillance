@@ -1,0 +1,4190 @@
+{
+    "deterministic": {
+        "world_1": {
+            "trial_1": {
+                "Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0499,
+                        "HITL-ILP-B60": 0.0499,
+                        "HITL-ILP-B120": 0.0499,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0499,
+                        "HITL-ILP-B60": 0.0499,
+                        "HITL-ILP-B120": 0.0499,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.6325,
+                        "HITL-ILP-B60": 0.6325,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5019,
+                        "HITL-ILP-B30": 0.3884,
+                        "HITL-ILP-B60": 0.3884,
+                        "HITL-ILP-B120": 0.3884,
+                        "AUTO-ILP-B30": 0.774,
+                        "AUTO-ILP-B60": 0.774,
+                        "AUTO-ILP-B120": 0.774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7055,
+                        "HITL-ILP-B30": 0.5486,
+                        "HITL-ILP-B60": 0.5486,
+                        "HITL-ILP-B120": 0.5486,
+                        "AUTO-ILP-B30": 0.8321,
+                        "AUTO-ILP-B60": 0.8321,
+                        "AUTO-ILP-B120": 0.8321,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.995,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7036,
+                        "AUTO-ILP-B60": 0.7036,
+                        "AUTO-ILP-B120": 0.7036,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.3536,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4939,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.9877,
+                        "AUTO-ILP-B60": 0.9877,
+                        "AUTO-ILP-B120": 0.9877,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.4082,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.099,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.4201,
+                        "AUTO-ILP-B60": 0.4201,
+                        "AUTO-ILP-B120": 0.4201,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.9975,
+                        "HITL-ILP-B60": 0.9975,
+                        "HITL-ILP-B120": 0.9975,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.866,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.866,
+                        "AUTO-ILP-B30": 0.866,
+                        "AUTO-ILP-B60": 0.866,
+                        "AUTO-ILP-B120": 0.866,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7406,
+                        "HITL-ILP-B60": 0.7406,
+                        "HITL-ILP-B120": 0.7406,
+                        "AUTO-ILP-B30": 0.7406,
+                        "AUTO-ILP-B60": 0.7406,
+                        "AUTO-ILP-B120": 0.7406,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.866,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.866,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.7406,
+                        "HITL-ILP-B60": 0.7406,
+                        "HITL-ILP-B120": 0.7406,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Lidar_5, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2, Lidar_6, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.4988,
+                        "AUTO-ILP-B60": 0.4988,
+                        "AUTO-ILP-B120": 0.4988,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Camera_1, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7053,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5486,
+                        "AUTO-ILP-B60": 0.5486,
+                        "AUTO-ILP-B120": 0.5486,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Camera_2, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.6047,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.6047,
+                        "AUTO-ILP-B60": 0.6047,
+                        "AUTO-ILP-B120": 0.6047,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6, Lidar_7, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_6, Lidar_1, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.9975,
+                        "HITL-ILP-B60": 0.9975,
+                        "HITL-ILP-B120": 0.9975,
+                        "AUTO-ILP-B30": 0.9975,
+                        "AUTO-ILP-B60": 0.9975,
+                        "AUTO-ILP-B120": 0.9975,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_3, Lidar_4, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9454,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.3475,
+                        "AUTO-ILP-B60": 0.3475,
+                        "AUTO-ILP-B120": 0.3475,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Lidar_8, Lidar_7, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.866,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.3536,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.4975,
+                        "AUTO-ILP-B60": 0.4975,
+                        "AUTO-ILP-B120": 0.4975,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2, Lidar_6, Lidar_7, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_6, Lidar_5, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            },
+            "trial_2": {
+                "Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7054,
+                        "HITL-ILP-B30": 0.5486,
+                        "HITL-ILP-B60": 0.5486,
+                        "HITL-ILP-B120": 0.5486,
+                        "AUTO-ILP-B30": 0.7702,
+                        "AUTO-ILP-B60": 0.7702,
+                        "AUTO-ILP-B120": 0.7702,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7089,
+                        "HITL-ILP-B30": 0.5486,
+                        "HITL-ILP-B60": 0.5486,
+                        "HITL-ILP-B120": 0.5486,
+                        "AUTO-ILP-B30": 0.774,
+                        "AUTO-ILP-B60": 0.774,
+                        "AUTO-ILP-B120": 0.774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0499,
+                        "HITL-ILP-B60": 0.0499,
+                        "HITL-ILP-B120": 0.0499,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0499,
+                        "HITL-ILP-B60": 0.0499,
+                        "HITL-ILP-B120": 0.0499,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.866,
+                        "AUTO-ILP-B60": 0.866,
+                        "AUTO-ILP-B120": 0.866,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7089,
+                        "HITL-ILP-B30": 0.5473,
+                        "HITL-ILP-B60": 0.5473,
+                        "HITL-ILP-B120": 0.5473,
+                        "AUTO-ILP-B30": 0.7406,
+                        "AUTO-ILP-B60": 0.7406,
+                        "AUTO-ILP-B120": 0.7406,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 1.0,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 1.0,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.9975,
+                        "HITL-ILP-B60": 0.9975,
+                        "HITL-ILP-B120": 0.9975,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Camera_1, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5267,
+                        "HITL-ILP-B30": 0.5486,
+                        "HITL-ILP-B60": 0.5486,
+                        "HITL-ILP-B120": 0.5486,
+                        "AUTO-ILP-B30": 0.9989,
+                        "AUTO-ILP-B60": 0.9989,
+                        "AUTO-ILP-B120": 0.9989,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Camera_2, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5025,
+                        "HITL-ILP-B30": 0.6047,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.6047,
+                        "AUTO-ILP-B60": 0.6047,
+                        "AUTO-ILP-B120": 0.6047,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2, Lidar_6, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.4988,
+                        "AUTO-ILP-B60": 0.4988,
+                        "AUTO-ILP-B120": 0.4988,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Lidar_5, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6, Lidar_7, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2, Lidar_6, Lidar_7, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.4082,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4988,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7053,
+                        "AUTO-ILP-B60": 0.7053,
+                        "AUTO-ILP-B120": 0.7053,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_6, Lidar_5, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Lidar_8, Lidar_7, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_3, Lidar_4, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.5486,
+                        "AUTO-ILP-B60": 0.5486,
+                        "AUTO-ILP-B120": 0.5486,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_6, Lidar_1, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 1.0,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 1.0,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 0.9975,
+                        "AUTO-ILP-B60": 0.9975,
+                        "AUTO-ILP-B120": 0.9975,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "trial_1": {
+                "Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_11": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2887,
+                        "HITL-ILP-B120": 0.2887,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7089,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3527,
+                        "HITL-ILP-B120": 0.3527,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4975,
+                        "AUTO-ILP-B120": 0.4975,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9902,
+                        "HITL-ILP-B30": 0.5912,
+                        "HITL-ILP-B60": 0.5912,
+                        "HITL-ILP-B120": 0.5912,
+                        "AUTO-ILP-B30": 0.5473,
+                        "AUTO-ILP-B60": 0.5473,
+                        "AUTO-ILP-B120": 0.5473,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_9": {
+                    "binary": {
+                        "HITL-AUTO": 0.5,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_7, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0995,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5473,
+                        "HITL-ILP-B120": 0.5473,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_13, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2887,
+                        "HITL-ILP-B120": 0.2887,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.2887,
+                        "AUTO-ILP-B120": 0.2887,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3527,
+                        "HITL-ILP-B120": 0.3527,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3527,
+                        "AUTO-ILP-B120": 0.3527,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Lidar_14": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.995,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4975,
+                        "AUTO-ILP-B120": 0.4975,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.2887,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5025,
+                        "HITL-ILP-B30": 0.0353,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.3879,
+                        "AUTO-ILP-B60": 0.6047,
+                        "AUTO-ILP-B120": 0.6047,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_5, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_10, Lidar_2, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.2887,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.2236,
+                        "AUTO-ILP-B60": 0.5477,
+                        "AUTO-ILP-B120": 0.5477,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9951,
+                        "HITL-ILP-B30": 0.0353,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.0351,
+                        "AUTO-ILP-B60": 0.6017,
+                        "AUTO-ILP-B120": 0.6017,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_10, Lidar_9, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4714,
+                        "HITL-ILP-B120": 0.4714,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4714,
+                        "AUTO-ILP-B120": 0.4714,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3168,
+                        "HITL-ILP-B120": 0.3168,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3168,
+                        "AUTO-ILP-B120": 0.3168,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Camera_10, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.6838,
+                        "HITL-ILP-B30": 0.603,
+                        "HITL-ILP-B60": 0.7385,
+                        "HITL-ILP-B120": 0.8581,
+                        "AUTO-ILP-B30": 0.378,
+                        "AUTO-ILP-B60": 0.4629,
+                        "AUTO-ILP-B120": 0.7171,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8506,
+                        "HITL-ILP-B30": 0.0991,
+                        "HITL-ILP-B60": 0.3035,
+                        "HITL-ILP-B120": 0.5643,
+                        "AUTO-ILP-B30": 0.1122,
+                        "AUTO-ILP-B60": 0.3205,
+                        "AUTO-ILP-B120": 0.4965,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                },
+                "Lidar_5, Lidar_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0995,
+                        "HITL-ILP-B30": 0.6319,
+                        "HITL-ILP-B60": 0.6319,
+                        "HITL-ILP-B120": 0.6319,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_9, Camera_10, Lidar_1, Camera_5": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_4, Lidar_2, Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.6124,
+                        "HITL-ILP-B60": 0.6124,
+                        "HITL-ILP-B120": 0.6124,
+                        "AUTO-ILP-B30": 0.6124,
+                        "AUTO-ILP-B60": 0.6124,
+                        "AUTO-ILP-B120": 0.6124,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.6032,
+                        "HITL-ILP-B60": 0.6032,
+                        "HITL-ILP-B120": 0.6032,
+                        "AUTO-ILP-B30": 0.6032,
+                        "AUTO-ILP-B60": 0.6032,
+                        "AUTO-ILP-B120": 0.6032,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_11, Lidar_10, Lidar_8, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4714,
+                        "AUTO-ILP-B120": 0.4714,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5759,
+                        "AUTO-ILP-B120": 0.5759,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Lidar_4, Lidar_5, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.6547,
+                        "HITL-ILP-B30": 0.2357,
+                        "HITL-ILP-B60": 0.2357,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.6172,
+                        "AUTO-ILP-B60": 0.6172,
+                        "AUTO-ILP-B120": 0.8367,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7019,
+                        "HITL-ILP-B30": 0.288,
+                        "HITL-ILP-B60": 0.288,
+                        "HITL-ILP-B120": 0.4684,
+                        "AUTO-ILP-B30": 0.6436,
+                        "AUTO-ILP-B60": 0.6436,
+                        "AUTO-ILP-B120": 0.7167,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                },
+                "Camera_6, Lidar_11, Lidar_2, Camera_10": {
+                    "binary": {
+                        "HITL-AUTO": 0.378,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.5669,
+                        "AUTO-ILP-B60": 0.5669,
+                        "AUTO-ILP-B120": 0.5669,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0768,
+                        "HITL-ILP-B30": 0.4222,
+                        "HITL-ILP-B60": 0.4222,
+                        "HITL-ILP-B120": 0.4222,
+                        "AUTO-ILP-B30": 0.6547,
+                        "AUTO-ILP-B60": 0.6547,
+                        "AUTO-ILP-B120": 0.6547,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            },
+            "trial_2": {
+                "Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4714,
+                        "HITL-ILP-B120": 0.4714,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5759,
+                        "HITL-ILP-B120": 0.5759,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7089,
+                        "HITL-ILP-B30": 0.3879,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.5473,
+                        "AUTO-ILP-B60": 0.5473,
+                        "AUTO-ILP-B120": 0.5473,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_11": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2887,
+                        "HITL-ILP-B120": 0.2887,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7089,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3527,
+                        "HITL-ILP-B120": 0.3527,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4975,
+                        "AUTO-ILP-B120": 0.4975,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_9": {
+                    "binary": {
+                        "HITL-AUTO": 0.5,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_5, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_7, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0995,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5473,
+                        "HITL-ILP-B120": 0.5473,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_13, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2887,
+                        "HITL-ILP-B120": 0.2887,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.2887,
+                        "AUTO-ILP-B120": 0.2887,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3527,
+                        "HITL-ILP-B120": 0.3527,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3527,
+                        "AUTO-ILP-B120": 0.3527,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Lidar_14": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.2887,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5025,
+                        "HITL-ILP-B30": 0.0353,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.3879,
+                        "AUTO-ILP-B60": 0.6047,
+                        "AUTO-ILP-B120": 0.6047,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Camera_10, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.5547,
+                        "HITL-ILP-B30": 0.5547,
+                        "HITL-ILP-B60": 0.6794,
+                        "HITL-ILP-B120": 0.8771,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.6124,
+                        "AUTO-ILP-B120": 0.4743,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6306,
+                        "HITL-ILP-B30": 0.0887,
+                        "HITL-ILP-B60": 0.2717,
+                        "HITL-ILP-B120": 0.5191,
+                        "AUTO-ILP-B30": 0.0704,
+                        "AUTO-ILP-B60": 0.3447,
+                        "AUTO-ILP-B120": 0.267,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                },
+                "Lidar_5, Lidar_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0995,
+                        "HITL-ILP-B30": 0.6319,
+                        "HITL-ILP-B60": 0.6319,
+                        "HITL-ILP-B120": 0.6319,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4714,
+                        "HITL-ILP-B120": 0.4714,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4714,
+                        "AUTO-ILP-B120": 0.4714,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3168,
+                        "HITL-ILP-B120": 0.3168,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3168,
+                        "AUTO-ILP-B120": 0.3168,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_10, Lidar_9, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_10, Lidar_2, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.2887,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0353,
+                        "AUTO-ILP-B60": 0.6047,
+                        "AUTO-ILP-B120": 0.6047,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_9, Camera_10, Lidar_1, Camera_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.866,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.866,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11, Lidar_2, Camera_10": {
+                    "binary": {
+                        "HITL-AUTO": 0.3536,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.3536,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.3536,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.3536,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_4, Lidar_2, Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 0.8944,
+                        "HITL-ILP-B30": 0.7303,
+                        "HITL-ILP-B60": 0.7303,
+                        "HITL-ILP-B120": 0.7303,
+                        "AUTO-ILP-B30": 0.6124,
+                        "AUTO-ILP-B60": 0.6124,
+                        "AUTO-ILP-B120": 0.6124,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.6304,
+                        "HITL-ILP-B60": 0.6304,
+                        "HITL-ILP-B120": 0.6304,
+                        "AUTO-ILP-B30": 0.6032,
+                        "AUTO-ILP-B60": 0.6032,
+                        "AUTO-ILP-B120": 0.6032,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_11, Lidar_10, Lidar_8, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4714,
+                        "HITL-ILP-B120": 0.4714,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4714,
+                        "AUTO-ILP-B120": 0.4714,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9485,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5759,
+                        "HITL-ILP-B120": 0.5759,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5472,
+                        "AUTO-ILP-B120": 0.5472,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Lidar_4, Lidar_5, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.6547,
+                        "HITL-ILP-B30": 0.2357,
+                        "HITL-ILP-B60": 0.2357,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.6172,
+                        "AUTO-ILP-B60": 0.6172,
+                        "AUTO-ILP-B120": 0.8367,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.288,
+                        "HITL-ILP-B60": 0.288,
+                        "HITL-ILP-B120": 0.4684,
+                        "AUTO-ILP-B30": 0.6281,
+                        "AUTO-ILP-B60": 0.6281,
+                        "AUTO-ILP-B120": 0.6905,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                }
+            }
+        }
+    },
+    "uncertain": {
+        "world_1": {
+            "trial_1": {
+                "Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.6667,
+                        "HITL-ILP-B60": 0.7217,
+                        "HITL-ILP-B120": 0.7746,
+                        "AUTO-ILP-B30": 0.7746,
+                        "AUTO-ILP-B60": 0.8944,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7904,
+                        "HITL-ILP-B30": 0.5654,
+                        "HITL-ILP-B60": 0.6476,
+                        "HITL-ILP-B120": 0.7205,
+                        "AUTO-ILP-B30": 0.7352,
+                        "AUTO-ILP-B60": 0.8864,
+                        "AUTO-ILP-B120": 0.9156,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.9975,
+                        "HITL-ILP-B60": 0.9975,
+                        "HITL-ILP-B120": 0.9975,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4259,
+                        "HITL-ILP-B30": 0.3879,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.5931,
+                        "AUTO-ILP-B60": 0.5931,
+                        "AUTO-ILP-B120": 0.5931,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.5303,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.7746,
+                        "AUTO-ILP-B60": 0.8944,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5878,
+                        "HITL-ILP-B30": 0.2588,
+                        "HITL-ILP-B60": 0.4279,
+                        "HITL-ILP-B120": 0.565,
+                        "AUTO-ILP-B30": 0.7229,
+                        "AUTO-ILP-B60": 0.8579,
+                        "AUTO-ILP-B120": 0.9747,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.6124,
+                        "HITL-ILP-B120": 0.6124,
+                        "AUTO-ILP-B30": 0.4714,
+                        "AUTO-ILP-B60": 0.6124,
+                        "AUTO-ILP-B120": 0.6124,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5025,
+                        "HITL-ILP-B30": 0.6047,
+                        "HITL-ILP-B60": 0.5237,
+                        "HITL-ILP-B120": 0.5237,
+                        "AUTO-ILP-B30": 0.3671,
+                        "AUTO-ILP-B60": 0.5625,
+                        "AUTO-ILP-B120": 0.5625,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8333,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.866,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8333,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.866,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.866,
+                        "AUTO-ILP-B60": 0.866,
+                        "AUTO-ILP-B120": 0.866,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7406,
+                        "AUTO-ILP-B60": 0.7406,
+                        "AUTO-ILP-B120": 0.7406,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.5669,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.7559,
+                        "AUTO-ILP-B60": 0.7559,
+                        "AUTO-ILP-B120": 0.8367,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.6325
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6695,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.8926,
+                        "AUTO-ILP-B60": 0.8926,
+                        "AUTO-ILP-B120": 0.7339,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.6325
+                    }
+                },
+                "Lidar_4, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.865,
+                        "HITL-ILP-B30": 0.8151,
+                        "HITL-ILP-B60": 0.8151,
+                        "HITL-ILP-B120": 0.8151,
+                        "AUTO-ILP-B30": 0.7027,
+                        "AUTO-ILP-B60": 0.7027,
+                        "AUTO-ILP-B120": 0.7027,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2, Lidar_1, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.6708,
+                        "HITL-ILP-B30": 0.3536,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.3536,
+                        "AUTO-ILP-B30": 0.6325,
+                        "AUTO-ILP-B60": 0.6325,
+                        "AUTO-ILP-B120": 0.6325,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7463,
+                        "HITL-ILP-B30": 0.3536,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.3536,
+                        "AUTO-ILP-B30": 0.7036,
+                        "AUTO-ILP-B60": 0.7036,
+                        "AUTO-ILP-B120": 0.7036,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_4, Lidar_5, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.9428,
+                        "HITL-ILP-B120": 0.9428,
+                        "AUTO-ILP-B30": 0.8333,
+                        "AUTO-ILP-B60": 0.7217,
+                        "AUTO-ILP-B120": 0.7217,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7549,
+                        "HITL-ILP-B30": 0.7858,
+                        "HITL-ILP-B60": 0.9474,
+                        "HITL-ILP-B120": 0.9474,
+                        "AUTO-ILP-B30": 0.8489,
+                        "AUTO-ILP-B60": 0.7351,
+                        "AUTO-ILP-B120": 0.7351,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2, Lidar_2, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.75,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5074,
+                        "HITL-ILP-B30": 0.6319,
+                        "HITL-ILP-B60": 0.6319,
+                        "HITL-ILP-B120": 0.6319,
+                        "AUTO-ILP-B30": 0.6794,
+                        "AUTO-ILP-B60": 0.6794,
+                        "AUTO-ILP-B120": 0.6794,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_6, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8653,
+                        "HITL-ILP-B30": 0.7731,
+                        "HITL-ILP-B60": 0.7731,
+                        "HITL-ILP-B120": 0.7731,
+                        "AUTO-ILP-B30": 0.8934,
+                        "AUTO-ILP-B60": 0.8934,
+                        "AUTO-ILP-B120": 0.8934,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Lidar_1, Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.9129,
+                        "AUTO-ILP-B60": 0.9129,
+                        "AUTO-ILP-B120": 0.9129,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.708,
+                        "HITL-ILP-B30": 0.6047,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.8359,
+                        "AUTO-ILP-B60": 0.8359,
+                        "AUTO-ILP-B120": 0.8359,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Camera_1, Lidar_6, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.9129,
+                        "HITL-ILP-B30": 0.7303,
+                        "HITL-ILP-B60": 0.7906,
+                        "HITL-ILP-B120": 0.7906,
+                        "AUTO-ILP-B30": 0.6667,
+                        "AUTO-ILP-B60": 0.866,
+                        "AUTO-ILP-B120": 0.866,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9988,
+                        "HITL-ILP-B30": 0.632,
+                        "HITL-ILP-B60": 0.7239,
+                        "HITL-ILP-B120": 0.7239,
+                        "AUTO-ILP-B30": 0.6312,
+                        "AUTO-ILP-B60": 0.7406,
+                        "AUTO-ILP-B120": 0.7406,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_4, Lidar_3, Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.8,
+                        "HITL-ILP-B30": 0.8944,
+                        "HITL-ILP-B60": 0.9129,
+                        "HITL-ILP-B120": 0.9129,
+                        "AUTO-ILP-B30": 0.8944,
+                        "AUTO-ILP-B60": 0.7303,
+                        "AUTO-ILP-B120": 0.7303,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.721,
+                        "HITL-ILP-B30": 0.774,
+                        "HITL-ILP-B60": 0.8359,
+                        "HITL-ILP-B120": 0.8359,
+                        "AUTO-ILP-B30": 0.9917,
+                        "AUTO-ILP-B60": 0.8097,
+                        "AUTO-ILP-B120": 0.8097,
+                        "ILP-B30-ILP-B60": 0.8165,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Lidar_1, Camera_1, Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.3879,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.3879,
+                        "AUTO-ILP-B60": 0.3879,
+                        "AUTO-ILP-B120": 0.3879,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_8, Camera_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.866,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.3536,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9453,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.4623,
+                        "AUTO-ILP-B60": 0.4623,
+                        "AUTO-ILP-B120": 0.4623,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_2, Lidar_1, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.9129,
+                        "HITL-ILP-B30": 0.6325,
+                        "HITL-ILP-B60": 0.6325,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8942,
+                        "HITL-ILP-B30": 0.3884,
+                        "HITL-ILP-B60": 0.3884,
+                        "HITL-ILP-B120": 0.3884,
+                        "AUTO-ILP-B30": 0.378,
+                        "AUTO-ILP-B60": 0.378,
+                        "AUTO-ILP-B120": 0.378,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            },
+            "trial_2": {
+                "Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.6124,
+                        "HITL-ILP-B60": 0.5303,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.6804,
+                        "AUTO-ILP-B60": 0.825,
+                        "AUTO-ILP-B120": 0.9487,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7516,
+                        "HITL-ILP-B30": 0.6124,
+                        "HITL-ILP-B60": 0.5303,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.6444,
+                        "AUTO-ILP-B60": 0.8238,
+                        "AUTO-ILP-B120": 0.8795,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.2357,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.4714,
+                        "AUTO-ILP-B60": 0.6124,
+                        "AUTO-ILP-B120": 0.6124,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.437,
+                        "HITL-ILP-B30": 0.0288,
+                        "HITL-ILP-B60": 0.2743,
+                        "HITL-ILP-B120": 0.2743,
+                        "AUTO-ILP-B30": 0.4785,
+                        "AUTO-ILP-B60": 0.6117,
+                        "AUTO-ILP-B120": 0.6117,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.4714,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.825,
+                        "AUTO-ILP-B120": 0.9487,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5362,
+                        "HITL-ILP-B30": 0.3168,
+                        "HITL-ILP-B60": 0.2743,
+                        "HITL-ILP-B120": 0.4684,
+                        "AUTO-ILP-B30": 0.688,
+                        "AUTO-ILP-B60": 0.7282,
+                        "AUTO-ILP-B120": 0.8882,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.6124,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.6667,
+                        "AUTO-ILP-B60": 0.7217,
+                        "AUTO-ILP-B120": 0.7746,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7054,
+                        "HITL-ILP-B30": 0.6047,
+                        "HITL-ILP-B60": 0.5237,
+                        "HITL-ILP-B120": 0.4684,
+                        "AUTO-ILP-B30": 0.6468,
+                        "AUTO-ILP-B60": 0.7351,
+                        "AUTO-ILP-B120": 0.6888,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.6708,
+                        "HITL-ILP-B30": 0.6708,
+                        "HITL-ILP-B60": 0.6708,
+                        "HITL-ILP-B120": 0.6708,
+                        "AUTO-ILP-B30": 0.75,
+                        "AUTO-ILP-B60": 0.75,
+                        "AUTO-ILP-B120": 0.75,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7062,
+                        "HITL-ILP-B30": 0.7491,
+                        "HITL-ILP-B60": 0.7491,
+                        "HITL-ILP-B120": 0.7491,
+                        "AUTO-ILP-B30": 0.7388,
+                        "AUTO-ILP-B60": 0.7388,
+                        "AUTO-ILP-B120": 0.7388,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.866,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.866,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6347,
+                        "HITL-ILP-B30": 0.7406,
+                        "HITL-ILP-B60": 0.7406,
+                        "HITL-ILP-B120": 0.7406,
+                        "AUTO-ILP-B30": 0.7313,
+                        "AUTO-ILP-B60": 0.7313,
+                        "AUTO-ILP-B120": 0.7313,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7071,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5473,
+                        "HITL-ILP-B60": 0.5473,
+                        "HITL-ILP-B120": 0.5473,
+                        "AUTO-ILP-B30": 0.5473,
+                        "AUTO-ILP-B60": 0.5473,
+                        "AUTO-ILP-B120": 0.5473,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_4, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 1.0,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 1.0,
+                        "HITL-ILP-B60": 1.0,
+                        "HITL-ILP-B120": 1.0,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.7715,
+                        "HITL-ILP-B30": 0.9258,
+                        "HITL-ILP-B60": 0.9258,
+                        "HITL-ILP-B120": 0.9258,
+                        "AUTO-ILP-B30": 0.8333,
+                        "AUTO-ILP-B60": 0.8333,
+                        "AUTO-ILP-B120": 0.8333,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8158,
+                        "HITL-ILP-B30": 0.8493,
+                        "HITL-ILP-B60": 0.8493,
+                        "HITL-ILP-B120": 0.8493,
+                        "AUTO-ILP-B30": 0.8348,
+                        "AUTO-ILP-B60": 0.8348,
+                        "AUTO-ILP-B120": 0.8348,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.3536,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.8944,
+                        "AUTO-ILP-B60": 0.8944,
+                        "AUTO-ILP-B120": 0.9129,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 0.8165
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.3536,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.8944,
+                        "AUTO-ILP-B60": 0.8944,
+                        "AUTO-ILP-B120": 0.9129,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 0.8165
+                    }
+                },
+                "Lidar_2, Lidar_1, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.4714,
+                        "HITL-ILP-B30": 0.2887,
+                        "HITL-ILP-B60": 0.25,
+                        "HITL-ILP-B120": 0.4472,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.825,
+                        "AUTO-ILP-B120": 0.9487,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4722,
+                        "HITL-ILP-B30": 0.2887,
+                        "HITL-ILP-B60": 0.25,
+                        "HITL-ILP-B120": 0.4472,
+                        "AUTO-ILP-B30": 0.8724,
+                        "AUTO-ILP-B60": 0.8736,
+                        "AUTO-ILP-B120": 0.8975,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Camera_2, Lidar_2, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.75,
+                        "HITL-ILP-B30": 0.8165,
+                        "HITL-ILP-B60": 0.8165,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8165,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.505,
+                        "HITL-ILP-B30": 0.6319,
+                        "HITL-ILP-B60": 0.6319,
+                        "HITL-ILP-B120": 0.6319,
+                        "AUTO-ILP-B30": 0.6319,
+                        "AUTO-ILP-B60": 0.6319,
+                        "AUTO-ILP-B120": 0.6319,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_4, Lidar_5, Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.866,
+                        "HITL-ILP-B30": 0.4714,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.6124,
+                        "AUTO-ILP-B60": 0.5303,
+                        "AUTO-ILP-B120": 0.6325,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9975,
+                        "HITL-ILP-B30": 0.5759,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4684,
+                        "AUTO-ILP-B30": 0.6032,
+                        "AUTO-ILP-B60": 0.5224,
+                        "AUTO-ILP-B120": 0.4895,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Camera_1, Lidar_6, Lidar_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.6708,
+                        "HITL-ILP-B30": 0.6708,
+                        "HITL-ILP-B60": 0.6708,
+                        "HITL-ILP-B120": 0.6708,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8635,
+                        "HITL-ILP-B30": 0.7491,
+                        "HITL-ILP-B60": 0.7491,
+                        "HITL-ILP-B120": 0.7491,
+                        "AUTO-ILP-B30": 0.8934,
+                        "AUTO-ILP-B60": 0.8934,
+                        "AUTO-ILP-B120": 0.8934,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Lidar_1, Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.9129,
+                        "AUTO-ILP-B60": 0.9129,
+                        "AUTO-ILP-B120": 0.9129,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.708,
+                        "HITL-ILP-B30": 0.6047,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.8359,
+                        "AUTO-ILP-B60": 0.8359,
+                        "AUTO-ILP-B120": 0.8359,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_8, Lidar_1, Camera_1, Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.3879,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.3879,
+                        "AUTO-ILP-B60": 0.3879,
+                        "AUTO-ILP-B120": 0.3879,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_8, Camera_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.4988,
+                        "AUTO-ILP-B60": 0.4988,
+                        "AUTO-ILP-B120": 0.4988,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_1, Lidar_2, Lidar_1, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6318,
+                        "HITL-ILP-B30": 0.5,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.3475,
+                        "AUTO-ILP-B60": 0.3475,
+                        "AUTO-ILP-B120": 0.3475,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_3, Camera_1, Lidar_6, Lidar_7": {
+                    "binary": {
+                        "HITL-AUTO": 0.7906,
+                        "HITL-ILP-B30": 0.5477,
+                        "HITL-ILP-B60": 0.6325,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.7217,
+                        "AUTO-ILP-B60": 0.875,
+                        "AUTO-ILP-B120": 0.8944,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8162,
+                        "HITL-ILP-B30": 0.4281,
+                        "HITL-ILP-B60": 0.5473,
+                        "HITL-ILP-B120": 0.6475,
+                        "AUTO-ILP-B30": 0.6822,
+                        "AUTO-ILP-B60": 0.7493,
+                        "AUTO-ILP-B120": 0.7991,
+                        "ILP-B30-ILP-B60": 0.866,
+                        "ILP-B30-ILP-B120": 0.7746,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_5, Lidar_4, Lidar_3, Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.75,
+                        "HITL-ILP-B30": 0.75,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.75,
+                        "AUTO-ILP-B30": 1.0,
+                        "AUTO-ILP-B60": 1.0,
+                        "AUTO-ILP-B120": 1.0,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6678,
+                        "HITL-ILP-B30": 0.6052,
+                        "HITL-ILP-B60": 0.6052,
+                        "HITL-ILP-B120": 0.6052,
+                        "AUTO-ILP-B30": 0.9177,
+                        "AUTO-ILP-B60": 0.9177,
+                        "AUTO-ILP-B120": 0.9177,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "trial_1": {
+                "Lidar_14": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.3536,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.3536,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3536,
+                        "AUTO-ILP-B120": 0.3536,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.488,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3651,
+                        "HITL-ILP-B120": 0.4243,
+                        "AUTO-ILP-B30": 0.3086,
+                        "AUTO-ILP-B60": 0.5345,
+                        "AUTO-ILP-B120": 0.6901,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5719,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2243,
+                        "HITL-ILP-B120": 0.3316,
+                        "AUTO-ILP-B30": 0.0393,
+                        "AUTO-ILP-B60": 0.3291,
+                        "AUTO-ILP-B120": 0.5538,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                },
+                "Camera_9": {
+                    "binary": {
+                        "HITL-AUTO": 0.8944,
+                        "HITL-ILP-B30": 0.7071,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.6325,
+                        "AUTO-ILP-B60": 0.6325,
+                        "AUTO-ILP-B120": 0.6325,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6871,
+                        "HITL-ILP-B30": 0.0905,
+                        "HITL-ILP-B60": 0.0905,
+                        "HITL-ILP-B120": 0.0905,
+                        "AUTO-ILP-B30": 0.6325,
+                        "AUTO-ILP-B60": 0.6325,
+                        "AUTO-ILP-B120": 0.6325,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.378,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.3086,
+                        "AUTO-ILP-B60": 0.4364,
+                        "AUTO-ILP-B120": 0.6901,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.6325
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.3603,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.866,
+                        "HITL-ILP-B120": 0.5477,
+                        "AUTO-ILP-B30": 0.0384,
+                        "AUTO-ILP-B60": 0.3256,
+                        "AUTO-ILP-B120": 0.4891,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.6325
+                    }
+                },
+                "Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.995,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.7053,
+                        "HITL-ILP-B120": 0.7053,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.7053,
+                        "AUTO-ILP-B120": 0.7053,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11": {
+                    "binary": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3651,
+                        "HITL-ILP-B120": 0.4243,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.2887,
+                        "AUTO-ILP-B120": 0.4472,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5683,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2243,
+                        "HITL-ILP-B120": 0.3316,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.1993,
+                        "AUTO-ILP-B120": 0.3919,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                },
+                "Lidar_1, Camera_10": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.6667,
+                        "HITL-ILP-B60": 0.6667,
+                        "HITL-ILP-B120": 0.8165,
+                        "AUTO-ILP-B30": 0.8165,
+                        "AUTO-ILP-B60": 0.8165,
+                        "AUTO-ILP-B120": 0.8333,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 0.8165
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.1152,
+                        "HITL-ILP-B30": 0.139,
+                        "HITL-ILP-B60": 0.139,
+                        "HITL-ILP-B120": 0.4256,
+                        "AUTO-ILP-B30": 0.7651,
+                        "AUTO-ILP-B60": 0.7651,
+                        "AUTO-ILP-B120": 0.6507,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.8165,
+                        "ILP-B60-ILP-B120": 0.8165
+                    }
+                },
+                "Camera_10, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_4, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.7217,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.1918,
+                        "HITL-ILP-B30": 0.5774,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0949,
+                        "AUTO-ILP-B60": 0.0949,
+                        "AUTO-ILP-B120": 0.0949,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.6124,
+                        "HITL-ILP-B60": 0.6124,
+                        "HITL-ILP-B120": 0.6124,
+                        "AUTO-ILP-B30": 0.7746,
+                        "AUTO-ILP-B60": 0.7746,
+                        "AUTO-ILP-B120": 0.7746,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.2051,
+                        "HITL-ILP-B30": 0.6124,
+                        "HITL-ILP-B60": 0.6124,
+                        "HITL-ILP-B120": 0.6124,
+                        "AUTO-ILP-B30": 0.7256,
+                        "AUTO-ILP-B60": 0.7256,
+                        "AUTO-ILP-B120": 0.7256,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_14, Camera_2, Lidar_10": {
+                    "binary": {
+                        "HITL-AUTO": 0.4082,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4988,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0499,
+                        "AUTO-ILP-B60": 0.6047,
+                        "AUTO-ILP-B120": 0.6047,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 0.7559,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5303,
+                        "HITL-ILP-B120": 0.4743,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5345,
+                        "AUTO-ILP-B120": 0.4781,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8152,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2985,
+                        "HITL-ILP-B120": 0.267,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4819,
+                        "AUTO-ILP-B120": 0.4311,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Camera_4, Lidar_13, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3879,
+                        "AUTO-ILP-B120": 0.3879,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_6, Lidar_8, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 0.6667,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.6124,
+                        "AUTO-ILP-B120": 0.6124,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5025,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2743,
+                        "HITL-ILP-B120": 0.2743,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5237,
+                        "AUTO-ILP-B120": 0.5237,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_8, Camera_10, Lidar_2, Lidar_13": {
+                    "binary": {
+                        "HITL-AUTO": 0.6761,
+                        "HITL-ILP-B30": 0.5669,
+                        "HITL-ILP-B60": 0.5669,
+                        "HITL-ILP-B120": 0.5669,
+                        "AUTO-ILP-B30": 0.6708,
+                        "AUTO-ILP-B60": 0.6708,
+                        "AUTO-ILP-B120": 0.6708,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8131,
+                        "HITL-ILP-B30": 0.3441,
+                        "HITL-ILP-B60": 0.3441,
+                        "HITL-ILP-B120": 0.3441,
+                        "AUTO-ILP-B30": 0.4211,
+                        "AUTO-ILP-B60": 0.4211,
+                        "AUTO-ILP-B120": 0.4211,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_4, Lidar_13, Lidar_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.6325,
+                        "HITL-ILP-B30": 0.6667,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7379,
+                        "AUTO-ILP-B30": 0.6325,
+                        "AUTO-ILP-B60": 0.7826,
+                        "AUTO-ILP-B120": 0.7,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.3426,
+                        "HITL-ILP-B30": 0.1143,
+                        "HITL-ILP-B60": 0.4851,
+                        "HITL-ILP-B120": 0.6146,
+                        "AUTO-ILP-B30": 0.1141,
+                        "AUTO-ILP-B60": 0.5045,
+                        "AUTO-ILP-B120": 0.4512,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.6325,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_2, Camera_10, Lidar_1, Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.3162,
+                        "HITL-ILP-B60": 0.3162,
+                        "HITL-ILP-B120": 0.3162,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.1698,
+                        "HITL-ILP-B30": 0.0693,
+                        "HITL-ILP-B60": 0.0693,
+                        "HITL-ILP-B120": 0.0693,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_12, Lidar_10, Lidar_9, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.7385,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.6455,
+                        "HITL-ILP-B120": 0.6455,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.6674,
+                        "AUTO-ILP-B120": 0.6674,
+                        "ILP-B30-ILP-B60": 0.4472,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8156,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.6455,
+                        "HITL-ILP-B120": 0.6455,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.737,
+                        "AUTO-ILP-B120": 0.737,
+                        "ILP-B30-ILP-B60": 0.4472,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_2, Lidar_10, Lidar_11": {
+                    "binary": {
+                        "HITL-AUTO": 0.6124,
+                        "HITL-ILP-B30": 0.5303,
+                        "HITL-ILP-B60": 0.5303,
+                        "HITL-ILP-B120": 0.5303,
+                        "AUTO-ILP-B30": 0.866,
+                        "AUTO-ILP-B60": 0.866,
+                        "AUTO-ILP-B120": 0.866,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.5785,
+                        "HITL-ILP-B30": 0.4279,
+                        "HITL-ILP-B60": 0.4279,
+                        "HITL-ILP-B120": 0.4279,
+                        "AUTO-ILP-B30": 0.7554,
+                        "AUTO-ILP-B60": 0.7554,
+                        "AUTO-ILP-B120": 0.7554,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            },
+            "trial_2": {
+                "Lidar_6": {
+                    "binary": {
+                        "HITL-AUTO": 0.6761,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3651,
+                        "HITL-ILP-B120": 0.4243,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4629,
+                        "AUTO-ILP-B120": 0.7171,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.7746
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6632,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2243,
+                        "HITL-ILP-B120": 0.3316,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.417,
+                        "AUTO-ILP-B120": 0.6191,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.7746
+                    }
+                },
+                "Lidar_3": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4714,
+                        "HITL-ILP-B120": 0.6124,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5477,
+                        "AUTO-ILP-B120": 0.7906,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 0.866
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9951,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5759,
+                        "HITL-ILP-B120": 0.5237,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.6017,
+                        "AUTO-ILP-B120": 0.5707,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 0.866
+                    }
+                },
+                "Camera_5": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.3536,
+                        "HITL-ILP-B60": 0.75,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.9129,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.6325
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4761,
+                        "HITL-ILP-B30": 0.0697,
+                        "HITL-ILP-B60": 0.1478,
+                        "HITL-ILP-B120": 0.4051,
+                        "AUTO-ILP-B30": 0.0556,
+                        "AUTO-ILP-B60": 0.4714,
+                        "AUTO-ILP-B120": 0.7081,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.6325
+                    }
+                },
+                "Lidar_14": {
+                    "binary": {
+                        "HITL-AUTO": 0.7906,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3651,
+                        "HITL-ILP-B120": 0.4743,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.2887,
+                        "AUTO-ILP-B120": 0.375,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 0.866
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8162,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4077,
+                        "HITL-ILP-B120": 0.3708,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.3328,
+                        "AUTO-ILP-B120": 0.3026,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 0.866
+                    }
+                },
+                "Camera_9": {
+                    "binary": {
+                        "HITL-AUTO": 0.8,
+                        "HITL-ILP-B30": 0.6325,
+                        "HITL-ILP-B60": 0.6325,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.6325,
+                        "AUTO-ILP-B60": 0.6325,
+                        "AUTO-ILP-B120": 0.6325,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.56,
+                        "HITL-ILP-B30": 0.6325,
+                        "HITL-ILP-B60": 0.6325,
+                        "HITL-ILP-B120": 0.6325,
+                        "AUTO-ILP-B30": 0.1265,
+                        "AUTO-ILP-B60": 0.1265,
+                        "AUTO-ILP-B120": 0.1265,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_4, Lidar_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.8819,
+                        "HITL-ILP-B30": 0.7715,
+                        "HITL-ILP-B60": 0.7715,
+                        "HITL-ILP-B120": 0.6682,
+                        "AUTO-ILP-B30": 0.6804,
+                        "AUTO-ILP-B60": 0.6804,
+                        "AUTO-ILP-B120": 0.7071,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 0.866
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7155,
+                        "HITL-ILP-B30": 0.5551,
+                        "HITL-ILP-B60": 0.5551,
+                        "HITL-ILP-B120": 0.4808,
+                        "AUTO-ILP-B30": 0.4921,
+                        "AUTO-ILP-B60": 0.4921,
+                        "AUTO-ILP-B120": 0.4498,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 0.866,
+                        "ILP-B60-ILP-B120": 0.866
+                    }
+                },
+                "Lidar_5, Camera_1": {
+                    "binary": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 1.0,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5,
+                        "HITL-ILP-B120": 0.5,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4714,
+                        "HITL-ILP-B120": 0.4714,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7089,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3168,
+                        "HITL-ILP-B120": 0.3168,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.4468,
+                        "AUTO-ILP-B120": 0.4468,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_10, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_1, Camera_10": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.5774,
+                        "AUTO-ILP-B60": 0.5774,
+                        "AUTO-ILP-B120": 0.5774,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4576,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.0862,
+                        "AUTO-ILP-B60": 0.0862,
+                        "AUTO-ILP-B120": 0.0862,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_4, Lidar_13, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5774,
+                        "HITL-ILP-B120": 0.5774,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.0705,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.3879,
+                        "HITL-ILP-B120": 0.3879,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 0.7071,
+                        "ILP-B30-ILP-B120": 0.7071,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_6, Lidar_11, Lidar_4": {
+                    "binary": {
+                        "HITL-AUTO": 0.5774,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.3651,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.7071,
+                        "AUTO-ILP-B120": 0.6325,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.8944
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.4989,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.2743,
+                        "HITL-ILP-B120": 0.2454,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5883,
+                        "AUTO-ILP-B120": 0.5262,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 0.8944
+                    }
+                },
+                "Lidar_6, Lidar_8, Lidar_12": {
+                    "binary": {
+                        "HITL-AUTO": 0.6061,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5976,
+                        "HITL-ILP-B120": 0.5976,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5916,
+                        "AUTO-ILP-B120": 0.5916,
+                        "ILP-B30-ILP-B60": 0.4472,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.6737,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5289,
+                        "HITL-ILP-B120": 0.5289,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.5895,
+                        "AUTO-ILP-B120": 0.5895,
+                        "ILP-B30-ILP-B60": 0.4472,
+                        "ILP-B30-ILP-B120": 0.4472,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_14, Camera_2, Lidar_10": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.7071,
+                        "HITL-ILP-B120": 0.7071,
+                        "AUTO-ILP-B30": 0.3162,
+                        "AUTO-ILP-B60": 0.5477,
+                        "AUTO-ILP-B120": 0.5477,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.9951,
+                        "HITL-ILP-B30": 0.0499,
+                        "HITL-ILP-B60": 0.6047,
+                        "HITL-ILP-B120": 0.6047,
+                        "AUTO-ILP-B30": 0.0496,
+                        "AUTO-ILP-B60": 0.6017,
+                        "AUTO-ILP-B120": 0.6017,
+                        "ILP-B30-ILP-B60": 0.5774,
+                        "ILP-B30-ILP-B120": 0.5774,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_5, Lidar_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.5477,
+                        "HITL-ILP-B30": 0.4082,
+                        "HITL-ILP-B60": 0.4082,
+                        "HITL-ILP-B120": 0.4082,
+                        "AUTO-ILP-B30": 0.4472,
+                        "AUTO-ILP-B60": 0.4472,
+                        "AUTO-ILP-B120": 0.4472,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.102,
+                        "HITL-ILP-B30": 0.4988,
+                        "HITL-ILP-B60": 0.4988,
+                        "HITL-ILP-B120": 0.4988,
+                        "AUTO-ILP-B30": 0.0974,
+                        "AUTO-ILP-B60": 0.0974,
+                        "AUTO-ILP-B120": 0.0974,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_4, Lidar_13, Lidar_2, Lidar_1": {
+                    "binary": {
+                        "HITL-AUTO": 0.7071,
+                        "HITL-ILP-B30": 0.3536,
+                        "HITL-ILP-B60": 0.3536,
+                        "HITL-ILP-B120": 0.3536,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.739,
+                        "HITL-ILP-B30": 0.0697,
+                        "HITL-ILP-B60": 0.0697,
+                        "HITL-ILP-B120": 0.0697,
+                        "AUTO-ILP-B30": 0.0939,
+                        "AUTO-ILP-B60": 0.0939,
+                        "AUTO-ILP-B120": 0.0939,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_2, Camera_10, Lidar_1, Camera_2": {
+                    "binary": {
+                        "HITL-AUTO": 0.7746,
+                        "HITL-ILP-B30": 0.3162,
+                        "HITL-ILP-B60": 0.3162,
+                        "HITL-ILP-B120": 0.3162,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.1698,
+                        "HITL-ILP-B30": 0.0693,
+                        "HITL-ILP-B60": 0.0693,
+                        "HITL-ILP-B120": 0.0693,
+                        "AUTO-ILP-B30": 0.4082,
+                        "AUTO-ILP-B60": 0.4082,
+                        "AUTO-ILP-B120": 0.4082,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Camera_8, Camera_10, Lidar_2, Lidar_13": {
+                    "binary": {
+                        "HITL-AUTO": 0.5963,
+                        "HITL-ILP-B30": 0.6708,
+                        "HITL-ILP-B60": 0.6708,
+                        "HITL-ILP-B120": 0.6708,
+                        "AUTO-ILP-B30": 0.5,
+                        "AUTO-ILP-B60": 0.5,
+                        "AUTO-ILP-B120": 0.5,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.7055,
+                        "HITL-ILP-B30": 0.4211,
+                        "HITL-ILP-B60": 0.4211,
+                        "HITL-ILP-B120": 0.4211,
+                        "AUTO-ILP-B30": 0.2832,
+                        "AUTO-ILP-B60": 0.2832,
+                        "AUTO-ILP-B120": 0.2832,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_12, Lidar_10, Lidar_9, Lidar_8": {
+                    "binary": {
+                        "HITL-AUTO": 0.8165,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.5893,
+                        "HITL-ILP-B120": 0.5893,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.7217,
+                        "AUTO-ILP-B120": 0.7217,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.8655,
+                        "HITL-ILP-B30": 0.0,
+                        "HITL-ILP-B60": 0.6246,
+                        "HITL-ILP-B120": 0.6246,
+                        "AUTO-ILP-B30": 0.0,
+                        "AUTO-ILP-B60": 0.7217,
+                        "AUTO-ILP-B120": 0.7217,
+                        "ILP-B30-ILP-B60": 0.5,
+                        "ILP-B30-ILP-B120": 0.5,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                },
+                "Lidar_7, Lidar_2, Lidar_10, Lidar_11": {
+                    "binary": {
+                        "HITL-AUTO": 0.6761,
+                        "HITL-ILP-B30": 0.4743,
+                        "HITL-ILP-B60": 0.4743,
+                        "HITL-ILP-B120": 0.4743,
+                        "AUTO-ILP-B30": 0.8018,
+                        "AUTO-ILP-B60": 0.8018,
+                        "AUTO-ILP-B120": 0.8018,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    },
+                    "weighted": {
+                        "HITL-AUTO": 0.67,
+                        "HITL-ILP-B30": 0.3708,
+                        "HITL-ILP-B60": 0.3708,
+                        "HITL-ILP-B120": 0.3708,
+                        "AUTO-ILP-B30": 0.6888,
+                        "AUTO-ILP-B60": 0.6888,
+                        "AUTO-ILP-B120": 0.6888,
+                        "ILP-B30-ILP-B60": 1.0,
+                        "ILP-B30-ILP-B120": 1.0,
+                        "ILP-B60-ILP-B120": 1.0
+                    }
+                }
+            }
+        }
+    }
+}

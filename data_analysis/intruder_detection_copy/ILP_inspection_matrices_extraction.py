@@ -62,7 +62,7 @@ for experiment_type, methods in data.items():
                             for area in actions["deploy"].values():
 
                                 if area in areas:
-                                    matrix[str(turn)][area] = 1.0
+                                    matrix[str(turn)][area] = 10.0
 
                         n_inspected = sum(
                             any(
