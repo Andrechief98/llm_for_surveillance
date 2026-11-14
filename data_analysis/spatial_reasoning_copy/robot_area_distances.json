@@ -1,0 +1,130 @@
+{
+    "world_1": {
+        "A": {
+            "turtlebot3_1": 4.92,
+            "turtlebot3_2": 9.75
+        },
+        "B": {
+            "turtlebot3_1": 5.51,
+            "turtlebot3_2": 6.44
+        },
+        "C": {
+            "turtlebot3_1": 8.17,
+            "turtlebot3_2": 6.92
+        },
+        "D": {
+            "turtlebot3_1": 10.89,
+            "turtlebot3_2": 4.13
+        },
+        "E": {
+            "turtlebot3_1": 4.57,
+            "turtlebot3_2": 3.64
+        },
+        "F": {
+            "turtlebot3_1": 9.65,
+            "turtlebot3_2": 4.14
+        },
+        "G": {
+            "turtlebot3_1": 8.19,
+            "turtlebot3_2": 5.43
+        },
+        "H": {
+            "turtlebot3_1": 6.18,
+            "turtlebot3_2": 9.89
+        },
+        "I": {
+            "turtlebot3_1": 3.11,
+            "turtlebot3_2": 8.91
+        },
+        "L": {
+            "turtlebot3_1": 4.7,
+            "turtlebot3_2": 10.08
+        }
+    },
+    "world_2": {
+        "A": {
+            "turtlebot3_1": 11.01,
+            "turtlebot3_2": 8.15
+        },
+        "B": {
+            "turtlebot3_1": 22.18,
+            "turtlebot3_2": 13.44
+        },
+        "C": {
+            "turtlebot3_1": 17.8,
+            "turtlebot3_2": 0.34
+        },
+        "D": {
+            "turtlebot3_1": 13.32,
+            "turtlebot3_2": 13.57
+        },
+        "E": {
+            "turtlebot3_1": 1.07,
+            "turtlebot3_2": 17.89
+        },
+        "F": {
+            "turtlebot3_1": 13.34,
+            "turtlebot3_2": 21.35
+        },
+        "G": {
+            "turtlebot3_1": 13.73,
+            "turtlebot3_2": 17.59
+        },
+        "H": {
+            "turtlebot3_1": 18.07,
+            "turtlebot3_2": 21.9
+        },
+        "I": {
+            "turtlebot3_1": 23.09,
+            "turtlebot3_2": 26.91
+        },
+        "L": {
+            "turtlebot3_1": 30.89,
+            "turtlebot3_2": 34.71
+        },
+        "M": {
+            "turtlebot3_1": 30.45,
+            "turtlebot3_2": 34.14
+        },
+        "N": {
+            "turtlebot3_1": 32.83,
+            "turtlebot3_2": 36.56
+        },
+        "O": {
+            "turtlebot3_1": 34.75,
+            "turtlebot3_2": 38.46
+        },
+        "P": {
+            "turtlebot3_1": 34.16,
+            "turtlebot3_2": 37.87
+        },
+        "Q": {
+            "turtlebot3_1": 41.11,
+            "turtlebot3_2": 44.84
+        },
+        "R": {
+            "turtlebot3_1": 33.36,
+            "turtlebot3_2": 37.01
+        },
+        "S": {
+            "turtlebot3_1": 26.46,
+            "turtlebot3_2": 30.16
+        },
+        "T": {
+            "turtlebot3_1": 17.18,
+            "turtlebot3_2": 20.91
+        },
+        "U": {
+            "turtlebot3_1": 14.03,
+            "turtlebot3_2": 17.74
+        },
+        "V": {
+            "turtlebot3_1": 36.56,
+            "turtlebot3_2": 40.26
+        },
+        "Z": {
+            "turtlebot3_1": 27.06,
+            "turtlebot3_2": 30.76
+        }
+    }
+}

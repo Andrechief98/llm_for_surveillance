@@ -117,7 +117,7 @@ ERROR_LABELS = {
         "Unnecessary Camera Inspection",
 
     "unoptimal robot deployment":
-        "Suboptimal Robot Deployment Strategy",
+        "Inefficient Robot Deployment",
 
     # Function_Usage_Inefficiency
     "get_areas_info with useless areas":

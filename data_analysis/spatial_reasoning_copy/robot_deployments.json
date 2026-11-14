@@ -1,0 +1,3425 @@
+{
+    "rag_with_functions": {
+        "world_1": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_5": {
+                            "deployments": {
+                                "turtlebot3_1": "L"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "F",
+                                "turtlebot3_1": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "F",
+                                "turtlebot3_1": "G"
+                            }
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "H",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "T",
+                                "turtlebot3_1": "F"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "R"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "V",
+                                "turtlebot3_2": "R"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "S",
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "rag_with_semantics": {
+        "world_1": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "C",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "F"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "I",
+                                "turtlebot3_2": "L"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "V",
+                                "turtlebot3_1": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "R",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "T",
+                                "turtlebot3_1": "G"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "R"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "image": {
+        "world_1": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_5": {
+                            "deployments": {
+                                "turtlebot3_1": "L"
+                            }
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "I",
+                                "turtlebot3_2": "L"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "Q",
+                                "turtlebot3_2": "R"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "B"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "E"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "A"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "Z",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "R",
+                                "turtlebot3_2": "A"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "F"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "T"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "R"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "R",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "A"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "N"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "R"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "R"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "F",
+                                "turtlebot3_2": "A"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "image_and_rag_with_functions": {
+        "world_1": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "B"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "L"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_5": {
+                            "deployments": {
+                                "turtlebot3_1": "L"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "C",
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "D"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "C",
+                                "turtlebot3_1": "A"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "H",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "I",
+                                "turtlebot3_2": "L"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "H",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "I",
+                                "turtlebot3_2": "G"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "A"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "F"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "V",
+                                "turtlebot3_2": "R"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "V",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "G"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "R"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "S",
+                                "turtlebot3_1": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "S",
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "T"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "R"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "A"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "A",
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "R",
+                                "turtlebot3_1": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "image_and_rag_with_semantics": {
+        "world_1": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "C",
+                                "turtlebot3_1": "A"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "D",
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "C",
+                                "turtlebot3_1": "A"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "I",
+                                "turtlebot3_2": "G"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "D",
+                                "turtlebot3_1": "E"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "A",
+                                "turtlebot3_2": "C"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_2": "E"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "E"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "H"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_2": "G",
+                                "turtlebot3_1": "I"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "world_2": {
+            "gpt-4o": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "A"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "E",
+                                "turtlebot3_2": "C"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "A"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        },
+                        "turn_4": {
+                            "deployments": {}
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "A"
+                            }
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {}
+                        },
+                        "turn_3": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "F"
+                            }
+                        },
+                        "turn_5": {
+                            "deployments": {
+                                "turtlebot3_1": "N"
+                            }
+                        }
+                    }
+                }
+            },
+            "gpt-6-luna": {
+                "trial_1": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "R",
+                                "turtlebot3_2": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_2": "T",
+                                "turtlebot3_1": "G"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_2": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "R",
+                                "turtlebot3_2": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "Z",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "N"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                },
+                "trial_3": {
+                    "run_1": {
+                        "turn_1": {
+                            "deployments": {}
+                        }
+                    },
+                    "run_2": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "R",
+                                "turtlebot3_2": "V"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "S",
+                                "turtlebot3_2": "Z"
+                            }
+                        }
+                    },
+                    "run_3": {
+                        "turn_1": {
+                            "deployments": {}
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "G",
+                                "turtlebot3_2": "T"
+                            }
+                        }
+                    },
+                    "run_4": {
+                        "turn_1": {
+                            "deployments": {
+                                "turtlebot3_1": "N",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_2": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_3": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        },
+                        "turn_4": {
+                            "deployments": {
+                                "turtlebot3_1": "T",
+                                "turtlebot3_2": "S"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
