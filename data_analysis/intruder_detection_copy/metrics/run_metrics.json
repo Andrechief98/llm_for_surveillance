@@ -8143,10 +8143,10 @@
                         "intruder_final_area": "E",
                         "success_rate": 1.0,
                         "efficiency_human": 0.95,
-                        "normalized_hamming_distance": 0.75,
+                        "normalized_hamming_distance": 0.88,
                         "normalized_hamming_distance_per_turn": {
                             "1": 0.75,
-                            "2": 0.75
+                            "2": 1.0
                         }
                     },
                     "run_16": {

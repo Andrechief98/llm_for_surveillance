@@ -176,9 +176,13 @@ def normalized_hamming_distance(matrix_llm, matrix_human):
 
         for area in areas:
 
-            # Check if the considered area is active in both matrices
-            llm_active = llm.get(area, 0) != 0
-            human_active = human.get(area, 0) != 0
+            # Check if the considered area is active in both matrices (it doesn't consider the type of inspection)
+            # llm_active = llm.get(area, 0) != 0
+            # human_active = human.get(area, 0) != 0
+
+            # Check if the considered area is active in both matrices and the type of inspection is the same
+            llm_active = llm.get(area, 0) 
+            human_active = human.get(area, 0) 
 
             if llm_active != human_active:
                 # Increasing the distance

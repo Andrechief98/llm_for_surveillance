@@ -58,8 +58,205 @@ PLOT_WIDTH = 850
 
 
 
+# ============================================================
+# PDF CONFIGURATION
+# ============================================================
+
+PDF_CONFIG = {
+
+    "metrics": {
+        "width": 550,
+        "height": 300,
+        "scale": 2,
+
+        "xaxis_min": None,
+        "xaxis_max": None,
+        "yaxis_min": 0,
+        "yaxis_max": 1.05,
+
+        "figure_border": True,
+        "axis_border": True,
+
+        "border_color": "#000000",
+        "border_width": 0.7,
+
+        "marker_border_width": 0.8,
+
+        "top_margin": 10,
+        "bottom_margin":10,
+        "left_margin": 10,
+        "right_margin":10,
+
+        "tick_font_size": 14,
+        "axis_title_font_size": 18,
+        "title_font_size": 22,
+        "subplot_title_font_size": 16,
+        "legend_font_size": 14
+    },
+
+    "hamming": {
+        "width": 550,
+        "height": 300,
+        "scale": 2,
+
+        "xaxis_min": None,
+        "xaxis_max": None,
+        "yaxis_min": 0,
+        "yaxis_max": 1.05,
+
+        "figure_border": True,
+        "axis_border": True,
+        "top_margin": 10,
+        "bottom_margin":10,
+        "left_margin": 10,
+        "right_margin":10,
+
+        "border_color": "#000000",
+        "border_width": 0.7,
+
+        "marker_border_width": 0.8,
+
+        "tick_font_size": 14,
+        "axis_title_font_size": 18,
+        "title_font_size": 22,
+        "subplot_title_font_size": 16,
+        "legend_font_size": 14
+    },
+
+    "similarity": {
+
+        "width": 1400,
+        "height": 800,
+        "scale": 2,
+
+        # Subplot dimensions
+        "column_widths": [
+            0.25,
+            0.25,
+            0.25,
+            0.25
+        ],
+
+        "row_heights": [
+            0.30,
+            0.30,
+            0.31
+        ],
+
+        "horizontal_spacing": 0.08,
+        "vertical_spacing": 0.13,
+
+        "xaxis_min": None,
+        "xaxis_max": None,
+        "yaxis_min": 0,
+        "yaxis_max": 1.05,
+
+        "figure_border": False,
+        "subplot_border": True,
+        "axis_border": True,
+
+        "border_color": "#000000",
+        "border_width": 0.7,
+
+        "subplot_border_color": "#000000",
+        "subplot_border_width": 0.7,
+
+        "axis_border_color": "#000000",
+        "axis_border_width": 0.7,
+
+        "marker_border_width": 0.8,
+
+        # Margins
+        "top_margin": 55,
+        "bottom_margin": 100,
+        "left_margin": 65,
+        "right_margin": 40,
+
+        # Font sizes
+        "tick_font_size": 14,
+        "axis_title_font_size": 18,
+        "title_font_size": 22,
+        "subplot_title_font_size": 16,
+        "legend_font_size": 14
+
+}
+
+}
 
 
+def add_subplot_borders(fig, config):
+
+    """
+    Add an independent rectangular border to every subplot
+    using the corresponding axis domains.
+    """
+
+    layout = fig.layout.to_plotly_json()
+
+    subplot_border_color = config["subplot_border_color"]
+    subplot_border_width = config["subplot_border_width"]
+
+    # Retrieve X and Y axes.
+    x_axes = {
+        name: axis
+        for name, axis in layout.items()
+        if name == "xaxis" or name.startswith("xaxis")
+    }
+
+    y_axes = {
+        name: axis
+        for name, axis in layout.items()
+        if name == "yaxis" or name.startswith("yaxis")
+    }
+
+    # Process each subplot.
+    for x_name, x_axis in x_axes.items():
+
+        suffix = x_name.replace("xaxis", "")
+
+        y_name = f"yaxis{suffix}"
+
+        y_axis = y_axes.get(y_name)
+
+        if y_axis is None:
+            continue
+
+        x_domain = x_axis.get("domain")
+        y_domain = y_axis.get("domain")
+
+        if x_domain is None or y_domain is None:
+            continue
+
+        # Skip invisible subplots.
+        if (
+            x_axis.get("visible") is False
+            or y_axis.get("visible") is False
+        ):
+            continue
+
+        fig.add_shape(
+
+            type="rect",
+
+            xref="paper",
+            yref="paper",
+
+            x0=x_domain[0],
+            x1=x_domain[1],
+
+            y0=y_domain[0],
+            y1=y_domain[1],
+
+            line=dict(
+                color=subplot_border_color,
+                width=subplot_border_width
+            ),
+
+            fillcolor="rgba(0,0,0,0)",
+
+            layer="above"
+
+        )
 # ============================================================
 # LATEX TABLE GENERATOR
 # ============================================================
@@ -82,14 +279,6 @@ def download_latex_table(
         label=label,
         bold_rows=False,
         longtable=False
-    )
-
-    latex = (
-        "\\begin{table}[htbp]\n"
-        "\\centering\n"
-        "\\small\n"
-        + latex +
-        "\n\\end{table}"
     )
 
     st.download_button(
@@ -640,17 +829,222 @@ def aggregate_hamming(dataframe):
 # ============================================================
 # 13. PDF EXPORT
 # ============================================================
+import copy
 
-def download_pdf(fig, filename, key):
+def download_pdf(
+    fig,
+    filename,
+    key,
+    plot_type="metrics"
+):
 
     try:
 
-        pdf_bytes = fig.to_image(
-            format="pdf",
-            width=1200,
-            height=900,
-            scale=2
+        # ----------------------------------------------------
+        # GET PDF CONFIGURATION
+        # ----------------------------------------------------
+
+        config = PDF_CONFIG[plot_type]
+
+        # ----------------------------------------------------
+        # CREATE FIGURE COPY
+        # ----------------------------------------------------
+
+        pdf_fig = copy.deepcopy(fig)
+
+        # ----------------------------------------------------
+        # FIGURE DIMENSIONS
+        # ----------------------------------------------------
+
+        pdf_fig.update_layout(
+
+            width=config["width"],
+
+            height=config["height"],
+
+            font=dict(
+                family="Arial",
+                size=config["tick_font_size"],
+                color="black"
+            ),
+
+            title_font=dict(
+                size=config["title_font_size"],
+                color="black"
+            ),
+
+            legend=dict(
+                font=dict(
+                    size=config["legend_font_size"]
+                )
+            ),
+
+            margin=dict(
+
+                l=config["left_margin"],
+                r=config["right_margin"],
+                t=config["top_margin"],
+                b=config["bottom_margin"]
+
+            )
+
         )
+
+        # ----------------------------------------------------
+        # FIGURE BORDER
+        # ----------------------------------------------------
+
+        if config["figure_border"]:
+
+            pdf_fig.add_shape(
+
+                type="rect",
+
+                xref="paper",
+                yref="paper",
+
+                x0=0,
+                y0=0,
+                x1=1,
+                y1=1,
+
+                line=dict(
+
+                    color=config["border_color"],
+                    width=config["border_width"]
+
+                ),
+
+                fillcolor="rgba(0,0,0,0)",
+
+                layer="above"
+
+            )
+
+        # ----------------------------------------------------
+        # INDIVIDUAL SUBPLOT BORDERS
+        # ----------------------------------------------------
+
+        if (
+            plot_type == "similarity"
+            and config["subplot_border"]
+        ):
+
+            add_subplot_borders(
+                pdf_fig,
+                config
+            )
+
+        # ----------------------------------------------------
+        # AXIS FORMATTING
+        # ----------------------------------------------------
+
+        axis_settings = dict(
+
+            showline=config["axis_border"],
+
+            mirror=config["axis_border"],
+
+            linecolor=config.get(
+                "axis_border_color",
+                config["border_color"]
+            ),
+
+            linewidth=config.get(
+                "axis_border_width",
+                config["border_width"]
+            ),
+
+            tickfont=dict(
+                size=config["tick_font_size"],
+                color="black"
+            ),
+
+            title_font=dict(
+                size=config["axis_title_font_size"],
+                color="black"
+            )
+
+        )
+
+        pdf_fig.update_xaxes(**axis_settings)
+        pdf_fig.update_yaxes(**axis_settings)
+
+        # ----------------------------------------------------
+        # AXIS RANGE
+        # ----------------------------------------------------
+
+        pdf_fig.update_xaxes(
+
+            range=[
+                config["xaxis_min"],
+                config["xaxis_max"]
+            ]
+
+        )
+
+        pdf_fig.update_yaxes(
+
+            range=[
+                config["yaxis_min"],
+                config["yaxis_max"]
+            ]
+
+        )
+
+        # ----------------------------------------------------
+        # MARKER WHITE BORDER
+        # ----------------------------------------------------
+
+        pdf_fig.update_traces(
+
+            marker=dict(
+
+                line=dict(
+                    color="white",
+                    width=config["marker_border_width"]
+                )
+
+            ),
+
+            selector=dict(type="scatter")
+
+        )
+
+        # ----------------------------------------------------
+        # SUBPLOT TITLES
+        # ----------------------------------------------------
+
+        if plot_type == "similarity":
+
+            for annotation in pdf_fig.layout.annotations:
+
+                annotation.font = dict(
+
+                    size=config["subplot_title_font_size"],
+                    color="black"
+
+                )
+
+        # ----------------------------------------------------
+        # PDF GENERATION
+        # ----------------------------------------------------
+
+        pdf_bytes = pdf_fig.to_image(
+
+            format="pdf",
+
+            width=config["width"],
+
+            height=config["height"],
+
+            scale=config["scale"]
+
+        )
+
+        # ----------------------------------------------------
+        # DOWNLOAD BUTTON
+        # ----------------------------------------------------
 
         st.download_button(
             label="Download PDF",
@@ -663,11 +1057,14 @@ def download_pdf(fig, filename, key):
     except Exception as error:
 
         st.warning(
-            "Unable to export PDF. "
-            "Make sure Kaleido is installed. "
-            f"Details: {error}"
-        )
 
+            "Unable to export PDF. "
+
+            "Make sure Kaleido is installed. "
+
+            f"Details: {error}"
+
+        )
 # ============================================================
 # 14. CENTERED PLOT CONTAINER
 # ============================================================
@@ -828,8 +1225,13 @@ def plot_metric(
 
             download_pdf(
                 fig=fig,
-                filename=f"{Path(filename).stem}_{experiment_type}.pdf",
-                key=f"pdf_metric_{tab_name}_{metric}_{experiment_type}"
+                filename=(
+                    f"{Path(filename).stem}_"
+                    f"{tab_name}_"
+                    f"{experiment_type}.pdf"
+                ),
+                key=f"pdf_metric_{tab_name}_{metric}_{experiment_type}",
+                plot_type="metrics"
             )
             # ------------------------------------------------
             # TABLE IMMEDIATELY BELOW THE CORRESPONDING PLOT
@@ -892,8 +1294,8 @@ def plot_metric(
 
             download_latex_table(
                 dataframe=table_df,
-                filename=f"{Path(filename).stem}_{experiment_type}.tex",
-                caption=f"{title} - {experiment_type}",
+                filename=f"{Path(filename).stem}_{tab_name}_{experiment_type}.tex",
+                caption=f"{title} - {tab_name} - {experiment_type}",
                 label=f"tab:{Path(filename).stem}_{experiment_type}",
                 key=f"latex_metric_{tab_name}_{metric}_{experiment_type}"
             )
@@ -966,10 +1368,10 @@ def plot_hamming_distance(dataframe, tab_name):
 
     fig.update_layout(
 
-        title=dict(
-            text="Human Intervention Rate",
-            x=0.5
-        ),
+        # title=dict(
+        #     text="Human Intervention Rate",
+        #     x=0.5
+        # ),
 
         width=PLOT_WIDTH,
 
@@ -1026,8 +1428,9 @@ def plot_hamming_distance(dataframe, tab_name):
 
     download_pdf(
         fig=fig,
-        filename="human_intervention_rate.pdf",
-        key=f"pdf_hamming_{tab_name}"
+        filename=f"human_intervention_rate_{tab_name}.pdf",
+        key=f"pdf_hamming_{tab_name}",
+        plot_type="hamming"
     )
 
     # --------------------------------------------------------
@@ -1100,7 +1503,7 @@ def plot_hamming_distance(dataframe, tab_name):
 
         download_latex_table(
             dataframe=table_df,
-            filename=f"human_intervention_rate_{experiment_type}.tex",
+            filename=f"human_intervention_rate_{tab_name}_{experiment_type}.tex",
             caption=(
                 "Human Intervention Rate - "
                 f"{EXPERIMENT_LABELS.get(experiment_type, experiment_type.capitalize())}"
@@ -1188,17 +1591,13 @@ def plot_similarity(
     # --------------------------------------------------------
 
     fig = make_subplots(
-
         rows=n_rows,
-
         cols=n_cols,
-
         subplot_titles=subplot_titles,
-
-        horizontal_spacing=0.08,
-
-        vertical_spacing=0.13
-
+        column_widths=PDF_CONFIG["similarity"]["column_widths"],
+        row_heights=PDF_CONFIG["similarity"]["row_heights"],
+        horizontal_spacing=PDF_CONFIG["similarity"]["horizontal_spacing"],
+        vertical_spacing=PDF_CONFIG["similarity"]["vertical_spacing"]
     )
 
     # --------------------------------------------------------
@@ -1337,10 +1736,10 @@ def plot_similarity(
 
     fig.update_layout(
 
-        title=dict(
-            text=title,
-            x=0.5
-        ),
+        # title=dict(
+        #     text=title,
+        #     x=0.5
+        # ),
 
         width=1600,
 
@@ -1391,9 +1790,14 @@ def plot_similarity(
 
     download_pdf(
         fig=fig,
-        filename=filename,
-        key=f"pdf_similarity_{tab_name}_{Path(filename).stem}"
+        filename=(
+            f"{Path(filename).stem}_"
+            f"{tab_name}_all_experiments.pdf"
+        ),
+        key=f"pdf_similarity_{tab_name}_{Path(filename).stem}",
+        plot_type="similarity"
     )
+
 
     # ========================================================
     # TABLES: DETERMINISTIC AND UNCERTAIN
@@ -1497,10 +1901,10 @@ def plot_similarity(
 
         download_latex_table(
             dataframe=similarity_table_df,
-            filename=f"{Path(filename).stem}_{experiment_type}.tex",
+            filename=f"{Path(filename).stem}_{tab_name}_{experiment_type}.tex",
             caption=f"{title} - {experiment_type}",
             label=f"tab:{Path(filename).stem}_{experiment_type}",
-            key=f"latex_similarity_{tab_name}_{Path(filename).stem}_{experiment_type}"
+            key=f"latex_similarity_{tab_name}_{Path(filename).stem}_{experiment_type}",
         )
 
 

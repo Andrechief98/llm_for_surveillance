@@ -230,10 +230,10 @@ PDF_CONFIG = {
 
 
     # ----------------------------------------------
-    # PREVALENCE HEATMAP
+    # HEATMAP
     # ----------------------------------------------
 
-    "prevalence": {
+    "heatmap": {
 
         "width": 1600,
         "height": 500,
@@ -267,48 +267,15 @@ PDF_CONFIG = {
         "title_font_size": 22,
         "subplot_title_font_size": 16,
         "legend_font_size": 14,
+
+        "colorscale": "Blues",
+        "zmin": 0,
+        "zmax": 100,
+        "text_color": "black",
+        "text_size":16,
+        "colorbar": True,
     },
 
-
-    # ----------------------------------------------
-    # DISTRIBUTION HEATMAP
-    # ----------------------------------------------
-
-    "distribution": {
-
-        "width": 1600,
-        "height": 500,
-        "scale": 2,
-
-        "xaxis_min": None,
-        "xaxis_max": None,
-        "yaxis_min": None,
-        "yaxis_max": None,
-
-        "figure_border": False,
-        "subplot_border": False,
-        "axis_border": False,
-
-        "border_color": "#000000",
-        "border_width": 0.7,
-
-        "subplot_border_color": "#000000",
-        "subplot_border_width": 0.7,
-
-        "axis_border_color": "#000000",
-        "axis_border_width": 0.7,
-
-        "top_margin": 90,
-        "bottom_margin": 150,
-        "left_margin": 110,
-        "right_margin": 40,
-
-        "tick_font_size": 14,
-        "axis_title_font_size": 18,
-        "title_font_size": 22,
-        "subplot_title_font_size": 16,
-        "legend_font_size": 14,
-    },
 }
 
 
@@ -1660,6 +1627,8 @@ def create_heatmap(
     Returns:
         A Plotly Figure, or None if no modes, models, or data are available.
     """
+    config = PDF_CONFIG["heatmap"]
+
     categories = (
         selected_categories
         if selected_categories is not None
@@ -1730,9 +1699,14 @@ def create_heatmap(
                 z=z,
                 x=x_labels,
                 y=y_labels,
-                zmin=0,
-                zmax=100,
-                colorscale="Blues",
+                zmin=config["zmin"],
+                zmax=config["zmax"],
+                colorscale=config["colorscale"],
+
+                textfont=dict(
+                    color=config["text_color"],
+                    size=config["text_size"],
+                ),
                 colorbar=(
                     dict(title=colorbar_label)
                     if i == len(models)
@@ -2205,13 +2179,21 @@ def render_analysis(
                     key=f"heatmap_prevalence_{key_suffix}",
                 )
 
+                # Apply PDF configuration
+                pdf_fig = apply_pdf_config(
+                    copy.deepcopy(fig_prevalence),
+                    plot_type="heatmap",
+                )
+
+                # Export PDF
+                pdf_data = export_plot_pdf(
+                    pdf_fig,
+                    plot_type="heatmap",
+                )
+
                 st.download_button(
                     "Download prevalence heatmap (PDF)",
-                    data=fig_prevalence.to_image(
-                        format="pdf",
-                        width=1600,
-                        height=500,
-                    ),
+                    data=pdf_data,
                     file_name=f"heatmap_prevalence_{key_suffix}.pdf",
                     mime="application/pdf",
                     key=f"download_prevalence_pdf_{key_suffix}",
@@ -2237,8 +2219,8 @@ def render_analysis(
                 metric_df=distribution,
                 selected_modes=selected_modes,
                 selected_models=selected_models,
-                title="Error distribution",
-                colorbar_label="Error occurrences (%)",
+                title="",
+                colorbar_label="Occurrances (%)",
                 selected_categories=selected_heatmap_categories,
             )
 
@@ -2250,13 +2232,21 @@ def render_analysis(
                     key=f"heatmap_distribution_{key_suffix}",
                 )
 
+                # Apply PDF configuration
+                pdf_fig = apply_pdf_config(
+                    copy.deepcopy(fig_distribution),
+                    plot_type="heatmap",
+                )
+
+                # Export PDF
+                pdf_data = export_plot_pdf(
+                    pdf_fig,
+                    plot_type="heatmap",
+                )
+
                 st.download_button(
                     "Download distribution heatmap (PDF)",
-                    data=fig_distribution.to_image(
-                        format="pdf",
-                        width=1600,
-                        height=500,
-                    ),
+                    data=pdf_data,
                     file_name=f"heatmap_distribution_{key_suffix}.pdf",
                     mime="application/pdf",
                     key=f"download_distribution_pdf_{key_suffix}",
